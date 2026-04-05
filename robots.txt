@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kickllm.com/sitemap.xml
