@@ -20,9 +20,7 @@ Select the models you want to compare, then enter your expected usage in tokens 
 
 - Vanilla JavaScript (no frameworks, no dependencies)
 - Client-side only — your data never leaves your browser
-- Part of the [Zovo Tools](https://zovo.one) open network
 
-## Related Tools
 
 - [ML Model Comparison](https://lockml.com) — compare model capabilities alongside costs
 - [AI Model Database](https://gpt0x.com) — detailed specs for 40+ AI models
