@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your first practical steps with large language models. A zero-to-productive guide that cuts through hype and focuses on real skills you can use today.">
+    <meta name="keywords" content="getting started LLM, first steps language models, LLM beginner tutorial, how to use LLM, practical LLM guide">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Getting Started with Large Language Models — KickLLM">
+    <meta property="og:description" content="Your first practical steps with large language models, from choosing a model to productive daily use.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://kickllm.com/blog/getting-started.html">
+    <title>Getting Started with Large Language Models — KickLLM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Getting Started with Large Language Models",
+        "url": "https://kickllm.com/blog/getting-started.html",
+        "description": "Your first practical steps with large language models.",
+        "isPartOf": { "@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com" }
+    }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-gradient-to-r from-orange-600 to-amber-400 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-white">Kick<span class="text-orange-200">LLM</span></a>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="text-orange-100 hover:text-white transition">Home</a>
+                <a href="/guides.html" class="text-orange-100 hover:text-white transition">Guides</a>
+                <a href="/tools.html" class="text-orange-100 hover:text-white transition">Tools</a>
+                <a href="/blog/getting-started.html" class="text-white font-semibold transition">Blog</a>
+                <a href="/about.html" class="text-orange-100 hover:text-white transition">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <header class="mb-12">
+            <span class="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Getting Started</span>
+            <h1 class="text-4xl font-extrabold text-gray-900 mt-4 mb-4">Getting Started with Large Language Models</h1>
+            <p class="text-lg text-gray-500">Everything you need to go from zero experience to productive LLM usage in one sitting. No PhD required.</p>
+        </header>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Cutting Through the Noise</h2>
+        <p class="text-lg text-gray-600 mb-4">The conversation around large language models is dominated by two extremes: breathless hype claiming AI will transform everything overnight, and skeptical dismissal insisting it is all a parlor trick. The reality is somewhere in the middle, and it is far more useful than either extreme suggests. LLMs are genuinely powerful tools that can save you significant time on a wide range of tasks. They are also imperfect, sometimes unreliable, and not suitable for every use case. This guide focuses on the practical reality: what LLMs are good at, what they are not, and how to start using them productively right now.</p>
+        <p class="text-lg text-gray-600 mb-4">You do not need to understand transformer architectures, attention mechanisms, or the mathematics of neural networks to use LLMs effectively. Just as you do not need to understand internal combustion engines to drive a car, you can become highly productive with LLMs by understanding a few key concepts and developing good interaction habits. The technical details are interesting and can help you in edge cases, but they are not prerequisites for practical use.</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 1: Choose Your First Model</h2>
+        <p class="text-lg text-gray-600 mb-4">For your first experience with LLMs, use a cloud-hosted model through a web interface. This requires zero setup and lets you start experimenting immediately. The major options are ChatGPT from OpenAI, Claude from Anthropic, and Gemini from Google. All three offer free tiers that are sufficient for learning. Pick whichever appeals to you; the fundamental skills you develop will transfer to any model.</p>
+        <p class="text-lg text-gray-600 mb-4">If you prefer to run models locally on your own machine for privacy or offline access, install Ollama. It provides a simple command-line interface for downloading and running open-source models. On a modern laptop with 16GB of RAM, you can run smaller models like Phi-3 or Llama 3 8B with reasonable performance. On machines with more memory or a dedicated GPU, you can run larger and more capable models.</p>
+
+        <div class="bg-gray-900 rounded-lg p-6 my-6 overflow-x-auto">
+            <p class="text-sm text-gray-400 mb-2">Quick start with Ollama:</p>
+            <pre class="text-green-400 text-sm"><code># Install Ollama (macOS/Linux)
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Download and run a model
+ollama run llama3.1
+
+# You're now chatting with a local LLM
+>>> What are three practical uses for LLMs in daily work?</code></pre>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 2: Learn the Basics of Effective Prompting</h2>
+        <p class="text-lg text-gray-600 mb-4">The quality of what you get from an LLM depends heavily on how you ask. This is not about knowing secret tricks or magic phrases. It is about clear communication. The same principles that make human communication effective apply to LLM interactions: be specific about what you want, provide relevant context, and state your constraints explicitly.</p>
+
+        <p class="text-lg text-gray-600 mb-4">Compare these two prompts for the same task:</p>
+
+        <div class="bg-gray-900 rounded-lg p-6 my-6 overflow-x-auto">
+            <p class="text-sm text-gray-400 mb-2">Weak prompt:</p>
+            <pre class="text-red-400 text-sm"><code>Write about dogs.</code></pre>
+            <p class="text-sm text-gray-400 mb-2 mt-4">Strong prompt:</p>
+            <pre class="text-green-400 text-sm"><code>Write a 200-word introduction for a blog post about
+the benefits of adopting senior dogs from shelters.
+The audience is first-time dog owners. Use a warm but
+informative tone. Include one surprising statistic.</code></pre>
+        </div>
+
+        <p class="text-lg text-gray-600 mb-4">The second prompt specifies the length, topic focus, audience, tone, and a specific element to include. This level of specificity gives the model enough information to produce something useful on the first try, rather than requiring multiple rounds of clarification and revision.</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 3: Discover Your High-Value Use Cases</h2>
+        <p class="text-lg text-gray-600 mb-4">LLMs are not equally good at everything. Focus your early experimentation on the use cases where they provide the most value. Based on broad user feedback, the highest-value beginner use cases are: drafting and editing text of all kinds, explaining complex topics in simpler terms, brainstorming ideas and exploring different angles on a problem, summarizing long documents or articles, converting information between formats like turning meeting notes into action items, and helping with code writing and debugging.</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 4: Develop Your Verification Habits</h2>
+        <p class="text-lg text-gray-600 mb-4">LLMs sometimes generate information that sounds authoritative but is incorrect. This phenomenon, often called hallucination, is not a bug that will be fixed in the next version. It is a fundamental characteristic of how probabilistic text generation works. The model generates text that is statistically likely given the prompt, which usually aligns with accuracy but not always. Developing a habit of verifying important claims, especially dates, statistics, code logic, and factual assertions, is essential for responsible LLM use.</p>
+        <p class="text-lg text-gray-600 mb-4">The verification effort should be proportional to the stakes. For a casual brainstorming session, you can be more relaxed. For a report that will be shared with clients, verify every factual claim. For code generated by an LLM, always test it before deploying. This is not a criticism of LLMs; it is the same principle that applies to any powerful tool. You verify your GPS directions before driving off a cliff, and you should verify LLM outputs before acting on them in consequential situations.</p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-10 mb-4">What Comes Next</h2>
+        <p class="text-lg text-gray-600 mb-4">Once you are comfortable with basic LLM interactions, the natural next steps are learning about prompt templates for your most common tasks, exploring more advanced prompting techniques like chain-of-thought reasoning and few-shot examples, and experimenting with using LLMs for increasingly complex workflows. The <a href="https://claudhq.com" class="text-orange-600 hover:text-orange-800 underline">ClaudHQ productivity guides</a> provide excellent next-level material once you have mastered the basics covered here.</p>
+        <p class="text-lg text-gray-600 mb-4">The most important thing at this stage is consistent practice. Use an LLM for at least one real task every day for the next two weeks. The learning curve flattens quickly, and within a few days you will start developing intuition for what works, what does not, and how to get the results you need efficiently. LLMs reward regular use more than any amount of reading about them.</p>
+    </article>
+
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="text-xl font-bold text-white mb-4">Kick<span class="text-orange-400">LLM</span></div>
+            <p class="mb-6">Kickstart Your LLM Journey — beginner-friendly tutorials and honest model comparisons.</p>
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="/" class="hover:text-white transition">Home</a>
+                <a href="/guides.html" class="hover:text-white transition">Guides</a>
+                <a href="/tools.html" class="hover:text-white transition">Tools</a>
+                <a href="/blog/getting-started.html" class="hover:text-white transition">Blog</a>
+                <a href="/about.html" class="hover:text-white transition">About</a>
+            </div>
+            <p class="text-sm">&copy; 2025 KickLLM. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
