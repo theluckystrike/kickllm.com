@@ -1,158 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="KickLLM is your launchpad for large language models. Beginner-friendly tutorials, model comparisons, and practical guides to kickstart your LLM journey.">
-    <meta name="keywords" content="LLM tutorial, large language models, LLM beginner guide, GPT guide, AI models comparison, getting started with LLMs, language model basics">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="KickLLM — Kickstart Your LLM Journey">
-    <meta property="og:description" content="Beginner-friendly tutorials, model comparisons, and practical guides for getting started with large language models.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kickllm.com">
-    <title>KickLLM — Kickstart Your LLM Journey</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Inter', sans-serif; }
-        html { scroll-behavior: smooth; }
-    </style>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "KickLLM",
-        "url": "https://kickllm.com",
-        "description": "Kickstart Your LLM Journey — beginner-friendly tutorials, model comparisons, and practical guides for large language models."
-    }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KickLLM — LLM API Cost Calculator</title>
+  <meta name="description" content="Calculate and compare LLM API costs across providers. Real pricing for Claude, GPT-4, Gemini, Llama, and Mistral. Monthly and per-conversation breakdowns.">
+  <link rel="canonical" href="https://kickllm.com/">
+  <meta property="og:title" content="KickLLM — LLM API Cost Calculator">
+  <meta property="og:description" content="Calculate and compare LLM API costs across providers with real 2025 pricing data.">
+  <meta property="og:url" content="https://kickllm.com/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "KickLLM",
+    "url": "https://kickllm.com",
+    "description": "LLM API cost calculator with real pricing data for Claude, GPT-4, Gemini, Llama, and Mistral.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </nav>
 
-    <!-- Site Navigation -->
-    <nav class="bg-gradient-to-r from-orange-600 to-amber-400 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-white">Kick<span class="text-orange-200">LLM</span></a>
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-white font-semibold transition">Home</a>
-                <a href="/guides.html" class="text-orange-100 hover:text-white transition">Guides</a>
-                <a href="/tools.html" class="text-orange-100 hover:text-white transition">Tools</a>
-                <a href="/blog/getting-started.html" class="text-orange-100 hover:text-white transition">Blog</a>
-                <a href="/about.html" class="text-orange-100 hover:text-white transition">About</a>
-            </div>
+  <section class="hero">
+    <h1>LLM <span>Cost</span> Calculator</h1>
+    <p>Compare API costs across providers with real 2025 pricing. Calculate monthly spend or per-conversation cost instantly.</p>
+  </section>
+
+  <section class="tool-section">
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="monthly">Monthly Cost</button>
+      <button class="mode-tab" data-mode="conversation">Per Conversation</button>
+    </div>
+
+    <div class="calc-grid">
+      <div>
+        <!-- Monthly inputs -->
+        <div id="monthly-inputs" class="input-card">
+          <h3>Usage Parameters</h3>
+          <div class="input-group">
+            <label for="tokens-per-req">Tokens per request</label>
+            <input type="number" id="tokens-per-req" value="1000" min="1" max="10000000">
+          </div>
+          <div class="input-group">
+            <label for="reqs-per-day">Requests per day</label>
+            <input type="number" id="reqs-per-day" value="100" min="1" max="10000000">
+          </div>
+          <div class="input-group">
+            <label for="days-per-month">Days per month</label>
+            <input type="number" id="days-per-month" value="30" min="1" max="31">
+          </div>
+          <div class="slider-group">
+            <label for="io-ratio">Input/Output ratio <span id="io-display">50% input / 50% output</span></label>
+            <input type="range" id="io-ratio" min="10" max="90" value="50" step="5">
+          </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-orange-600 via-orange-500 to-amber-400"></div>
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">Kickstart Your LLM Journey</h1>
-            <p class="text-xl md:text-2xl text-orange-100 max-w-3xl mx-auto mb-10">Beginner-friendly tutorials, honest model comparisons, and practical guides that take you from zero to productive with large language models.</p>
-            <a href="#learn" class="inline-block bg-white text-orange-600 font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl hover:bg-orange-50 transition">Start Learning</a>
+        <!-- Conversation inputs -->
+        <div id="conv-inputs" class="input-card" style="display:none">
+          <h3>Conversation Parameters</h3>
+          <div class="input-group">
+            <label for="conv-input-tokens">Input tokens per turn</label>
+            <input type="number" id="conv-input-tokens" value="2000" min="1" max="10000000">
+          </div>
+          <div class="input-group">
+            <label for="conv-output-tokens">Output tokens per turn</label>
+            <input type="number" id="conv-output-tokens" value="500" min="1" max="10000000">
+          </div>
+          <div class="input-group">
+            <label for="conv-turns">Number of turns</label>
+            <input type="number" id="conv-turns" value="5" min="1" max="1000">
+          </div>
         </div>
-    </header>
+      </div>
 
-    <!-- Introduction -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">What Are Large Language Models and Why Should You Care?</h2>
-            <p class="text-lg text-gray-600 mb-4">Large language models, or LLMs, represent one of the most significant breakthroughs in artificial intelligence. These models are trained on vast amounts of text data and learn to understand and generate human language with remarkable fluency. Names like GPT-4, Claude, Gemini, and Llama have become commonplace in technology discussions, but for many people, the practical reality of what these models can do and how to use them effectively remains unclear.</p>
-            <p class="text-lg text-gray-600 mb-4">The truth is that LLMs are not magic, and they are not going to replace human thinking. They are extremely powerful tools that amplify human capabilities when used correctly. A developer who understands LLMs can write code faster, debug more efficiently, and prototype ideas in hours instead of days. A writer can overcome creative blocks, explore different angles on a topic, and polish their prose with an intelligent feedback partner. A business analyst can summarize reports, extract insights from unstructured data, and generate presentations from raw notes.</p>
-            <p class="text-lg text-gray-600">KickLLM is designed specifically for people who are new to this space and want to build a solid foundation. We cut through the hype and the jargon to explain how LLMs actually work, what they are genuinely good at, where they fall short, and how to use them productively in your daily work. Our tutorials start from the basics and progressively build toward more advanced techniques, so you can learn at your own pace without feeling overwhelmed by the complexity of the field.</p>
-        </div>
-    </section>
+      <div class="input-card">
+        <h3>Models (price per 1M tokens: input/output)</h3>
+        <div class="model-list" id="model-list"></div>
+      </div>
+    </div>
 
-    <!-- Learn Section -->
-    <section id="learn" class="bg-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Your Learning Path</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">A structured approach to understanding and using large language models effectively.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gradient-to-br from-orange-50 to-white p-8 rounded-xl shadow-sm border border-orange-100">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                        <span class="text-xl font-bold text-orange-600">1</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Fundamentals</h3>
-                    <p class="text-gray-600">Understand how LLMs work at a conceptual level without needing a PhD in machine learning. Learn about tokens, context windows, temperature settings, and the key parameters that control model behavior. Grasp why models sometimes hallucinate and how to mitigate this through better prompting and verification strategies.</p>
-                </div>
-                <div class="bg-gradient-to-br from-orange-50 to-white p-8 rounded-xl shadow-sm border border-orange-100">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                        <span class="text-xl font-bold text-orange-600">2</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Practical Application</h3>
-                    <p class="text-gray-600">Move from theory to practice with hands-on exercises across real use cases. Write effective prompts for content creation, data analysis, coding assistance, and research. Learn to evaluate outputs critically, iterate on prompts based on results, and develop the intuition that separates productive LLM users from frustrated ones.</p>
-                </div>
-                <div class="bg-gradient-to-br from-orange-50 to-white p-8 rounded-xl shadow-sm border border-orange-100">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                        <span class="text-xl font-bold text-orange-600">3</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Model Selection</h3>
-                    <p class="text-gray-600">Not all LLMs are created equal, and the best model depends entirely on your use case, budget, and requirements. Learn how to evaluate models on criteria that matter: response quality, latency, cost per token, context window size, and specialized capabilities. Make informed decisions instead of just defaulting to the most popular option.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="results-section">
+      <h3>Cost Breakdown</h3>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Provider</th>
+            <th>Total Tokens</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+      <div class="chart-container" id="chart-container"></div>
+    </div>
+  </section>
 
-    <!-- Tutorials Section -->
-    <section id="tutorials" class="py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Featured Tutorials</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Step-by-step guides that take you from concept to competence.</p>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <article class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                    <span class="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Beginner</span>
-                    <h3 class="text-xl font-semibold text-gray-900 mt-4 mb-3">Your First LLM Conversation: A No-Nonsense Starter Guide</h3>
-                    <p class="text-gray-600">Forget the hype and marketing. This tutorial walks you through your first productive interaction with an LLM, explaining exactly what is happening behind the scenes at each step. You will learn the mental model that experienced users bring to every conversation, how to structure requests for clear results, and the common beginner mistakes that lead to disappointing outputs.</p>
-                </article>
-                <article class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                    <span class="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Comparison</span>
-                    <h3 class="text-xl font-semibold text-gray-900 mt-4 mb-3">GPT-4 vs Claude vs Gemini: An Honest Comparison for Real Tasks</h3>
-                    <p class="text-gray-600">We tested the leading LLMs on practical tasks that real people actually care about: writing emails, summarizing documents, debugging code, analyzing data, and creative writing. This comparison focuses on practical differences you will notice in daily use rather than benchmark scores that do not translate to real-world performance.</p>
-                </article>
-                <article class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                    <span class="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Practical</span>
-                    <h3 class="text-xl font-semibold text-gray-900 mt-4 mb-3">Running Open-Source LLMs Locally: A Complete Setup Guide</h3>
-                    <p class="text-gray-600">You do not need to pay for API access to use powerful language models. This tutorial covers setting up open-source models like Llama and Mistral on your own hardware using tools like Ollama and llama.cpp. We cover hardware requirements, model selection for different resource constraints, and performance optimization tips that make local inference practical.</p>
-                </article>
-                <article class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                    <span class="text-sm font-medium text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Cost Guide</span>
-                    <h3 class="text-xl font-semibold text-gray-900 mt-4 mb-3">LLM Pricing Demystified: How to Estimate and Control Your Costs</h3>
-                    <p class="text-gray-600">Token-based pricing can be confusing and costs can spiral quickly if you are not careful. This guide explains how pricing works across major providers, shows you how to estimate costs for your specific use cases, and provides concrete strategies for reducing expenses without sacrificing output quality, from prompt compression to model routing.</p>
-                </article>
-            </div>
-        </div>
-    </section>
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Calculator</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about.html">About</a>
+    </div>
+    <p>Built by <a href="https://zovo.one">zovo.one</a> &middot; More tools: <a href="https://lockml.com">lockml.com</a> &middot; <a href="https://heytensor.com">heytensor.com</a></p>
+  </footer>
 
-    <!-- Resources Section with zovo.one link -->
-    <section id="resources" class="bg-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Tools and Resources for LLM Beginners</h2>
-                <p class="text-lg text-gray-600 mb-6">Starting your LLM journey is easier when you have the right resources at your fingertips. The AI landscape can feel overwhelming with new models, tools, and platforms launching constantly. Having a reliable resource hub that curates the signal from the noise is invaluable, especially when you are still building your understanding of the space.</p>
-                <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-8 rounded-xl border border-orange-200 mb-8">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Your AI Discovery Hub</h3>
-                    <p class="text-gray-700 mb-4">As you explore the world of large language models, having a central place to discover and compare AI tools will accelerate your learning significantly. We recommend <a href="https://zovo.one" rel="dofollow" class="text-orange-600 font-semibold hover:text-orange-800 underline">zovo.one</a> as an excellent resource for beginners and experienced practitioners alike. Their organized collection of AI tools, guides, and resources makes it easy to find the right model, platform, or utility for whatever you are trying to accomplish, without hours of scattered web searching.</p>
-                </div>
-                <p class="text-lg text-gray-600">The most important thing when starting out is to actually use LLMs regularly. Reading about them is helpful, but hands-on practice is what builds real skill. Pick a model, start with the tutorials on this site, and gradually expand your usage as you become more comfortable. The learning curve is gentler than most people expect, and the productivity gains compound quickly once you develop your own patterns and workflows.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="text-xl font-bold text-white mb-4">Kick<span class="text-orange-400">LLM</span></div>
-            <p class="mb-6">Kickstart Your LLM Journey — beginner-friendly tutorials and honest model comparisons.</p>
-            <p class="text-sm">&copy; 2025 KickLLM. All rights reserved.</p>
-        </div>
-    </footer>
-
+  <script src="/assets/app.js"></script>
 </body>
 </html>

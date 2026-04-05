@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Hosted vs API: When Each Makes Financial Sense — KickLLM</title>
+  <meta name="description" content="Detailed cost comparison of self-hosted LLMs vs API access. Real GPU pricing, throughput numbers, and crossover points for 2025.">
+  <link rel="canonical" href="https://kickllm.com/blog/self-hosted-vs-api.html">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <article class="page-content">
+    <h1>Self-Hosted vs API: When Each Makes Financial Sense</h1>
+    <div class="blog-meta">Published January 2025 &middot; 13 min read</div>
+
+    <p>The self-hosting vs API debate has real financial stakes. Choosing wrong can mean overpaying by 5-10x. This article provides concrete cost analysis for both approaches with 2025 hardware and API pricing.</p>
+
+    <h2>The API Cost Baseline</h2>
+    <p>API pricing has dropped significantly over the past year. Claude 3.5 Sonnet costs $3/$15 per million tokens. GPT-4o costs $5/$15. Open-model inference providers like Groq offer Llama 3 70B at $0.59/$0.79 per million tokens — roughly 10-25x cheaper than frontier closed models.</p>
+    <p>For a workload of 100 million tokens per month with a 60/40 input/output split:</p>
+    <pre><code>Claude 3.5 Sonnet:  60M * $3/1M + 40M * $15/1M = $780/month
+GPT-4o:             60M * $5/1M + 40M * $15/1M = $900/month
+Llama 3 70B (Groq): 60M * $0.59/1M + 40M * $0.79/1M = $67/month</code></pre>
+
+    <h2>The Self-Hosting Cost Reality</h2>
+    <p>Self-hosting an open model requires GPU infrastructure. Here are the real numbers for running Llama 3.1 70B with vLLM:</p>
+
+    <h3>Cloud GPU Pricing (2025)</h3>
+    <ul>
+      <li><strong>A100 80GB (on-demand):</strong> $2.50-3.50/hr depending on cloud provider</li>
+      <li><strong>A100 80GB (reserved 1yr):</strong> $1.50-2.00/hr</li>
+      <li><strong>H100 80GB (on-demand):</strong> $4.00-5.50/hr</li>
+      <li><strong>H100 80GB (reserved 1yr):</strong> $2.50-3.50/hr</li>
+      <li><strong>L40S 48GB (on-demand):</strong> $1.20-1.80/hr</li>
+    </ul>
+
+    <h3>Running Llama 3.1 70B</h3>
+    <p>Llama 3.1 70B in FP16 requires approximately 140GB of VRAM. That means 2x A100-80GB GPUs minimum. With vLLM optimizations and quantization (AWQ 4-bit), you can fit it on a single A100-80GB with reduced quality.</p>
+    <pre><code># 2x A100-80GB on-demand
+GPU cost: 2 * $3.00/hr * 730 hours/month = $4,380/month
+
+# vLLM throughput on 2x A100-80GB for Llama 3.1 70B
+# ~50-80 tokens/second per request, ~200-400 concurrent requests
+# Approximate capacity: 500M-1B tokens/month at full utilization
+
+# Effective cost per million tokens:
+$4,380 / 750 = ~$5.84 per million tokens (mixed)</code></pre>
+    <p>Compare that to Groq's $0.59/$0.79 per million tokens for the same model. At low volumes, API access through inference providers is substantially cheaper than self-hosting.</p>
+
+    <h2>The Crossover Point</h2>
+    <p>Self-hosting becomes cheaper when you can maintain high GPU utilization. The math shifts at around 500 million to 1 billion tokens per month for 70B-class models.</p>
+    <pre><code># Crossover analysis for Llama 3.1 70B
+# Self-hosted (2x A100, reserved): $2,190/month fixed
+# Capacity: ~750M tokens/month at 80% utilization
+# Break-even with Groq API ($0.69 average/1M):
+#   $2,190 / $0.69 = ~3.2B tokens/month break-even
+
+# For Claude 3.5 Sonnet comparison (no self-host option):
+# $2,190/month buys you: $2,190 / $9 average = ~243M tokens/month</code></pre>
+    <p>The key insight: self-hosting only saves money if you can keep GPUs running at 60%+ utilization. Idle GPUs are burning money.</p>
+
+    <h2>Costs Beyond Compute</h2>
+    <p>GPU cost is not the full picture for self-hosting. Add these to your budget:</p>
+    <ul>
+      <li><strong>MLOps engineering:</strong> Someone needs to manage the infrastructure. Expect 0.25-0.5 FTE of an ML engineer ($3,000-8,000/month in allocated salary)</li>
+      <li><strong>Inference framework:</strong> vLLM, TensorRT-LLM, or TGI need setup, tuning, and maintenance</li>
+      <li><strong>Monitoring:</strong> GPU utilization, model latency, error rates ($200-500/month)</li>
+      <li><strong>Model updates:</strong> Swapping in new model versions requires testing, validation, and deployment</li>
+      <li><strong>Redundancy:</strong> Production systems need at least 2x capacity for failover</li>
+    </ul>
+    <p>A realistic self-hosting budget for a 70B model in production is $8,000-15,000/month when you include everything. Track these costs carefully using infrastructure tools like <a href="https://kappakit.com">KappaKit</a> for monitoring and <a href="https://zovo.one">zovo.one</a> for optimization guidance.</p>
+
+    <h2>When API Makes Sense</h2>
+    <p>Use API access when:</p>
+    <ul>
+      <li><strong>Volume is under 500M tokens/month</strong> for open models, or any volume for closed models (Claude, GPT-4)</li>
+      <li><strong>You need frontier quality:</strong> Claude 3.5 Sonnet and GPT-4o cannot be self-hosted</li>
+      <li><strong>Traffic is bursty:</strong> APIs handle spikes without idle GPU costs</li>
+      <li><strong>Team is small:</strong> No MLOps engineer available for infrastructure</li>
+      <li><strong>Speed to market matters:</strong> APIs require zero infrastructure setup</li>
+    </ul>
+
+    <h2>When Self-Hosting Makes Sense</h2>
+    <p>Self-host when:</p>
+    <ul>
+      <li><strong>Volume exceeds 1B tokens/month</strong> with consistent utilization</li>
+      <li><strong>Data privacy is non-negotiable:</strong> Regulated industries, healthcare, finance</li>
+      <li><strong>You need custom models:</strong> Fine-tuned models or domain-specific architectures</li>
+      <li><strong>Latency requirements are extreme:</strong> Co-located inference eliminates network hops</li>
+      <li><strong>You have MLOps capacity:</strong> Existing infrastructure team can absorb the work</li>
+    </ul>
+
+    <h2>The Hybrid Approach</h2>
+    <p>Many production systems use both. A common pattern:</p>
+    <ol>
+      <li>Self-host a fast, small model (Llama 3.1 8B or Phi-3) for simple classification, routing, and extraction tasks</li>
+      <li>Use API access to Claude 3.5 Sonnet or GPT-4o for complex reasoning and generation</li>
+      <li>Route requests based on complexity: 70-80% go to the cheap self-hosted model, 20-30% go to the API</li>
+    </ol>
+    <pre><code>async def route_request(query, complexity_score):
+    if complexity_score < 0.3:
+        # Simple query — use self-hosted Llama 3.1 8B
+        return await local_model.generate(query)
+    elif complexity_score < 0.7:
+        # Medium complexity — use Groq API (Llama 3 70B)
+        return await groq_client.generate(query)
+    else:
+        # Complex reasoning — use Claude 3.5 Sonnet
+        return await anthropic_client.generate(query)</code></pre>
+    <p>This pattern reduces API costs by 50-70% while maintaining quality on difficult queries.</p>
+
+    <h2>Making the Decision</h2>
+    <p>Start with API access. Measure your actual token volumes, latency requirements, and quality needs for 2-3 months. Then run the self-hosting math with real numbers instead of estimates.</p>
+    <p>Use our <a href="/">cost calculator</a> to model your current API spend, and compare models on <a href="https://lockml.com">LockML</a> to identify which open-source alternatives might work for your use case. The right answer is usually not "all API" or "all self-hosted" — it is a thoughtful combination based on your specific workload profile.</p>
+  </article>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Calculator</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about.html">About</a>
+    </div>
+    <p>Built by <a href="https://zovo.one">zovo.one</a> &middot; More tools: <a href="https://lockml.com">lockml.com</a> &middot; <a href="https://heytensor.com">heytensor.com</a></p>
+  </footer>
+</body>
+</html>

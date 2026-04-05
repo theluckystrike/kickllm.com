@@ -1,101 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About KickLLM — our mission to make large language models accessible to everyone through honest, practical, beginner-friendly education.">
-    <meta name="keywords" content="about KickLLM, LLM education mission, language model learning, AI beginner resources">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="About KickLLM">
-    <meta property="og:description" content="Our mission to make large language models accessible through practical, beginner-friendly education.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kickllm.com/about.html">
-    <title>About KickLLM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Inter', sans-serif; }
-        html { scroll-behavior: smooth; }
-    </style>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "About KickLLM",
-        "url": "https://kickllm.com/about.html",
-        "description": "About KickLLM — making LLMs accessible to everyone.",
-        "isPartOf": { "@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com" }
-    }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — KickLLM</title>
+  <meta name="description" content="KickLLM is a free LLM API cost calculator. Built by zovo.one.">
+  <link rel="canonical" href="https://kickllm.com/about.html">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </nav>
 
-    <nav class="bg-gradient-to-r from-orange-600 to-amber-400 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-white">Kick<span class="text-orange-200">LLM</span></a>
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-orange-100 hover:text-white transition">Home</a>
-                <a href="/guides.html" class="text-orange-100 hover:text-white transition">Guides</a>
-                <a href="/tools.html" class="text-orange-100 hover:text-white transition">Tools</a>
-                <a href="/blog/getting-started.html" class="text-orange-100 hover:text-white transition">Blog</a>
-                <a href="/about.html" class="text-white font-semibold transition">About</a>
-            </div>
-        </div>
-    </nav>
+  <div class="page-content">
+    <h1>About KickLLM</h1>
 
-    <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-400 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">About KickLLM</h1>
-            <p class="text-xl text-orange-100 max-w-2xl mx-auto">Our approach to LLM education and the resource network we are part of.</p>
-        </div>
-    </header>
+    <h2>What is KickLLM?</h2>
+    <p>KickLLM is a free cost calculator for comparing LLM API pricing across providers. It uses real pricing data from Anthropic, OpenAI, Google, Groq, and Mistral to give you accurate monthly and per-conversation cost estimates.</p>
+    <p>LLM API costs can range from a few dollars to thousands per month depending on your usage patterns and model choice. KickLLM helps you understand the financial implications before committing to a provider.</p>
 
-    <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
-        <p class="text-lg text-gray-600 mb-4">KickLLM was created because the existing resources for learning about large language models fall into two unhelpful categories: oversimplified marketing content that treats LLMs as magical black boxes, and dense academic material that assumes a background in machine learning. Neither serves the majority of people who want to understand and use LLMs effectively in their work. Our mission is to fill this gap with honest, practical, and accessible education that respects both the power and the limitations of these tools.</p>
-        <p class="text-lg text-gray-600 mb-4">We take a deliberately practical approach. Every concept we explain is tied to something you can actually do with an LLM. We do not spend pages on transformer architecture when what you need is to know how to write a prompt that produces good results. We do explain enough theory to help you understand why certain approaches work better than others, because that understanding helps you adapt when you encounter situations our guides do not cover. The goal is competence and confidence, not academic knowledge for its own sake.</p>
-        <p class="text-lg text-gray-600 mb-4">Honesty is a core principle. We clearly state when LLMs are not the right tool for a task. We discuss hallucination, bias, and limitations upfront rather than burying them in footnotes. We provide model comparisons based on practical testing, not marketing materials. We believe that honest education builds more productive users than hype-driven enthusiasm that sets unrealistic expectations and leads to disappointment.</p>
+    <h2>Who Built This?</h2>
+    <p>KickLLM is built and maintained by <a href="https://zovo.one">zovo.one</a>, a studio focused on developer tools and machine learning utilities.</p>
+    <p>We also build related tools:</p>
+    <ul>
+      <li><a href="https://lockml.com">LockML</a> — Open-source ML model comparison table</li>
+      <li><a href="https://heytensor.com">HeyTensor</a> — Tensor shape calculator for debugging dimension errors</li>
+      <li><a href="https://ml0x.com">ML0x</a> — Machine learning optimization resources</li>
+    </ul>
 
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Part of a Larger Network</h2>
-        <p class="text-lg text-gray-600 mb-4">KickLLM is part of a network of specialized AI resources. Our flagship resource, <a href="https://zovo.one" class="text-orange-600 font-semibold hover:text-orange-800 underline">zovo.one</a>, serves as the comprehensive directory for discovering AI tools and platforms across the full ecosystem. KickLLM focuses specifically on helping beginners build a strong foundation, while our partner sites cover more advanced and specialized topics for those who want to go deeper.</p>
+    <h2>Pricing Data</h2>
+    <p>All pricing data is sourced from the official pricing pages of each provider and reflects rates as of early 2025. Prices are per 1 million tokens. We update pricing regularly when providers announce changes.</p>
 
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Related Sites</h2>
-        <div class="grid md:grid-cols-2 gap-6 mt-6">
-            <a href="https://claudhq.com" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">ClaudHQ</h3>
-                <p class="text-gray-600 text-sm">Advanced AI productivity guides and prompt engineering strategies for those ready to move beyond the basics.</p>
-            </a>
-            <a href="https://claudkit.com" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">ClaudKit</h3>
-                <p class="text-gray-600 text-sm">Developer toolkit for building AI-powered applications, with code snippets and architecture patterns.</p>
-            </a>
-            <a href="https://lockml.com" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">LockML</h3>
-                <p class="text-gray-600 text-sm">ML security guides and checklists for teams that need to understand the security implications of AI systems.</p>
-            </a>
-            <a href="https://lochbot.com" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">LochBot</h3>
-                <p class="text-gray-600 text-sm">Chatbot building guides for those who want to create conversational AI applications powered by LLMs.</p>
-            </a>
-        </div>
-    </section>
+    <h2>Contact</h2>
+    <p>Found incorrect pricing or want to suggest a model? Reach out via <a href="https://zovo.one">zovo.one</a>.</p>
+  </div>
 
-    <footer class="bg-gray-900 text-gray-400 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="text-xl font-bold text-white mb-4">Kick<span class="text-orange-400">LLM</span></div>
-            <p class="mb-6">Kickstart Your LLM Journey — beginner-friendly tutorials and honest model comparisons.</p>
-            <div class="flex justify-center space-x-6 mb-6">
-                <a href="/" class="hover:text-white transition">Home</a>
-                <a href="/guides.html" class="hover:text-white transition">Guides</a>
-                <a href="/tools.html" class="hover:text-white transition">Tools</a>
-                <a href="/blog/getting-started.html" class="hover:text-white transition">Blog</a>
-                <a href="/about.html" class="hover:text-white transition">About</a>
-            </div>
-            <p class="text-sm">&copy; 2025 KickLLM. All rights reserved.</p>
-        </div>
-    </footer>
-
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/">Calculator</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about.html">About</a>
+    </div>
+    <p>Built by <a href="https://zovo.one">zovo.one</a> &middot; More tools: <a href="https://lockml.com">lockml.com</a> &middot; <a href="https://heytensor.com">heytensor.com</a></p>
+  </footer>
 </body>
 </html>
