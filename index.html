@@ -23,6 +23,20 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How much does it cost to run an LLM?", "acceptedAnswer": { "@type": "Answer", "text": "API costs range from $0.25/1M tokens (Haiku) to $75/1M (Opus output). Self-hosting costs $1,000-$10,000+/month depending on GPU and model size." } },
+      { "@type": "Question", "name": "What is the cheapest LLM API?", "acceptedAnswer": { "@type": "Answer", "text": "Groq Llama 3 70B ($0.59/$0.79 per 1M tokens) and Claude Haiku ($0.25/$1.25) are among the cheapest high-quality options." } },
+      { "@type": "Question", "name": "GPT-4 vs Claude pricing comparison?", "acceptedAnswer": { "@type": "Answer", "text": "GPT-4o costs $5/$15 per 1M tokens vs Claude 3.5 Sonnet at $3/$15. Claude Sonnet offers better value for most use cases." } },
+      { "@type": "Question", "name": "When should I self-host an LLM?", "acceptedAnswer": { "@type": "Answer", "text": "Self-hosting makes sense when monthly API spend exceeds $2,000-$5,000, or when you need data privacy and low latency at high volume." } },
+      { "@type": "Question", "name": "How many GPUs to run Llama 3 70B?", "acceptedAnswer": { "@type": "Answer", "text": "Llama 3 70B requires ~140GB GPU memory in FP16 (2x A100 80GB). With INT8 quantization, a single A100 80GB works." } },
+      { "@type": "Question", "name": "Is this calculator free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, KickLLM is completely free with real pricing data from all major providers. No sign-up required." } }
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
@@ -44,6 +58,7 @@
     <div class="mode-tabs">
       <button class="mode-tab active" data-mode="monthly">Monthly Cost</button>
       <button class="mode-tab" data-mode="conversation">Per Conversation</button>
+      <button class="mode-tab" data-mode="selfhost">Self-Host Break-Even</button>
     </div>
 
     <div class="calc-grid">
@@ -85,6 +100,28 @@
             <input type="number" id="conv-turns" value="5" min="1" max="1000">
           </div>
         </div>
+
+        <!-- Self-host inputs -->
+        <div id="selfhost-inputs" class="input-card" style="display:none">
+          <h3>Self-Hosting Parameters</h3>
+          <div class="input-group">
+            <label for="sh-model">Model to self-host</label>
+            <select id="sh-model">
+              <option value="llama3-70b">Llama 3 70B</option>
+              <option value="llama3-8b">Llama 3 8B</option>
+              <option value="mistral-7b">Mistral 7B</option>
+              <option value="mixtral-8x22b">Mixtral 8x22B</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="sh-api-spend">Current monthly API spend ($)</label>
+            <input type="number" id="sh-api-spend" value="500" min="1" max="1000000">
+          </div>
+          <div class="input-group">
+            <label for="sh-tokens-per-req">Avg tokens per request</label>
+            <input type="number" id="sh-tokens-per-req" value="1500" min="100" max="100000">
+          </div>
+        </div>
       </div>
 
       <div class="input-card">
@@ -107,6 +144,41 @@
         <tbody id="results-body"></tbody>
       </table>
       <div class="chart-container" id="chart-container"></div>
+    </div>
+
+    <!-- Self-Host Break-Even Results -->
+    <div class="results-section" id="selfhost-results" style="display:none">
+      <h3>Self-Hosting Break-Even Analysis</h3>
+      <div id="sh-gpu-table"></div>
+      <div id="sh-breakeven-chart" style="margin-top:1.5rem;"></div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">How much does it cost to run an LLM?</div>
+      <div class="faq-a">LLM costs vary dramatically by model and method. API costs range from $0.25/1M tokens (Claude Haiku) to $75/1M tokens (Claude Opus output). Self-hosting on GPU instances costs $1,000-$10,000+/month depending on model size and hardware. Use our calculator to compare exact costs for your use case.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">What is the cheapest LLM API?</div>
+      <div class="faq-a">For hosted APIs, Groq's Llama 3 70B ($0.59/$0.79 per 1M tokens) and Claude Haiku ($0.25/$1.25) are among the cheapest options while maintaining high quality. The "cheapest" depends on your quality requirements — our calculator helps you find the best cost-performance ratio.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">GPT-4 vs Claude pricing comparison?</div>
+      <div class="faq-a">GPT-4o costs $5/$15 per 1M tokens while Claude 3.5 Sonnet costs $3/$15. GPT-4 Turbo is $10/$30 vs Claude Opus at $15/$75. For most use cases, Claude Sonnet offers better value than GPT-4o with comparable quality.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">When should I self-host an LLM instead of using an API?</div>
+      <div class="faq-a">Self-hosting makes sense when your monthly API spend exceeds $2,000-$5,000, you need data privacy guarantees, or you require low latency at high volume. Use our break-even calculator to find the exact crossover point for your usage pattern.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">How many GPUs do I need to run Llama 3 70B?</div>
+      <div class="faq-a">Llama 3 70B requires about 140GB of GPU memory in FP16, so you need 2x A100 80GB or 2x H100 80GB GPUs. With quantization (INT8), you can fit it on a single A100 80GB. Smaller models like Llama 3 8B fit on a single A10G 24GB.</div>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">Is this LLM cost calculator free?</div>
+      <div class="faq-a">Yes, KickLLM's calculator is completely free with real pricing data from all major providers. We update prices regularly to ensure accuracy. No sign-up required.</div>
     </div>
   </section>
 
