@@ -110,6 +110,8 @@ async def call_llm(prompt, max_retries=3):
     <p>You cannot improve what you do not measure. Production LLM systems need continuous evaluation: response quality tracking, latency monitoring, cost-per-feature dashboards, and drift detection. This infrastructure either costs engineering time to build or subscription fees for observability platforms.</p>
     <p>Budget $500-2,000/month for monitoring tooling, plus the engineering time to act on the insights.</p>
 
+    <p>For ML model shape calculations and debugging, try <a href="https://heytensor.com/tools/">HeyTensor's ML/AI tools</a>.</p>
+
     <h2>Hidden Cost 4: Context Window Waste</h2>
     <p>Most applications send more context than needed. RAG systems stuff retrieval results into prompts without optimizing for relevance. Chat applications include full conversation history when summarization would suffice. Each unnecessary token adds to your bill.</p>
     <p>A focused optimization pass on context usage typically reduces token consumption by 20-40% without quality degradation. For the 10,000 DAU example above, that is $3,500-7,000/month saved on GPT-4o.</p>
