@@ -11,7 +11,12 @@
   <meta property="og:description" content="Calculate and compare LLM API costs across providers with real 2025 pricing data.">
   <meta property="og:url" content="https://kickllm.com/">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KickLLM — LLM API Cost Calculator">
+  <meta name="twitter:description" content="Calculate and compare LLM API costs across providers with real 2025 pricing data.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -21,7 +26,11 @@
     "description": "LLM API cost calculator with real pricing data for Claude, GPT-4, Gemini, Llama, and Mistral.",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "datePublished": "2026-04-05",
+    "dateModified": "2026-04-06",
+    "featureList": ["Monthly cost calculator", "Per-conversation cost breakdown", "Self-host break-even analysis", "Multi-provider comparison", "Real-time pricing data", "Code generation support"]
   }
   </script>
   <script type="application/ld+json">
@@ -39,6 +48,8 @@
   }
   </script>
   <link rel="stylesheet" href="/assets/style.css">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/">
 </head>
 <body>
   <nav class="nav">
@@ -57,6 +68,7 @@
   <section class="hero">
     <h1>LLM <span>Cost</span> Calculator</h1>
     <p>Compare API costs across providers with real 2025 pricing. Calculate monthly spend or per-conversation cost instantly.</p>
+    <p class="byline">Built by <a href="/about.html">Michael Lip</a> — <a href="https://zovo.one/tools">Zovo Tools</a></p>
   </section>
 
   <section class="tool-section">
@@ -159,32 +171,57 @@
     </div>
   </section>
 
-  <section class="faq-section">
+  <section class="explainer-section" style="max-width:800px;margin:2rem auto;padding:0 1.5rem;">
+    <h2>How KickLLM Works</h2>
+    <p>KickLLM is a free LLM API cost calculator that helps developers, engineering managers, and CTOs estimate the real cost of integrating large language models into their products. The tool pulls real pricing data from every major provider — Anthropic (Claude), OpenAI (GPT-4, GPT-4o), Google (Gemini), Meta (Llama via Groq), and Mistral — and calculates your projected monthly spend based on your actual usage patterns. Instead of manually reading pricing pages and doing spreadsheet math, you get instant cost comparisons across all providers in one place.</p>
+    <p>The calculator supports three modes. Monthly Cost mode takes your expected request volume, tokens per request, and input/output ratio, then shows what each model would cost per month. Per Conversation mode calculates the cost of a single multi-turn conversation — useful for estimating support bot costs or per-user expenses. Self-Host Break-Even mode compares your current API spend against the cost of running open-source models on your own GPU infrastructure, including hardware costs, to find the crossover point where self-hosting saves money.</p>
+
+    <h3>Features</h3>
+    <p>KickLLM includes real-time pricing for over 15 models across 5 providers, with input and output token costs shown separately. The interactive comparison table sorts by total cost so you can immediately identify the most cost-effective option for your workload. The self-hosting calculator factors in GPU rental costs for A100 and H100 instances, model memory requirements, and throughput estimates using vLLM benchmarks. All calculations update instantly as you adjust parameters — no page reloads, no server calls. If you work with <a href="https://lockml.com">machine learning model comparisons</a>, KickLLM complements that workflow with the financial dimension.</p>
+
+    <h3>Who Uses This</h3>
+    <p>KickLLM is used by developers evaluating which LLM provider to integrate, startup founders budgeting their AI infrastructure costs, and platform engineers deciding between API access and self-hosted inference. Common use cases include comparing Claude vs GPT-4 pricing for a customer support chatbot, estimating whether Groq's Llama offering undercuts Anthropic for high-volume batch processing, and modeling the break-even point for self-hosting Mixtral 8x22B versus using API access. Teams building <a href="https://claudhq.com">Claude-powered applications</a> frequently use KickLLM to forecast costs before committing to a provider, and those working with <a href="https://heytensor.com">tensor operations</a> use the self-hosting calculator to estimate GPU requirements.</p>
+
+    <h3>Privacy</h3>
+    <p>KickLLM runs entirely in your browser. No data is sent to any server — all calculations happen client-side in JavaScript. There is no tracking, no analytics, no cookies, and no account required. The source code is available on <a href="https://github.com/theluckystrike/kickllm.com">GitHub</a> for full transparency.</p>
+
+    <div class="last-updated"><time datetime="2026-04-06">Last updated: April 6, 2026</time></div>
+  </section>
+
+  <section class="faq-section" style="max-width:800px;margin:2rem auto;padding:0 1.5rem;">
     <h2>Frequently Asked Questions</h2>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">How much does it cost to run an LLM?</div>
-      <div class="faq-a">LLM costs vary dramatically by model and method. API costs range from $0.25/1M tokens (Claude Haiku) to $75/1M tokens (Claude Opus output). Self-hosting on GPU instances costs $1,000-$10,000+/month depending on model size and hardware. Use our calculator to compare exact costs for your use case.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">What is the cheapest LLM API?</div>
-      <div class="faq-a">For hosted APIs, Groq's Llama 3 70B ($0.59/$0.79 per 1M tokens) and Claude Haiku ($0.25/$1.25) are among the cheapest options while maintaining high quality. The "cheapest" depends on your quality requirements — our calculator helps you find the best cost-performance ratio.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">GPT-4 vs Claude pricing comparison?</div>
-      <div class="faq-a">GPT-4o costs $5/$15 per 1M tokens while Claude 3.5 Sonnet costs $3/$15. GPT-4 Turbo is $10/$30 vs Claude Opus at $15/$75. For most use cases, Claude Sonnet offers better value than GPT-4o with comparable quality.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">When should I self-host an LLM instead of using an API?</div>
-      <div class="faq-a">Self-hosting makes sense when your monthly API spend exceeds $2,000-$5,000, you need data privacy guarantees, or you require low latency at high volume. Use our break-even calculator to find the exact crossover point for your usage pattern.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">How many GPUs do I need to run Llama 3 70B?</div>
-      <div class="faq-a">Llama 3 70B requires about 140GB of GPU memory in FP16, so you need 2x A100 80GB or 2x H100 80GB GPUs. With quantization (INT8), you can fit it on a single A100 80GB. Smaller models like Llama 3 8B fit on a single A10G 24GB.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Is this LLM cost calculator free?</div>
-      <div class="faq-a">Yes, KickLLM's calculator is completely free with real pricing data from all major providers. We update prices regularly to ensure accuracy. No sign-up required.</div>
-    </div>
+    <details>
+      <summary>How much does it cost to run an LLM?</summary>
+      <p>LLM costs vary dramatically by model and method. API costs range from $0.25 per million tokens for Claude Haiku to $75 per million tokens for Claude Opus output. Self-hosting on GPU instances costs $1,000 to $10,000+ per month depending on model size and hardware. Use the KickLLM calculator to compare exact costs for your specific use case.</p>
+    </details>
+    <details>
+      <summary>What is the cheapest LLM API?</summary>
+      <p>For hosted APIs, Groq Llama 3 70B at $0.59/$0.79 per million tokens and Claude Haiku at $0.25/$1.25 are among the cheapest options while maintaining high quality. The cheapest option depends on your quality requirements and use case — our LLM cost calculator helps you find the best cost-performance ratio.</p>
+    </details>
+    <details>
+      <summary>GPT-4 vs Claude pricing comparison?</summary>
+      <p>GPT-4o costs $5/$15 per million tokens while Claude 3.5 Sonnet costs $3/$15. GPT-4 Turbo is $10/$30 versus Claude Opus at $15/$75. For most use cases, Claude Sonnet offers better value than GPT-4o with comparable quality. Use KickLLM to model your specific workload.</p>
+    </details>
+    <details>
+      <summary>When should I self-host an LLM instead of using an API?</summary>
+      <p>Self-hosting makes sense when your monthly API spend exceeds $2,000 to $5,000, you need data privacy guarantees, or you require low latency at high volume. Use the KickLLM break-even calculator to find the exact crossover point for your usage pattern.</p>
+    </details>
+    <details>
+      <summary>How many GPUs do I need to run Llama 3 70B?</summary>
+      <p>Llama 3 70B requires about 140GB of GPU memory in FP16, so you need 2x A100 80GB or 2x H100 80GB GPUs. With INT8 quantization, you can fit it on a single A100 80GB. Smaller models like Llama 3 8B fit on a single A10G 24GB.</p>
+    </details>
+    <details>
+      <summary>Is this LLM cost calculator free?</summary>
+      <p>Yes, KickLLM is completely free with real pricing data from all major LLM providers. We update prices regularly to ensure accuracy. No sign-up or account is required to use the calculator.</p>
+    </details>
+    <details>
+      <summary>How accurate is the pricing data?</summary>
+      <p>KickLLM uses pricing data sourced directly from each provider's official pricing page. Prices are updated regularly when providers announce changes. The calculator uses per-million-token rates for accurate estimation at any scale.</p>
+    </details>
+    <details>
+      <summary>Can I compare self-hosting costs vs API costs?</summary>
+      <p>Yes. The Self-Host Break-Even mode compares your current API spending against GPU infrastructure costs for running open-source models like Llama 3 and Mixtral. It factors in hardware costs, throughput capacity, and utilization rates to find the exact crossover point.</p>
+    </details>
   </section>
 
   <footer>
