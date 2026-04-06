@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>KickLLM — LLM API Cost Calculator Blog</title>
+  <link href="https://kickllm.com/blog/" rel="alternate"/>
+  <link href="https://kickllm.com/blog/feed.xml" rel="self"/>
+  <id>https://kickllm.com/blog/</id>
+  <updated>2026-04-06T00:00:00Z</updated>
+  <author><name>KickLLM — LLM API Cost Calculator</name></author>
+  <entry>
+    <title>The Real Cost of Running LLMs in Production (2025 Numbers) — KickLLM</title>
+    <link href="https://kickllm.com/blog/real-cost-of-running-llms.html" rel="alternate"/>
+    <id>https://kickllm.com/blog/real-cost-of-running-llms.html</id>
+    <updated>2026-04-06T00:00:00Z</updated>
+    <summary>A detailed breakdown of LLM production costs in 2025: API pricing, compute costs, engineering overhead, and the hidden expenses nobody talks about.</summary>
+  </entry>
+  <entry>
+    <title>Self-Hosted vs API: When Each Makes Financial Sense — KickLLM</title>
+    <link href="https://kickllm.com/blog/self-hosted-vs-api.html" rel="alternate"/>
+    <id>https://kickllm.com/blog/self-hosted-vs-api.html</id>
+    <updated>2026-04-06T00:00:00Z</updated>
+    <summary>Detailed cost comparison of self-hosted LLMs vs API access. Real GPU pricing, throughput numbers, and crossover points for 2025.</summary>
+  </entry>
+</feed>
