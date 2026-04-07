@@ -1,0 +1,33 @@
+name: Freshness Check
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 6 AM UTC
+  workflow_dispatch:
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update freshness timestamp
+        run: |
+          DATE=$(date -u +"%Y-%m-%d")
+          for f in research/*.html; do
+            if [ -f "$f" ]; then
+              sed -i "s/Last verified: [0-9-]*/Last verified: $DATE/g" "$f"
+              sed -i "s/\"dateModified\": \"[0-9-]*\"/\"dateModified\": \"$DATE\"/g" "$f"
+            fi
+          done
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || (git add -A && git commit -m "chore: update freshness timestamps" && git push)
+      - name: Ping IndexNow
+        run: |
+          DOMAIN=$(cat CNAME)
+          KEY="7d936d35364e4bafacde17efce5402f9"
+          for f in research/*.html; do
+            SLUG=$(basename "$f")
+            curl -s "https://api.indexnow.org/indexnow?url=https://${DOMAIN}/research/${SLUG}&key=${KEY}" || true
+          done
