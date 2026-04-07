@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Best LLM for Every Use Case (April 2026) — KickLLM</title>
+  <meta name="description" content="Data-driven recommendations for the best LLM for chatbots, code generation, RAG, summarization, translation, data extraction, and creative writing. Includes best overall, best budget, and best open-source picks with cost projections.">
+  <link rel="canonical" href="https://kickllm.com/research/best-llm-by-use-case.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM — LLM API Cost Calculator Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="Best LLM for Every Use Case (April 2026)">
+  <meta property="og:description" content="Which LLM should you use? Data-driven picks for 7 use cases: chatbot, code, RAG, summarization, translation, extraction, and creative writing.">
+  <meta property="og:url" content="https://kickllm.com/research/best-llm-by-use-case.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Best LLM for Every Use Case (April 2026)">
+  <meta name="twitter:description" content="Data-driven LLM recommendations for 7 common use cases with cost projections at 100K, 1M, and 10M tokens/month.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/research/best-llm-by-use-case.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/best-llm-by-use-case.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Best LLM for Every Use Case (April 2026)",
+    "description": "Data-driven recommendations for the best LLM for chatbots, code generation, RAG, summarization, translation, data extraction, and creative writing with cost projections.",
+    "datePublished": "2026-04-07",
+    "dateModified": "2026-04-07",
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "publisher": { "@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com" },
+    "mainEntityOfPage": "https://kickllm.com/research/best-llm-by-use-case.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is the best LLM for a chatbot in 2026?", "acceptedAnswer": { "@type": "Answer", "text": "For customer-facing chatbots, Claude Sonnet 4.5 offers the best balance of quality and cost at $3/$15 per 1M tokens. For budget chatbots, Gemini 2.5 Flash at $0.15/$0.60 delivers strong conversational quality at 20x lower cost. Best open-source: Llama 4 Maverick." } },
+      { "@type": "Question", "name": "What is the best LLM for code generation?", "acceptedAnswer": { "@type": "Answer", "text": "Claude Opus 4.6 leads on HumanEval (93.7%) and is best for complex code generation. For high-volume coding assistants, o3 mini at $1.10/$4.40 with 92.8% HumanEval is more cost-effective. Best open-source: DeepSeek Coder V2 (88.9% HumanEval)." } },
+      { "@type": "Question", "name": "Which LLM is cheapest for RAG applications?", "acceptedAnswer": { "@type": "Answer", "text": "Gemini 2.5 Flash with its 1M token context window and $0.15/$0.60 pricing is ideal for RAG. It eliminates the need for complex chunking strategies. At 10M tokens/month, it costs just $1.95 compared to $32.50 for GPT-4o." } },
+      { "@type": "Question", "name": "What LLM should I use for data extraction?", "acceptedAnswer": { "@type": "Answer", "text": "GPT-4o with JSON mode is the most reliable for structured data extraction at $2.50/$10.00. For budget extraction, Gemini 2.5 Flash with JSON mode at $0.15/$0.60 is 16x cheaper with comparable accuracy on straightforward extraction tasks." } },
+      { "@type": "Question", "name": "How much does it cost to run an LLM chatbot per month?", "acceptedAnswer": { "@type": "Answer", "text": "At 1M tokens/month (roughly 500 conversations), costs range from $0.45 (Gemini 2.5 Flash) to $52.50 (Claude Opus 4.6). Most production chatbots use 1-10M tokens/month. Use the KickLLM calculator for exact estimates based on your usage." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .research-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .use-case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .use-case-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .pick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .pick-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .pick-item .pick-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    .pick-item .pick-model {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .pick-item .pick-provider {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .pick-item .pick-price {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-top: 0.35rem;
+    }
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin: 1rem 0;
+    }
+    .cost-table th {
+      text-align: left;
+      padding: 0.5rem 0.6rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+    }
+    .cost-table td {
+      padding: 0.5rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cost-table .mono {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+    }
+    .cost-table .cheapest { color: var(--accent); font-weight: 700; }
+    .cross-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .cross-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .cross-link:hover { border-color: var(--accent); text-decoration: none; }
+    .cross-link span { color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 2px; }
+    .last-updated {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .pick-grid { grid-template-columns: 1fr; }
+      .cross-links { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <article class="page-content" style="max-width:1000px;">
+    <span class="research-badge">Original Research</span>
+    <h1>Best LLM for Every Use Case (April 2026)</h1>
+    <div class="blog-meta">Published April 7, 2026 &middot; Author: <a href="https://zovo.one">Michael Lip</a> &middot; 12 min read &middot; Updated monthly</div>
+
+    <p>There is no single "best" LLM. The right choice depends on your workload, quality requirements, and budget. This guide provides data-driven recommendations for seven common use cases, with three picks for each: best overall, best budget option, and best open-source option.</p>
+
+    <p>All pricing and performance data is drawn from the <a href="/research/llm-value-index-2026.html">LLM Value Index 2026</a>. Use the <a href="/">KickLLM calculator</a> to model costs for your specific usage patterns.</p>
+
+    <!-- ==================== CHATBOT ==================== -->
+    <div class="use-case-card" id="chatbot">
+      <h3>1. Chatbot / Conversational AI</h3>
+      <p>For customer support bots, virtual assistants, and conversational interfaces. Key requirements: natural language quality, instruction following, safety, and low latency. Typical usage: 60% input / 40% output token split.</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">Claude Sonnet 4.5</div>
+          <div class="pick-provider">Anthropic</div>
+          <div class="pick-price">$3.00 / $15.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Gemini 2.5 Flash</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$0.15 / $0.60 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">Llama 4 Maverick</div>
+          <div class="pick-provider">Meta (400B MoE)</div>
+          <div class="pick-price">$0.50 / $0.75 per 1M tokens via API</div>
+        </div>
+      </div>
+
+      <p><strong>Why Claude Sonnet 4.5:</strong> Consistently ranks highest for instruction following and conversational quality. Its 200K context window handles long conversation histories without truncation. MMLU 89.8% indicates strong general knowledge. The $3/$15 price point is reasonable for production chatbots.</p>
+      <p><strong>Budget pick rationale:</strong> Gemini 2.5 Flash delivers 86.5% MMLU at 20x lower cost than Sonnet. Its 1M context window and 190 tok/s speed make it excellent for high-volume chatbot deployments where you need quality that is "good enough" at scale.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claude Sonnet 4.5</td><td class="mono">$0.78</td><td class="mono">$7.80</td><td class="mono">$78.00</td></tr>
+          <tr><td>Gemini 2.5 Flash</td><td class="mono cheapest">$0.03</td><td class="mono cheapest">$0.33</td><td class="mono cheapest">$3.30</td></tr>
+          <tr><td>Llama 4 Maverick</td><td class="mono">$0.06</td><td class="mono">$0.60</td><td class="mono">$6.00</td></tr>
+          <tr><td>GPT-4o</td><td class="mono">$0.55</td><td class="mono">$5.50</td><td class="mono">$55.00</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 60% input / 40% output split. Use the <a href="/">calculator</a> for custom ratios.</p>
+    </div>
+
+    <!-- ==================== CODE GENERATION ==================== -->
+    <div class="use-case-card" id="code-generation">
+      <h3>2. Code Generation</h3>
+      <p>For coding assistants, code review, test generation, and automated refactoring. Key metric: HumanEval pass rate. Typical usage: 70% input (context/prompt) / 30% output (generated code).</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">Claude Opus 4.6</div>
+          <div class="pick-provider">Anthropic</div>
+          <div class="pick-price">$15.00 / $75.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">o3 mini</div>
+          <div class="pick-provider">OpenAI</div>
+          <div class="pick-price">$1.10 / $4.40 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">DeepSeek Coder V2</div>
+          <div class="pick-provider">DeepSeek</div>
+          <div class="pick-price">$0.14 / $0.28 per 1M tokens</div>
+        </div>
+      </div>
+
+      <p><strong>Why Claude Opus 4.6:</strong> Scores 93.7% on HumanEval and excels at complex, multi-file code generation. Its understanding of system architecture and ability to reason about dependencies is unmatched. Premium pricing makes it best suited for high-stakes code generation where correctness matters more than cost.</p>
+      <p><strong>Budget pick rationale:</strong> o3 mini scores 92.8% on HumanEval at a fraction of Opus pricing. Its reasoning capabilities help with complex algorithmic problems. The tradeoff: slower output speed (70 tok/s) due to chain-of-thought processing.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claude Opus 4.6</td><td class="mono">$3.30</td><td class="mono">$33.00</td><td class="mono">$330.00</td></tr>
+          <tr><td>o3 mini</td><td class="mono">$0.21</td><td class="mono">$2.09</td><td class="mono">$20.90</td></tr>
+          <tr><td>DeepSeek Coder V2</td><td class="mono cheapest">$0.01</td><td class="mono cheapest">$0.14</td><td class="mono cheapest">$1.38</td></tr>
+          <tr><td>GPT-4.5</td><td class="mono">$9.75</td><td class="mono">$97.50</td><td class="mono">$975.00</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 70% input / 30% output split. Reasoning models (o3) may use additional thinking tokens not reflected here.</p>
+    </div>
+
+    <!-- ==================== RAG ==================== -->
+    <div class="use-case-card" id="rag">
+      <h3>3. Retrieval-Augmented Generation (RAG)</h3>
+      <p>For question answering over documents, knowledge bases, and search-augmented responses. Key requirements: large context window, faithful retrieval, low hallucination. Typical usage: 85% input (retrieved documents) / 15% output (answer).</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">Gemini 2.5 Pro</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$1.25 / $10.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Gemini 2.5 Flash</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$0.15 / $0.60 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">Llama 4 Scout (109B)</div>
+          <div class="pick-provider">Meta</div>
+          <div class="pick-price">$0.27 / $0.35 per 1M tokens via API</div>
+        </div>
+      </div>
+
+      <p><strong>Why Gemini 2.5 Pro:</strong> The 1M token context window means you can feed entire document collections without complex chunking strategies. MMLU 90.8% ensures accurate comprehension. At $1.25 input pricing, it is cost-effective for document-heavy RAG where most tokens are input.</p>
+      <p><strong>Budget pick rationale:</strong> Gemini 2.5 Flash inherits the 1M context window at 8x lower input cost. For straightforward RAG (fetching and summarizing from retrieved documents), Flash provides 95% of Pro's quality.</p>
+      <p><strong>Open-source highlight:</strong> Llama 4 Scout supports a 10M token context window, making it the largest context available in any open model. At $0.27 input, it's ideal for massive document ingestion tasks.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gemini 2.5 Pro</td><td class="mono">$0.26</td><td class="mono">$2.56</td><td class="mono">$25.63</td></tr>
+          <tr><td>Gemini 2.5 Flash</td><td class="mono cheapest">$0.02</td><td class="mono cheapest">$0.22</td><td class="mono cheapest">$2.18</td></tr>
+          <tr><td>Llama 4 Scout</td><td class="mono">$0.03</td><td class="mono">$0.28</td><td class="mono">$2.82</td></tr>
+          <tr><td>GPT-4o</td><td class="mono">$0.36</td><td class="mono">$3.63</td><td class="mono">$36.25</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 85% input / 15% output split, typical for RAG workloads.</p>
+    </div>
+
+    <!-- ==================== SUMMARIZATION ==================== -->
+    <div class="use-case-card" id="summarization">
+      <h3>4. Summarization</h3>
+      <p>For document summarization, meeting notes, content digests, and report generation. Key requirements: faithfulness to source material, coherent output, large input capacity. Typical usage: 90% input / 10% output.</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">Claude Sonnet 4.5</div>
+          <div class="pick-provider">Anthropic</div>
+          <div class="pick-price">$3.00 / $15.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Gemini 2.0 Flash</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$0.10 / $0.40 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">DeepSeek V3</div>
+          <div class="pick-provider">DeepSeek</div>
+          <div class="pick-price">$0.27 / $1.10 per 1M tokens</div>
+        </div>
+      </div>
+
+      <p><strong>Why Claude Sonnet 4.5:</strong> Excels at preserving nuance and faithfully representing source material. Its 200K context window handles long documents. Claude models demonstrate lower hallucination rates in summarization tasks compared to competitors.</p>
+      <p><strong>Budget pick rationale:</strong> Gemini 2.0 Flash at $0.10 input is essentially free for summarization workloads that are 90% input tokens. The 1M context window handles very long documents in a single pass.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claude Sonnet 4.5</td><td class="mono">$0.42</td><td class="mono">$4.20</td><td class="mono">$42.00</td></tr>
+          <tr><td>Gemini 2.0 Flash</td><td class="mono cheapest">$0.01</td><td class="mono cheapest">$0.13</td><td class="mono cheapest">$1.30</td></tr>
+          <tr><td>DeepSeek V3</td><td class="mono">$0.04</td><td class="mono">$0.35</td><td class="mono">$3.54</td></tr>
+          <tr><td>GPT-4o</td><td class="mono">$0.37</td><td class="mono">$3.75</td><td class="mono">$37.50</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 90% input / 10% output split, typical for summarization.</p>
+    </div>
+
+    <!-- ==================== TRANSLATION ==================== -->
+    <div class="use-case-card" id="translation">
+      <h3>5. Translation</h3>
+      <p>For machine translation, localization, and multilingual content generation. Key requirements: language coverage, cultural awareness, terminology consistency. Typical usage: 50% input / 50% output.</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">GPT-4o</div>
+          <div class="pick-provider">OpenAI</div>
+          <div class="pick-price">$2.50 / $10.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Gemini 2.5 Flash</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$0.15 / $0.60 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">Qwen 2.5 72B</div>
+          <div class="pick-provider">Alibaba</div>
+          <div class="pick-price">$0.40 / $0.40 per 1M tokens via API</div>
+        </div>
+      </div>
+
+      <p><strong>Why GPT-4o:</strong> Broadest language support among frontier models and strong performance on WMT benchmarks. Handles idiomatic expressions, cultural context, and domain-specific terminology well. Audio input capability also enables speech-to-text translation workflows.</p>
+      <p><strong>Budget pick rationale:</strong> Gemini 2.5 Flash benefits from Google's extensive multilingual training data. Quality is close to GPT-4o for high-resource languages (European, CJK) at 16x lower cost.</p>
+      <p><strong>Open-source highlight:</strong> Qwen 2.5 72B has the best CJK (Chinese, Japanese, Korean) translation quality among open models, and strong European language support.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GPT-4o</td><td class="mono">$0.63</td><td class="mono">$6.25</td><td class="mono">$62.50</td></tr>
+          <tr><td>Gemini 2.5 Flash</td><td class="mono cheapest">$0.04</td><td class="mono cheapest">$0.38</td><td class="mono cheapest">$3.75</td></tr>
+          <tr><td>Qwen 2.5 72B</td><td class="mono">$0.04</td><td class="mono">$0.40</td><td class="mono">$4.00</td></tr>
+          <tr><td>Claude Sonnet 4.5</td><td class="mono">$0.90</td><td class="mono">$9.00</td><td class="mono">$90.00</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 50% input / 50% output split. Translation output length varies by language pair.</p>
+    </div>
+
+    <!-- ==================== DATA EXTRACTION ==================== -->
+    <div class="use-case-card" id="data-extraction">
+      <h3>6. Data Extraction</h3>
+      <p>For parsing invoices, extracting entities from documents, converting unstructured text to JSON, and filling database records. Key requirements: JSON mode support, consistent output schema, high accuracy on structured fields. Typical usage: 80% input / 20% output.</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">GPT-4o</div>
+          <div class="pick-provider">OpenAI</div>
+          <div class="pick-price">$2.50 / $10.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Gemini 2.5 Flash</div>
+          <div class="pick-provider">Google</div>
+          <div class="pick-price">$0.15 / $0.60 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">Mistral Small 3.1</div>
+          <div class="pick-provider">Mistral</div>
+          <div class="pick-price">$0.10 / $0.30 per 1M tokens</div>
+        </div>
+      </div>
+
+      <p><strong>Why GPT-4o:</strong> The most reliable JSON mode implementation. Structured Outputs (constrained generation) guarantees schema compliance, eliminating parsing errors. Vision support enables extraction from images and scanned documents.</p>
+      <p><strong>Budget pick rationale:</strong> Gemini 2.5 Flash supports JSON mode and handles straightforward extraction tasks (email parsing, entity recognition, form data) with comparable accuracy to GPT-4o at 16x lower cost.</p>
+      <p><strong>Open-source highlight:</strong> Mistral Small 3.1 at $0.10/$0.30 has strong function calling and JSON mode support, making it excellent for self-hosted extraction pipelines.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GPT-4o</td><td class="mono">$0.40</td><td class="mono">$4.00</td><td class="mono">$40.00</td></tr>
+          <tr><td>Gemini 2.5 Flash</td><td class="mono cheapest">$0.02</td><td class="mono cheapest">$0.24</td><td class="mono cheapest">$2.40</td></tr>
+          <tr><td>Mistral Small 3.1</td><td class="mono">$0.01</td><td class="mono">$0.14</td><td class="mono">$1.40</td></tr>
+          <tr><td>Claude Sonnet 4.5</td><td class="mono">$0.54</td><td class="mono">$5.40</td><td class="mono">$54.00</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 80% input / 20% output split. Extraction outputs are typically shorter than inputs.</p>
+    </div>
+
+    <!-- ==================== CREATIVE WRITING ==================== -->
+    <div class="use-case-card" id="creative-writing">
+      <h3>7. Creative Writing</h3>
+      <p>For content generation, marketing copy, storytelling, and editorial assistance. Key requirements: natural prose quality, tone control, creative range, instruction adherence. Typical usage: 30% input (prompt/instructions) / 70% output (generated content).</p>
+
+      <div class="pick-grid">
+        <div class="pick-item">
+          <div class="pick-label">Best Overall</div>
+          <div class="pick-model">Claude Opus 4.6</div>
+          <div class="pick-provider">Anthropic</div>
+          <div class="pick-price">$15.00 / $75.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Budget</div>
+          <div class="pick-model">Claude Sonnet 4.5</div>
+          <div class="pick-provider">Anthropic</div>
+          <div class="pick-price">$3.00 / $15.00 per 1M tokens</div>
+        </div>
+        <div class="pick-item">
+          <div class="pick-label">Best Open Source</div>
+          <div class="pick-model">Llama 4 Maverick</div>
+          <div class="pick-provider">Meta (400B MoE)</div>
+          <div class="pick-price">$0.50 / $0.75 per 1M tokens via API</div>
+        </div>
+      </div>
+
+      <p><strong>Why Claude Opus 4.6:</strong> Produces the most natural, stylistically diverse prose among current models. Excels at maintaining consistent voice across long documents and following nuanced creative briefs. The premium price reflects its position as the best writing model available.</p>
+      <p><strong>Budget pick rationale:</strong> Claude Sonnet 4.5 retains much of Opus's writing quality at 5x lower output cost. For most marketing copy, blog posts, and standard content generation, Sonnet is indistinguishable from Opus.</p>
+
+      <table class="cost-table">
+        <thead>
+          <tr><th>Model</th><th>100K tok/mo</th><th>1M tok/mo</th><th>10M tok/mo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Claude Opus 4.6</td><td class="mono">$5.70</td><td class="mono">$57.00</td><td class="mono">$570.00</td></tr>
+          <tr><td>Claude Sonnet 4.5</td><td class="mono">$1.14</td><td class="mono">$11.40</td><td class="mono">$114.00</td></tr>
+          <tr><td>Llama 4 Maverick</td><td class="mono cheapest">$0.07</td><td class="mono cheapest">$0.68</td><td class="mono cheapest">$6.75</td></tr>
+          <tr><td>GPT-4o</td><td class="mono">$0.78</td><td class="mono">$7.75</td><td class="mono">$77.50</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.78rem;color:var(--text-muted);">Cost assumes 30% input / 70% output split, typical for content generation.</p>
+    </div>
+
+    <!-- ==================== SUMMARY TABLE ==================== -->
+    <h2>Quick Reference: Best Model by Use Case</h2>
+    <div style="overflow-x:auto;">
+      <table class="cost-table" style="min-width:700px;">
+        <thead>
+          <tr><th>Use Case</th><th>Best Overall</th><th>Best Budget</th><th>Best Open Source</th><th>Key Metric</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="#chatbot">Chatbot</a></td><td>Claude Sonnet 4.5</td><td>Gemini 2.5 Flash</td><td>Llama 4 Maverick</td><td>Conversational quality</td></tr>
+          <tr><td><a href="#code-generation">Code Generation</a></td><td>Claude Opus 4.6</td><td>o3 mini</td><td>DeepSeek Coder V2</td><td>HumanEval 93.7%</td></tr>
+          <tr><td><a href="#rag">RAG</a></td><td>Gemini 2.5 Pro</td><td>Gemini 2.5 Flash</td><td>Llama 4 Scout</td><td>Context: 1M-10M tokens</td></tr>
+          <tr><td><a href="#summarization">Summarization</a></td><td>Claude Sonnet 4.5</td><td>Gemini 2.0 Flash</td><td>DeepSeek V3</td><td>Faithfulness</td></tr>
+          <tr><td><a href="#translation">Translation</a></td><td>GPT-4o</td><td>Gemini 2.5 Flash</td><td>Qwen 2.5 72B</td><td>Language coverage</td></tr>
+          <tr><td><a href="#data-extraction">Data Extraction</a></td><td>GPT-4o</td><td>Gemini 2.5 Flash</td><td>Mistral Small 3.1</td><td>JSON reliability</td></tr>
+          <tr><td><a href="#creative-writing">Creative Writing</a></td><td>Claude Opus 4.6</td><td>Claude Sonnet 4.5</td><td>Llama 4 Maverick</td><td>Prose quality</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How to Choose</h2>
+    <ol>
+      <li><strong>Start with budget:</strong> Know your monthly token budget. Use the <a href="/">KickLLM calculator</a> to estimate volume.</li>
+      <li><strong>Test the budget pick first:</strong> In most cases, the budget option is sufficient. Only upgrade if you can quantify the quality difference in your specific workload.</li>
+      <li><strong>Consider latency:</strong> For real-time applications (chatbots, search), prioritize models with high tok/s. Check the <a href="/research/llm-value-index-2026.html">value index</a> for speed data.</li>
+      <li><strong>Evaluate self-hosting:</strong> If spending over $2,000/month on an open-weight model via API, self-hosting may be cheaper. See our <a href="/research/open-source-vs-api.html">break-even analysis</a>.</li>
+      <li><strong>A/B test in production:</strong> The only reliable way to compare models for your specific use case is to run them both and measure user-facing metrics.</li>
+    </ol>
+
+    <div class="cross-links">
+      <a href="/" class="cross-link">LLM Cost Calculator<span>Model your monthly costs</span></a>
+      <a href="/research/llm-value-index-2026.html" class="cross-link">LLM Value Index 2026<span>42 models ranked by value</span></a>
+      <a href="/research/open-source-vs-api.html" class="cross-link">Open Source vs API<span>Self-hosting break-even</span></a>
+      <a href="/blog/self-hosted-vs-api.html" class="cross-link">Self-Hosted vs API Deep Dive<span>Infrastructure comparison</span></a>
+    </div>
+
+    <section class="faq-section" style="max-width:100%;padding:0;margin-top:3rem;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>What is the best LLM for a chatbot in 2026?</summary>
+        <p>For customer-facing chatbots, Claude Sonnet 4.5 offers the best balance of quality and cost at $3/$15 per 1M tokens. For budget chatbots, Gemini 2.5 Flash at $0.15/$0.60 delivers strong conversational quality at 20x lower cost. Best open-source option is Llama 4 Maverick.</p>
+      </details>
+      <details>
+        <summary>What is the best LLM for code generation?</summary>
+        <p>Claude Opus 4.6 leads on HumanEval (93.7%) and is the best choice for complex code generation. For high-volume coding assistants, o3 mini at $1.10/$4.40 with 92.8% HumanEval is more cost-effective. Best open-source: DeepSeek Coder V2 (88.9% HumanEval) at $0.14/$0.28.</p>
+      </details>
+      <details>
+        <summary>Which LLM is cheapest for RAG applications?</summary>
+        <p>Gemini 2.5 Flash with its 1M token context window and $0.15/$0.60 pricing is ideal for RAG. At 10M tokens/month, it costs just $2.18 compared to $36.25 for GPT-4o. Llama 4 Scout's 10M token context window is the largest available in any open model.</p>
+      </details>
+      <details>
+        <summary>What LLM should I use for data extraction?</summary>
+        <p>GPT-4o with Structured Outputs is the most reliable for schema-constrained extraction at $2.50/$10.00 per 1M tokens. For budget extraction, Gemini 2.5 Flash with JSON mode at $0.15/$0.60 is 16x cheaper with comparable accuracy on straightforward tasks.</p>
+      </details>
+      <details>
+        <summary>How much does it cost to run an LLM chatbot per month?</summary>
+        <p>At 1M tokens/month (roughly 500 conversations), costs range from $0.33 (Gemini 2.5 Flash) to $57.00 (Claude Opus 4.6). Most production chatbots use 1-10M tokens/month. Use the <a href="/">KickLLM calculator</a> for exact estimates based on your usage patterns.</p>
+      </details>
+    </section>
+
+    <div class="last-updated"><time datetime="2026-04-07">Last updated: April 7, 2026</time></div>
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="https://zovo.one/tools">Zovo Tools</a>
+        <span>Free developer tools by a solo dev. No tracking.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://lockml.com">LockML</a>
+        <a href="https://gpt0x.com">GPT0X</a>
+        <a href="https://ml0x.com">ML0X</a>
+        <a href="https://claudhq.com">ClaudHQ</a>
+        <a href="https://heytensor.com">HeyTensor</a>
+        <a href="https://zovo.one">Zovo</a>
+      </div>
+      <div class="footer-pro">
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link">Zovo Lifetime &mdash; $99 once, free forever &rarr;</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots
+      </div>
+    </div>
+    <div class="explore-tools" style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);">
+      <p style="font-size:0.85rem;color:#8b949e;margin-bottom:0.5rem;">Explore More Developer Tools</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.8rem;">
+        <a href="https://epochpilot.com/tools/" style="color:#58a6ff;text-decoration:none;">Time &amp; Date Tools</a>
+        <a href="https://kappakit.com/tools/" style="color:#58a6ff;text-decoration:none;">Developer Toolkit</a>
+        <a href="https://heytensor.com/tools/" style="color:#58a6ff;text-decoration:none;">ML/AI Tools</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

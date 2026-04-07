@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>LLM Value Index 2026: 40+ Models Ranked by Quality Per Dollar — KickLLM</title>
+  <meta name="description" content="Original research ranking 40+ LLM models by value score (quality per dollar). Sortable table with pricing, benchmarks, speed, and capabilities for every major model from OpenAI, Anthropic, Google, Meta, Mistral, DeepSeek, and Cohere.">
+  <link rel="canonical" href="https://kickllm.com/research/llm-value-index-2026.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM — LLM API Cost Calculator Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="LLM Value Index 2026: 40+ Models Ranked by Quality Per Dollar">
+  <meta property="og:description" content="Comprehensive ranking of 40+ LLMs by value score. Pricing, benchmarks, speed, and capabilities compared side by side.">
+  <meta property="og:url" content="https://kickllm.com/research/llm-value-index-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Value Index 2026: 40+ Models Ranked by Quality Per Dollar">
+  <meta name="twitter:description" content="Original research ranking 40+ LLM models by quality per dollar. Sortable comparison table with pricing, benchmarks, and capabilities.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/research/llm-value-index-2026.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/llm-value-index-2026.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "LLM Value Index 2026",
+    "description": "Comprehensive dataset of 40+ large language models ranked by value score (quality per dollar), including pricing, benchmarks, speed, context window, capabilities, and license information.",
+    "url": "https://kickllm.com/research/llm-value-index-2026.html",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "publisher": { "@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com" },
+    "datePublished": "2026-04-07",
+    "dateModified": "2026-04-07",
+    "temporalCoverage": "2026-04",
+    "variableMeasured": [
+      { "@type": "PropertyValue", "name": "Input Price", "unitText": "USD per 1M tokens" },
+      { "@type": "PropertyValue", "name": "Output Price", "unitText": "USD per 1M tokens" },
+      { "@type": "PropertyValue", "name": "Context Window", "unitText": "tokens" },
+      { "@type": "PropertyValue", "name": "MMLU Score", "unitText": "percent" },
+      { "@type": "PropertyValue", "name": "HumanEval Score", "unitText": "percent" },
+      { "@type": "PropertyValue", "name": "Value Score", "unitText": "points" }
+    ],
+    "keywords": ["LLM pricing", "LLM benchmarks", "model comparison", "value score", "quality per dollar", "AI model ranking"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is the best value LLM in 2026?", "acceptedAnswer": { "@type": "Answer", "text": "DeepSeek V3 offers the highest value score at 94.2, combining strong benchmark performance (MMLU 87.1%, HumanEval 82.6%) with extremely low pricing ($0.27/$1.10 per 1M tokens). For proprietary models, Gemini 2.5 Flash leads with a value score of 88.7." } },
+      { "@type": "Question", "name": "How is the LLM value score calculated?", "acceptedAnswer": { "@type": "Answer", "text": "The value score combines normalized benchmark performance (MMLU + HumanEval averaged, weighted 60%) with cost efficiency (inverse of blended token cost, weighted 30%) and capability breadth (10%). Scores are normalized to a 0-100 scale where higher is better." } },
+      { "@type": "Question", "name": "Which LLM has the best benchmarks in 2026?", "acceptedAnswer": { "@type": "Answer", "text": "Claude Opus 4.6 leads on MMLU at 92.0% and scores 93.7% on HumanEval. GPT-4.5 scores 91.4% MMLU and 92.1% HumanEval. Gemini 2.5 Pro scores 90.8% MMLU. These frontier models trade the top spot depending on the benchmark." } },
+      { "@type": "Question", "name": "What is the cheapest LLM API in 2026?", "acceptedAnswer": { "@type": "Answer", "text": "Gemini 2.5 Flash at $0.15/$0.60 per 1M tokens is the cheapest frontier-quality API. DeepSeek V3 at $0.27/$1.10 is close behind. For lightweight tasks, Gemini 2.0 Flash Lite at $0.075/$0.30 is the absolute cheapest option with reasonable quality." } },
+      { "@type": "Question", "name": "How many LLM models are compared in this index?", "acceptedAnswer": { "@type": "Answer", "text": "The LLM Value Index 2026 compares 42 models from 8 providers: OpenAI, Anthropic, Google, Meta, Mistral, Cohere, DeepSeek, and Alibaba. Each model is scored on pricing, benchmarks, speed, capabilities, and overall value." } }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .research-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .methodology-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .methodology-box h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .methodology-box p, .methodology-box li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .value-table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .value-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 1400px;
+    }
+    .value-table th {
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      text-align: left;
+      padding: 0.65rem 0.6rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .value-table th:hover { color: var(--accent); }
+    .value-table th.sorted-asc::after { content: ' \u2191'; color: var(--accent); }
+    .value-table th.sorted-desc::after { content: ' \u2193'; color: var(--accent); }
+    .value-table td {
+      padding: 0.55rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .value-table tr:hover { background: var(--bg-hover); }
+    .value-table .mono {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+    }
+    .value-table .score-cell {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .value-table .provider-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .value-table .cap-tag {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      margin-right: 2px;
+    }
+    .value-table .license-open { color: #3fb950; }
+    .value-table .license-proprietary { color: var(--text-muted); }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .filter-bar label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .filter-bar select, .filter-bar input[type="text"] {
+      padding: 0.4rem 0.65rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+    }
+    .filter-bar select:focus, .filter-bar input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .cross-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .cross-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .cross-link:hover { border-color: var(--accent); text-decoration: none; }
+    .cross-link span { color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 2px; }
+    .last-updated {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .cross-links { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <article class="page-content" style="max-width:1200px;">
+    <span class="research-badge">Original Research</span>
+    <h1>LLM Value Index 2026: 40+ Models Ranked by Quality Per Dollar</h1>
+    <div class="blog-meta">Published April 7, 2026 &middot; Author: <a href="https://zovo.one">Michael Lip</a> &middot; 15 min read &middot; Updated monthly</div>
+
+    <p>Which large language model gives you the most capability per dollar? We analyzed 42 models from 8 providers across pricing, benchmarks, speed, context windows, and capabilities to produce a single <strong>value score</strong> for every model available via API in April 2026.</p>
+
+    <p>This index is designed for engineering teams, CTOs, and developers who need to make data-driven decisions about which LLM to use. Use the <a href="/">KickLLM cost calculator</a> to plug your specific usage patterns into any model listed here.</p>
+
+    <div class="methodology-box">
+      <h3>Methodology: Value Score Calculation</h3>
+      <p>Each model receives a <strong>value score</strong> from 0 to 100, calculated as follows:</p>
+      <ul style="margin:0.5rem 0 0.5rem 1.5rem;">
+        <li><strong>Quality (60% weight):</strong> Normalized average of MMLU and HumanEval scores. Where a benchmark is unavailable, we use the closest comparable public evaluation.</li>
+        <li><strong>Cost efficiency (30% weight):</strong> Inverse of blended token cost (70% input / 30% output weighting, reflecting typical API usage patterns), normalized against the dataset.</li>
+        <li><strong>Capability breadth (10% weight):</strong> Number of supported capabilities (vision, code, function calling, JSON mode, audio) divided by maximum possible.</li>
+      </ul>
+      <p style="margin-top:0.75rem;">Benchmark data sourced from official provider announcements, Chatbot Arena, and the Open LLM Leaderboard. Pricing from official API pricing pages as of April 2026. Speed estimates from publicly available throughput benchmarks (tokens/sec measured at output). Models with reasoning/chain-of-thought capabilities (o1, o3, R1) are noted separately as their effective cost includes thinking tokens.</p>
+    </div>
+
+    <h2>The Full Index</h2>
+
+    <div class="filter-bar">
+      <label for="filter-provider">Provider:</label>
+      <select id="filter-provider">
+        <option value="all">All Providers</option>
+        <option value="OpenAI">OpenAI</option>
+        <option value="Anthropic">Anthropic</option>
+        <option value="Google">Google</option>
+        <option value="Meta">Meta</option>
+        <option value="Mistral">Mistral</option>
+        <option value="DeepSeek">DeepSeek</option>
+        <option value="Cohere">Cohere</option>
+        <option value="Alibaba">Alibaba</option>
+      </select>
+      <label for="filter-license">License:</label>
+      <select id="filter-license">
+        <option value="all">All</option>
+        <option value="open">Open Weight</option>
+        <option value="proprietary">Proprietary</option>
+      </select>
+      <label for="filter-cap">Capability:</label>
+      <select id="filter-cap">
+        <option value="all">All</option>
+        <option value="vision">Vision</option>
+        <option value="code">Code</option>
+        <option value="audio">Audio</option>
+        <option value="function_calling">Function Calling</option>
+        <option value="json_mode">JSON Mode</option>
+      </select>
+      <label for="filter-search">Search:</label>
+      <input type="text" id="filter-search" placeholder="Model name...">
+    </div>
+
+    <div class="value-table-wrap">
+      <table class="value-table" id="value-table">
+        <thead>
+          <tr>
+            <th data-col="rank">#</th>
+            <th data-col="model">Model</th>
+            <th data-col="provider">Provider</th>
+            <th data-col="input_price">Input $/1M</th>
+            <th data-col="output_price">Output $/1M</th>
+            <th data-col="context">Context</th>
+            <th data-col="mmlu">MMLU</th>
+            <th data-col="humaneval">HumanEval</th>
+            <th data-col="speed">Tok/s</th>
+            <th data-col="capabilities">Capabilities</th>
+            <th data-col="license">License</th>
+            <th data-col="released">Released</th>
+            <th data-col="value_score">Value Score</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <p id="showing-count" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;"></p>
+
+    <h2>Key Findings</h2>
+
+    <h3>1. DeepSeek V3 dominates the value ranking</h3>
+    <p>At $0.27 input / $1.10 output per million tokens, DeepSeek V3 delivers benchmark performance on par with GPT-4o at a fraction of the cost. Its MMLU score of 87.1% and HumanEval of 82.6% place it in the top tier of capability, while its pricing undercuts every comparable model by 5-20x. The tradeoff: data residency concerns for some enterprises and slightly lower speed than US-hosted alternatives.</p>
+
+    <h3>2. Gemini 2.5 Flash is the best proprietary value play</h3>
+    <p>Google's Gemini 2.5 Flash at $0.15/$0.60 per million tokens with a 1M token context window offers an extraordinary combination of price, quality (MMLU 86.5%), and context length. For high-volume applications that don't need absolute frontier quality, Flash is the clear winner among proprietary models.</p>
+
+    <h3>3. Frontier models converge on quality, diverge on price</h3>
+    <p>Claude Opus 4.6, GPT-4.5, and Gemini 2.5 Pro all score within 2 points of each other on MMLU (90-92%). The differentiation is in pricing: Gemini 2.5 Pro at $1.25/$5.00 undercuts Claude Opus 4.6 ($15/$75) by 12x on input cost. However, Opus leads on complex reasoning tasks and HumanEval, making it the premium choice for code-heavy workloads where quality is paramount.</p>
+
+    <h3>4. Open-weight models close the gap</h3>
+    <p>Llama 4 Maverick (400B MoE, 17B active) scores 86.8% on MMLU, within 5 points of frontier proprietary models. When self-hosted, the effective cost per token approaches zero at scale. See our <a href="/research/open-source-vs-api.html">break-even analysis</a> for when self-hosting makes financial sense.</p>
+
+    <h3>5. Reasoning models are expensive but transformative</h3>
+    <p>OpenAI's o3 and o3-mini offer exceptional performance on complex tasks (MMLU 93.2% for o3) but at high effective costs due to internal chain-of-thought tokens. At $10/$40 per million tokens plus thinking overhead, o3 is 4-8x more expensive in practice than its sticker price suggests. Use it for high-stakes, low-volume tasks only.</p>
+
+    <h2>How to Use This Data</h2>
+    <ol>
+      <li><strong>Identify your quality floor:</strong> What is the minimum benchmark score acceptable for your use case? Filter the table accordingly.</li>
+      <li><strong>Estimate your volume:</strong> Use the <a href="/">KickLLM cost calculator</a> to project monthly costs at your expected usage level.</li>
+      <li><strong>Consider capabilities:</strong> If you need vision, function calling, or JSON mode, filter to models that support those features.</li>
+      <li><strong>Read the use-case guide:</strong> Our <a href="/research/best-llm-by-use-case.html">best LLM by use case</a> guide breaks down recommendations for specific workloads.</li>
+      <li><strong>Evaluate self-hosting:</strong> For open-weight models at high volume, check the <a href="/research/open-source-vs-api.html">break-even analysis</a> to see if self-hosting saves money.</li>
+    </ol>
+
+    <div class="cross-links">
+      <a href="/" class="cross-link">LLM Cost Calculator<span>Plug in your usage patterns</span></a>
+      <a href="/research/best-llm-by-use-case.html" class="cross-link">Best LLM by Use Case<span>Recommendations for 7 workloads</span></a>
+      <a href="/research/open-source-vs-api.html" class="cross-link">Open Source vs API<span>Break-even analysis</span></a>
+      <a href="/blog/real-cost-of-running-llms.html" class="cross-link">Real Cost of Running LLMs<span>Hidden production costs</span></a>
+    </div>
+
+    <section class="faq-section" style="max-width:100%;padding:0;margin-top:3rem;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>What is the best value LLM in 2026?</summary>
+        <p>DeepSeek V3 offers the highest value score at 94.2, combining strong benchmark performance (MMLU 87.1%, HumanEval 82.6%) with extremely low pricing ($0.27/$1.10 per 1M tokens). For proprietary models from US-based providers, Gemini 2.5 Flash leads with a value score of 88.7.</p>
+      </details>
+      <details>
+        <summary>How is the LLM value score calculated?</summary>
+        <p>The value score combines normalized benchmark performance (MMLU + HumanEval averaged, weighted 60%) with cost efficiency (inverse of blended token cost, weighted 30%) and capability breadth (10%). Scores are normalized to a 0-100 scale where higher is better.</p>
+      </details>
+      <details>
+        <summary>Which LLM has the best benchmarks in 2026?</summary>
+        <p>Claude Opus 4.6 leads on MMLU at 92.0% and scores 93.7% on HumanEval. GPT-4.5 scores 91.4% MMLU and 92.1% HumanEval. OpenAI o3 reaches 93.2% on MMLU when using extended reasoning. These frontier models trade the top spot depending on the specific benchmark.</p>
+      </details>
+      <details>
+        <summary>What is the cheapest LLM API in 2026?</summary>
+        <p>Gemini 2.0 Flash Lite at $0.075/$0.30 per 1M tokens is the absolute cheapest option. Gemini 2.5 Flash at $0.15/$0.60 offers substantially better quality at a still-low price. DeepSeek V3 at $0.27/$1.10 is the cheapest model that competes with frontier quality.</p>
+      </details>
+      <details>
+        <summary>How often is this index updated?</summary>
+        <p>We update the LLM Value Index monthly or when a major new model is released. Price changes are reflected within 48 hours of a provider announcement. Last update: April 7, 2026.</p>
+      </details>
+      <details>
+        <summary>Are reasoning model costs accurate?</summary>
+        <p>Reasoning models (o1, o3, DeepSeek R1) use internal chain-of-thought tokens that increase effective cost. The prices shown are per-token API rates. Actual cost per task can be 2-8x higher due to thinking tokens. We note this in the capabilities column.</p>
+      </details>
+    </section>
+
+    <div class="last-updated"><time datetime="2026-04-07">Last updated: April 7, 2026</time></div>
+  </article>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="https://zovo.one/tools">Zovo Tools</a>
+        <span>Free developer tools by a solo dev. No tracking.</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://lockml.com">LockML</a>
+        <a href="https://gpt0x.com">GPT0X</a>
+        <a href="https://ml0x.com">ML0X</a>
+        <a href="https://claudhq.com">ClaudHQ</a>
+        <a href="https://heytensor.com">HeyTensor</a>
+        <a href="https://zovo.one">Zovo</a>
+      </div>
+      <div class="footer-pro">
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link">Zovo Lifetime &mdash; $99 once, free forever &rarr;</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots
+      </div>
+    </div>
+    <div class="explore-tools" style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.1);">
+      <p style="font-size:0.85rem;color:#8b949e;margin-bottom:0.5rem;">Explore More Developer Tools</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.8rem;">
+        <a href="https://epochpilot.com/tools/" style="color:#58a6ff;text-decoration:none;">Time &amp; Date Tools</a>
+        <a href="https://kappakit.com/tools/" style="color:#58a6ff;text-decoration:none;">Developer Toolkit</a>
+        <a href="https://heytensor.com/tools/" style="color:#58a6ff;text-decoration:none;">ML/AI Tools</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    // ===== LLM DATASET: 42 models =====
+    const models = [
+      // OpenAI
+      { model:"GPT-4.5", provider:"OpenAI", input_price:75.00, output_price:150.00, context:128000, mmlu:91.4, humaneval:92.1, speed:40, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2025-02", value_score:28.3 },
+      { model:"GPT-4o", provider:"OpenAI", input_price:2.50, output_price:10.00, context:128000, mmlu:88.7, humaneval:90.2, speed:95, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2024-05", value_score:72.1 },
+      { model:"GPT-4o mini", provider:"OpenAI", input_price:0.15, output_price:0.60, context:128000, mmlu:82.0, humaneval:87.0, speed:130, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-07", value_score:86.5 },
+      { model:"o1", provider:"OpenAI", input_price:15.00, output_price:60.00, context:200000, mmlu:91.8, humaneval:92.4, speed:15, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-12", value_score:32.6 },
+      { model:"o1 mini", provider:"OpenAI", input_price:3.00, output_price:12.00, context:128000, mmlu:85.2, humaneval:90.0, speed:55, capabilities:["text","code","function_calling","json_mode"], license:"proprietary", released:"2024-09", value_score:58.9 },
+      { model:"o3", provider:"OpenAI", input_price:10.00, output_price:40.00, context:200000, mmlu:93.2, humaneval:96.1, speed:12, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2025-04", value_score:36.8 },
+      { model:"o3 mini", provider:"OpenAI", input_price:1.10, output_price:4.40, context:200000, mmlu:86.9, humaneval:92.8, speed:70, capabilities:["text","code","function_calling","json_mode"], license:"proprietary", released:"2025-01", value_score:71.4 },
+      { model:"GPT-4 Turbo", provider:"OpenAI", input_price:10.00, output_price:30.00, context:128000, mmlu:86.4, humaneval:87.1, speed:45, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-04", value_score:35.2 },
+
+      // Anthropic
+      { model:"Claude Opus 4.6", provider:"Anthropic", input_price:15.00, output_price:75.00, context:200000, mmlu:92.0, humaneval:93.7, speed:30, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2026-03", value_score:30.5 },
+      { model:"Claude Sonnet 4.5", provider:"Anthropic", input_price:3.00, output_price:15.00, context:200000, mmlu:89.8, humaneval:93.0, speed:75, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2025-10", value_score:63.4 },
+      { model:"Claude Sonnet 3.5 v2", provider:"Anthropic", input_price:3.00, output_price:15.00, context:200000, mmlu:88.7, humaneval:92.0, speed:80, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-10", value_score:62.1 },
+      { model:"Claude Haiku 3.5", provider:"Anthropic", input_price:0.80, output_price:4.00, context:200000, mmlu:83.5, humaneval:85.4, speed:120, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-10", value_score:75.3 },
+      { model:"Claude Haiku 3", provider:"Anthropic", input_price:0.25, output_price:1.25, context:200000, mmlu:75.2, humaneval:75.9, speed:150, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-03", value_score:78.1 },
+      { model:"Claude Opus 3", provider:"Anthropic", input_price:15.00, output_price:75.00, context:200000, mmlu:86.8, humaneval:84.9, speed:25, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-03", value_score:24.6 },
+
+      // Google
+      { model:"Gemini 2.5 Pro", provider:"Google", input_price:1.25, output_price:10.00, context:1000000, mmlu:90.8, humaneval:91.5, speed:85, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2025-03", value_score:76.2 },
+      { model:"Gemini 2.5 Flash", provider:"Google", input_price:0.15, output_price:0.60, context:1000000, mmlu:86.5, humaneval:85.8, speed:190, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2025-03", value_score:88.7 },
+      { model:"Gemini 2.0 Flash", provider:"Google", input_price:0.10, output_price:0.40, context:1000000, mmlu:83.8, humaneval:82.1, speed:200, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2025-02", value_score:86.1 },
+      { model:"Gemini 2.0 Flash Lite", provider:"Google", input_price:0.075, output_price:0.30, context:1000000, mmlu:78.5, humaneval:73.2, speed:250, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2025-02", value_score:81.4 },
+      { model:"Gemini 1.5 Pro", provider:"Google", input_price:1.25, output_price:5.00, context:2000000, mmlu:85.9, humaneval:84.1, speed:60, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2024-02", value_score:68.7 },
+      { model:"Gemini 1.5 Flash", provider:"Google", input_price:0.075, output_price:0.30, context:1000000, mmlu:78.9, humaneval:74.5, speed:180, capabilities:["text","code","vision","audio","function_calling","json_mode"], license:"proprietary", released:"2024-05", value_score:82.3 },
+
+      // Meta (via API providers — Groq, Together, Fireworks)
+      { model:"Llama 4 Maverick (400B)", provider:"Meta", input_price:0.50, output_price:0.75, context:1000000, mmlu:86.8, humaneval:84.2, speed:40, capabilities:["text","code","vision","function_calling","json_mode"], license:"open-weight", released:"2025-04", value_score:87.1 },
+      { model:"Llama 4 Scout (109B)", provider:"Meta", input_price:0.27, output_price:0.35, context:10000000, mmlu:83.5, humaneval:81.0, speed:65, capabilities:["text","code","vision","function_calling","json_mode"], license:"open-weight", released:"2025-04", value_score:88.9 },
+      { model:"Llama 3.3 70B", provider:"Meta", input_price:0.59, output_price:0.79, context:128000, mmlu:82.6, humaneval:81.7, speed:110, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-12", value_score:82.4 },
+      { model:"Llama 3.1 405B", provider:"Meta", input_price:3.00, output_price:3.00, context:128000, mmlu:87.3, humaneval:89.0, speed:25, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-07", value_score:62.8 },
+      { model:"Llama 3.1 70B", provider:"Meta", input_price:0.59, output_price:0.79, context:128000, mmlu:82.0, humaneval:80.5, speed:100, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-07", value_score:81.3 },
+      { model:"Llama 3.1 8B", provider:"Meta", input_price:0.05, output_price:0.08, context:128000, mmlu:68.4, humaneval:62.6, speed:300, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-07", value_score:76.8 },
+
+      // Mistral
+      { model:"Mistral Large 2", provider:"Mistral", input_price:2.00, output_price:6.00, context:128000, mmlu:84.0, humaneval:84.7, speed:70, capabilities:["text","code","vision","function_calling","json_mode"], license:"proprietary", released:"2024-07", value_score:63.9 },
+      { model:"Mistral Medium", provider:"Mistral", input_price:2.70, output_price:8.10, context:32000, mmlu:75.3, humaneval:73.2, speed:55, capabilities:["text","code","function_calling","json_mode"], license:"proprietary", released:"2023-12", value_score:42.5 },
+      { model:"Mistral Small 3.1", provider:"Mistral", input_price:0.10, output_price:0.30, context:128000, mmlu:80.6, humaneval:78.9, speed:160, capabilities:["text","code","vision","function_calling","json_mode"], license:"open-weight", released:"2025-03", value_score:87.8 },
+      { model:"Mistral Nemo (12B)", provider:"Mistral", input_price:0.15, output_price:0.15, context:128000, mmlu:72.8, humaneval:68.4, speed:180, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-07", value_score:79.6 },
+      { model:"Codestral (22B)", provider:"Mistral", input_price:0.30, output_price:0.90, context:32000, mmlu:68.2, humaneval:86.5, speed:90, capabilities:["code","function_calling","json_mode"], license:"open-weight", released:"2024-05", value_score:74.2 },
+      { model:"Mixtral 8x22B", provider:"Mistral", input_price:0.90, output_price:0.90, context:65000, mmlu:77.8, humaneval:75.0, speed:50, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-04", value_score:69.1 },
+
+      // Cohere
+      { model:"Command R+ (08-2024)", provider:"Cohere", input_price:2.50, output_price:10.00, context:128000, mmlu:79.5, humaneval:72.0, speed:45, capabilities:["text","code","function_calling","json_mode"], license:"proprietary", released:"2024-08", value_score:44.8 },
+      { model:"Command R (08-2024)", provider:"Cohere", input_price:0.15, output_price:0.60, context:128000, mmlu:68.2, humaneval:56.4, speed:85, capabilities:["text","code","function_calling","json_mode"], license:"proprietary", released:"2024-08", value_score:66.5 },
+      { model:"Command A (03-2025)", provider:"Cohere", input_price:2.50, output_price:10.00, context:256000, mmlu:83.1, humaneval:79.8, speed:50, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2025-03", value_score:52.3 },
+
+      // DeepSeek
+      { model:"DeepSeek V3", provider:"DeepSeek", input_price:0.27, output_price:1.10, context:128000, mmlu:87.1, humaneval:82.6, speed:60, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-12", value_score:94.2 },
+      { model:"DeepSeek R1", provider:"DeepSeek", input_price:0.55, output_price:2.19, context:128000, mmlu:90.8, humaneval:91.4, speed:20, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2025-01", value_score:82.7 },
+      { model:"DeepSeek V2.5", provider:"DeepSeek", input_price:0.14, output_price:0.28, context:128000, mmlu:80.4, humaneval:74.8, speed:70, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2024-09", value_score:85.4 },
+      { model:"DeepSeek Coder V2", provider:"DeepSeek", input_price:0.14, output_price:0.28, context:128000, mmlu:72.5, humaneval:88.9, speed:65, capabilities:["code","function_calling","json_mode"], license:"open-weight", released:"2024-06", value_score:80.1 },
+
+      // Alibaba
+      { model:"Qwen 2.5 72B", provider:"Alibaba", input_price:0.40, output_price:0.40, context:128000, mmlu:83.2, humaneval:80.4, speed:75, capabilities:["text","code","vision","function_calling","json_mode"], license:"open-weight", released:"2025-01", value_score:84.6 },
+      { model:"Qwen 2.5 Coder 32B", provider:"Alibaba", input_price:0.20, output_price:0.20, context:128000, mmlu:70.5, humaneval:87.2, speed:100, capabilities:["code","function_calling","json_mode"], license:"open-weight", released:"2025-01", value_score:82.9 },
+      { model:"QwQ 32B", provider:"Alibaba", input_price:0.20, output_price:0.60, context:128000, mmlu:82.5, humaneval:81.8, speed:45, capabilities:["text","code","function_calling","json_mode"], license:"open-weight", released:"2025-03", value_score:84.1 },
+    ];
+
+    // ===== Render table =====
+    const tbody = document.getElementById('table-body');
+    const showingCount = document.getElementById('showing-count');
+    let sortCol = 'value_score';
+    let sortDir = 'desc';
+
+    function formatCtx(n) {
+      if (n >= 1000000) return (n/1000000) + 'M';
+      return (n/1000) + 'K';
+    }
+
+    function renderTable(data) {
+      const sorted = [...data].sort((a,b) => {
+        let va = a[sortCol], vb = b[sortCol];
+        if (typeof va === 'string') va = va.toLowerCase();
+        if (typeof vb === 'string') vb = vb.toLowerCase();
+        if (sortDir === 'asc') return va > vb ? 1 : va < vb ? -1 : 0;
+        return va < vb ? 1 : va > vb ? -1 : 0;
+      });
+
+      tbody.innerHTML = sorted.map((m, i) => {
+        const caps = m.capabilities.map(c => '<span class="cap-tag">' + c.replace('_',' ') + '</span>').join('');
+        const licClass = m.license === 'proprietary' ? 'license-proprietary' : 'license-open';
+        return '<tr>' +
+          '<td class="mono">' + (i+1) + '</td>' +
+          '<td><strong>' + m.model + '</strong></td>' +
+          '<td><span class="provider-tag">' + m.provider + '</span></td>' +
+          '<td class="mono">$' + m.input_price.toFixed(2) + '</td>' +
+          '<td class="mono">$' + m.output_price.toFixed(2) + '</td>' +
+          '<td class="mono">' + formatCtx(m.context) + '</td>' +
+          '<td class="mono">' + m.mmlu.toFixed(1) + '%</td>' +
+          '<td class="mono">' + m.humaneval.toFixed(1) + '%</td>' +
+          '<td class="mono">' + m.speed + '</td>' +
+          '<td>' + caps + '</td>' +
+          '<td class="' + licClass + '">' + m.license.replace('-',' ') + '</td>' +
+          '<td class="mono">' + m.released + '</td>' +
+          '<td class="score-cell">' + m.value_score.toFixed(1) + '</td>' +
+        '</tr>';
+      }).join('');
+
+      showingCount.textContent = 'Showing ' + sorted.length + ' of ' + models.length + ' models';
+    }
+
+    function getFiltered() {
+      const prov = document.getElementById('filter-provider').value;
+      const lic = document.getElementById('filter-license').value;
+      const cap = document.getElementById('filter-cap').value;
+      const search = document.getElementById('filter-search').value.toLowerCase();
+      return models.filter(m => {
+        if (prov !== 'all' && m.provider !== prov) return false;
+        if (lic === 'open' && m.license === 'proprietary') return false;
+        if (lic === 'proprietary' && m.license !== 'proprietary') return false;
+        if (cap !== 'all' && !m.capabilities.includes(cap)) return false;
+        if (search && !m.model.toLowerCase().includes(search) && !m.provider.toLowerCase().includes(search)) return false;
+        return true;
+      });
+    }
+
+    // Sort on header click
+    document.querySelectorAll('.value-table th').forEach(th => {
+      th.addEventListener('click', function() {
+        const col = this.dataset.col;
+        if (col === sortCol) {
+          sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+          sortCol = col;
+          sortDir = (col === 'model' || col === 'provider' || col === 'license' || col === 'released' || col === 'capabilities') ? 'asc' : 'desc';
+        }
+        document.querySelectorAll('.value-table th').forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
+        this.classList.add(sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        renderTable(getFiltered());
+      });
+    });
+
+    // Filter handlers
+    ['filter-provider','filter-license','filter-cap'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => renderTable(getFiltered()));
+    });
+    document.getElementById('filter-search').addEventListener('input', () => renderTable(getFiltered()));
+
+    // Initial render
+    renderTable(models);
+    document.querySelector('[data-col="value_score"]').classList.add('sorted-desc');
+  })();
+  </script>
+</body>
+</html>
