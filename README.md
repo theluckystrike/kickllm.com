@@ -1,34 +1,36 @@
-# LLM Cost Calculator — Estimate API Pricing for GPT-4, Claude, Gemini & More
+# KickLLM -- LLM API Cost Calculator & Provider Comparison
 
-**[Calculate Costs →](https://kickllm.com)** | [About](https://kickllm.com/about.html) | [Blog](https://kickllm.com/blog/)
+**[-> Use KickLLM (live tool)](https://kickllm.com/)**
 
-LLM Cost Calculator helps you estimate and compare API costs across 14 large language models including GPT-4, Claude, Gemini, Llama, and Mistral. Enter your expected token usage, see real-time pricing breakdowns, and visualize cost comparisons with interactive bar charts. Supports per-conversation mode for granular budgeting. Essential for any team running LLM-powered features in production.
+KickLLM is a free LLM API cost calculator that compares pricing across all major providers -- Anthropic (Claude), OpenAI (GPT-4), Google (Gemini), Meta (Llama via Groq), and Mistral. Calculate monthly spend, per-conversation costs, and self-hosting break-even points with real pricing data.
 
 ## Features
 
-- **14 LLM models with real pricing data** — GPT-4, GPT-3.5, Claude 3, Gemini, Llama, Mistral, and more
-- **Interactive bar chart visualization** — compare costs across models at a glance
-- **Per-conversation cost mode** — estimate costs for individual chat sessions
-- **Input/output token split** — separate pricing for prompt and completion tokens
-- **Monthly and annual projections** — budget planning for production workloads
+- Monthly cost calculator with configurable request volume and token counts
+- Per-conversation cost breakdown for multi-turn chat applications
+- Self-hosting break-even analysis comparing API vs. GPU infrastructure costs
+- Real pricing data for 15+ models across 5 providers
+- Interactive comparison table sorted by total cost
+- Input/output token ratio slider for accurate estimates
+- 100% client-side -- your data never leaves your browser
+- Open source -- inspect the code yourself
 
-## How It Works
+## Tech Stack
 
-Select the models you want to compare, then enter your expected usage in tokens per request and requests per day. The calculator applies each model's actual per-token pricing (input and output rates) and displays a side-by-side cost comparison. Switch to per-conversation mode to estimate costs for a single chat session. The bar chart updates in real time as you adjust parameters. All calculations run in your browser.
+- Vanilla JavaScript (no frameworks, no build step)
+- Static HTML hosted on GitHub Pages
+- Cloudflare DNS + SSL
+- Zero dependencies, zero tracking, zero cookies
 
-## Built With
+## Part of Zovo Tools
 
-- Vanilla JavaScript (no frameworks, no dependencies)
-- Client-side only — your data never leaves your browser
+KickLLM is part of [Zovo Tools](https://zovo.one/tools) -- a collection of free developer tools.
 
-
-- [ML Model Comparison](https://lockml.com) — compare model capabilities alongside costs
-- [AI Model Database](https://gpt0x.com) — detailed specs for 40+ AI models
-- [Tensor Shape Calculator](https://heytensor.com) — plan your model architecture dimensions
-
-## Contributing
-
-Found a bug or have a feature request? [Open an issue](https://github.com/theluckystrike/kickllm.com/issues).
+**Other tools in the network:**
+- [EpochPilot](https://epochpilot.com) -- 30+ timestamp and timezone tools
+- [HeyTensor](https://heytensor.com) -- PyTorch tensor shape calculator
+- [LochBot](https://lochbot.com) -- Prompt injection vulnerability checker
+- [KappaKit](https://kappakit.com) -- Developer toolkit (Base64, JWT, hash, UUID)
 
 ## License
 
