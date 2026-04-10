@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Token Counter — Estimate Tokens for GPT &amp; Claude | KickLLM</title>
+  <meta name="description" content="Estimate token count for any text. Understand tokenization for GPT, Claude, and Llama. Calculate API costs from token estimates.">
+  <link rel="canonical" href="https://kickllm.com/tools/token-counter.html">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/tools/token-counter.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/token-counter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LLM Token Counter — Estimate Tokens for GPT &amp; Claude | KickLLM">
+  <meta property="og:description" content="Estimate token count for any text. Understand tokenization for GPT, Claude, and Llama.">
+  <meta property="og:url" content="https://kickllm.com/tools/token-counter.html">
+  <meta property="og:site_name" content="KickLLM">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Token Counter">
+  <meta name="twitter:description" content="Estimate token count for any text. Understand tokenization for GPT, Claude, and Llama.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LLM Token Counter — KickLLM",
+    "url": "https://kickllm.com/tools/token-counter.html",
+    "description": "Estimate token count for any text. Understand tokenization for GPT, Claude, and Llama. Calculate API costs from token estimates.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "datePublished": "2026-04-10",
+    "dateModified": "2026-04-10"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How many tokens is 1,000 words?", "acceptedAnswer": { "@type": "Answer", "text": "In English, 1,000 words is approximately 1,300 to 1,500 tokens depending on the tokenizer and vocabulary complexity. Technical text with code snippets or specialized terms may produce more tokens. A rough rule of thumb is 1 word equals 1.3 tokens for English text." } },
+      { "@type": "Question", "name": "What is a token in LLM APIs?", "acceptedAnswer": { "@type": "Answer", "text": "A token is a chunk of text that the model processes as a single unit. Tokens can be whole words, parts of words, or individual characters. Common English words like 'the' or 'and' are single tokens. Longer or rarer words get split into multiple tokens. Spaces and punctuation are also tokenized." } },
+      { "@type": "Question", "name": "Do GPT and Claude use the same tokenizer?", "acceptedAnswer": { "@type": "Answer", "text": "No. GPT models use OpenAI's tiktoken (cl100k_base for GPT-4), while Claude uses a proprietary tokenizer. The same text may produce different token counts across providers, typically within a 10-15% range. Always check the specific provider's tokenizer for accurate cost estimates." } },
+      { "@type": "Question", "name": "How do I count tokens before making an API call?", "acceptedAnswer": { "@type": "Answer", "text": "For OpenAI, use the tiktoken Python library or the online tokenizer tool. For Claude, use Anthropic's token counting API endpoint. For quick estimates, divide your character count by 4 for English text. JSON and code typically use 20-30% more tokens than plain English text." } },
+      { "@type": "Question", "name": "Why does code use more tokens than English text?", "acceptedAnswer": { "@type": "Answer", "text": "Code uses more tokens because variable names, syntax characters, and indentation each consume tokens. A single line like 'console.log(result)' uses 6-8 tokens. Camel case and snake case identifiers get split into multiple tokens. Minified code uses fewer tokens than formatted code." } }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro ✦</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>Token Counter</span></nav>
+      <h1>LLM Token Counter</h1>
+      <p>Understand tokenization and estimate token counts for GPT, Claude, Llama, and other models.</p>
+    </div>
+
+    <section style="max-width:720px;margin:2rem auto;">
+      <h2>How LLM Tokenization Works</h2>
+      <p>Every LLM API charges based on tokens, not words or characters. Understanding tokenization is essential for accurate cost estimation and optimizing your API spend. A token is the fundamental unit of text that a language model processes. Modern LLMs use subword tokenization algorithms like Byte Pair Encoding (BPE) that split text into variable-length chunks based on frequency patterns learned from training data.</p>
+      <p>Common English words like "the," "is," and "for" are typically single tokens. Less common words get split into pieces: "tokenization" might become ["token", "ization"], consuming 2 tokens instead of 1. Very rare words, technical terms, and non-English text often break down further. Whitespace and punctuation are also tokenized, though many tokenizers attach leading spaces to the following token rather than treating them separately.</p>
+      <p>The practical implication is that token count does not map linearly to word count or character count. However, useful rules of thumb exist for estimation purposes.</p>
+
+      <h2>Token Estimation Rules</h2>
+      <p>For quick estimates without running text through a tokenizer, these approximations work well across most modern LLMs.</p>
+      <p><strong>English text:</strong> 1 token is approximately 4 characters or 0.75 words. Equivalently, 1,000 words of English prose produces roughly 1,300 to 1,500 tokens. This ratio holds for well-written content with standard vocabulary. Academic papers and technical documentation trend toward the higher end due to specialized terminology.</p>
+      <p><strong>Code:</strong> Programming languages use 20-30% more tokens per character than English text. This is because variable names, operators, brackets, and indentation all consume tokens. Python is relatively token-efficient due to its minimal syntax, while languages like Java and TypeScript tend to be more token-heavy. A 100-line Python function typically uses 800-1,200 tokens, while the equivalent Java code might use 1,200-1,800 tokens.</p>
+      <p><strong>JSON and structured data:</strong> JSON is token-expensive because of quotation marks, colons, commas, and brackets. A JSON object with 10 key-value pairs uses roughly 80-120 tokens, compared to 30-50 tokens for the same information in plain text. If your API responses include large JSON payloads, consider requesting condensed formats or using shorter key names.</p>
+      <p><strong>Non-English languages:</strong> Languages with non-Latin scripts (Chinese, Japanese, Korean, Arabic) typically use 2-3x more tokens per character than English because the tokenizer vocabulary was primarily trained on English text. A 500-character Chinese passage may use 700-1,000 tokens compared to 125-150 tokens for 500 English characters.</p>
+
+      <h2>Differences Between Tokenizers</h2>
+      <p>Different LLM providers use different tokenizers, which means the same text produces different token counts across providers. OpenAI's GPT-4 models use the cl100k_base tokenizer (part of the tiktoken library) with a vocabulary of approximately 100,000 tokens. Claude uses a proprietary tokenizer that Anthropic has not publicly documented in the same detail, though it produces comparable token counts for English text.</p>
+      <p>Llama models use a SentencePiece-based tokenizer with a 32,000-token vocabulary, which is smaller than GPT-4's vocabulary. This means Llama tends to produce slightly more tokens for the same text, especially for rare words and technical terms. In practice, the difference between tokenizers is usually within 10-15% for English text, but can be larger for multilingual content or specialized domains.</p>
+      <p>For accurate cost estimation, always use the specific provider's tokenizer. OpenAI provides tiktoken as an open-source Python library. Anthropic offers a token counting endpoint in their API. For Llama, the tokenizer is included in the model weights download. When precision is not critical, using the 1 token per 4 characters rule provides a reasonable estimate across all providers.</p>
+
+      <h2>From Token Counts to API Costs</h2>
+      <p>Once you know your token count, calculating cost is straightforward. Multiply your input tokens by the provider's input rate and your output tokens by the output rate. For example, a request with 2,000 input tokens and 500 output tokens on Claude Sonnet costs: (2,000 / 1,000,000 * $3) + (500 / 1,000,000 * $15) = $0.006 + $0.0075 = $0.0135 per request. At 10,000 requests per day, that totals $135/day or roughly $4,050/month. Use the <a href="/">KickLLM calculator</a> to model these scenarios interactively with real pricing data from all providers.</p>
+    </section>
+
+    <section class="faq-section" style="max-width:720px;margin:2rem auto;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How many tokens is 1,000 words?</summary>
+        <p>In English, 1,000 words is approximately 1,300 to 1,500 tokens depending on the tokenizer and vocabulary complexity. Technical text with code snippets or specialized terms may produce more tokens. A rough rule of thumb is 1 word equals 1.3 tokens for English text.</p>
+      </details>
+      <details>
+        <summary>What is a token in LLM APIs?</summary>
+        <p>A token is a chunk of text that the model processes as a single unit. Tokens can be whole words, parts of words, or individual characters. Common English words like "the" or "and" are single tokens. Longer or rarer words get split into multiple tokens. Spaces and punctuation are also tokenized.</p>
+      </details>
+      <details>
+        <summary>Do GPT and Claude use the same tokenizer?</summary>
+        <p>No. GPT models use OpenAI's tiktoken (cl100k_base for GPT-4), while Claude uses a proprietary tokenizer. The same text may produce different token counts across providers, typically within a 10-15% range. Always check the specific provider's tokenizer for accurate cost estimates.</p>
+      </details>
+      <details>
+        <summary>How do I count tokens before making an API call?</summary>
+        <p>For OpenAI, use the tiktoken Python library or the online tokenizer tool. For Claude, use Anthropic's token counting API endpoint. For quick estimates, divide your character count by 4 for English text. JSON and code typically use 20-30% more tokens than plain English text.</p>
+      </details>
+      <details>
+        <summary>Why does code use more tokens than English text?</summary>
+        <p>Code uses more tokens because variable names, syntax characters, and indentation each consume tokens. A single line like "console.log(result)" uses 6-8 tokens. Camel case and snake case identifiers get split into multiple tokens. Minified code uses fewer tokens than formatted code.</p>
+      </details>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;">
+      <h2>Related Guides</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;">
+        <a href="/tools/llm-api-cost-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">LLM API Cost Calculator Guide</a>
+        <a href="/tools/claude-api-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">Claude API Pricing Guide</a>
+        <a href="/tools/gpt-4-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">GPT-4 API Pricing Guide</a>
+      </div>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;">
+      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="/about.html">Michael Lip</a>. Pricing data updated regularly from official provider pages.</p>
+    </section>
+  </main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&utm_medium=satellite&utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever →</a>
+        <div class="footer-copy">© 2026 <a href="https://zovo.one">Zovo</a> · 47/500 founding spots</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex — A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+            <a href="https://claudkit.com">ClaudKit — API</a>
+            <a href="https://enhio.com">Enhio — Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+            <a href="https://gen8x.com">Gen8X — Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X — AI Models</a>
+            <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+            <a href="https://kappafy.com">Kappafy — JSON</a>
+            <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen — Image Tools</a>
+            <a href="https://lochbot.com">LochBot — Security</a>
+            <a href="https://lockml.com">LockML — ML Compare</a>
+            <a href="https://ml3x.com">ML3X — Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+  <script src="/assets/js/share.js"></script>
+</body>
+</html>
