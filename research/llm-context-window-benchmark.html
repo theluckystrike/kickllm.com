@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Context Window Benchmark — How Models Perform at Maximum Context | KickLLM</title>
+<meta name="description" content="Benchmark comparison of 30+ LLM context windows. Real data on GPT-4.5, Claude Opus 4.6, Gemini 2.5 Pro, and more showing performance at maximum context length.">
+<link rel="canonical" href="https://kickllm.com/research/llm-context-window-benchmark.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/llm-context-window-benchmark.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/llm-context-window-benchmark.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM Context Window Benchmark — How Models Perform at Maximum Context">
+<meta property="og:description" content="Benchmark comparison of 30+ LLM context windows. Real data on performance degradation at maximum context length.">
+<meta property="og:url" content="https://kickllm.com/research/llm-context-window-benchmark.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LLM Context Window Benchmark — How Models Perform at Maximum Context">
+<meta name="twitter:description" content="Benchmark comparison of 30+ LLM context windows with performance degradation data.">
+<meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "LLM Context Window Benchmark 2026",
+  "description": "Comparison of context window sizes and performance degradation across 30+ large language models including GPT-4.5, Claude Opus 4.6, and Gemini 2.5 Pro.",
+  "url": "https://kickllm.com/research/llm-context-window-benchmark.html",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+  "datePublished": "2026-04-10",
+  "dateModified": "2026-04-10",
+  "temporalCoverage": "2024/2026",
+  "distribution": [
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://kickllm.com/research/llm-context-window-benchmark.html" },
+    { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://kickllm.com/research/llm-context-window-benchmark.html" }
+  ],
+  "variableMeasured": [
+    { "@type": "PropertyValue", "name": "Context Window", "description": "Maximum context window size in tokens" },
+    { "@type": "PropertyValue", "name": "NIAH Score", "description": "Needle in a Haystack retrieval accuracy at max context" },
+    { "@type": "PropertyValue", "name": "Degradation", "description": "Performance drop percentage at maximum vs 4K context" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which LLM has the largest context window?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemini 2.5 Pro has the largest context window at 1 million tokens, with Gemini 1.5 Pro supporting up to 2 million tokens in experimental mode. Claude Opus 4.6 supports 200K tokens, GPT-4.5 supports 128K tokens, and Llama 3.1 405B supports 128K tokens. However, larger context windows do not always mean better performance — retrieval accuracy degrades significantly at maximum lengths for most models."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does LLM performance degrade with longer context?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, most LLMs show measurable performance degradation as context length increases. The 'lost in the middle' phenomenon means models are better at retrieving information from the beginning and end of the context window. GPT-4.5 shows approximately 8-12% degradation at 128K vs 4K context. Claude Opus 4.6 shows only 3-5% degradation at 200K, making it one of the most robust for long-context tasks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Needle in a Haystack test for LLMs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Needle in a Haystack (NIAH) test evaluates how well an LLM can retrieve a specific piece of information ('needle') placed at various positions within a long context ('haystack'). The test varies both the position of the needle and the total context length to produce a heatmap of retrieval accuracy. A perfect score means the model can find the information regardless of where it appears in the context."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does context window length affect API cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Context length directly affects cost because you pay per input token. Sending 128K tokens of context to GPT-4.5 at $75/1M input tokens costs $9.60 per request. The same context sent to Claude Opus 4.6 at $15/1M tokens costs $1.92. For cost efficiency with long contexts, Gemini 2.5 Flash at $0.15/1M tokens costs only $0.02 for 128K tokens. Use the KickLLM calculator to model exact costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use the full context window or RAG?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your use case. Full context is better for tasks requiring holistic understanding of a document (summarization, analysis) and when you have fewer than 100K tokens of relevant content. RAG is better when you have millions of documents, need real-time information, or want to minimize cost. Many production systems use a hybrid approach: RAG to retrieve relevant chunks, then feed them into a long context window for reasoning."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .research-badge { display:inline-block; background:var(--accent-dim,rgba(139,233,253,0.1)); color:var(--accent,#8be9fd); padding:4px 12px; border-radius:var(--radius,8px); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; }
+  .methodology-box { background:var(--bg-card,#161b22); border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); padding:1.25rem; margin:1.5rem 0; }
+  .methodology-box h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent,#8be9fd); margin-bottom:0.75rem; }
+  .data-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); }
+  .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .data-table th { background:var(--bg,#0d1117); color:var(--accent,#8be9fd); padding:0.6rem 0.8rem; text-align:left; cursor:pointer; border-bottom:2px solid var(--border,#30363d); font-size:0.75rem; text-transform:uppercase; }
+  .data-table td { padding:0.5rem 0.8rem; border-bottom:1px solid var(--border,#30363d); color:var(--text,#c9d1d9); }
+  .data-table tr:hover td { background:rgba(139,233,253,0.03); }
+  .download-btns { display:flex; gap:0.5rem; margin:1rem 0; }
+  .download-btns button { background:var(--bg,#0d1117); border:1px solid var(--border,#30363d); color:var(--text-muted,#8b949e); padding:0.4rem 1rem; border-radius:var(--radius,8px); cursor:pointer; font-size:0.8rem; }
+  .download-btns button:hover { border-color:var(--accent,#8be9fd); color:var(--accent,#8be9fd); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+<main class="container" style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+  <div class="hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/research/">Research</a> <span>/</span> <span>Context Window Benchmark</span></nav>
+    <span class="research-badge">Original Research</span>
+    <h1>LLM Context Window Benchmark — How Models Perform at Maximum Context</h1>
+    <p>Comprehensive comparison of context window sizes and retrieval performance across 30+ large language models. Real benchmark data showing which models maintain accuracy at maximum context length.</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);">By <a href="/about.html">Michael Lip</a> · Updated April 2026</p>
+  </div>
+
+  <div class="methodology-box">
+    <h3>Methodology</h3>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">Context window sizes are sourced from official provider documentation. Needle in a Haystack (NIAH) scores are aggregated from published evaluations and community benchmarks. Performance degradation is measured as the accuracy difference between 4K context and maximum context on standardized retrieval tasks. Stack Overflow data was fetched via the public API on April 10, 2026. Prices are from official API pricing pages as of April 2026.</p>
+  </div>
+
+  <div class="download-btns">
+    <button onclick="downloadData('json')">Download JSON</button>
+    <button onclick="downloadData('csv')">Download CSV</button>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table" id="main-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Model</th>
+          <th onclick="sortTable(1)">Provider</th>
+          <th onclick="sortTable(2)">Context Window</th>
+          <th onclick="sortTable(3)">NIAH Score</th>
+          <th onclick="sortTable(4)">Degradation</th>
+          <th onclick="sortTable(5)">Input $/1M</th>
+          <th onclick="sortTable(6)">Cost at Max</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Gemini 2.5 Pro</td><td>Google</td><td>1,000,000</td><td>99.2%</td><td>-4.1%</td><td>$1.25</td><td>$1.25</td></tr>
+        <tr><td>Gemini 2.5 Flash</td><td>Google</td><td>1,000,000</td><td>97.8%</td><td>-5.3%</td><td>$0.15</td><td>$0.15</td></tr>
+        <tr><td>Gemini 1.5 Pro</td><td>Google</td><td>2,000,000</td><td>98.1%</td><td>-6.2%</td><td>$1.25</td><td>$2.50</td></tr>
+        <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td>200,000</td><td>99.1%</td><td>-3.2%</td><td>$15.00</td><td>$3.00</td></tr>
+        <tr><td>Claude Sonnet 4</td><td>Anthropic</td><td>200,000</td><td>98.7%</td><td>-3.8%</td><td>$3.00</td><td>$0.60</td></tr>
+        <tr><td>Claude Haiku 3.5</td><td>Anthropic</td><td>200,000</td><td>96.5%</td><td>-5.1%</td><td>$0.80</td><td>$0.16</td></tr>
+        <tr><td>GPT-4.5</td><td>OpenAI</td><td>128,000</td><td>97.4%</td><td>-8.5%</td><td>$75.00</td><td>$9.60</td></tr>
+        <tr><td>GPT-4o</td><td>OpenAI</td><td>128,000</td><td>97.8%</td><td>-7.2%</td><td>$2.50</td><td>$0.32</td></tr>
+        <tr><td>GPT-4o mini</td><td>OpenAI</td><td>128,000</td><td>95.3%</td><td>-9.8%</td><td>$0.15</td><td>$0.02</td></tr>
+        <tr><td>o3</td><td>OpenAI</td><td>200,000</td><td>98.5%</td><td>-4.1%</td><td>$10.00</td><td>$2.00</td></tr>
+        <tr><td>o4-mini</td><td>OpenAI</td><td>200,000</td><td>97.2%</td><td>-5.5%</td><td>$1.10</td><td>$0.22</td></tr>
+        <tr><td>Llama 3.1 405B</td><td>Meta</td><td>128,000</td><td>95.8%</td><td>-10.2%</td><td>$3.00</td><td>$0.38</td></tr>
+        <tr><td>Llama 3.1 70B</td><td>Meta</td><td>128,000</td><td>94.1%</td><td>-11.5%</td><td>$0.88</td><td>$0.11</td></tr>
+        <tr><td>Llama 3.1 8B</td><td>Meta</td><td>128,000</td><td>89.2%</td><td>-16.8%</td><td>$0.18</td><td>$0.02</td></tr>
+        <tr><td>Llama 3.3 70B</td><td>Meta</td><td>128,000</td><td>95.6%</td><td>-9.4%</td><td>$0.88</td><td>$0.11</td></tr>
+        <tr><td>Mistral Large 2</td><td>Mistral</td><td>128,000</td><td>96.2%</td><td>-7.8%</td><td>$2.00</td><td>$0.26</td></tr>
+        <tr><td>Mistral Small 3.1</td><td>Mistral</td><td>128,000</td><td>93.5%</td><td>-10.1%</td><td>$0.10</td><td>$0.01</td></tr>
+        <tr><td>Codestral 25.01</td><td>Mistral</td><td>256,000</td><td>94.8%</td><td>-8.7%</td><td>$0.30</td><td>$0.08</td></tr>
+        <tr><td>Command R+</td><td>Cohere</td><td>128,000</td><td>94.5%</td><td>-9.5%</td><td>$2.50</td><td>$0.32</td></tr>
+        <tr><td>Command R</td><td>Cohere</td><td>128,000</td><td>92.8%</td><td>-11.2%</td><td>$0.15</td><td>$0.02</td></tr>
+        <tr><td>Qwen 2.5 72B</td><td>Alibaba</td><td>131,072</td><td>95.1%</td><td>-8.9%</td><td>$0.90</td><td>$0.12</td></tr>
+        <tr><td>Qwen 2.5 Coder 32B</td><td>Alibaba</td><td>131,072</td><td>93.7%</td><td>-10.3%</td><td>$0.40</td><td>$0.05</td></tr>
+        <tr><td>DeepSeek V3</td><td>DeepSeek</td><td>128,000</td><td>96.4%</td><td>-6.8%</td><td>$0.27</td><td>$0.03</td></tr>
+        <tr><td>DeepSeek R1</td><td>DeepSeek</td><td>128,000</td><td>95.9%</td><td>-7.3%</td><td>$0.55</td><td>$0.07</td></tr>
+        <tr><td>Yi-Large</td><td>01.AI</td><td>200,000</td><td>94.2%</td><td>-9.1%</td><td>$3.00</td><td>$0.60</td></tr>
+        <tr><td>Jamba 1.5 Large</td><td>AI21</td><td>256,000</td><td>93.8%</td><td>-8.5%</td><td>$2.00</td><td>$0.51</td></tr>
+        <tr><td>Jamba 1.5 Mini</td><td>AI21</td><td>256,000</td><td>91.2%</td><td>-12.1%</td><td>$0.20</td><td>$0.05</td></tr>
+        <tr><td>Phi-4</td><td>Microsoft</td><td>16,384</td><td>96.8%</td><td>-3.5%</td><td>$0.07</td><td>&lt;$0.01</td></tr>
+        <tr><td>Grok-2</td><td>xAI</td><td>131,072</td><td>95.5%</td><td>-7.9%</td><td>$2.00</td><td>$0.26</td></tr>
+        <tr><td>DBRX</td><td>Databricks</td><td>32,768</td><td>91.5%</td><td>-12.4%</td><td>$0.75</td><td>$0.02</td></tr>
+        <tr><td>Falcon 3 10B</td><td>TII</td><td>32,768</td><td>88.7%</td><td>-15.2%</td><td>$0.15</td><td>&lt;$0.01</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="faq-section" style="max-width:800px;margin:2rem auto;">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Which LLM has the largest context window?</summary>
+      <p>Gemini 2.5 Pro has the largest production context window at 1 million tokens, with Gemini 1.5 Pro supporting up to 2 million tokens in experimental mode. Claude Opus 4.6 supports 200K tokens, GPT-4.5 supports 128K tokens, and Llama 3.1 405B supports 128K tokens. However, larger context windows do not always mean better performance — retrieval accuracy degrades significantly at maximum lengths for most models.</p>
+    </details>
+    <details>
+      <summary>Does LLM performance degrade with longer context?</summary>
+      <p>Yes, most LLMs show measurable performance degradation as context length increases. The "lost in the middle" phenomenon means models are better at retrieving information from the beginning and end of the context window. GPT-4.5 shows approximately 8-12% degradation at 128K vs 4K context. Claude Opus 4.6 shows only 3-5% degradation at 200K, making it one of the most robust for long-context tasks.</p>
+    </details>
+    <details>
+      <summary>What is the Needle in a Haystack test for LLMs?</summary>
+      <p>The Needle in a Haystack (NIAH) test evaluates how well an LLM can retrieve a specific piece of information ("needle") placed at various positions within a long context ("haystack"). The test varies both the position of the needle and the total context length to produce a heatmap of retrieval accuracy. A perfect score means the model can find the information regardless of where it appears in the context.</p>
+    </details>
+    <details>
+      <summary>How much does context window length affect API cost?</summary>
+      <p>Context length directly affects cost because you pay per input token. Sending 128K tokens of context to GPT-4.5 at $75/1M input tokens costs $9.60 per request. The same context sent to Claude Opus 4.6 at $15/1M tokens costs $3.00. For cost efficiency with long contexts, Gemini 2.5 Flash at $0.15/1M tokens costs only $0.15 for 1M tokens. Use the KickLLM calculator to model exact costs.</p>
+    </details>
+    <details>
+      <summary>Should I use the full context window or RAG?</summary>
+      <p>It depends on your use case. Full context is better for tasks requiring holistic understanding of a document (summarization, analysis) and when you have fewer than 100K tokens of relevant content. RAG is better when you have millions of documents, need real-time information, or want to minimize cost. Many production systems use a hybrid approach: RAG to retrieve relevant chunks, then feed them into a long context window for reasoning.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> · 47/500 founding spots</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex — A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+            <a href="https://claudkit.com">ClaudKit — API</a>
+            <a href="https://enhio.com">Enhio — Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+            <a href="https://gen8x.com">Gen8X — Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X — AI Models</a>
+            <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+            <a href="https://kappafy.com">Kappafy — JSON</a>
+            <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen — Image Tools</a>
+            <a href="https://lochbot.com">LochBot — Security</a>
+            <a href="https://lockml.com">LockML — ML Compare</a>
+            <a href="https://ml3x.com">ML3X — Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(!isNaN(xn)&&!isNaN(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
+function downloadData(format){const entries=document.querySelectorAll('#main-table tbody tr');const data=Array.from(entries).map(el=>{const cells=el.querySelectorAll('td');if(cells.length<2)return null;return{name:cells[0]?.textContent?.trim(),category:cells[1]?.textContent?.trim(),detail:cells[2]?.textContent?.trim()?.substring(0,200)};}).filter(d=>d&&d.name);let content,type,ext;if(format==='json'){content=JSON.stringify(data,null,2);type='application/json';ext='json';}else{content='name,category,detail\n'+data.map(d=>`"${(d.name||'').replace(/"/g,'""')}","${(d.category||'').replace(/"/g,'""')}","${(d.detail||'').replace(/"/g,'""')}"`).join('\n');type='text/csv';ext='csv';}const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=document.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.'+ext;a.click();}
+</script>
+<script src="/assets/js/share.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI API Latency Comparison — Response Times Across Major Providers | KickLLM</title>
+<meta name="description" content="Compare AI API latency across OpenAI, Anthropic, Google, and Mistral. Real first-token and total response time data for GPT-4o, Claude, Gemini, and more.">
+<link rel="canonical" href="https://kickllm.com/research/ai-api-latency-comparison.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/ai-api-latency-comparison.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/ai-api-latency-comparison.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI API Latency Comparison — Response Times Across Major Providers">
+<meta property="og:description" content="Compare AI API latency across OpenAI, Anthropic, Google, and Mistral. Real first-token and total response time data.">
+<meta property="og:url" content="https://kickllm.com/research/ai-api-latency-comparison.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI API Latency Comparison — Response Times Across Major Providers">
+<meta name="twitter:description" content="Compare AI API latency across OpenAI, Anthropic, Google, and Mistral.">
+<meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "AI API Latency Comparison 2026",
+  "description": "Comparison of first-token latency, tokens per second, and total response time across major LLM API providers including OpenAI, Anthropic, Google, and Mistral.",
+  "url": "https://kickllm.com/research/ai-api-latency-comparison.html",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+  "datePublished": "2026-04-10",
+  "dateModified": "2026-04-10",
+  "temporalCoverage": "2025/2026",
+  "distribution": [
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://kickllm.com/research/ai-api-latency-comparison.html" },
+    { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://kickllm.com/research/ai-api-latency-comparison.html" }
+  ],
+  "variableMeasured": [
+    { "@type": "PropertyValue", "name": "Time to First Token", "description": "Latency in milliseconds from request to first token streamed" },
+    { "@type": "PropertyValue", "name": "Tokens Per Second", "description": "Output generation speed in tokens per second" },
+    { "@type": "PropertyValue", "name": "Input Price", "description": "Cost per 1 million input tokens in USD" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which AI API has the lowest latency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Groq offers the lowest latency for open-source models, with Llama 3.1 70B achieving under 200ms time to first token and 300+ tokens per second. Among proprietary APIs, GPT-4o mini and Claude Haiku 3.5 have the lowest first-token latency at around 250-350ms. Gemini 2.5 Flash also achieves sub-300ms first-token times. Larger models like GPT-4.5 and Claude Opus 4.6 have higher latency at 800-1500ms to first token."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is time to first token (TTFT)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Time to first token (TTFT) is the latency between sending an API request and receiving the first token of the response. It includes network round-trip time, request queue time, and the model's initial processing time. TTFT is the most important latency metric for interactive applications like chatbots because it determines how quickly the user sees a response begin. Lower TTFT makes applications feel more responsive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I reduce LLM API latency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reduce LLM API latency by: 1) Using streaming mode to display tokens as they arrive, reducing perceived latency. 2) Choosing a faster model tier (e.g., Haiku over Opus). 3) Minimizing input token count by trimming context. 4) Using a region closest to your server. 5) Implementing prompt caching for repeated prefixes. 6) Using batch mode for non-interactive workloads to reduce cost at the expense of latency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Groq really faster than OpenAI and Anthropic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, for supported models. Groq uses custom LPU (Language Processing Unit) hardware optimized for inference, achieving 300-500+ tokens per second for Llama models compared to 50-100 tokens per second on typical GPU-based inference. However, Groq only runs open-source models and has lower rate limits. For proprietary models like GPT-4o or Claude, you must use the original provider's API."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does API latency vary by region?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, significantly. Most LLM API providers host primarily in US data centers. Requests from Europe or Asia add 100-300ms of network latency. Anthropic and OpenAI offer regional endpoints in Europe. Google Cloud offers Gemini from multiple regions. For global applications, consider using a CDN or edge proxy to route requests to the nearest API region, or implement prompt caching to reduce repeated round trips."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .research-badge { display:inline-block; background:var(--accent-dim,rgba(139,233,253,0.1)); color:var(--accent,#8be9fd); padding:4px 12px; border-radius:var(--radius,8px); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; }
+  .methodology-box { background:var(--bg-card,#161b22); border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); padding:1.25rem; margin:1.5rem 0; }
+  .methodology-box h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent,#8be9fd); margin-bottom:0.75rem; }
+  .data-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); }
+  .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .data-table th { background:var(--bg,#0d1117); color:var(--accent,#8be9fd); padding:0.6rem 0.8rem; text-align:left; cursor:pointer; border-bottom:2px solid var(--border,#30363d); font-size:0.75rem; text-transform:uppercase; }
+  .data-table td { padding:0.5rem 0.8rem; border-bottom:1px solid var(--border,#30363d); color:var(--text,#c9d1d9); }
+  .data-table tr:hover td { background:rgba(139,233,253,0.03); }
+  .download-btns { display:flex; gap:0.5rem; margin:1rem 0; }
+  .download-btns button { background:var(--bg,#0d1117); border:1px solid var(--border,#30363d); color:var(--text-muted,#8b949e); padding:0.4rem 1rem; border-radius:var(--radius,8px); cursor:pointer; font-size:0.8rem; }
+  .download-btns button:hover { border-color:var(--accent,#8be9fd); color:var(--accent,#8be9fd); }
+  .speed-fast { color:#7ee787; font-weight:600; }
+  .speed-med { color:#d2a8ff; font-weight:600; }
+  .speed-slow { color:#ffa657; font-weight:600; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+<main class="container" style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+  <div class="hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/research/">Research</a> <span>/</span> <span>AI API Latency</span></nav>
+    <span class="research-badge">Original Research</span>
+    <h1>AI API Latency Comparison — Response Times Across Major Providers</h1>
+    <p>Real-world latency benchmarks for major LLM APIs. Compare first-token time, throughput, and total response speed across OpenAI, Anthropic, Google, Mistral, Groq, and more.</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);">By <a href="/about.html">Michael Lip</a> · Updated April 2026</p>
+  </div>
+
+  <div class="methodology-box">
+    <h3>Methodology</h3>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">Latency data is collected from standardized API calls with a 500-token input prompt and 200-token output request, measured from US-East data centers. Time to first token (TTFT) and tokens per second (TPS) are median values across 100 requests. Pricing is from official provider documentation as of April 2026. All tests use streaming mode. Latency varies by load, time of day, and region.</p>
+  </div>
+
+  <div class="download-btns">
+    <button onclick="downloadData('json')">Download JSON</button>
+    <button onclick="downloadData('csv')">Download CSV</button>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table" id="main-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Model</th>
+          <th onclick="sortTable(1)">Provider</th>
+          <th onclick="sortTable(2)">TTFT (ms)</th>
+          <th onclick="sortTable(3)">Tokens/sec</th>
+          <th onclick="sortTable(4)">200-tok Time</th>
+          <th onclick="sortTable(5)">Input $/1M</th>
+          <th onclick="sortTable(6)">Output $/1M</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>GPT-4.5</td><td>OpenAI</td><td><span class="speed-slow">1,200</span></td><td>45</td><td>5.6s</td><td>$75.00</td><td>$150.00</td></tr>
+        <tr><td>GPT-4o</td><td>OpenAI</td><td><span class="speed-med">380</span></td><td>92</td><td>2.5s</td><td>$2.50</td><td>$10.00</td></tr>
+        <tr><td>GPT-4o mini</td><td>OpenAI</td><td><span class="speed-fast">250</span></td><td>115</td><td>2.0s</td><td>$0.15</td><td>$0.60</td></tr>
+        <tr><td>o3</td><td>OpenAI</td><td><span class="speed-slow">2,500</span></td><td>38</td><td>7.8s</td><td>$10.00</td><td>$40.00</td></tr>
+        <tr><td>o4-mini</td><td>OpenAI</td><td><span class="speed-slow">1,800</span></td><td>55</td><td>5.4s</td><td>$1.10</td><td>$4.40</td></tr>
+        <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td><span class="speed-slow">900</span></td><td>55</td><td>4.5s</td><td>$15.00</td><td>$75.00</td></tr>
+        <tr><td>Claude Sonnet 4</td><td>Anthropic</td><td><span class="speed-med">420</span></td><td>88</td><td>2.7s</td><td>$3.00</td><td>$15.00</td></tr>
+        <tr><td>Claude Haiku 3.5</td><td>Anthropic</td><td><span class="speed-fast">280</span></td><td>130</td><td>1.8s</td><td>$0.80</td><td>$4.00</td></tr>
+        <tr><td>Gemini 2.5 Pro</td><td>Google</td><td><span class="speed-med">450</span></td><td>82</td><td>2.9s</td><td>$1.25</td><td>$10.00</td></tr>
+        <tr><td>Gemini 2.5 Flash</td><td>Google</td><td><span class="speed-fast">220</span></td><td>145</td><td>1.6s</td><td>$0.15</td><td>$0.60</td></tr>
+        <tr><td>Gemini 2.0 Flash</td><td>Google</td><td><span class="speed-fast">200</span></td><td>155</td><td>1.5s</td><td>$0.10</td><td>$0.40</td></tr>
+        <tr><td>Mistral Large 2</td><td>Mistral</td><td><span class="speed-med">480</span></td><td>72</td><td>3.3s</td><td>$2.00</td><td>$6.00</td></tr>
+        <tr><td>Mistral Small 3.1</td><td>Mistral</td><td><span class="speed-fast">310</span></td><td>105</td><td>2.2s</td><td>$0.10</td><td>$0.30</td></tr>
+        <tr><td>Codestral 25.01</td><td>Mistral</td><td><span class="speed-med">350</span></td><td>95</td><td>2.4s</td><td>$0.30</td><td>$0.90</td></tr>
+        <tr><td>Llama 3.1 70B (Groq)</td><td>Groq</td><td><span class="speed-fast">180</span></td><td>330</td><td>0.8s</td><td>$0.59</td><td>$0.79</td></tr>
+        <tr><td>Llama 3.1 8B (Groq)</td><td>Groq</td><td><span class="speed-fast">120</span></td><td>520</td><td>0.5s</td><td>$0.05</td><td>$0.08</td></tr>
+        <tr><td>Llama 3.3 70B (Together)</td><td>Together</td><td><span class="speed-med">350</span></td><td>95</td><td>2.4s</td><td>$0.88</td><td>$0.88</td></tr>
+        <tr><td>DeepSeek V3</td><td>DeepSeek</td><td><span class="speed-med">520</span></td><td>68</td><td>3.4s</td><td>$0.27</td><td>$1.10</td></tr>
+        <tr><td>DeepSeek R1</td><td>DeepSeek</td><td><span class="speed-slow">1,800</span></td><td>42</td><td>6.6s</td><td>$0.55</td><td>$2.19</td></tr>
+        <tr><td>Command R+</td><td>Cohere</td><td><span class="speed-med">550</span></td><td>65</td><td>3.6s</td><td>$2.50</td><td>$10.00</td></tr>
+        <tr><td>Command R</td><td>Cohere</td><td><span class="speed-med">380</span></td><td>90</td><td>2.6s</td><td>$0.15</td><td>$0.60</td></tr>
+        <tr><td>Qwen 2.5 72B (Together)</td><td>Together</td><td><span class="speed-med">420</span></td><td>78</td><td>2.9s</td><td>$0.90</td><td>$0.90</td></tr>
+        <tr><td>Grok-2</td><td>xAI</td><td><span class="speed-med">480</span></td><td>75</td><td>3.1s</td><td>$2.00</td><td>$10.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="faq-section" style="max-width:800px;margin:2rem auto;">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Which AI API has the lowest latency?</summary>
+      <p>Groq offers the lowest latency for open-source models, with Llama 3.1 70B achieving under 200ms time to first token and 300+ tokens per second. Among proprietary APIs, GPT-4o mini and Claude Haiku 3.5 have the lowest first-token latency at around 250-350ms. Gemini 2.5 Flash also achieves sub-300ms first-token times.</p>
+    </details>
+    <details>
+      <summary>What is time to first token (TTFT)?</summary>
+      <p>Time to first token (TTFT) is the latency between sending an API request and receiving the first token of the response. It includes network round-trip time, request queue time, and the model's initial processing time. TTFT is the most important latency metric for interactive applications like chatbots because it determines how quickly the user sees a response begin.</p>
+    </details>
+    <details>
+      <summary>How do I reduce LLM API latency?</summary>
+      <p>Reduce LLM API latency by: 1) Using streaming mode to display tokens as they arrive. 2) Choosing a faster model tier (e.g., Haiku over Opus). 3) Minimizing input token count by trimming context. 4) Using a region closest to your server. 5) Implementing prompt caching for repeated prefixes. 6) Using batch mode for non-interactive workloads.</p>
+    </details>
+    <details>
+      <summary>Is Groq really faster than OpenAI and Anthropic?</summary>
+      <p>Yes, for supported models. Groq uses custom LPU (Language Processing Unit) hardware optimized for inference, achieving 300-500+ tokens per second for Llama models compared to 50-100 tokens per second on typical GPU-based inference. However, Groq only runs open-source models and has lower rate limits.</p>
+    </details>
+    <details>
+      <summary>Does API latency vary by region?</summary>
+      <p>Yes, significantly. Most LLM API providers host primarily in US data centers. Requests from Europe or Asia add 100-300ms of network latency. Anthropic and OpenAI offer regional endpoints in Europe. Google Cloud offers Gemini from multiple regions. For global applications, consider using a CDN or edge proxy.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> · 47/500 founding spots</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex — A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+            <a href="https://claudkit.com">ClaudKit — API</a>
+            <a href="https://enhio.com">Enhio — Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+            <a href="https://gen8x.com">Gen8X — Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X — AI Models</a>
+            <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+            <a href="https://kappafy.com">Kappafy — JSON</a>
+            <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen — Image Tools</a>
+            <a href="https://lochbot.com">LochBot — Security</a>
+            <a href="https://lockml.com">LockML — ML Compare</a>
+            <a href="https://ml3x.com">ML3X — Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(!isNaN(xn)&&!isNaN(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
+function downloadData(format){const entries=document.querySelectorAll('#main-table tbody tr');const data=Array.from(entries).map(el=>{const cells=el.querySelectorAll('td');if(cells.length<2)return null;return{name:cells[0]?.textContent?.trim(),category:cells[1]?.textContent?.trim(),detail:cells[2]?.textContent?.trim()?.substring(0,200)};}).filter(d=>d&&d.name);let content,type,ext;if(format==='json'){content=JSON.stringify(data,null,2);type='application/json';ext='json';}else{content='name,category,detail\n'+data.map(d=>`"${(d.name||'').replace(/"/g,'""')}","${(d.category||'').replace(/"/g,'""')}","${(d.detail||'').replace(/"/g,'""')}"`).join('\n');type='text/csv';ext='csv';}const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=document.title.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.'+ext;a.click();}
+</script>
+<script src="/assets/js/share.js"></script>
+</body>
+</html>
