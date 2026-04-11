@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>LLM API Cost Optimization Tips — Save 50-80% on API Costs — KickLLM</title>
+  <meta name="description" content="The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and respo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/llm-api-cost-optimization-tips.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="LLM API Cost Optimization Tips — Save 50-80% on API Costs — KickLLM">
+  <meta property="og:description" content="The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and respo">
+  <meta property="og:url" content="https://kickllm.com/answers/llm-api-cost-optimization-tips.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM API Cost Optimization Tips — Save 50-80% on API Costs — KickLLM">
+  <meta name="twitter:description" content="The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and respo">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the easiest way to reduce LLM API costs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Model routing is the easiest win: send simple queries to Gemini Flash ($0.075/$0.30) and complex ones to a premium model. This alone saves 40-60% with minimal code changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does prompt caching really save money?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Anthropic and OpenAI cache repeated prompt prefixes automatically. If your system prompt is constant across requests, you save up to 90% on input tokens for that portion after the first request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much can I save on LLM API costs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining model routing, prompt caching, response caching, and shorter prompts can reduce costs by 50-80%. A $2,700/month bill can drop to $600-$800/month with these optimizations."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>LLM API Cost Optimization Tips</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>LLM API Cost Optimization: 12 Tips to Cut Your Bill</h1>
+
+    <p><strong>The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and response caching (save 30-50% on duplicate queries). Combined, these can reduce your API bill by 50-80%.</strong></p>
+    <h2>1. Prompt Caching</h2>
+    <p>Anthropic and OpenAI automatically cache repeated prompt prefixes. If your system prompt is 2,000 tokens and you make 1,000 calls:</p>
+    <table>
+      <thead>
+        <tr><th>Approach</th><th>Input Tokens Billed</th><th>Cost (Claude Sonnet 4)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Without caching</td><td>2,000,000</td><td>$6.00</td></tr>
+        <tr><td>With prompt caching</td><td>~200,000 (90% cached)</td><td>$0.60</td></tr>
+        <tr><td><strong>Savings</strong></td><td></td><td><strong>90%</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Model Routing</h2>
+    <p>Route simple tasks to cheap models, complex tasks to premium ones:</p>
+    <pre><code># Simple router based on input length and keywords
+def route_model(prompt):
+    if len(prompt) < 200 and not any(w in prompt for w in ['analyze', 'compare', 'explain']):
+        return "gemini-2.0-flash"      # $0.075/$0.30
+    elif any(w in prompt for w in ['code', 'debug', 'review']):
+        return "claude-sonnet-4"        # $3/$15
+    else:
+        return "gpt-4o-mini"            # $0.15/$0.60</code></pre>
+
+    <h2>3. Response Caching</h2>
+    <p>Cache identical or semantically similar queries. Use embedding similarity with a threshold of 0.95+ for semantic matching.</p>
+
+    <h2>4. Shorter Prompts</h2>
+    <p>Every token in your system prompt is billed on every request. Reducing a 2,000-token system prompt to 500 tokens saves 75% on input costs for that portion.</p>
+    <table>
+      <thead>
+        <tr><th>System Prompt Size</th><th>Monthly Cost at 10K req/day (Sonnet 4)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2,000 tokens</td><td>$1800.00</td></tr>
+        <tr><td>500 tokens</td><td>$450.00</td></tr>
+        <tr><td><strong>Savings</strong></td><td><strong>$1350.00/month</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h2>5. Batch API (50% Off)</h2>
+    <p>Both OpenAI and Anthropic offer batch APIs at 50% discount for non-realtime processing. Use for document summarization, data extraction, and offline analysis.</p>
+
+    <h2>6. Set max_tokens</h2>
+    <p>Always set a reasonable max_tokens limit. A runaway 4,000-token response when you only need 200 tokens costs 20x more on output.</p>
+
+    <h2>7. Conversation Summarization</h2>
+    <p>Instead of sending full conversation history, summarize previous turns. A 20-turn conversation might have 15,000 tokens of history — summarize to 500 tokens for 97% input savings.</p>
+
+    <h2>8. Use Structured Output</h2>
+    <p>JSON mode and structured outputs produce shorter, more parseable responses. Typically 30-50% fewer output tokens than free-form text.</p>
+
+    <h2>9. Fine-Tuning (for high volume)</h2>
+    <p>At 1M+ requests/month, fine-tuning a smaller model on your specific task can match larger model quality at 10-50x lower per-request cost.</p>
+
+    <h2>10. Embedding Model Selection</h2>
+    <p>Use text-embedding-3-small ($0.02/1M tokens) instead of text-embedding-3-large ($0.13/1M tokens) unless you need maximum retrieval quality. The small model is 85-90% as good at 85% less cost.</p>
+
+    <h2>11. Rate Limit Awareness</h2>
+    <p>Avoid retries caused by rate limits — they waste tokens and time. Implement proper exponential backoff and request queuing.</p>
+
+    <h2>12. Monitor and Alert</h2>
+    <p>Use tools like Helicone, LangSmith, or custom dashboards to track cost per feature, per user, and per model. Set budget alerts to catch runaway costs early.</p>
+
+    <h2>Combined Savings Example</h2>
+    <table>
+      <thead>
+        <tr><th>Optimization</th><th>Savings</th><th>Cumulative Bill</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Baseline (Claude Sonnet 4, 10K req/day)</td><td>—</td><td>$2,700/month</td></tr>
+        <tr><td>+ Model routing (60% to Flash)</td><td>-45%</td><td>$1,485/month</td></tr>
+        <tr><td>+ Prompt caching</td><td>-30%</td><td>$1,040/month</td></tr>
+        <tr><td>+ Response caching (30% hit rate)</td><td>-30%</td><td>$728/month</td></tr>
+        <tr><td>+ Shorter prompts</td><td>-15%</td><td>$619/month</td></tr>
+        <tr><td><strong>Total savings</strong></td><td><strong>77%</strong></td><td><strong>$619/month</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h2>FAQ</h2>
+    <h3>What is the easiest way to reduce LLM API costs?</h3>
+    <p>Model routing is the easiest win: send simple queries to Gemini Flash ($0.075/$0.30) and complex ones to a premium model. This alone saves 40-60% with minimal code changes.</p>
+    <h3>Does prompt caching really save money?</h3>
+    <p>Yes. Anthropic and OpenAI cache repeated prompt prefixes automatically. If your system prompt is constant across requests, you save up to 90% on input tokens for that portion after the first request.</p>
+    <h3>How much can I save on LLM API costs?</h3>
+    <p>Combining model routing, prompt caching, response caching, and shorter prompts can reduce costs by 50-80%. A $2,700/month bill can drop to $600-$800/month with these optimizations.</p>
+    <h2>Related Questions</h2>
+    <ul>
+      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
+      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
+      <li><a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 Pricing</a></li>
+      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
+      <li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash Pricing</a></li>
+    </ul>
+    <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

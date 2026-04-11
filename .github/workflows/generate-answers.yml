@@ -1,0 +1,48 @@
+name: Generate Answer Pages
+
+on:
+  schedule:
+    # Run monthly on the 1st at 06:00 UTC to refresh pricing data
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (validate only, no commit)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate answer pages
+        run: node scripts/generate.js
+
+      - name: Validate generated pages
+        run: node scripts/validate.js
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet answers/ sitemap.xml || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add answers/ sitemap.xml
+          git commit -m "chore: regenerate answer pages with latest pricing data"
+          git push

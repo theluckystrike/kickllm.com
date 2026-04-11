@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Cost of a RAG Pipeline — Embedding + Retrieval + Generation — KickLLM</title>
+  <meta name="description" content="A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $1">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/cost-of-rag-pipeline.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="Cost of a RAG Pipeline — Embedding + Retrieval + Generation — KickLLM">
+  <meta property="og:description" content="A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $1">
+  <meta property="og:url" content="https://kickllm.com/answers/cost-of-rag-pipeline.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cost of a RAG Pipeline — Embedding + Retrieval + Generation — KickLLM">
+  <meta name="twitter:description" content="A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $1">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a RAG pipeline cost per query?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A RAG query costs $0.001-$0.05 total: ~$0.0001 for embedding, ~$0.0001 for vector lookup, and $0.001-$0.05 for LLM generation depending on model choice. The LLM generation step is 95%+ of the cost."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the cheapest way to build a RAG pipeline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Gemini 2.0 Flash ($0.075/$0.30) for generation, text-embedding-3-small for embeddings, and pgvector on a $10/month VPS for storage. Total cost: under $20/month for 10K queries/day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a vector database for RAG?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For small corpora (under 10K documents), you can use simple in-memory search or SQLite FTS. For larger corpora, a vector database provides faster retrieval and better relevance. pgvector is a good free starting point."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>Cost of a RAG Pipeline</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>How Much Does a RAG Pipeline Cost?</h1>
+
+    <p><strong>A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $10-$500/month plus $20-$200/month for vector DB hosting.</strong></p>
+    <h2>RAG Pipeline Cost Breakdown</h2>
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Cost Per Query</th><th>10K Queries/Day</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Embedding (query)</td><td>~$0.0001</td><td>~$1/month</td><td>text-embedding-3-small at $0.02/1M tokens</td></tr>
+        <tr><td>Vector DB lookup</td><td>~$0.0001</td><td>$20-200/month (hosting)</td><td>Pinecone, Weaviate, or pgvector</td></tr>
+        <tr><td>LLM generation</td><td>$0.001-$0.05</td><td>$10-$500/month</td><td>Varies by model (see below)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>LLM Generation Cost by Model</h2>
+    <p>Per query: ~2,500 input tokens (query + retrieved context), ~800 output tokens.</p>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Cost/Query</th><th>10K/Day Monthly</th><th>100K/Day Monthly</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gemini 2.0 Flash</td><td>$0.0004</td><td>$128.25</td><td>$1282.50</td></tr>
+        <tr><td>GPT-4o Mini</td><td>$0.0009</td><td>$256.50</td><td>$2565.00</td></tr>
+        <tr><td>Claude Haiku 4</td><td>$0.0052</td><td>$1560.00</td><td>$15600.00</td></tr>
+        <tr><td>DeepSeek V3</td><td>$0.0016</td><td>$466.50</td><td>$4665.00</td></tr>
+        <tr><td>Claude Sonnet 4</td><td>$0.02</td><td>$5850.00</td><td>$58500.00</td></tr>
+        <tr><td>GPT-4o</td><td>$0.01</td><td>$4275.00</td><td>$42750.00</td></tr>
+      </tbody>
+    </table>
+
+    <h2>One-Time Indexing Costs</h2>
+    <p>Embedding your document corpus is a one-time cost (plus re-indexing for updates).</p>
+    <table>
+      <thead>
+        <tr><th>Corpus Size</th><th>Tokens (est.)</th><th>Embedding Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1,000 pages</td><td>~1.5M tokens</td><td>$0.03</td></tr>
+        <tr><td>10,000 pages</td><td>~15M tokens</td><td>$0.30</td></tr>
+        <tr><td>100,000 pages</td><td>~150M tokens</td><td>$3.00</td></tr>
+        <tr><td>1M pages</td><td>~1.5B tokens</td><td>$30.00</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Vector Database Costs</h2>
+    <table>
+      <thead>
+        <tr><th>Provider</th><th>Free Tier</th><th>Production</th><th>Best For</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pinecone</td><td>100K vectors</td><td>$70+/month</td><td>Managed, scalable</td></tr>
+        <tr><td>Weaviate Cloud</td><td>1M vectors</td><td>$25+/month</td><td>Hybrid search</td></tr>
+        <tr><td>pgvector (self-hosted)</td><td>Unlimited</td><td>$10-50/month (VPS)</td><td>Simple, PostgreSQL users</td></tr>
+        <tr><td>Qdrant Cloud</td><td>1M vectors</td><td>$25+/month</td><td>Performance-focused</td></tr>
+      </tbody>
+    </table>
+
+    <h2>FAQ</h2>
+    <h3>How much does a RAG pipeline cost per query?</h3>
+    <p>A RAG query costs $0.001-$0.05 total: ~$0.0001 for embedding, ~$0.0001 for vector lookup, and $0.001-$0.05 for LLM generation depending on model choice. The LLM generation step is 95%+ of the cost.</p>
+    <h3>What is the cheapest way to build a RAG pipeline?</h3>
+    <p>Use Gemini 2.0 Flash ($0.075/$0.30) for generation, text-embedding-3-small for embeddings, and pgvector on a $10/month VPS for storage. Total cost: under $20/month for 10K queries/day.</p>
+    <h3>Do I need a vector database for RAG?</h3>
+    <p>For small corpora (under 10K documents), you can use simple in-memory search or SQLite FTS. For larger corpora, a vector database provides faster retrieval and better relevance. pgvector is a good free starting point.</p>
+    <h2>Related Questions</h2>
+    <ul>
+      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
+      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
+      <li><a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 Pricing</a></li>
+      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
+      <li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash Pricing</a></li>
+    </ul>
+    <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

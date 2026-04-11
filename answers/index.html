@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>LLM Pricing Answers — KickLLM</title>
+  <meta name="description" content="Answers to common LLM pricing questions: model costs, head-to-head comparisons, and use case cost calculators. Updated April 2026.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="LLM Pricing Answers — KickLLM">
+  <meta property="og:description" content="Answers to common LLM pricing questions: model costs, comparisons, and cost calculators.">
+  <meta property="og:url" content="https://kickllm.com/answers/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Pricing Answers — KickLLM">
+  <meta name="twitter:description" content="Answers to common LLM pricing questions: model costs, comparisons, and cost calculators.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How much do LLM APIs cost in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LLM API pricing ranges from $0.075 per 1M input tokens (Gemini 2.0 Flash) to $15 per 1M input tokens (Claude Opus 4). Output tokens are typically 2-5x more expensive than input tokens."
+      }
+    }, {
+      "@type": "Question",
+      "name": "Which LLM API is cheapest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemini 2.0 Flash at $0.075/$0.30 per 1M tokens is the cheapest major-provider model. GPT-4o Mini at $0.15/$0.60 and DeepSeek V3 at $0.27/$1.10 are also budget-friendly options."
+      }
+    }, {
+      "@type": "Question",
+      "name": "How do I reduce LLM API costs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Top strategies: use model routing (cheap models for simple tasks), prompt caching (save 50-90%), response caching (save 30-50%), and batch APIs (50% discount). Combined savings: 50-80%."
+      }
+    }]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <span>Answers</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>LLM Pricing Answers</h1>
+    <p>Quick answers to common questions about LLM API pricing, model comparisons, and cost optimization. All prices verified April 2026.</p>
+
+    <h2>Model Pricing</h2>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Input (per 1M)</th><th>Output (per 1M)</th><th>Details</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Claude Opus 4</td><td>$15.00</td><td>$75.00</td><td><a href="/answers/claude-opus-4-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Claude Sonnet 4</td><td>$3.00</td><td>$15.00</td><td><a href="/answers/claude-sonnet-4-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Claude Haiku 4</td><td>$0.80</td><td>$4.00</td><td><a href="/answers/claude-haiku-4-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td><td><a href="/answers/gpt-4o-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>GPT-4o Mini</td><td>$0.15</td><td>$0.60</td><td><a href="/answers/gpt-4o-mini-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Gemini 2.0 Pro</td><td>$1.25</td><td>$5.00</td><td><a href="/answers/gemini-2-pro-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Gemini 2.0 Flash</td><td>$0.075</td><td>$0.30</td><td><a href="/answers/gemini-2-flash-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Llama 3 405B</td><td colspan="2">Self-host: ~$4/hr on 8xH100</td><td><a href="/answers/llama-3-405b-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>Mistral Large</td><td>$2.00</td><td>$6.00</td><td><a href="/answers/mistral-large-pricing.html">Full breakdown</a></td></tr>
+        <tr><td>DeepSeek V3</td><td>$0.27</td><td>$1.10</td><td><a href="/answers/deepseek-v3-pricing.html">Full breakdown</a></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Head-to-Head Comparisons</h2>
+    <ul>
+      <li><a href="/answers/claude-opus-vs-gpt-4o.html">Claude Opus 4 vs GPT-4o</a> — premium model showdown</li>
+      <li><a href="/answers/claude-haiku-vs-gpt-4o-mini.html">Claude Haiku 4 vs GPT-4o Mini</a> — budget model comparison</li>
+      <li><a href="/answers/gemini-flash-vs-gpt-4o-mini.html">Gemini 2.0 Flash vs GPT-4o Mini</a> — cheapest model comparison</li>
+      <li><a href="/answers/claude-sonnet-vs-gemini-pro.html">Claude Sonnet 4 vs Gemini 2.0 Pro</a> — mid-tier comparison</li>
+      <li><a href="/answers/llama-3-vs-gpt-4o.html">Llama 3 405B vs GPT-4o</a> — open source vs proprietary</li>
+      <li><a href="/answers/mistral-vs-claude-sonnet.html">Mistral Large vs Claude Sonnet 4</a> — European vs American AI</li>
+      <li><a href="/answers/deepseek-vs-gpt-4o-mini.html">DeepSeek V3 vs GPT-4o Mini</a> — budget API comparison</li>
+      <li><a href="/answers/open-source-vs-api-models-2026.html">Open-Source vs API Models in 2026</a> — comprehensive comparison</li>
+      <li><a href="/answers/gpt4o-vs-claude-sonnet-price.html">GPT-4o vs Claude Sonnet Price</a> — pricing deep dive</li>
+    </ul>
+
+    <h2>Cost Calculators & Use Cases</h2>
+    <ul>
+      <li><a href="/answers/cost-of-llm-chatbot-per-month.html">Cost of an LLM Chatbot Per Month</a> — 1K to 100K conversations</li>
+      <li><a href="/answers/cost-of-ai-code-review.html">Cost of AI Code Review</a> — per PR cost by model and size</li>
+      <li><a href="/answers/cost-of-ai-customer-support.html">Cost of AI Customer Support</a> — per ticket cost comparison</li>
+      <li><a href="/answers/cost-to-summarize-1000-documents.html">Cost to Summarize 1,000 Documents</a> — batch processing costs</li>
+      <li><a href="/answers/cost-of-rag-pipeline.html">Cost of a RAG Pipeline</a> — embedding + retrieval + generation</li>
+      <li><a href="/answers/cheapest-way-to-build-ai-app.html">Cheapest Way to Build an AI App</a> — tiered approach guide</li>
+      <li><a href="/answers/llm-api-cost-optimization-tips.html">LLM API Cost Optimization Tips</a> — save 50-80% on API costs</li>
+    </ul>
+
+    <h2>General Questions</h2>
+    <ul>
+      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
+      <li><a href="/answers/how-much-does-gpt4-cost-per-month.html">How Much Does GPT-4 Cost Per Month?</a></li>
+      <li><a href="/answers/llm-tokens-per-word.html">How Many LLM Tokens Per Word?</a></li>
+      <li><a href="/answers/context-window-comparison-2026.html">Context Window Comparison 2026</a></li>
+      <li><a href="/answers/when-to-self-host-llm.html">When to Self-Host an LLM</a></li>
+      <li><a href="/answers/cheapest-way-to-run-llama.html">Cheapest Way to Run Llama</a></li>
+    </ul>
+
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
+    <p style="font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
