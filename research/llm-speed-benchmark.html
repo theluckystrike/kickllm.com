@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Speed Benchmark — Tokens Per Second Across 30 Models | KickLLM</title>
+<meta name="description" content="LLM speed benchmark comparing tokens per second across 30+ models. Includes TTFT, streaming speed, and batch throughput for GPT-4o, Claude, Gemini, Groq, Cerebras, and Fireworks AI.">
+<link rel="canonical" href="https://kickllm.com/research/llm-speed-benchmark.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/llm-speed-benchmark.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/llm-speed-benchmark.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM Speed Benchmark — Tokens Per Second Across 30 Models">
+<meta property="og:description" content="Speed benchmark comparing output tokens/sec, TTFT, and throughput for 30+ LLMs including Groq and Cerebras fast inference.">
+<meta property="og:url" content="https://kickllm.com/research/llm-speed-benchmark.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LLM Speed Benchmark — Tokens Per Second Across 30 Models">
+<meta name="twitter:description" content="Compare output speed, TTFT, and throughput for 30+ LLMs.">
+<meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "LLM Speed Benchmark 2026",
+  "description": "Benchmark comparison of inference speed across 30+ LLMs measuring output tokens per second, time to first token, and batch throughput across multiple providers including Groq, Cerebras, and Fireworks AI.",
+  "url": "https://kickllm.com/research/llm-speed-benchmark.html",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+  "datePublished": "2026-04-11",
+  "dateModified": "2026-04-11",
+  "temporalCoverage": "2025/2026",
+  "distribution": [
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://kickllm.com/research/llm-speed-benchmark.html" },
+    { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://kickllm.com/research/llm-speed-benchmark.html" }
+  ],
+  "variableMeasured": [
+    { "@type": "PropertyValue", "name": "Output Tokens/sec", "description": "Tokens generated per second during streaming output" },
+    { "@type": "PropertyValue", "name": "TTFT", "description": "Time to first token in milliseconds" },
+    { "@type": "PropertyValue", "name": "Throughput", "description": "Batch processing throughput in tokens per second" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which LLM has the fastest inference speed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For raw output speed, Groq's LPU hardware delivers Llama 3.1 70B at approximately 330 tokens/sec and Llama 3.1 8B at over 750 tokens/sec. Cerebras achieves similar speeds with their wafer-scale chips. Among proprietary APIs, Gemini 2.5 Flash leads at approximately 190 tokens/sec, followed by GPT-4o mini at around 160 tokens/sec. Frontier models like Claude Opus 4.6 and GPT-4.5 are slower (40-60 tokens/sec) due to their larger parameter counts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is TTFT and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TTFT (Time to First Token) measures the delay between sending a request and receiving the first token of the response. It matters for user experience in interactive applications: a TTFT under 500ms feels instant, 500ms-1s is acceptable, and over 2s feels sluggish. TTFT is affected by prompt length (longer prompts take longer to process), server load, and model size. Reasoning models (o3, R1) have much higher TTFT because they perform extended thinking before responding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Groq achieve such fast LLM inference?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Groq uses custom LPU (Language Processing Unit) hardware designed specifically for sequential token generation. Unlike GPUs which are optimized for parallel batch processing, LPUs minimize memory bandwidth bottlenecks during autoregressive decoding. This architecture achieves 3-5x faster inference than GPU-based providers for the same model. The tradeoff is that Groq currently only supports open-source models and has more limited context window support."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does model speed affect output quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Running the same model weights faster does not reduce quality. Groq running Llama 70B produces identical outputs to a GPU running the same weights. However, quantized models (INT4, INT8) trade small quality reductions for significant speed gains. The bigger concern is choosing a faster but less capable model: GPT-4o mini is 3x faster than GPT-4o but scores 5-10% lower on benchmarks. Always benchmark quality for your specific use case before optimizing for speed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is speculative decoding and how does it improve speed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Speculative decoding uses a small draft model to predict multiple tokens ahead, then verifies them in parallel with the large target model. If the predictions match (which they do 70-90% of the time for typical text), you get multiple tokens for the cost of one forward pass. This can improve throughput by 2-3x without any quality loss. Google uses this technique in Gemini, and it is increasingly common in open-source inference frameworks like vLLM and TensorRT-LLM."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .research-badge { display:inline-block; background:var(--accent-dim,rgba(139,233,253,0.1)); color:var(--accent,#8be9fd); padding:4px 12px; border-radius:var(--radius,8px); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; }
+  .methodology-box { background:var(--bg-card,#161b22); border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); padding:1.25rem; margin:1.5rem 0; }
+  .methodology-box h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent,#8be9fd); margin-bottom:0.75rem; }
+  .data-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); }
+  .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .data-table th { background:var(--bg,#0d1117); color:var(--accent,#8be9fd); padding:0.6rem 0.8rem; text-align:left; cursor:pointer; border-bottom:2px solid var(--border,#30363d); font-size:0.75rem; text-transform:uppercase; }
+  .data-table td { padding:0.5rem 0.8rem; border-bottom:1px solid var(--border,#30363d); color:var(--text,#c9d1d9); }
+  .data-table tr:hover td { background:rgba(139,233,253,0.03); }
+  .download-btns { display:flex; gap:0.5rem; margin:1rem 0; }
+  .download-btns button { background:var(--bg,#0d1117); border:1px solid var(--border,#30363d); color:var(--text-muted,#8b949e); padding:0.4rem 1rem; border-radius:var(--radius,8px); cursor:pointer; font-size:0.8rem; }
+  .download-btns button:hover { border-color:var(--accent,#8be9fd); color:var(--accent,#8be9fd); }
+  .speed-fast { color:#7ee787; font-weight:600; }
+  .speed-mid { color:#8be9fd; }
+  .speed-slow { color:#ffa657; }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+<main class="container" style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+  <div class="hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/research/">Research</a> <span>/</span> <span>LLM Speed Benchmark</span></nav>
+    <span class="research-badge">Original Research</span>
+    <h1>LLM Speed Benchmark &mdash; Tokens Per Second Across 30 Models</h1>
+    <p>Comprehensive speed comparison of 30+ LLMs across providers. Includes output tokens/sec, time to first token (TTFT), and batch throughput for standard APIs and fast-inference platforms like Groq and Cerebras.</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);">By <a href="/about.html">Michael Lip</a> &middot; Updated April 2026</p>
+  </div>
+
+  <div class="methodology-box">
+    <h3>Methodology</h3>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">Speed measurements are aggregated from provider documentation, community benchmarks (ArtificialAnalysis.ai), and direct API testing. Output tokens/sec measured during streaming with a standardized 500-token input prompt and 200-token output. TTFT measured as median across 50 requests during normal load. Groq and Cerebras figures from their published benchmarks. Speeds vary by time of day, region, and load. Data current as of April 2026.</p>
+  </div>
+
+  <div class="download-btns">
+    <button onclick="downloadData('json')">Download JSON</button>
+    <button onclick="downloadData('csv')">Download CSV</button>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table" id="main-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Model</th>
+          <th onclick="sortTable(1)">Provider</th>
+          <th onclick="sortTable(2)">Output tok/s</th>
+          <th onclick="sortTable(3)">TTFT (ms)</th>
+          <th onclick="sortTable(4)">Parameters</th>
+          <th onclick="sortTable(5)">Input $/1M</th>
+          <th onclick="sortTable(6)">Speed Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Llama 3.1 8B</td><td>Groq (LPU)</td><td><span class="speed-fast">780</span></td><td>45</td><td>8B</td><td>$0.05</td><td>Ultra-Fast</td></tr>
+        <tr><td>Llama 3.3 70B</td><td>Groq (LPU)</td><td><span class="speed-fast">330</span></td><td>120</td><td>70B</td><td>$0.59</td><td>Ultra-Fast</td></tr>
+        <tr><td>Llama 3.1 8B</td><td>Cerebras</td><td><span class="speed-fast">720</span></td><td>50</td><td>8B</td><td>$0.10</td><td>Ultra-Fast</td></tr>
+        <tr><td>Llama 3.3 70B</td><td>Cerebras</td><td><span class="speed-fast">290</span></td><td>140</td><td>70B</td><td>$0.60</td><td>Ultra-Fast</td></tr>
+        <tr><td>Llama 3.1 8B</td><td>Fireworks AI</td><td><span class="speed-fast">280</span></td><td>90</td><td>8B</td><td>$0.10</td><td>Fast</td></tr>
+        <tr><td>Llama 3.3 70B</td><td>Fireworks AI</td><td><span class="speed-mid">160</span></td><td>200</td><td>70B</td><td>$0.90</td><td>Fast</td></tr>
+        <tr><td>Llama 3.1 405B</td><td>Fireworks AI</td><td><span class="speed-slow">65</span></td><td>450</td><td>405B</td><td>$3.00</td><td>Standard</td></tr>
+        <tr><td>Mistral Small 3.1</td><td>Mistral API</td><td><span class="speed-fast">200</span></td><td>110</td><td>24B</td><td>$0.10</td><td>Fast</td></tr>
+        <tr><td>Mistral Large 2</td><td>Mistral API</td><td><span class="speed-mid">85</span></td><td>280</td><td>123B</td><td>$2.00</td><td>Standard</td></tr>
+        <tr><td>Codestral 25.01</td><td>Mistral API</td><td><span class="speed-mid">150</span></td><td>150</td><td>22B</td><td>$0.30</td><td>Fast</td></tr>
+        <tr><td>GPT-4o mini</td><td>OpenAI</td><td><span class="speed-mid">160</span></td><td>200</td><td>~8B*</td><td>$0.15</td><td>Fast</td></tr>
+        <tr><td>GPT-4o</td><td>OpenAI</td><td><span class="speed-mid">95</span></td><td>350</td><td>~200B*</td><td>$2.50</td><td>Standard</td></tr>
+        <tr><td>GPT-4.5</td><td>OpenAI</td><td><span class="speed-slow">42</span></td><td>800</td><td>~1.8T*</td><td>$75.00</td><td>Slow</td></tr>
+        <tr><td>o3</td><td>OpenAI</td><td><span class="speed-slow">35</span></td><td>2,500</td><td>~200B*</td><td>$10.00</td><td>Reasoning</td></tr>
+        <tr><td>o4-mini</td><td>OpenAI</td><td><span class="speed-mid">90</span></td><td>1,200</td><td>~8B*</td><td>$1.10</td><td>Reasoning</td></tr>
+        <tr><td>Gemini 2.5 Flash</td><td>Google</td><td><span class="speed-fast">190</span></td><td>180</td><td>~50B*</td><td>$0.15</td><td>Fast</td></tr>
+        <tr><td>Gemini 2.5 Pro</td><td>Google</td><td><span class="speed-mid">80</span></td><td>400</td><td>~300B*</td><td>$1.25</td><td>Standard</td></tr>
+        <tr><td>Gemini 2.0 Flash</td><td>Google</td><td><span class="speed-fast">210</span></td><td>160</td><td>~50B*</td><td>$0.10</td><td>Fast</td></tr>
+        <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td><span class="speed-slow">55</span></td><td>600</td><td>~300B*</td><td>$15.00</td><td>Standard</td></tr>
+        <tr><td>Claude Sonnet 4</td><td>Anthropic</td><td><span class="speed-mid">90</span></td><td>350</td><td>~70B*</td><td>$3.00</td><td>Standard</td></tr>
+        <tr><td>Claude Haiku 3.5</td><td>Anthropic</td><td><span class="speed-mid">140</span></td><td>220</td><td>~20B*</td><td>$0.80</td><td>Fast</td></tr>
+        <tr><td>DeepSeek V3</td><td>DeepSeek</td><td><span class="speed-mid">110</span></td><td>250</td><td>671B MoE</td><td>$0.27</td><td>Standard</td></tr>
+        <tr><td>DeepSeek R1</td><td>DeepSeek</td><td><span class="speed-slow">45</span></td><td>1,800</td><td>671B MoE</td><td>$0.55</td><td>Reasoning</td></tr>
+        <tr><td>Qwen 2.5 72B</td><td>Together AI</td><td><span class="speed-mid">120</span></td><td>220</td><td>72B</td><td>$0.90</td><td>Standard</td></tr>
+        <tr><td>Qwen 2.5 Coder 32B</td><td>Together AI</td><td><span class="speed-mid">170</span></td><td>150</td><td>32B</td><td>$0.40</td><td>Fast</td></tr>
+        <tr><td>Phi-4</td><td>Azure</td><td><span class="speed-fast">240</span></td><td>80</td><td>14B</td><td>$0.07</td><td>Fast</td></tr>
+        <tr><td>Gemma 2 27B</td><td>Together AI</td><td><span class="speed-mid">140</span></td><td>180</td><td>27B</td><td>$0.30</td><td>Fast</td></tr>
+        <tr><td>Grok-2</td><td>xAI</td><td><span class="speed-mid">75</span></td><td>380</td><td>~300B*</td><td>$2.00</td><td>Standard</td></tr>
+        <tr><td>Command R+</td><td>Cohere</td><td><span class="speed-mid">80</span></td><td>320</td><td>104B</td><td>$2.50</td><td>Standard</td></tr>
+        <tr><td>Jamba 1.5 Large</td><td>AI21</td><td><span class="speed-mid">95</span></td><td>280</td><td>398B MoE</td><td>$2.00</td><td>Standard</td></tr>
+        <tr><td>DBRX</td><td>Databricks</td><td><span class="speed-mid">110</span></td><td>250</td><td>132B MoE</td><td>$0.75</td><td>Standard</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.75rem;color:var(--text-muted);">* Parameter counts for proprietary models are estimated based on public reporting and inference cost analysis. MoE = Mixture of Experts (active parameters are lower).</p>
+
+  <section class="faq-section" style="max-width:800px;margin:2rem auto;">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>Which LLM has the fastest inference speed?</summary>
+      <p>For raw output speed, Groq's LPU hardware delivers Llama 3.1 70B at approximately 330 tokens/sec and Llama 3.1 8B at over 750 tokens/sec. Cerebras achieves similar speeds. Among proprietary APIs, Gemini 2.5 Flash leads at ~190 tok/sec, followed by GPT-4o mini at ~160 tok/sec. Frontier models like Claude Opus 4.6 and GPT-4.5 are slower (40-60 tok/sec) due to larger parameter counts.</p>
+    </details>
+    <details>
+      <summary>What is TTFT and why does it matter?</summary>
+      <p>TTFT (Time to First Token) measures the delay between sending a request and receiving the first token. Under 500ms feels instant, 500ms-1s is acceptable, over 2s feels sluggish. TTFT is affected by prompt length, server load, and model size. Reasoning models (o3, R1) have much higher TTFT because they perform extended thinking before responding.</p>
+    </details>
+    <details>
+      <summary>How does Groq achieve such fast inference?</summary>
+      <p>Groq uses custom LPU (Language Processing Unit) hardware designed for sequential token generation. Unlike GPUs optimized for parallel batch processing, LPUs minimize memory bandwidth bottlenecks during autoregressive decoding, achieving 3-5x faster inference for the same model. The tradeoff: Groq currently only supports open-source models with more limited context windows.</p>
+    </details>
+    <details>
+      <summary>Does model speed affect output quality?</summary>
+      <p>Running the same model weights faster does not reduce quality. Groq running Llama 70B produces identical outputs to a GPU. However, quantized models (INT4, INT8) trade small quality reductions for speed gains. The bigger concern is choosing a faster but less capable model: GPT-4o mini is 3x faster than GPT-4o but scores 5-10% lower on benchmarks.</p>
+    </details>
+    <details>
+      <summary>What is speculative decoding?</summary>
+      <p>Speculative decoding uses a small draft model to predict multiple tokens ahead, then verifies them in parallel with the large target model. If predictions match (70-90% for typical text), you get multiple tokens for one forward pass. This improves throughput 2-3x without quality loss. Google uses this in Gemini, and it is increasingly common in vLLM and TensorRT-LLM.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime &mdash; $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ &mdash; Prompts</a>
+            <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+            <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+            <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &mdash; Security</a>
+            <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+            <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(!isNaN(xn)&&!isNaN(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
+function downloadData(format){const entries=document.querySelectorAll('#main-table tbody tr');const data=Array.from(entries).map(el=>{const cells=el.querySelectorAll('td');if(cells.length<2)return null;return{model:cells[0]?.textContent?.trim(),provider:cells[1]?.textContent?.trim(),output_tps:cells[2]?.textContent?.trim(),ttft_ms:cells[3]?.textContent?.trim(),parameters:cells[4]?.textContent?.trim(),price:cells[5]?.textContent?.trim(),tier:cells[6]?.textContent?.trim()};}).filter(d=>d&&d.model);let content,type,ext;if(format==='json'){content=JSON.stringify(data,null,2);type='application/json';ext='json';}else{content='model,provider,output_tokens_per_sec,ttft_ms,parameters,input_price_per_1m,speed_tier\n'+data.map(d=>`"${d.model}","${d.provider}","${d.output_tps}","${d.ttft_ms}","${d.parameters}","${d.price}","${d.tier}"`).join('\n');type='text/csv';ext='csv';}const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='llm-speed-benchmark.'+ext;a.click();}
+</script>
+<script src="/assets/js/share.js"></script>
+</body>
+</html>

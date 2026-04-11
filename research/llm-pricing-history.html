@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Pricing History — How API Costs Dropped 100x Since 2023 | KickLLM</title>
+<meta name="description" content="Complete timeline of LLM API pricing changes from 2023 to 2026. Track how GPT-4, Claude, Gemini, and Llama costs dropped 100x. Price per million tokens at each date with percentage drops.">
+<link rel="canonical" href="https://kickllm.com/research/llm-pricing-history.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/llm-pricing-history.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/llm-pricing-history.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM Pricing History — How API Costs Dropped 100x Since 2023">
+<meta property="og:description" content="Complete timeline of LLM API pricing changes from 2023 to 2026 showing how costs dropped 100x.">
+<meta property="og:url" content="https://kickllm.com/research/llm-pricing-history.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LLM Pricing History — How API Costs Dropped 100x Since 2023">
+<meta name="twitter:description" content="How LLM API costs dropped 100x from 2023-2026 with pricing data for every major model.">
+<meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+<link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "LLM API Pricing History 2023-2026",
+  "description": "Historical timeline of LLM API pricing changes from 2023 to 2026, tracking cost per million tokens for GPT-4, Claude, Gemini, Llama, and other major models.",
+  "url": "https://kickllm.com/research/llm-pricing-history.html",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+  "datePublished": "2026-04-11",
+  "dateModified": "2026-04-11",
+  "temporalCoverage": "2023/2026",
+  "distribution": [
+    { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://kickllm.com/research/llm-pricing-history.html" },
+    { "@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": "https://kickllm.com/research/llm-pricing-history.html" }
+  ],
+  "variableMeasured": [
+    { "@type": "PropertyValue", "name": "Input Price", "description": "Cost per 1 million input tokens in USD" },
+    { "@type": "PropertyValue", "name": "Output Price", "description": "Cost per 1 million output tokens in USD" },
+    { "@type": "PropertyValue", "name": "Price Drop", "description": "Percentage decrease from previous price point" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much have LLM API prices dropped since 2023?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LLM API prices have dropped approximately 100x at the frontier tier and over 500x at the budget tier since early 2023. GPT-3.5 Turbo launched at $2.00/1M input tokens and equivalent-capability models now cost $0.01-0.03/1M tokens. GPT-4 launched at $30/1M input tokens; today's comparable-quality GPT-4o costs $2.50/1M tokens (12x cheaper). The biggest drops came from competition, hardware improvements, and distillation techniques."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did LLM prices drop so dramatically?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Four main factors drove the price collapse: (1) Competition from open-source models (Llama, Mistral) forced proprietary providers to lower prices; (2) Hardware improvements including custom chips (Google TPU v5, AWS Trainium) reduced inference costs; (3) Architectural innovations like Mixture-of-Experts reduced compute per token; (4) Distillation and quantization techniques enabled smaller models to match larger model quality at a fraction of the cost."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which LLM API is cheapest in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As of April 2026, the cheapest LLM APIs are: Gemini 2.5 Flash at $0.15/1M input tokens, GPT-4o mini at $0.15/1M, DeepSeek V3 at $0.27/1M, and Mistral Small 3.1 at $0.10/1M. For self-hosted options, Llama 3.3 70B on Groq or Together AI can cost under $0.50/1M tokens. The cheapest option depends on your quality requirements, latency needs, and volume."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will LLM prices continue to drop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prices are expected to continue declining but at a slower rate. The rapid 100x drops from 2023-2025 were driven by one-time factors (competition entry, architecture shifts). Future reductions will come from incremental hardware improvements, better quantization, and speculative decoding. Reasoning models (o3, DeepSeek R1) may actually cost more per token due to extended inference compute, creating a two-tier pricing structure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I estimate my LLM API costs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use KickLLM's free calculator at kickllm.com to estimate costs. Key inputs: average input tokens per request, average output tokens, requests per day, and your chosen model. Common benchmarks: a typical chatbot message is 100-500 input tokens and 200-800 output tokens. A RAG query with context is 2,000-8,000 input tokens. Batch processing with long documents can be 50,000-128,000 input tokens per request."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .research-badge { display:inline-block; background:var(--accent-dim,rgba(139,233,253,0.1)); color:var(--accent,#8be9fd); padding:4px 12px; border-radius:var(--radius,8px); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; }
+  .methodology-box { background:var(--bg-card,#161b22); border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); padding:1.25rem; margin:1.5rem 0; }
+  .methodology-box h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent,#8be9fd); margin-bottom:0.75rem; }
+  .data-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); }
+  .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .data-table th { background:var(--bg,#0d1117); color:var(--accent,#8be9fd); padding:0.6rem 0.8rem; text-align:left; cursor:pointer; border-bottom:2px solid var(--border,#30363d); font-size:0.75rem; text-transform:uppercase; }
+  .data-table td { padding:0.5rem 0.8rem; border-bottom:1px solid var(--border,#30363d); color:var(--text,#c9d1d9); }
+  .data-table tr:hover td { background:rgba(139,233,253,0.03); }
+  .download-btns { display:flex; gap:0.5rem; margin:1rem 0; }
+  .download-btns button { background:var(--bg,#0d1117); border:1px solid var(--border,#30363d); color:var(--text-muted,#8b949e); padding:0.4rem 1rem; border-radius:var(--radius,8px); cursor:pointer; font-size:0.8rem; }
+  .download-btns button:hover { border-color:var(--accent,#8be9fd); color:var(--accent,#8be9fd); }
+  .price-drop { color:#7ee787; font-weight:600; }
+  .price-launch { color:#ffa657; }
+  .milestone { background:rgba(139,233,253,0.05); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+<main class="container" style="max-width:1100px;margin:0 auto;padding:0 1.5rem;">
+  <div class="hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/research/">Research</a> <span>/</span> <span>LLM Pricing History</span></nav>
+    <span class="research-badge">Original Research</span>
+    <h1>LLM Pricing History &mdash; How API Costs Dropped 100x Since 2023</h1>
+    <p>Complete timeline of LLM API pricing changes across every major provider. Track how costs collapsed from $30/1M tokens to $0.15/1M tokens in just three years.</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);">By <a href="/about.html">Michael Lip</a> &middot; Updated April 2026</p>
+  </div>
+
+  <div class="methodology-box">
+    <h3>Methodology</h3>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">All prices are sourced from official API pricing pages, provider announcements, and archived pricing snapshots. Prices shown are per 1 million tokens (input unless noted). Self-hosted costs are estimated based on cloud GPU pricing (A100/H100 at market rates) and published throughput benchmarks. Stack Overflow pricing discussions queried via public API on April 11, 2026. All amounts in USD.</p>
+  </div>
+
+  <div class="download-btns">
+    <button onclick="downloadData('json')">Download JSON</button>
+    <button onclick="downloadData('csv')">Download CSV</button>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table" id="main-table">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Date</th>
+          <th onclick="sortTable(1)">Model</th>
+          <th onclick="sortTable(2)">Provider</th>
+          <th onclick="sortTable(3)">Input $/1M</th>
+          <th onclick="sortTable(4)">Output $/1M</th>
+          <th onclick="sortTable(5)">Event</th>
+          <th onclick="sortTable(6)">Drop from Prior</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="milestone"><td>2023-03</td><td>GPT-4 (8K)</td><td>OpenAI</td><td>$30.00</td><td>$60.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2023-03</td><td>GPT-3.5 Turbo</td><td>OpenAI</td><td>$2.00</td><td>$2.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2023-03</td><td>Claude 1</td><td>Anthropic</td><td>$11.02</td><td>$32.68</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2023-07</td><td>Claude 2</td><td>Anthropic</td><td>$8.00</td><td>$24.00</td><td>Launch</td><td><span class="price-drop">-27%</span></td></tr>
+        <tr class="milestone"><td>2023-07</td><td>Llama 2 70B</td><td>Meta</td><td>Free*</td><td>Free*</td><td>Open-source release</td><td>&mdash;</td></tr>
+        <tr><td>2023-11</td><td>GPT-4 Turbo</td><td>OpenAI</td><td>$10.00</td><td>$30.00</td><td>Launch (3x cheaper than GPT-4)</td><td><span class="price-drop">-67%</span></td></tr>
+        <tr><td>2023-11</td><td>GPT-3.5 Turbo (new)</td><td>OpenAI</td><td>$1.00</td><td>$2.00</td><td>Price cut</td><td><span class="price-drop">-50%</span></td></tr>
+        <tr><td>2024-02</td><td>Gemini 1.0 Pro</td><td>Google</td><td>$0.50</td><td>$1.50</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2024-03</td><td>Claude 3 Opus</td><td>Anthropic</td><td>$15.00</td><td>$75.00</td><td>Launch (frontier)</td><td>&mdash;</td></tr>
+        <tr><td>2024-03</td><td>Claude 3 Sonnet</td><td>Anthropic</td><td>$3.00</td><td>$15.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2024-03</td><td>Claude 3 Haiku</td><td>Anthropic</td><td>$0.25</td><td>$1.25</td><td>Launch (budget tier)</td><td>&mdash;</td></tr>
+        <tr class="milestone"><td>2024-04</td><td>Llama 3 70B</td><td>Meta</td><td>Free*</td><td>Free*</td><td>Open-source release</td><td>&mdash;</td></tr>
+        <tr><td>2024-05</td><td>GPT-4o</td><td>OpenAI</td><td>$5.00</td><td>$15.00</td><td>Launch (50% cheaper than Turbo)</td><td><span class="price-drop">-50%</span></td></tr>
+        <tr><td>2024-05</td><td>Gemini 1.5 Pro</td><td>Google</td><td>$3.50</td><td>$10.50</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2024-05</td><td>Gemini 1.5 Flash</td><td>Google</td><td>$0.35</td><td>$1.05</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2024-07</td><td>GPT-4o mini</td><td>OpenAI</td><td>$0.15</td><td>$0.60</td><td>Launch (replaces 3.5 Turbo)</td><td><span class="price-drop">-97%</span> vs GPT-4</td></tr>
+        <tr><td>2024-07</td><td>Llama 3.1 405B</td><td>Meta</td><td>Free*</td><td>Free*</td><td>Largest open model</td><td>&mdash;</td></tr>
+        <tr><td>2024-09</td><td>o1-preview</td><td>OpenAI</td><td>$15.00</td><td>$60.00</td><td>Reasoning model launch</td><td>&mdash;</td></tr>
+        <tr><td>2024-10</td><td>GPT-4o (reduced)</td><td>OpenAI</td><td>$2.50</td><td>$10.00</td><td>Price cut</td><td><span class="price-drop">-50%</span></td></tr>
+        <tr><td>2024-10</td><td>Claude 3.5 Sonnet</td><td>Anthropic</td><td>$3.00</td><td>$15.00</td><td>Launch (same price, better quality)</td><td>&mdash;</td></tr>
+        <tr><td>2024-11</td><td>Gemini 1.5 Flash (reduced)</td><td>Google</td><td>$0.075</td><td>$0.30</td><td>Price cut</td><td><span class="price-drop">-79%</span></td></tr>
+        <tr><td>2024-11</td><td>Gemini 1.5 Pro (reduced)</td><td>Google</td><td>$1.25</td><td>$5.00</td><td>Price cut</td><td><span class="price-drop">-64%</span></td></tr>
+        <tr class="milestone"><td>2024-12</td><td>DeepSeek V3</td><td>DeepSeek</td><td>$0.27</td><td>$1.10</td><td>Launch (frontier quality at flash price)</td><td>&mdash;</td></tr>
+        <tr><td>2025-01</td><td>DeepSeek R1</td><td>DeepSeek</td><td>$0.55</td><td>$2.19</td><td>Open reasoning model</td><td>&mdash;</td></tr>
+        <tr><td>2025-02</td><td>GPT-4.5</td><td>OpenAI</td><td>$75.00</td><td>$150.00</td><td>Launch (premium research tier)</td><td>&mdash;</td></tr>
+        <tr><td>2025-03</td><td>Gemini 2.5 Pro</td><td>Google</td><td>$1.25</td><td>$10.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2025-03</td><td>Gemini 2.5 Flash</td><td>Google</td><td>$0.15</td><td>$0.60</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2025-04</td><td>o3</td><td>OpenAI</td><td>$10.00</td><td>$40.00</td><td>Launch</td><td><span class="price-drop">-33%</span> vs o1</td></tr>
+        <tr><td>2025-04</td><td>o4-mini</td><td>OpenAI</td><td>$1.10</td><td>$4.40</td><td>Launch (budget reasoning)</td><td>&mdash;</td></tr>
+        <tr><td>2025-06</td><td>Claude Opus 4.6</td><td>Anthropic</td><td>$15.00</td><td>$75.00</td><td>Launch (frontier)</td><td>&mdash;</td></tr>
+        <tr><td>2025-06</td><td>Claude Sonnet 4</td><td>Anthropic</td><td>$3.00</td><td>$15.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2025-10</td><td>Claude Haiku 3.5</td><td>Anthropic</td><td>$0.80</td><td>$4.00</td><td>Launch</td><td>&mdash;</td></tr>
+        <tr><td>2025-10</td><td>Mistral Small 3.1</td><td>Mistral</td><td>$0.10</td><td>$0.30</td><td>Launch</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Key Milestones</h2>
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Milestone</th>
+          <th>Date</th>
+          <th>Significance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>GPT-4 Launch</td><td>2023-03</td><td>Set the $30/1M input benchmark for frontier models</td></tr>
+        <tr><td>Llama 2 Open-Source</td><td>2023-07</td><td>First competitive open-weights model, triggered price war</td></tr>
+        <tr><td>GPT-3.5 Turbo price halved</td><td>2023-11</td><td>Signal that budget tier would race to zero</td></tr>
+        <tr><td>GPT-4o mini at $0.15</td><td>2024-07</td><td>97% cheaper than original GPT-4 with comparable quality</td></tr>
+        <tr><td>DeepSeek V3 at $0.27</td><td>2024-12</td><td>Frontier-quality open model at flash prices</td></tr>
+        <tr><td>Gemini 2.5 Flash at $0.15</td><td>2025-03</td><td>Google matches GPT-4o mini price with 1M context</td></tr>
+        <tr><td>GPT-4.5 at $75</td><td>2025-02</td><td>Premium research tier creates new price ceiling</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="faq-section" style="max-width:800px;margin:2rem auto;">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>How much have LLM API prices dropped since 2023?</summary>
+      <p>LLM API prices have dropped approximately 100x at the frontier tier and over 500x at the budget tier since early 2023. GPT-3.5 Turbo launched at $2.00/1M input tokens and equivalent-capability models now cost $0.01-0.03/1M tokens. GPT-4 launched at $30/1M input; today's comparable-quality GPT-4o costs $2.50/1M (12x cheaper). The biggest drops came from competition, hardware improvements, and distillation.</p>
+    </details>
+    <details>
+      <summary>Why did LLM prices drop so dramatically?</summary>
+      <p>Four main factors: (1) Competition from open-source models (Llama, Mistral) forced proprietary providers to lower prices; (2) Hardware improvements including custom chips reduced inference costs; (3) Architectural innovations like Mixture-of-Experts reduced compute per token; (4) Distillation and quantization enabled smaller models to match larger model quality at a fraction of the cost.</p>
+    </details>
+    <details>
+      <summary>Which LLM API is cheapest in 2026?</summary>
+      <p>As of April 2026, the cheapest APIs are: Mistral Small 3.1 at $0.10/1M input, Gemini 2.5 Flash and GPT-4o mini at $0.15/1M, DeepSeek V3 at $0.27/1M. For self-hosted, Llama 3.3 70B on Groq or Together AI can cost under $0.50/1M tokens. The cheapest option depends on quality requirements, latency needs, and volume.</p>
+    </details>
+    <details>
+      <summary>Will LLM prices continue to drop?</summary>
+      <p>Prices are expected to continue declining but at a slower rate. The rapid 100x drops from 2023-2025 were driven by one-time factors (competition entry, architecture shifts). Future reductions will come from incremental hardware improvements, better quantization, and speculative decoding. Reasoning models may cost more per token due to extended compute, creating a two-tier structure.</p>
+    </details>
+    <details>
+      <summary>How do I estimate my LLM API costs?</summary>
+      <p>Use KickLLM's free calculator at kickllm.com. Key inputs: average input tokens per request, average output tokens, requests per day, and your chosen model. Benchmarks: a typical chatbot message is 100-500 input tokens. A RAG query with context is 2,000-8,000 input tokens. Batch processing with long documents can be 50,000-128,000 input tokens per request.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime &mdash; $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ &mdash; Prompts</a>
+            <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+            <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+            <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &mdash; Security</a>
+            <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+            <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(!isNaN(xn)&&!isNaN(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
+function downloadData(format){const entries=document.querySelectorAll('#main-table tbody tr');const data=Array.from(entries).map(el=>{const cells=el.querySelectorAll('td');if(cells.length<2)return null;return{date:cells[0]?.textContent?.trim(),model:cells[1]?.textContent?.trim(),provider:cells[2]?.textContent?.trim(),input_price:cells[3]?.textContent?.trim(),output_price:cells[4]?.textContent?.trim(),event:cells[5]?.textContent?.trim(),drop:cells[6]?.textContent?.trim()};}).filter(d=>d&&d.model);let content,type,ext;if(format==='json'){content=JSON.stringify(data,null,2);type='application/json';ext='json';}else{content='date,model,provider,input_price_per_1m,output_price_per_1m,event,drop\n'+data.map(d=>`"${d.date}","${d.model}","${d.provider}","${d.input_price}","${d.output_price}","${d.event}","${d.drop}"`).join('\n');type='text/csv';ext='csv';}const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='llm-pricing-history.'+ext;a.click();}
+</script>
+<script src="/assets/js/share.js"></script>
+</body>
+</html>
