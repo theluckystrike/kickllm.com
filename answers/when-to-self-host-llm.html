@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>When to Self-Host an LLM — KickLLM</title>
+  <meta name="description" content="Self-host when: API costs exceed $3,000/month, you need less than 50ms latency, data can't leave your network, or you need full model control. Otherwise, APIs are cheaper.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/when-to-self-host-llm.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="When to Self-Host an LLM — KickLLM">
+  <meta property="og:description" content="Self-host when API costs exceed $3K/month, you need <50ms latency, or data can't leave your network.">
+  <meta property="og:url" content="https://kickllm.com/answers/when-to-self-host-llm.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="When to Self-Host an LLM — KickLLM">
+  <meta name="twitter:description" content="Self-host when API costs exceed $3K/month, you need <50ms latency, or data can't leave your network.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "When should you self-host an LLM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-host when: (1) API costs exceed $3,000/month, (2) You need <50ms latency, (3) Data can't leave your network, (4) You need full model control. Otherwise, APIs are cheaper and simpler."
+      }
+    }, {
+      "@type": "Question",
+      "name": "How much does it cost to self-host an LLM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A single A100 GPU costs ~$1.50-2.00/hr on cloud providers (~$1,100-1,500/month). A 70B model needs 2-4 A100s ($2,200-6,000/month). Buying hardware (2x A100) costs ~$20,000-30,000 upfront plus electricity and maintenance."
+      }
+    }, {
+      "@type": "Question",
+      "name": "Is self-hosting cheaper than API?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only at high volume. Below ~$3,000/month in API costs, self-hosting is more expensive when you factor in GPU rental, engineering time, monitoring, and maintenance. Above $3,000/month with consistent throughput, self-hosting can save 40-60%."
+      }
+    }]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro ✦</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>When to Self-Host an LLM</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>When to Self-Host an LLM</h1>
+
+    <p><strong>Self-host when: (1) API costs exceed $3,000/month, (2) You need &lt;50ms latency, (3) Data can't leave your network, (4) You need full model control. Otherwise, APIs are cheaper and simpler.</strong></p>
+
+    <h2>The 4 Reasons to Self-Host</h2>
+
+    <h3>1. Cost Threshold: $3,000+/month in API spend</h3>
+    <p>Below $3K/month, the overhead of self-hosting (GPU rental, engineering time, monitoring, updates) exceeds what you'd save. Above $3K/month with consistent throughput, self-hosting a 70B model can reduce costs by 40-60%. The break-even depends on utilization — GPUs you're not using still cost money.</p>
+
+    <h3>2. Latency: Sub-50ms first-token requirements</h3>
+    <p>API calls include network latency (50-200ms) plus queue time. If your application needs sub-50ms time-to-first-token (real-time voice, gaming, high-frequency trading), self-hosting on local GPUs eliminates network overhead.</p>
+
+    <h3>3. Data Privacy: Data cannot leave your network</h3>
+    <p>Regulated industries (healthcare, finance, defense) may require that data never leaves your infrastructure. Self-hosting ensures prompts, completions, and fine-tuning data stay on your hardware. Note: some API providers offer on-premises deployments, but at significant cost.</p>
+
+    <h3>4. Model Control: Fine-tuning, custom inference, research</h3>
+    <p>If you need to modify model weights, run custom inference pipelines, or experiment with architectures, self-hosting gives you full control. APIs only expose what the provider chooses to expose.</p>
+
+    <h2>Self-Hosting Cost Breakdown</h2>
+    <table>
+      <thead>
+        <tr><th>Setup</th><th>Monthly Cost</th><th>Good For</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1x A100 (cloud)</td><td>~$1,100-1,500</td><td>7B-13B models</td></tr>
+        <tr><td>2x A100 (cloud)</td><td>~$2,200-3,000</td><td>34B-70B models</td></tr>
+        <tr><td>4x A100 (cloud)</td><td>~$4,400-6,000</td><td>70B+ models, high throughput</td></tr>
+        <tr><td>RunPod spot (A100)</td><td>~$800-1,200</td><td>Non-critical workloads</td></tr>
+        <tr><td>Mac Studio M2 Ultra (owned)</td><td>~$30 electricity</td><td>7B-13B hobby/dev</td></tr>
+      </tbody>
+    </table>
+
+    <h2>When to Stick with APIs</h2>
+    <ul>
+      <li>API spend is under $3,000/month</li>
+      <li>You need access to frontier models (GPT-4o, Claude Opus) that aren't open-source</li>
+      <li>Your traffic is bursty — GPUs sitting idle waste money</li>
+      <li>You don't have ML engineering expertise to maintain infrastructure</li>
+      <li>You want the latest model updates without redeployment</li>
+    </ul>
+
+    <h2>Related Questions</h2>
+    <ul>
+      <li><a href="/answers/cheapest-way-to-run-llama.html">Cheapest way to run Llama</a></li>
+      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
+      <li><a href="/answers/how-much-does-gpt4-cost-per-month.html">How much does GPT-4 cost per month?</a></li>
+      <li><a href="/answers/context-window-comparison-2026.html">Context window comparison 2026</a></li>
+    </ul>
+
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

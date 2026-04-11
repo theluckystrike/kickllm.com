@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>LLM Tokens Per Word — KickLLM</title>
+  <meta name="description" content="English averages 1 word = 1.3 tokens. 1,000 words = 1,300 tokens. Code averages 1 word = 1.5 tokens. Chinese/Japanese: 1 character = 1-2 tokens.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/llm-tokens-per-word.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="LLM Tokens Per Word — KickLLM">
+  <meta property="og:description" content="English: 1 word = 1.3 tokens. Code: 1 word = 1.5 tokens. Quick reference for token estimation.">
+  <meta property="og:url" content="https://kickllm.com/answers/llm-tokens-per-word.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Tokens Per Word — KickLLM">
+  <meta name="twitter:description" content="English: 1 word = 1.3 tokens. Code: 1 word = 1.5 tokens. Quick reference for token estimation.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How many tokens per word in LLMs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "English averages 1 word ≈ 1.3 tokens. So 1,000 words ≈ 1,300 tokens. Code averages 1 word ≈ 1.5 tokens. Chinese/Japanese: 1 character ≈ 1-2 tokens."
+      }
+    }, {
+      "@type": "Question",
+      "name": "How many words is 1000 tokens?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1,000 tokens is approximately 750 words in English. This varies by content type: conversational text may be closer to 800 words, while technical text with jargon may be closer to 650 words."
+      }
+    }, {
+      "@type": "Question",
+      "name": "How many tokens is a page of text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A standard page of text (250 words) is approximately 325 tokens. A dense technical page (500 words) is approximately 650-750 tokens."
+      }
+    }]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro ✦</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>LLM Tokens Per Word</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>LLM Tokens Per Word</h1>
+
+    <p><strong>English averages 1 word = 1.3 tokens. So 1,000 words = 1,300 tokens. Code averages 1 word = 1.5 tokens. Chinese/Japanese: 1 character = 1-2 tokens.</strong></p>
+
+    <h2>Quick Reference Table</h2>
+    <table>
+      <thead>
+        <tr><th>Content Type</th><th>Tokens per Word</th><th>Words per 1K Tokens</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>English (conversational)</td><td>~1.2</td><td>~830</td></tr>
+        <tr><td>English (formal/technical)</td><td>~1.3</td><td>~770</td></tr>
+        <tr><td>Code (Python, JS)</td><td>~1.5</td><td>~670</td></tr>
+        <tr><td>Code (verbose: Java, C#)</td><td>~1.7</td><td>~590</td></tr>
+        <tr><td>JSON/structured data</td><td>~2.0</td><td>~500</td></tr>
+        <tr><td>Chinese</td><td>1-2 per character</td><td>~500-1000 chars</td></tr>
+        <tr><td>Japanese</td><td>1-2 per character</td><td>~500-1000 chars</td></tr>
+        <tr><td>Spanish/French</td><td>~1.4</td><td>~710</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Common Text Length Estimates</h2>
+    <table>
+      <thead>
+        <tr><th>Text Length</th><th>Approximate Tokens</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 sentence</td><td>15-25 tokens</td></tr>
+        <tr><td>1 paragraph</td><td>50-100 tokens</td></tr>
+        <tr><td>1 page (250 words)</td><td>~325 tokens</td></tr>
+        <tr><td>1,000 words (blog post)</td><td>~1,300 tokens</td></tr>
+        <tr><td>5,000 words (long article)</td><td>~6,500 tokens</td></tr>
+        <tr><td>80,000 words (novel)</td><td>~100,000 tokens</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Why Tokens Matter for Cost</h2>
+    <p>LLM APIs charge per token, not per word. If you're estimating costs, use the 1.3x multiplier for English text. For example, processing a 2,000-word document with GPT-4o costs roughly: 2,000 &times; 1.3 = 2,600 input tokens = $0.0065 (at $2.50/1M tokens).</p>
+
+    <h2>How Tokenization Works</h2>
+    <p>LLMs use subword tokenization (BPE or similar). Common words like "the" are one token. Uncommon words are split into parts: "tokenization" might be "token" + "ization" (2 tokens). Numbers, punctuation, and whitespace all consume tokens. This is why the ratio varies by content type.</p>
+
+    <h2>Related Questions</h2>
+    <ul>
+      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
+      <li><a href="/answers/how-much-does-gpt4-cost-per-month.html">How much does GPT-4 cost per month?</a></li>
+      <li><a href="/answers/context-window-comparison-2026.html">Context window comparison 2026</a></li>
+      <li><a href="/answers/gpt4o-vs-claude-sonnet-price.html">GPT-4o vs Claude Sonnet pricing</a></li>
+    </ul>
+
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — Prompts</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
