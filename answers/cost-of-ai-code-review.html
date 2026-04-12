@@ -52,6 +52,7 @@
 }
   </script>
   <link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"Cost of AI Code Review Per Pull Request"}]}</script>
 </head>
 <body>
   <nav class="nav">
@@ -76,7 +77,7 @@
   <div class="page-content">
     <h1>How Much Does AI Code Review Cost?</h1>
 
-    <p><strong>AI code review costs $0.01-$0.05 per small PR (under 500 lines) using budget models, or $0.10-$0.50 per PR using premium models like Claude Opus 4. At 100 PRs/day, expect $3-$50/month.</strong></p>
+    <div class="direct-answer"><p><strong>AI code review costs $0.01-$0.05 per small PR (under 500 lines) using budget models, or $0.10-$0.50 per PR using premium models like Claude Opus 4. At 100 PRs/day, expect $3-$50/month.</strong></p></div>
     <h2>Cost Per Pull Request by Size and Model</h2>
     <table>
       <thead>
@@ -120,14 +121,16 @@
     <p>A small PR (200 lines) uses about 3,000 input tokens. A large PR (2,000 lines) uses about 25,000 input tokens. Output is typically 800-3,000 tokens for review comments.</p>
     <h3>Is AI code review worth the cost?</h3>
     <p>At $0.01-$0.50 per PR, AI code review is extremely cost-effective compared to engineer time ($50-150/hour). It catches common issues, enforces style, and frees senior engineers for deeper reviews.</p>
-    <h2>Related Questions</h2>
-    <ul>
-      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
-      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
-      <li><a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 Pricing</a></li>
-      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
-      <li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash Pricing</a></li>
-    </ul>
+    <section class="related-links">
+      <h2>Related Questions</h2>
+      <div class="related-grid">
+        <a href="/answers/cheapest-llm-api-2026.html" class="related-card">Cheapest LLM API in 2026</a>
+        <a href="/answers/claude-opus-4-pricing.html" class="related-card">Claude Opus 4 Pricing</a>
+        <a href="/answers/claude-sonnet-4-pricing.html" class="related-card">Claude Sonnet 4 Pricing</a>
+        <a href="/answers/gpt-4o-pricing.html" class="related-card">GPT-4o Pricing Breakdown</a>
+        <a href="/answers/gemini-2-flash-pricing.html" class="related-card">Gemini 2.0 Flash Pricing</a>
+      </div>
+    </section>
     <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
     <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
   </div>

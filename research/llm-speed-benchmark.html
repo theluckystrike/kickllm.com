@@ -107,6 +107,7 @@
   .speed-mid { color:#8be9fd; }
   .speed-slow { color:#ffa657; }
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://kickllm.com/research/"},{"@type":"ListItem","position":3,"name":"LLM Speed Benchmark"}]}</script>
 </head>
 <body>
   <nav class="nav">
@@ -251,7 +252,7 @@
 </nav>
 
 <script>
-function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(!isNaN(xn)&&!isNaN(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
+function sortTable(n){const t=document.getElementById('main-table'),b=t.tBodies[0],rows=Array.from(b.rows);let asc=t.getAttribute('data-sort-col')==n&&t.getAttribute('data-sort-dir')==='asc'?false:true;rows.sort((a,c)=>{let x=a.cells[n].textContent.trim(),y=c.cells[n].textContent.trim();const xn=parseFloat(x.replace(/[^0-9.\-]/g,'')),yn=parseFloat(y.replace(/[^0-9.\-]/g,''));if(Number.isFinite(xn)&&Number.isFinite(yn))return asc?xn-yn:yn-xn;return asc?x.localeCompare(y):y.localeCompare(x);});rows.forEach(r=>b.appendChild(r));t.setAttribute('data-sort-col',n);t.setAttribute('data-sort-dir',asc?'asc':'desc');}
 function downloadData(format){const entries=document.querySelectorAll('#main-table tbody tr');const data=Array.from(entries).map(el=>{const cells=el.querySelectorAll('td');if(cells.length<2)return null;return{model:cells[0]?.textContent?.trim(),provider:cells[1]?.textContent?.trim(),output_tps:cells[2]?.textContent?.trim(),ttft_ms:cells[3]?.textContent?.trim(),parameters:cells[4]?.textContent?.trim(),price:cells[5]?.textContent?.trim(),tier:cells[6]?.textContent?.trim()};}).filter(d=>d&&d.model);let content,type,ext;if(format==='json'){content=JSON.stringify(data,null,2);type='application/json';ext='json';}else{content='model,provider,output_tokens_per_sec,ttft_ms,parameters,input_price_per_1m,speed_tier\n'+data.map(d=>`"${d.model}","${d.provider}","${d.output_tps}","${d.ttft_ms}","${d.parameters}","${d.price}","${d.tier}"`).join('\n');type='text/csv';ext='csv';}const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='llm-speed-benchmark.'+ext;a.click();}
 </script>
 <script src="/assets/js/share.js"></script>

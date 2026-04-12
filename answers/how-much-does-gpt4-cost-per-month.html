@@ -48,6 +48,7 @@
   }
   </script>
   <link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"How Much Does GPT-4 Cost Per Month?"}]}</script>
 </head>
 <body>
   <nav class="nav">
@@ -73,7 +74,7 @@
   <div class="page-content">
     <h1>How Much Does GPT-4 Cost Per Month?</h1>
 
-    <p><strong>At 1M tokens/day: GPT-4o costs ~$375/month. Claude Sonnet ~$540/month. Gemini Flash ~$15/month. Use the cheapest model that meets your quality bar.</strong></p>
+    <div class="direct-answer"><p><strong>At 1M tokens/day: GPT-4o costs ~$375/month. Claude Sonnet ~$540/month. Gemini Flash ~$15/month. Use the cheapest model that meets your quality bar.</strong></p></div>
 
     <h2>Monthly Cost by Model (at 1M tokens/day)</h2>
     <p>Assuming a typical 50/50 input/output split:</p>
@@ -116,13 +117,15 @@
       <li><strong>Batch API</strong> — OpenAI's Batch API offers 50% discounts for non-real-time workloads</li>
     </ul>
 
-    <h2>Related Questions</h2>
-    <ul>
-      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
-      <li><a href="/answers/gpt4o-vs-claude-sonnet-price.html">GPT-4o vs Claude Sonnet pricing</a></li>
-      <li><a href="/answers/llm-tokens-per-word.html">How many tokens per word?</a></li>
-      <li><a href="/answers/when-to-self-host-llm.html">When to self-host an LLM</a></li>
-    </ul>
+    <section class="related-links">
+      <h2>Related Questions</h2>
+      <div class="related-grid">
+        <a href="/answers/cheapest-llm-api-2026.html" class="related-card">Cheapest LLM API in 2026</a>
+        <a href="/answers/gpt4o-vs-claude-sonnet-price.html" class="related-card">GPT-4o vs Claude Sonnet pricing</a>
+        <a href="/answers/llm-tokens-per-word.html" class="related-card">How many tokens per word?</a>
+        <a href="/answers/when-to-self-host-llm.html" class="related-card">When to self-host an LLM</a>
+      </div>
+    </section>
 
     <p style="margin-top:2rem;"><a href="/">Calculate your exact costs with KickLLM</a> &mdash; free, no sign-up required.</p>
   </div>

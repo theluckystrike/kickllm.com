@@ -52,6 +52,7 @@
 }
   </script>
   <link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"How Can You Optimize LLM API Costs?"}]}</script>
 </head>
 <body>
   <nav class="nav">
@@ -69,14 +70,14 @@
   </nav>
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <div class="container">
-      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>LLM API Cost Optimization Tips</span>
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>How Can You Optimize LLM API Costs?</span>
     </div>
   </nav>
 
   <div class="page-content">
-    <h1>LLM API Cost Optimization: 12 Tips to Cut Your Bill</h1>
+    <h1>How Can You Optimize LLM API Costs?</h1>
 
-    <p><strong>The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and response caching (save 30-50% on duplicate queries). Combined, these can reduce your API bill by 50-80%.</strong></p>
+    <div class="direct-answer"><p><strong>The top LLM cost optimizations: prompt caching (save 50-90% on repeated prefixes), model routing (save 40-60% by using cheap models for simple tasks), and response caching (save 30-50% on duplicate queries). Combined, these can reduce your API bill by 50-80%.</strong></p></div>
     <h2>1. Prompt Caching</h2>
     <p>Anthropic and OpenAI automatically cache repeated prompt prefixes. If your system prompt is 2,000 tokens and you make 1,000 calls:</p>
     <table>
@@ -163,14 +164,16 @@ def route_model(prompt):
     <p>Yes. Anthropic and OpenAI cache repeated prompt prefixes automatically. If your system prompt is constant across requests, you save up to 90% on input tokens for that portion after the first request.</p>
     <h3>How much can I save on LLM API costs?</h3>
     <p>Combining model routing, prompt caching, response caching, and shorter prompts can reduce costs by 50-80%. A $2,700/month bill can drop to $600-$800/month with these optimizations.</p>
-    <h2>Related Questions</h2>
-    <ul>
-      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
-      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
-      <li><a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 Pricing</a></li>
-      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
-      <li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash Pricing</a></li>
-    </ul>
+    <section class="related-links">
+      <h2>Related Questions</h2>
+      <div class="related-grid">
+        <a href="/answers/cheapest-llm-api-2026.html" class="related-card">Cheapest LLM API in 2026</a>
+        <a href="/answers/claude-opus-4-pricing.html" class="related-card">Claude Opus 4 Pricing</a>
+        <a href="/answers/claude-sonnet-4-pricing.html" class="related-card">Claude Sonnet 4 Pricing</a>
+        <a href="/answers/gpt-4o-pricing.html" class="related-card">GPT-4o Pricing Breakdown</a>
+        <a href="/answers/gemini-2-flash-pricing.html" class="related-card">Gemini 2.0 Flash Pricing</a>
+      </div>
+    </section>
     <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
     <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
   </div>

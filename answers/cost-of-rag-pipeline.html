@@ -52,6 +52,7 @@
 }
   </script>
   <link rel="stylesheet" href="/assets/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"Cost of a RAG Pipeline"}]}</script>
 </head>
 <body>
   <nav class="nav">
@@ -76,7 +77,7 @@
   <div class="page-content">
     <h1>How Much Does a RAG Pipeline Cost?</h1>
 
-    <p><strong>A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $10-$500/month plus $20-$200/month for vector DB hosting.</strong></p>
+    <div class="direct-answer"><p><strong>A RAG pipeline costs $0.001-$0.05 per query: embedding (~$0.0001), vector DB lookup (~$0.0001), and LLM generation ($0.001-$0.05). At 10K queries/day, expect $10-$500/month plus $20-$200/month for vector DB hosting.</strong></p></div>
     <h2>RAG Pipeline Cost Breakdown</h2>
     <table>
       <thead>
@@ -139,14 +140,16 @@
     <p>Use Gemini 2.0 Flash ($0.075/$0.30) for generation, text-embedding-3-small for embeddings, and pgvector on a $10/month VPS for storage. Total cost: under $20/month for 10K queries/day.</p>
     <h3>Do I need a vector database for RAG?</h3>
     <p>For small corpora (under 10K documents), you can use simple in-memory search or SQLite FTS. For larger corpora, a vector database provides faster retrieval and better relevance. pgvector is a good free starting point.</p>
-    <h2>Related Questions</h2>
-    <ul>
-      <li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></li>
-      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
-      <li><a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 Pricing</a></li>
-      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
-      <li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash Pricing</a></li>
-    </ul>
+    <section class="related-links">
+      <h2>Related Questions</h2>
+      <div class="related-grid">
+        <a href="/answers/cheapest-llm-api-2026.html" class="related-card">Cheapest LLM API in 2026</a>
+        <a href="/answers/claude-opus-4-pricing.html" class="related-card">Claude Opus 4 Pricing</a>
+        <a href="/answers/claude-sonnet-4-pricing.html" class="related-card">Claude Sonnet 4 Pricing</a>
+        <a href="/answers/gpt-4o-pricing.html" class="related-card">GPT-4o Pricing Breakdown</a>
+        <a href="/answers/gemini-2-flash-pricing.html" class="related-card">Gemini 2.0 Flash Pricing</a>
+      </div>
+    </section>
     <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: April 2026. Pricing may change — always check provider websites for current rates.</em></p>
     <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> &mdash; free, no sign-up required.</p>
   </div>
