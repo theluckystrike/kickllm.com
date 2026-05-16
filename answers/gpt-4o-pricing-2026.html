@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>GPT-4o Pricing 2026: Cost Per Token, API Rates &amp; Calculator | KickLLM</title>
+  <meta name="description" content="GPT-4o API pricing 2026: $2.50/1M input, $10/1M output tokens. Interactive cost calculator, comparison vs GPT-4o-mini, Claude Sonnet 4.6, Gemini 2.5. Batch API 50% discount math included.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/gpt-4o-pricing-2026.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="GPT-4o Pricing 2026: Cost Per Token, API Rates &amp; Calculator | KickLLM">
+  <meta property="og:description" content="GPT-4o API pricing 2026: $2.50/1M input, $10/1M output. Interactive calculator, batch API savings, prompt caching math, and full model comparison.">
+  <meta property="og:url" content="https://kickllm.com/answers/gpt-4o-pricing-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-4o Pricing 2026: Cost Per Token, API Rates &amp; Calculator | KickLLM">
+  <meta name="twitter:description" content="GPT-4o API pricing 2026: $2.50/1M input, $10/1M output. Interactive calculator, batch API savings, prompt caching math.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "GPT-4o Cost Calculator",
+        "url": "https://kickllm.com/answers/gpt-4o-pricing-2026.html",
+        "description": "Interactive calculator for GPT-4o API costs — enter input and output token counts to get exact pricing.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+        "datePublished": "2026-05-16",
+        "dateModified": "2026-05-16"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does GPT-4o cost per 1M tokens in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPT-4o costs $2.50 per 1M input tokens and $10.00 per 1M output tokens as of 2026. With Batch API (async processing), the rate drops to $1.25 input / $5.00 output — a 50% discount."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is GPT-4o cost per 1000 tokens?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPT-4o costs $0.0025 per 1K input tokens and $0.01 per 1K output tokens. A typical API call using 1,000 input tokens and 500 output tokens costs $0.0075 total."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is GPT-4o cheaper than Claude Sonnet 4.6?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPT-4o input tokens are cheaper ($2.50 vs $3.00/1M), but Claude Sonnet 4.6 output tokens are more expensive ($15.00 vs $10.00/1M). For output-heavy workloads, GPT-4o is meaningfully cheaper. For input-heavy workloads (like RAG), the difference is smaller."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does GPT-4o-mini cost compared to GPT-4o?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPT-4o-mini costs $0.15/1M input and $0.60/1M output — roughly 17x cheaper than GPT-4o on input and 16.7x cheaper on output. For simple classification, extraction, or routing tasks, GPT-4o-mini delivers 90%+ of the performance at a fraction of the cost."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does GPT-4o Batch API pricing work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The OpenAI Batch API processes requests asynchronously (24-hour window) and charges 50% of standard rates. GPT-4o batch pricing is $1.25/1M input and $5.00/1M output. It is ideal for document processing, data extraction, and any non-real-time workload."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is GPT-4o prompt caching and how much does it save?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GPT-4o prompt caching automatically caches repeated prefixes (like system prompts or document context) at $1.25/1M tokens — 50% off standard input pricing. If your system prompt is 10K tokens and you make 10,000 daily requests, caching saves approximately $125/day versus the uncached rate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should I use GPT-4o vs GPT-4o-mini?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use GPT-4o when you need: complex reasoning, multi-step tool use, nuanced writing, vision tasks, or customer-facing outputs where quality errors are costly. Use GPT-4o-mini when you need: classification, simple extraction, intent detection, routing, or any high-volume task where cost is the primary constraint."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does GPT-4o cost per month for a production app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A medium-scale production app processing 500K input tokens and 250K output tokens per day costs approximately $112.50/month with GPT-4o at standard pricing. Using Batch API for non-real-time requests cuts this to roughly $56.25/month. Heavy production (5M input / 2.5M output daily) costs $1,125/month standard or $562.50/month batch."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    /* ── Page-specific styles for gpt-4o-pricing-2026 ── */
+    .answer-hero {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .answer-hero .ah-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .answer-hero p {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .price-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+    }
+    .price-card .pc-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .price-card .pc-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .price-card .pc-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Calculator */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .calc-card h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .calc-field label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .calc-field input[type="number"],
+    .calc-field select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+    }
+    .calc-field input:focus,
+    .calc-field select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .calc-result {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .calc-result-item { text-align: center; }
+    .calc-result-item .cri-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .calc-result-item .cri-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .calc-result-item .cri-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .calc-mode-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      width: fit-content;
+    }
+    .calc-mode-tab {
+      padding: 0.45rem 1rem;
+      background: var(--bg);
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .calc-mode-tab:not(:last-child) { border-right: 1px solid var(--border); }
+    .calc-mode-tab.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .calc-savings-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.9rem;
+      background: rgba(244,63,94,0.06);
+      border-radius: var(--radius);
+      border-left: 2px solid var(--accent);
+    }
+
+    /* Comparison table highlight */
+    .highlight-row td { color: var(--accent); font-weight: 600; }
+    .highlight-row td:first-child::before {
+      content: "★ ";
+      font-size: 0.8em;
+    }
+
+    /* Decision matrix */
+    .decision-matrix {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .decision-matrix th {
+      background: var(--bg-card);
+      padding: 0.6rem 0.75rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .decision-matrix td {
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+      vertical-align: top;
+    }
+    .decision-matrix tr:last-child td { border-bottom: none; }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag-use { background: rgba(244,63,94,0.15); color: var(--accent); }
+    .tag-skip { background: rgba(136,136,136,0.15); color: var(--text-muted); }
+
+    /* Optimization tips */
+    .tip-grid {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .tip-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+    }
+    .tip-item .tip-num {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .tip-item h4 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .tip-item p { font-size: 0.88rem; color: var(--text-muted); margin: 0; }
+    .tip-item .tip-math {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.6rem;
+      color: var(--accent);
+    }
+
+    /* FAQ */
+    .faq-q-heading {
+      font-weight: 600;
+      font-size: 0.97rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1rem 0;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.4;
+    }
+    .faq-q-heading .faq-icon {
+      flex-shrink: 0;
+      font-size: 1.1rem;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+    .faq-block { border-top: 1px solid var(--border); }
+    .faq-block:last-child .faq-q-heading { border-bottom: none; }
+    .faq-answer {
+      display: none;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding: 0 0 1rem;
+    }
+    .faq-answer p { margin-bottom: 0.5rem; }
+    .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-block.open .faq-q-heading .faq-icon { transform: rotate(45deg); }
+    .faq-block.open .faq-answer { display: block; }
+
+    /* Savings badge */
+    .savings-badge {
+      display: inline-block;
+      background: rgba(244,63,94,0.15);
+      color: var(--accent);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 3px;
+      margin-left: 0.5rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 0.6rem 2rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    /* Last updated */
+    .last-updated-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .calc-row { grid-template-columns: 1fr; }
+      .price-cards { grid-template-columns: repeat(2, 1fr); }
+      .calc-result { flex-direction: column; gap: 0.75rem; }
+      .calc-result-item { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/research/">Research</a></li>
+      <li><a href="/answers/">Answers</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>GPT-4o Pricing 2026</span>
+  </nav>
+
+  <div class="page-content">
+
+    <h1>GPT-4o API Pricing 2026 &#8212; Complete Cost Breakdown</h1>
+
+    <div class="answer-hero">
+      <div class="ah-label">Direct Answer</div>
+      <p><strong>GPT-4o costs $2.50 per 1M input tokens and $10.00 per 1M output tokens</strong> as of May 2026. The Batch API drops this to $1.25 / $5.00 (50% off). Prompt caching hits at $1.25/1M for repeated prefixes. A typical API call (1K input + 500 output tokens) costs <strong>$0.0075</strong>.</p>
+    </div>
+
+    <!-- Price cards -->
+    <div class="price-cards">
+      <div class="price-card">
+        <div class="pc-label">Input (standard)</div>
+        <div class="pc-value">$2.50</div>
+        <div class="pc-sub">per 1M tokens</div>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Output (standard)</div>
+        <div class="pc-value">$10.00</div>
+        <div class="pc-sub">per 1M tokens</div>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Batch Input</div>
+        <div class="pc-value">$1.25</div>
+        <div class="pc-sub">50% off, async</div>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Batch Output</div>
+        <div class="pc-value">$5.00</div>
+        <div class="pc-sub">50% off, async</div>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Cached Input</div>
+        <div class="pc-value">$1.25</div>
+        <div class="pc-sub">prompt caching</div>
+      </div>
+      <div class="price-card">
+        <div class="pc-label">Context Window</div>
+        <div class="pc-value">128K</div>
+        <div class="pc-sub">tokens</div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE CALCULATOR -->
+    <h2>GPT-4o Cost Calculator</h2>
+    <p>Enter your token volumes below to calculate the exact API cost. Switch between Standard (real-time) and Batch (async, 50% off) pricing.</p>
+
+    <div class="calc-card">
+      <h3>GPT-4o Interactive Cost Calculator</h3>
+
+      <div class="calc-mode-tabs" role="tablist">
+        <button class="calc-mode-tab active" data-mode="standard" role="tab" aria-selected="true">Standard API</button>
+        <button class="calc-mode-tab" data-mode="batch" role="tab" aria-selected="false">Batch API (50% off)</button>
+        <button class="calc-mode-tab" data-mode="monthly" role="tab" aria-selected="false">Monthly Estimate</button>
+      </div>
+
+      <!-- Standard + Batch mode inputs -->
+      <div id="calc-single-mode">
+        <div class="calc-row">
+          <div class="calc-field">
+            <label for="calc-input-tokens">Input tokens</label>
+            <input type="number" id="calc-input-tokens" value="1000" min="1" max="128000" step="100">
+          </div>
+          <div class="calc-field">
+            <label for="calc-output-tokens">Output tokens</label>
+            <input type="number" id="calc-output-tokens" value="500" min="1" max="16384" step="100">
+          </div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label for="calc-requests">Number of requests</label>
+            <input type="number" id="calc-requests" value="1" min="1" max="10000000" step="1">
+          </div>
+          <div class="calc-field">
+            <label for="calc-cached-pct">% of input that is cached</label>
+            <input type="number" id="calc-cached-pct" value="0" min="0" max="100" step="5">
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly mode inputs -->
+      <div id="calc-monthly-mode" style="display:none">
+        <div class="calc-row">
+          <div class="calc-field">
+            <label for="calc-m-input">Avg input tokens per request</label>
+            <input type="number" id="calc-m-input" value="1000" min="1" max="128000" step="100">
+          </div>
+          <div class="calc-field">
+            <label for="calc-m-output">Avg output tokens per request</label>
+            <input type="number" id="calc-m-output" value="500" min="1" max="16384" step="100">
+          </div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label for="calc-m-rpd">Requests per day</label>
+            <input type="number" id="calc-m-rpd" value="100" min="1" max="10000000" step="10">
+          </div>
+          <div class="calc-field">
+            <label for="calc-m-days">Days per month</label>
+            <input type="number" id="calc-m-days" value="30" min="1" max="31" step="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-result" id="calc-result">
+        <div class="calc-result-item">
+          <div class="cri-label">Total Cost</div>
+          <div class="cri-value" id="cri-total">$0.0075</div>
+          <div class="cri-sub" id="cri-total-sub">1 request</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="cri-label">Cost per Request</div>
+          <div class="cri-value" id="cri-per-req">$0.0075</div>
+          <div class="cri-sub">input + output</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="cri-label">Input Cost</div>
+          <div class="cri-value" id="cri-input-cost">$0.0025</div>
+          <div class="cri-sub" id="cri-input-sub">1,000 tokens</div>
+        </div>
+        <div class="calc-result-item">
+          <div class="cri-label">Output Cost</div>
+          <div class="cri-value" id="cri-output-cost">$0.0050</div>
+          <div class="cri-sub" id="cri-output-sub">500 tokens</div>
+        </div>
+      </div>
+
+      <div class="calc-savings-note" id="calc-savings-note" style="display:none"></div>
+    </div>
+
+    <!-- PRICING COMPARISON TABLE -->
+    <h2>GPT-4o vs Alternatives: Full Pricing Comparison (2026)</h2>
+    <p>The table below shows all current major frontier models ranked by input token cost. Quality scores reflect aggregate benchmark performance across MMLU, HumanEval, MATH, and GPQA.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Provider</th>
+          <th>Input / 1M</th>
+          <th>Output / 1M</th>
+          <th>Batch Input / 1M</th>
+          <th>Context</th>
+          <th>Quality</th>
+          <th>Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GPT-4o-mini</strong></td>
+          <td>OpenAI</td>
+          <td>$0.15</td>
+          <td>$0.60</td>
+          <td>$0.075</td>
+          <td>128K</td>
+          <td>79/100</td>
+          <td>~120 tok/s</td>
+        </tr>
+        <tr>
+          <td><strong>Gemini 2.5 Flash</strong></td>
+          <td>Google</td>
+          <td>$0.30</td>
+          <td>$2.50</td>
+          <td>N/A</td>
+          <td>1M</td>
+          <td>82/100</td>
+          <td>~150 tok/s</td>
+        </tr>
+        <tr>
+          <td><strong>Gemini 2.5 Pro</strong></td>
+          <td>Google</td>
+          <td>$1.25</td>
+          <td>$10.00</td>
+          <td>N/A</td>
+          <td>1M</td>
+          <td>89/100</td>
+          <td>~80 tok/s</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>GPT-4o</strong></td>
+          <td>OpenAI</td>
+          <td>$2.50</td>
+          <td>$10.00</td>
+          <td>$1.25</td>
+          <td>128K</td>
+          <td>90/100</td>
+          <td>~90 tok/s</td>
+        </tr>
+        <tr>
+          <td><strong>Claude Sonnet 4.6</strong></td>
+          <td>Anthropic</td>
+          <td>$3.00</td>
+          <td>$15.00</td>
+          <td>$1.50</td>
+          <td>200K</td>
+          <td>88/100</td>
+          <td>~80 tok/s</td>
+        </tr>
+        <tr>
+          <td><strong>GPT-4.5</strong></td>
+          <td>OpenAI</td>
+          <td>$75.00</td>
+          <td>$150.00</td>
+          <td>$37.50</td>
+          <td>128K</td>
+          <td>93/100</td>
+          <td>~40 tok/s</td>
+        </tr>
+        <tr>
+          <td><strong>Claude Opus 4.6</strong></td>
+          <td>Anthropic</td>
+          <td>$15.00</td>
+          <td>$75.00</td>
+          <td>$7.50</td>
+          <td>200K</td>
+          <td>92/100</td>
+          <td>~30 tok/s</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><em>Highlighted row (&#9733;) = subject of this page. Prices verified May 2026. Quality scores are KickLLM aggregate estimates across public benchmarks.</em></p>
+
+    <h3>Key Takeaways from the Comparison</h3>
+    <ul>
+      <li><strong>GPT-4o is the input-price sweet spot</strong> among frontier-quality models. Gemini 2.5 Pro undercuts it at $1.25/1M input, but GPT-4o's output pricing is identical and it has broader ecosystem support.</li>
+      <li><strong>GPT-4o-mini is 17x cheaper on input</strong> — use it for any task where 79/100 quality suffices. The break-even point: if mini passes your quality bar, you save ~94% per token.</li>
+      <li><strong>Claude Sonnet 4.6 output is 50% more expensive</strong> ($15 vs $10/1M). For output-heavy tasks (long-form generation, code), GPT-4o has a meaningful cost advantage.</li>
+      <li><strong>GPT-4.5 is a research/flagship tier</strong> — 30x the cost of GPT-4o for ~3 quality points. Only defensible for tasks where state-of-art reasoning is the product differentiator.</li>
+    </ul>
+
+    <!-- WHEN TO USE / DECISION MATRIX -->
+    <h2>When to Use GPT-4o vs Alternatives: Decision Matrix</h2>
+    <p>The right model choice depends on your quality threshold, output volume, and latency requirements. Use this matrix to route workloads efficiently.</p>
+
+    <table class="decision-matrix">
+      <thead>
+        <tr>
+          <th>Workload Type</th>
+          <th>GPT-4o</th>
+          <th>GPT-4o-mini</th>
+          <th>Claude Sonnet 4.6</th>
+          <th>Gemini 2.5 Pro</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Customer-facing chatbot</strong><br><small>Quality errors are visible, real-time</small></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-skip">Test first</span></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td>GPT-4o or Sonnet 4.6; A/B test mini for deflection</td>
+        </tr>
+        <tr>
+          <td><strong>Classification / routing</strong><br><small>Intent detection, triage, tagging</small></td>
+          <td><span class="tag tag-skip">Overkill</span></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-skip">Overkill</span></td>
+          <td><span class="tag tag-skip">Overkill</span></td>
+          <td>GPT-4o-mini saves 94% vs GPT-4o</td>
+        </tr>
+        <tr>
+          <td><strong>Code generation / debugging</strong><br><small>Multi-step, tool-use, agentic</small></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-skip">Insufficient</span></td>
+          <td><span class="tag tag-use">Strong</span></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td>Claude Sonnet 4.6 leads on code; GPT-4o close second</td>
+        </tr>
+        <tr>
+          <td><strong>Document summarization</strong><br><small>Long PDFs, reports, contracts</small></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-use">Test</span></td>
+          <td><span class="tag tag-use">Preferred</span></td>
+          <td><span class="tag tag-use">Preferred</span></td>
+          <td>Gemini 2.5 Pro wins on 1M context; Sonnet for quality</td>
+        </tr>
+        <tr>
+          <td><strong>Batch data extraction</strong><br><small>Async, non-real-time, high volume</small></td>
+          <td><span class="tag tag-use">Batch API</span></td>
+          <td><span class="tag tag-use">Batch API</span></td>
+          <td><span class="tag tag-use">Batch API</span></td>
+          <td><span class="tag tag-skip">No batch</span></td>
+          <td>GPT-4o Batch API at $1.25/5.00 is competitive</td>
+        </tr>
+        <tr>
+          <td><strong>Vision / image understanding</strong><br><small>Screenshots, charts, diagrams</small></td>
+          <td><span class="tag tag-use">Native</span></td>
+          <td><span class="tag tag-use">Native</span></td>
+          <td><span class="tag tag-use">Native</span></td>
+          <td><span class="tag tag-use">Native</span></td>
+          <td>GPT-4o excels; mini good for simple extraction</td>
+        </tr>
+        <tr>
+          <td><strong>Research / complex reasoning</strong><br><small>Multi-step, expert-level tasks</small></td>
+          <td><span class="tag tag-skip">Sub-optimal</span></td>
+          <td><span class="tag tag-skip">Insufficient</span></td>
+          <td><span class="tag tag-use">Opus 4.6</span></td>
+          <td><span class="tag tag-skip">Sub-optimal</span></td>
+          <td>Upgrade to Claude Opus 4.6 or GPT-4.5 for frontier reasoning</td>
+        </tr>
+        <tr>
+          <td><strong>RAG over large corpus</strong><br><small>Retrieval, 100K+ token context</small></td>
+          <td><span class="tag tag-use">Use</span></td>
+          <td><span class="tag tag-use">With caching</span></td>
+          <td><span class="tag tag-use">200K context</span></td>
+          <td><span class="tag tag-use">1M context</span></td>
+          <td>Gemini 2.5 Pro or Sonnet for very long context</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- BATCH API -->
+    <h2>GPT-4o Batch API: 50% Off for Async Workloads</h2>
+    <p>The OpenAI Batch API processes requests within a 24-hour window rather than immediately. In exchange, you pay half the standard rate. This is the single most impactful cost lever available for GPT-4o workloads that do not require real-time response.</p>
+
+    <h3>Batch API Pricing Breakdown</h3>
+    <table>
+      <thead>
+        <tr><th>Pricing Type</th><th>Input / 1M tokens</th><th>Output / 1M tokens</th><th>Latency</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Standard API</td><td>$2.50</td><td>$10.00</td><td>Real-time (&lt;30s)</td></tr>
+        <tr class="highlight-row"><td>Batch API</td><td>$1.25</td><td>$5.00</td><td>Up to 24 hours</td></tr>
+      </tbody>
+    </table>
+
+    <h3>When Batch API Pays Off: A Real Example</h3>
+    <p>Suppose you run a nightly pipeline that extracts structured data from 50,000 product descriptions. Each request: 800 input tokens, 300 output tokens.</p>
+    <ul>
+      <li><strong>Standard API:</strong> (50,000 &times; 800 / 1,000,000 &times; $2.50) + (50,000 &times; 300 / 1,000,000 &times; $10.00) = $100 + $150 = <strong>$250/night</strong></li>
+      <li><strong>Batch API:</strong> (50,000 &times; 800 / 1,000,000 &times; $1.25) + (50,000 &times; 300 / 1,000,000 &times; $5.00) = $50 + $75 = <strong>$125/night</strong></li>
+      <li><strong>Monthly savings: $3,750</strong> — just by switching to async processing.</li>
+    </ul>
+
+    <p>Workloads that are good candidates for Batch API: document processing, data extraction, embedding generation, offline classification, content moderation queues, research pipelines, and any scheduled nightly jobs.</p>
+
+    <!-- PROMPT CACHING -->
+    <h2>Prompt Caching: Saving on Repeated Prefixes</h2>
+    <p>GPT-4o automatically applies prompt caching when a request shares a long prefix with a recent prior request. Cached input tokens cost <strong>$1.25/1M</strong> instead of $2.50/1M — exactly 50% off. The cache is maintained for approximately one hour of inactivity.</p>
+
+    <h3>How Prompt Caching Works</h3>
+    <p>If your system prompt is 5,000 tokens and you send 10,000 API calls per day, the first call pays full price. Every subsequent call within the cache window pays half-price on those 5,000 tokens:</p>
+
+    <ul>
+      <li><strong>Without caching:</strong> 10,000 &times; 5,000 / 1,000,000 &times; $2.50 = <strong>$125/day</strong> just for the system prompt</li>
+      <li><strong>With caching (99% hit rate):</strong> First call $0.0125 + 9,999 &times; 5,000 / 1,000,000 &times; $1.25 = <strong>$62.51/day</strong></li>
+      <li><strong>Daily savings: ~$62.50 | Annual: ~$22,800</strong></li>
+    </ul>
+
+    <p>Prompt caching is automatic — you do not need to change your API calls. Maximize its value by placing static content (system prompts, RAG context, few-shot examples) at the beginning of messages and dynamic content (user messages) at the end.</p>
+
+    <h3>Cached vs Uncached Input Price</h3>
+    <table>
+      <thead>
+        <tr><th>Token Type</th><th>Price / 1M tokens</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Standard input (uncached)</td><td>$2.50</td><td>All new input tokens</td></tr>
+        <tr class="highlight-row"><td>Cached input</td><td>$1.25</td><td>Repeated prefix within cache TTL</td></tr>
+        <tr><td>Standard output</td><td>$10.00</td><td>All generated tokens (no caching)</td></tr>
+      </tbody>
+    </table>
+
+    <!-- COST OPTIMIZATION TIPS -->
+    <h2>5 Cost Optimization Strategies with Exact Math</h2>
+    <p>These are the five highest-leverage changes you can make to reduce GPT-4o API costs, in rough order of impact for most workloads.</p>
+
+    <div class="tip-grid">
+      <div class="tip-item">
+        <div class="tip-num">Strategy 01</div>
+        <h4>Route simple tasks to GPT-4o-mini</h4>
+        <p>Audit your API calls. Any call that does classification, extraction, intent detection, or simple Q&A is likely over-spending on GPT-4o. GPT-4o-mini handles these at $0.15/$0.60/1M — 17x and 16.7x cheaper on input/output respectively.</p>
+        <div class="tip-math">If 40% of your GPT-4o calls are simple tasks and you spend $1,000/month:<br>
+        Routed to mini: 0.40 &times; $1,000 &times; (1 - 1/17) = <strong>saves ~$376/month</strong></div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">Strategy 02</div>
+        <h4>Use Batch API for all non-real-time workloads</h4>
+        <p>Any pipeline that does not need results in under 30 seconds is a Batch API candidate. Scheduled jobs, nightly reports, offline enrichment, async moderation queues — all qualify. Submit via the <code>/v1/batches</code> endpoint.</p>
+        <div class="tip-math">$1,000/month standard &rarr; $500/month batch.<br>
+        If 60% of volume is async: 0.60 &times; $1,000 &times; 0.50 = <strong>saves $300/month</strong></div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">Strategy 03</div>
+        <h4>Maximize prompt cache hit rate</h4>
+        <p>Structure every message with static content first (system prompt, documents, examples) and dynamic content last (user query). This ensures the maximum prefix is eligible for caching. A 5K-token system prompt with a 95% cache hit rate on 5,000 daily calls saves ~$28/day.</p>
+        <div class="tip-math">System prompt tokens cached at 95% hit rate, 5K requests/day:<br>
+        Savings = 0.95 &times; 5,000 &times; 5,000 / 1M &times; ($2.50 - $1.25) = <strong>$29.69/day</strong></div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">Strategy 04</div>
+        <h4>Compress system prompts aggressively</h4>
+        <p>Every character in your system prompt is paid per request. A 3,000-token system prompt trimmed to 1,000 tokens (33%) saves $0.005 per call — $150/month at 1,000 requests/day. Techniques: remove redundant examples, use structured formats, cut explanations that are clear from context.</p>
+        <div class="tip-math">Trim 2K tokens/request, 1K req/day, 30 days:<br>
+        2,000 / 1M &times; $2.50 &times; 1,000 &times; 30 = <strong>saves $150/month</strong></div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">Strategy 05</div>
+        <h4>Set <code>max_tokens</code> to bound output costs</h4>
+        <p>Output tokens cost 4x input tokens. Unbounded generation is the most common source of cost surprises. Set <code>max_tokens</code> to the minimum your use case requires. For classification: 5–20 tokens. For summaries: 200–500. For code generation: 1,000–2,000. Add output length monitoring to catch regressions.</p>
+        <div class="tip-math">Avg output 800 tokens &rarr; capped at 300 tokens, 10K req/day:<br>
+        500 tokens saved &times; 10K &times; 30 / 1M &times; $10 = <strong>saves $1,500/month</strong></div>
+      </div>
+    </div>
+
+    <!-- MONTHLY COST ESTIMATES -->
+    <h2>GPT-4o Monthly Cost Estimates by Usage Tier</h2>
+    <p>Reference costs at common usage levels. All figures use a 70/30 input/output token split (typical for conversational workloads).</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Requests/Day</th>
+          <th>Avg Input Tokens</th>
+          <th>Avg Output Tokens</th>
+          <th>Monthly Cost (Standard)</th>
+          <th>Monthly Cost (Batch)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hobby / Side Project</td>
+          <td>50</td>
+          <td>800</td>
+          <td>400</td>
+          <td>$3.60</td>
+          <td>$1.80</td>
+        </tr>
+        <tr>
+          <td>Small SaaS (launch)</td>
+          <td>500</td>
+          <td>1,200</td>
+          <td>600</td>
+          <td>$54.00</td>
+          <td>$27.00</td>
+        </tr>
+        <tr>
+          <td>Medium SaaS</td>
+          <td>5,000</td>
+          <td>1,500</td>
+          <td>750</td>
+          <td>$675.00</td>
+          <td>$337.50</td>
+        </tr>
+        <tr>
+          <td>Production App</td>
+          <td>50,000</td>
+          <td>2,000</td>
+          <td>1,000</td>
+          <td>$9,000.00</td>
+          <td>$4,500.00</td>
+        </tr>
+        <tr>
+          <td>Enterprise Scale</td>
+          <td>500,000</td>
+          <td>2,000</td>
+          <td>1,000</td>
+          <td>$90,000.00</td>
+          <td>$45,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>At the Enterprise Scale tier, consider negotiating a committed-use discount directly with OpenAI — volume commitments typically unlock 15%–30% off list pricing. The Batch API provides the easiest guaranteed 50% reduction for eligible workloads.</p>
+
+    <!-- COST PER COMMON TASK -->
+    <h2>GPT-4o Cost Per Common Task</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Input Tokens</th>
+          <th>Output Tokens</th>
+          <th>Standard Cost</th>
+          <th>Batch Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Email reply draft</td>
+          <td>~400</td>
+          <td>~300</td>
+          <td>$0.0040</td>
+          <td>$0.0020</td>
+        </tr>
+        <tr>
+          <td>1-page document summary</td>
+          <td>~800</td>
+          <td>~400</td>
+          <td>$0.0060</td>
+          <td>$0.0030</td>
+        </tr>
+        <tr>
+          <td>Customer support response</td>
+          <td>~1,200</td>
+          <td>~500</td>
+          <td>$0.0080</td>
+          <td>$0.0040</td>
+        </tr>
+        <tr>
+          <td>Code function generation</td>
+          <td>~800</td>
+          <td>~600</td>
+          <td>$0.0080</td>
+          <td>$0.0040</td>
+        </tr>
+        <tr>
+          <td>10-turn conversation</td>
+          <td>~8,000</td>
+          <td>~2,500</td>
+          <td>$0.0450</td>
+          <td>N/A (real-time)</td>
+        </tr>
+        <tr>
+          <td>10K token research brief</td>
+          <td>~3,000</td>
+          <td>~2,500</td>
+          <td>$0.0325</td>
+          <td>$0.0163</td>
+        </tr>
+        <tr>
+          <td>Classify 1,000 records</td>
+          <td>~300K</td>
+          <td>~10K</td>
+          <td>$0.85</td>
+          <td>$0.425</td>
+        </tr>
+        <tr>
+          <td>Full codebase review (20K tokens)</td>
+          <td>~20,000</td>
+          <td>~4,000</td>
+          <td>$0.09</td>
+          <td>$0.045</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- GPT-4o API CODE EXAMPLE -->
+    <h2>GPT-4o API: Code Example with Cost Tracking</h2>
+    <p>Use the <code>usage</code> field from the API response to calculate exact costs per call. The pattern below works for all OpenAI models — swap in the per-token rates for the model you are using.</p>
+
+    <pre><code>from openai import OpenAI
+
+client = OpenAI()  # uses OPENAI_API_KEY from env
+
+# GPT-4o pricing (per 1M tokens)
+GPT4O_INPUT_RATE  = 2.50   # standard input
+GPT4O_OUTPUT_RATE = 10.00  # standard output
+GPT4O_CACHED_RATE = 1.25   # cached input (prompt caching)
+
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user",   "content": "Summarize this document: ..."}
+    ],
+    max_tokens=500  # always set to bound output cost
+)
+
+usage = response.usage
+cached = getattr(usage, "prompt_tokens_details", None)
+cached_tokens = cached.cached_tokens if cached else 0
+uncached_tokens = usage.prompt_tokens - cached_tokens
+
+input_cost  = (uncached_tokens / 1_000_000) * GPT4O_INPUT_RATE
+cached_cost = (cached_tokens   / 1_000_000) * GPT4O_CACHED_RATE
+output_cost = (usage.completion_tokens / 1_000_000) * GPT4O_OUTPUT_RATE
+total_cost  = input_cost + cached_cost + output_cost
+
+print(f"Tokens in : {usage.prompt_tokens:,} ({cached_tokens:,} cached)")
+print(f"Tokens out: {usage.completion_tokens:,}")
+print(f"Cost      : ${total_cost:.6f}")
+# Example: Tokens in: 1,248 (800 cached) | Tokens out: 412 | Cost: $0.005770</code></pre>
+
+    <!-- FAQ SECTION -->
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        How much does GPT-4o cost per 1M tokens in 2026?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>GPT-4o costs <strong>$2.50 per 1M input tokens</strong> and <strong>$10.00 per 1M output tokens</strong> at standard (real-time) pricing as of May 2026. OpenAI's Batch API halves both rates to $1.25 input / $5.00 output for asynchronous workloads. Prompt caching discounts repeated input prefixes to $1.25/1M. These rates have been stable since the model's pricing revision in late 2025.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        What is GPT-4o cost per 1000 tokens?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>GPT-4o costs <strong>$0.0025 per 1K input tokens</strong> and <strong>$0.01 per 1K output tokens</strong> at standard pricing. A typical API call with 1,000 input + 500 output tokens costs $0.0075 total. With Batch API: $0.00125 input + $0.005 output per 1K tokens. These numbers are easy to sanity-check: 1M tokens ÷ 1,000 = the per-1K rate.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        Is GPT-4o cheaper than Claude Sonnet 4.6?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>It depends on the workload composition. GPT-4o is <strong>cheaper on input</strong> ($2.50 vs $3.00/1M), while Claude Sonnet 4.6 is <strong>more expensive on output</strong> ($15.00 vs $10.00/1M). For a typical chatbot with 70% input / 30% output split, GPT-4o is about 20% cheaper overall. For code generation or long-form writing (output-heavy), the gap widens to 30–40% in GPT-4o's favor. Claude Sonnet 4.6 has a 200K context window vs GPT-4o's 128K — relevant for large document workloads.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        How much does GPT-4o-mini cost compared to GPT-4o?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>GPT-4o-mini costs $0.15/1M input and $0.60/1M output — <strong>16.7x–17x cheaper</strong> than GPT-4o. For a workload spending $1,000/month on GPT-4o, routing to mini drops that to roughly $60/month if quality is comparable. GPT-4o-mini scores approximately 79/100 on aggregate benchmarks versus 90/100 for GPT-4o — so the quality drop is real. For classification, extraction, routing, and simple Q&amp;A, mini is almost always the right call. For complex reasoning, nuanced writing, or multi-step tool use, GPT-4o or higher is required.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        How does GPT-4o Batch API pricing work?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>The Batch API accepts a JSONL file of up to 50,000 requests and processes them within 24 hours at <strong>50% off standard rates</strong>. GPT-4o batch pricing: $1.25/1M input, $5.00/1M output. You submit via <code>POST /v1/batches</code>, poll for status with <code>GET /v1/batches/{batch_id}</code>, and retrieve results via a file download. Ideal for: document processing pipelines, nightly data enrichment, offline classification, and any job where 24-hour latency is acceptable. Not suitable for: customer-facing chat, real-time suggestions, or interactive applications.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        What is GPT-4o prompt caching and how much does it save?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Prompt caching automatically discounts repeated input prefixes. When your request begins with tokens that match a recently cached sequence, those tokens are billed at <strong>$1.25/1M</strong> (half the standard $2.50). The cache is maintained for approximately 1 hour of inactivity. To maximize hits: put your system prompt and any static context first, then the dynamic user message last. A 10K-token system prompt with 95% cache hit rate on 5,000 daily calls saves roughly $59/day — $1,770/month — purely from cache hits on the static portion. The <code>usage.prompt_tokens_details.cached_tokens</code> field shows how many tokens were served from cache.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        When should I use GPT-4o vs GPT-4o-mini vs GPT-4.5?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p><strong>GPT-4o-mini</strong> ($0.15/$0.60): classification, extraction, routing, simple Q&amp;A, high-volume low-stakes tasks. Your default starting point — only upgrade if quality testing reveals failures.<br><br>
+        <strong>GPT-4o</strong> ($2.50/$10.00): complex reasoning, customer-facing chat, multi-step tool use, vision, nuanced writing. The balanced frontier choice — strong quality without GPT-4.5's premium.<br><br>
+        <strong>GPT-4.5</strong> ($75/$150): frontier research, elite writing quality, tasks where state-of-art performance is the product's core value proposition. 30x the cost of GPT-4o for ~3–4 quality points on benchmarks. Hard to justify unless you've exhausted GPT-4o's capability ceiling.</p>
+      </div>
+    </div>
+
+    <div class="faq-block">
+      <div class="faq-q-heading" tabindex="0" role="button" aria-expanded="false">
+        How much does GPT-4o cost per month for a production app?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <p>Monthly cost varies significantly by volume and configuration. Reference points at 70/30 input/output split:<br><br>
+        <strong>Small SaaS (500 req/day, 1,200/600 tokens):</strong> ~$54/month standard, ~$27/month batch<br>
+        <strong>Medium SaaS (5K req/day, 1,500/750 tokens):</strong> ~$675/month standard, ~$337/month batch<br>
+        <strong>Production (50K req/day, 2,000/1,000 tokens):</strong> ~$9,000/month standard, ~$4,500/month batch<br><br>
+        Tip: at $9K+/month, contact OpenAI sales for a volume commitment discount (typically 15–30% off). Use the interactive calculator above to model your exact scenario.</p>
+      </div>
+    </div>
+
+    <!-- RELATED LINKS -->
+    <section class="related-links" style="margin-top:2.5rem;">
+      <h2>Related KickLLM Tools &amp; Answers</h2>
+      <div class="related-grid">
+        <a href="/" class="related-card">LLM Cost Calculator (Main Tool)</a>
+        <a href="/answers/gpt-4o-mini-pricing.html" class="related-card">GPT-4o-mini Pricing</a>
+        <a href="/answers/gpt4o-vs-claude-sonnet-price.html" class="related-card">GPT-4o vs Claude Sonnet Price</a>
+        <a href="/answers/claude-sonnet-4-pricing.html" class="related-card">Claude Sonnet 4.6 Pricing</a>
+        <a href="/answers/gemini-2-flash-pricing.html" class="related-card">Gemini 2.5 Flash Pricing</a>
+        <a href="/answers/cheapest-llm-api-2026.html" class="related-card">Cheapest LLM API 2026</a>
+        <a href="/answers/llm-api-cost-optimization-tips.html" class="related-card">LLM API Cost Optimization Tips</a>
+        <a href="/answers/cost-of-rag-pipeline.html" class="related-card">Cost of a RAG Pipeline</a>
+        <a href="/answers/how-much-does-gpt4-cost-per-month.html" class="related-card">How Much Does GPT-4 Cost/Month?</a>
+        <a href="/research/llm-value-index-2026.html" class="related-card">LLM Value Index 2026</a>
+        <a href="/tools/llm-comparison.html" class="related-card">LLM Comparison Tool</a>
+        <a href="https://claudhq.com/claude-api-pricing-guide/" class="related-card" title="Claude API Pricing Guide">Claude API Pricing Guide — ClaudHQ</a>
+      </div>
+    </section>
+
+    <div class="last-updated-note">
+      <time datetime="2026-05-16">Last verified: May 16, 2026.</time> Pricing data sourced from OpenAI, Anthropic, and Google pricing pages. LLM pricing changes frequently — always verify current rates before finalizing budget estimates.
+    </div>
+
+    <p style="margin-top:1.5rem;"><a href="/">Use KickLLM's full calculator</a> to model your exact GPT-4o spend alongside every major LLM provider in one view &mdash; free, no sign-up.</p>
+  </div><!-- /.page-content -->
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime &mdash; $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; 47/500 founding spots</div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ &mdash; AI Code Tools &amp; Fixes</a>
+        <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+        <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+        <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+        <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+        <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+        <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+        <a href="https://lochbot.com">LochBot &mdash; Security</a>
+        <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+        <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // ── Pricing constants ──────────────────────────────
+    var RATES = {
+      standard: { input: 2.50,  output: 10.00 },
+      batch:    { input: 1.25,  output:  5.00 },
+      cached:   { input: 1.25 }   // cached input always $1.25/1M
+    };
+
+    var currentMode = 'standard'; // 'standard' | 'batch' | 'monthly'
+
+    // ── DOM refs ───────────────────────────────────────
+    var modeTabs    = document.querySelectorAll('.calc-mode-tab');
+    var singleMode  = document.getElementById('calc-single-mode');
+    var monthlyMode = document.getElementById('calc-monthly-mode');
+    var resultBox   = document.getElementById('calc-result');
+    var savingsNote = document.getElementById('calc-savings-note');
+
+    var elTotal      = document.getElementById('cri-total');
+    var elTotalSub   = document.getElementById('cri-total-sub');
+    var elPerReq     = document.getElementById('cri-per-req');
+    var elInputCost  = document.getElementById('cri-input-cost');
+    var elInputSub   = document.getElementById('cri-input-sub');
+    var elOutputCost = document.getElementById('cri-output-cost');
+    var elOutputSub  = document.getElementById('cri-output-sub');
+
+    // Single-mode inputs
+    var elInputTok  = document.getElementById('calc-input-tokens');
+    var elOutputTok = document.getElementById('calc-output-tokens');
+    var elRequests  = document.getElementById('calc-requests');
+    var elCachedPct = document.getElementById('calc-cached-pct');
+
+    // Monthly-mode inputs
+    var elMIn   = document.getElementById('calc-m-input');
+    var elMOut  = document.getElementById('calc-m-output');
+    var elMRpd  = document.getElementById('calc-m-rpd');
+    var elMDays = document.getElementById('calc-m-days');
+
+    // ── Helpers ────────────────────────────────────────
+    function fmt(n) {
+      if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      if (n >= 1)    return '$' + n.toFixed(4);
+      if (n >= 0.01) return '$' + n.toFixed(4);
+      return '$' + n.toFixed(6);
+    }
+
+    function fmtTokens(n) {
+      return n >= 1000000
+        ? (n/1000000).toFixed(2) + 'M tokens'
+        : n >= 1000
+          ? (n/1000).toFixed(1) + 'K tokens'
+          : n + ' tokens';
+    }
+
+    function calcCost(inputTok, outputTok, requests, cachedPct, mode) {
+      var rates = (mode === 'batch') ? RATES.batch : RATES.standard;
+      var cachedFrac = Math.min(Math.max((cachedPct || 0) / 100, 0), 1);
+      var uncachedFrac = 1 - cachedFrac;
+
+      var inputCostPerReq  = (inputTok * uncachedFrac / 1e6) * rates.input
+                           + (inputTok * cachedFrac   / 1e6) * RATES.cached.input;
+      var outputCostPerReq = (outputTok / 1e6) * rates.output;
+      var totalPerReq      = inputCostPerReq + outputCostPerReq;
+      var totalAll         = totalPerReq * requests;
+
+      return {
+        total:      totalAll,
+        perReq:     totalPerReq,
+        inputCost:  inputCostPerReq * requests,
+        outputCost: outputCostPerReq * requests
+      };
+    }
+
+    // ── Render ─────────────────────────────────────────
+    function render() {
+      var inputTok, outputTok, requests, cachedPct, result, reqs;
+
+      if (currentMode === 'monthly') {
+        inputTok  = parseFloat(elMIn.value)   || 1000;
+        outputTok = parseFloat(elMOut.value)  || 500;
+        reqs      = (parseFloat(elMRpd.value) || 100) * (parseFloat(elMDays.value) || 30);
+        cachedPct = 0;
+        result    = calcCost(inputTok, outputTok, reqs, 0, 'standard');
+        var batchResult = calcCost(inputTok, outputTok, reqs, 0, 'batch');
+
+        elTotal.textContent    = fmt(result.total);
+        elTotalSub.textContent = reqs.toLocaleString() + ' requests';
+        elPerReq.textContent   = fmt(result.perReq);
+        elInputCost.textContent  = fmt(result.inputCost);
+        elInputSub.textContent   = fmtTokens(inputTok * reqs) + ' total';
+        elOutputCost.textContent = fmt(result.outputCost);
+        elOutputSub.textContent  = fmtTokens(outputTok * reqs) + ' total';
+
+        savingsNote.style.display = 'block';
+        savingsNote.innerHTML = 'Batch API monthly estimate: <strong>' + fmt(batchResult.total) + '</strong> '
+          + '&mdash; saves <strong>' + fmt(result.total - batchResult.total) + '</strong>/month '
+          + '(' + Math.round((1 - batchResult.total / result.total) * 100) + '% off) for async workloads.';
+
+      } else {
+        inputTok  = parseFloat(elInputTok.value)  || 1000;
+        outputTok = parseFloat(elOutputTok.value) || 500;
+        requests  = parseFloat(elRequests.value)  || 1;
+        cachedPct = parseFloat(elCachedPct.value) || 0;
+
+        result = calcCost(inputTok, outputTok, requests, cachedPct, currentMode);
+
+        elTotal.textContent    = fmt(result.total);
+        elTotalSub.textContent = requests === 1
+          ? '1 request'
+          : requests.toLocaleString() + ' requests';
+        elPerReq.textContent   = fmt(result.perReq);
+        elInputCost.textContent  = fmt(result.inputCost);
+        elInputSub.textContent   = fmtTokens(inputTok);
+        elOutputCost.textContent = fmt(result.outputCost);
+        elOutputSub.textContent  = fmtTokens(outputTok);
+
+        if (currentMode === 'batch') {
+          var stdResult = calcCost(inputTok, outputTok, requests, cachedPct, 'standard');
+          savingsNote.style.display = 'block';
+          savingsNote.innerHTML = 'Batch vs Standard savings: <strong>' + fmt(stdResult.total - result.total)
+            + '</strong> (' + Math.round((1 - result.total / stdResult.total) * 100) + '% cheaper).';
+        } else if (cachedPct > 0) {
+          var noCacheResult = calcCost(inputTok, outputTok, requests, 0, 'standard');
+          savingsNote.style.display = 'block';
+          savingsNote.innerHTML = 'Prompt caching savings on this request: <strong>'
+            + fmt(noCacheResult.total - result.total) + '</strong> '
+            + '(' + cachedPct + '% of input tokens cached at $1.25/1M).';
+        } else {
+          savingsNote.style.display = 'none';
+        }
+      }
+    }
+
+    // ── Mode tabs ──────────────────────────────────────
+    modeTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        modeTabs.forEach(function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        currentMode = tab.getAttribute('data-mode');
+
+        if (currentMode === 'monthly') {
+          singleMode.style.display  = 'none';
+          monthlyMode.style.display = '';
+        } else {
+          singleMode.style.display  = '';
+          monthlyMode.style.display = 'none';
+        }
+        render();
+      });
+    });
+
+    // ── Live input updates ─────────────────────────────
+    [elInputTok, elOutputTok, elRequests, elCachedPct,
+     elMIn, elMOut, elMRpd, elMDays].forEach(function (el) {
+      el.addEventListener('input', render);
+    });
+
+    // ── FAQ accordion ──────────────────────────────────
+    document.querySelectorAll('.faq-q-heading').forEach(function (heading) {
+      heading.addEventListener('click', function () {
+        var block = heading.parentElement;
+        var isOpen = block.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-block.open').forEach(function (b) {
+          b.classList.remove('open');
+          b.querySelector('.faq-q-heading').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          block.classList.add('open');
+          heading.setAttribute('aria-expanded', 'true');
+        }
+      });
+      heading.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          heading.click();
+        }
+      });
+    });
+
+    // ── Initial render ─────────────────────────────────
+    render();
+
+  })();
+  </script>
+
+</body>
+</html>

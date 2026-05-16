@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM API Cost Calculator — Compare GPT-4o, Claude, Gemini Pricing | KickLLM</title>
+  <meta name="description" content="Free interactive LLM API cost calculator. Compare pricing for GPT-4o, Claude Opus 4.6, Claude Sonnet 4.6, Gemini 2.0 Flash, and DeepSeek V3. Estimate per-request, daily, monthly, and yearly costs instantly.">
+  <link rel="canonical" href="https://kickllm.com/tools/llm-cost-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/tools/llm-cost-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/llm-cost-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LLM API Cost Calculator — Compare GPT-4o, Claude, Gemini Pricing | KickLLM">
+  <meta property="og:description" content="Free interactive calculator to estimate LLM API costs. Compare GPT-4o, Claude, Gemini, and DeepSeek pricing side by side.">
+  <meta property="og:url" content="https://kickllm.com/tools/llm-cost-calculator.html">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM API Cost Calculator — Compare GPT-4o, Claude, Gemini Pricing">
+  <meta name="twitter:description" content="Free interactive calculator to estimate LLM API costs across all major providers.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LLM API Cost Calculator — KickLLM",
+    "url": "https://kickllm.com/tools/llm-cost-calculator.html",
+    "description": "Free interactive LLM API cost calculator. Compare pricing for GPT-4o, Claude Opus 4.6, Claude Sonnet 4.6, Gemini 2.0 Flash, and DeepSeek V3. Estimate per-request, daily, monthly, and yearly costs.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "featureList": ["Per-request cost calculation", "Daily/monthly/yearly projections", "Side-by-side model comparison", "7 major LLM providers", "Real-time 2026 pricing data"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How much does GPT-4o cost per request?", "acceptedAnswer": { "@type": "Answer", "text": "GPT-4o costs $2.50 per million input tokens and $10.00 per million output tokens. A typical request with 1,000 input tokens and 500 output tokens costs approximately $0.0075 (three-quarters of a cent). Monthly cost depends on request volume: 1,000 requests per day would cost roughly $225 per month." } },
+      { "@type": "Question", "name": "What is the cheapest LLM API in 2026?", "acceptedAnswer": { "@type": "Answer", "text": "Gemini 2.0 Flash is the cheapest major LLM API at $0.075 per million input tokens and $0.30 per million output tokens. DeepSeek V3 is the second cheapest at $0.27/$1.10 per million tokens. GPT-4o-mini at $0.15/$0.60 offers an excellent balance of cost and quality for lighter workloads." } },
+      { "@type": "Question", "name": "How do I calculate LLM API costs?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply your average input tokens per request by the model's input price per token, add your average output tokens multiplied by the output price per token. That gives you cost per request. Multiply by daily request count for daily cost, then by 30 for monthly cost. Remember that output tokens are typically 3-5x more expensive than input tokens." } },
+      { "@type": "Question", "name": "How much does Claude Opus 4.6 cost compared to GPT-4o?", "acceptedAnswer": { "@type": "Answer", "text": "Claude Opus 4.6 is significantly more expensive: $15.00 per million input tokens and $75.00 per million output tokens, compared to GPT-4o at $2.50/$10.00. Opus costs roughly 6-7.5x more than GPT-4o. Opus is designed for complex reasoning tasks where maximum quality justifies the premium." } },
+      { "@type": "Question", "name": "What are tokens and how do they relate to words?", "acceptedAnswer": { "@type": "Answer", "text": "A token is the smallest unit of text processed by an LLM. In English, one token is roughly 0.75 words, or equivalently, one word is about 1.3 tokens. A 500-word prompt uses approximately 650 tokens. Code and non-English text typically use more tokens per word. Each provider uses a different tokenizer, so exact counts vary by 10-15%." } },
+      { "@type": "Question", "name": "Does batch API pricing reduce LLM costs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. OpenAI offers 50% off with Batch API for non-time-sensitive workloads (results within 24 hours). Anthropic offers a similar Message Batches API with reduced pricing. Batch processing is ideal for content generation, data extraction, and classification tasks where you do not need real-time responses." } }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},{"@type":"ListItem","position":3,"name":"LLM Cost Calculator"}]}</script>
+  <style>
+    .calc-app { max-width: 960px; margin: 0 auto 2rem; padding: 0 2rem; }
+    .calc-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    .calc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+    .calc-card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600; }
+    .calc-field { margin-bottom: 1rem; }
+    .calc-field:last-child { margin-bottom: 0; }
+    .calc-field label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+    .calc-field select,
+    .calc-field input[type="number"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+    }
+    .calc-field select:focus,
+    .calc-field input:focus { outline: none; border-color: var(--accent); }
+    .calc-field .field-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .calc-single-result { display: none; margin-bottom: 2rem; }
+    .calc-single-result.visible { display: block; }
+    .single-cost-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }
+    .cost-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; }
+    .cost-box .cost-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .cost-box .cost-value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+    .cost-box .cost-value.large { font-size: 1.6rem; }
+    .calc-compare { margin-bottom: 2rem; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .compare-table th {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .compare-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border); }
+    .compare-table td.mono { font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; }
+    .compare-table tr.cheapest td { color: var(--accent); }
+    .compare-table tr.cheapest td:first-child::after { content: " (cheapest)"; font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+    .compare-table tr:hover td { background: var(--bg-hover); }
+    .savings-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.75rem; padding: 0.75rem 1rem; background: var(--accent-dim); border-radius: var(--radius); }
+    .savings-note strong { color: var(--accent); }
+    .compare-bars { margin-top: 1.5rem; }
+    .cbar-row { display: flex; align-items: center; margin-bottom: 0.5rem; gap: 0.75rem; }
+    .cbar-label { width: 150px; font-size: 0.82rem; text-align: right; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cbar-track { flex: 1; height: 26px; background: var(--bg); border-radius: 3px; overflow: hidden; position: relative; }
+    .cbar-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.4s ease; min-width: 2px; }
+    .cbar-value { width: 100px; font-family: var(--font-display); font-size: 0.8rem; flex-shrink: 0; }
+    .calc-btn-row { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+    .calc-btn {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .calc-btn-primary { background: var(--accent); color: #000; }
+    .calc-btn-primary:hover { opacity: 0.85; }
+    .calc-btn-secondary { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border); }
+    .calc-btn-secondary:hover { color: var(--text); border-color: var(--accent); }
+    .calc-btn-secondary.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+    .pricing-ref { margin-top: 2rem; }
+    .pricing-ref table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .pricing-ref th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border-bottom: 2px solid var(--border); font-weight: 600; }
+    .pricing-ref td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    .pricing-ref td.mono { font-family: var(--font-display); font-size: 0.82rem; }
+    @media (max-width: 768px) {
+      .calc-controls { grid-template-columns: 1fr; }
+      .single-cost-grid { grid-template-columns: 1fr 1fr; }
+      .calc-app { padding: 0 1rem; }
+      .cbar-label { width: 100px; font-size: 0.72rem; }
+      .cbar-value { width: 80px; font-size: 0.72rem; }
+      .compare-table { font-size: 0.78rem; }
+      .compare-table th, .compare-table td { padding: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+      .single-cost-grid { grid-template-columns: 1fr; }
+    }
+    .article-content { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+    .article-content h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 2.5rem 0 0.75rem; color: var(--accent); }
+    .article-content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; }
+    .article-content p { margin-bottom: 1rem; line-height: 1.7; }
+    .article-content ul, .article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
+    .article-content li { margin-bottom: 0.4rem; line-height: 1.6; }
+    .article-content strong { color: var(--text); }
+    .article-content code { background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 3px; font-family: var(--font-display); font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Compare</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/answers/">Answers</a></li>
+      <li><a href="/research/">Research</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>LLM Cost Calculator</span></nav>
+      <h1>LLM API <span>Cost</span> Calculator</h1>
+      <p>Estimate per-request, daily, monthly, and yearly costs for GPT-4o, Claude, Gemini, and DeepSeek. Compare all models side by side with real 2026 pricing.</p>
+    </div>
+
+    <!-- ==================== CALCULATOR APP ==================== -->
+    <div class="calc-app" id="calcApp">
+      <div class="calc-controls">
+        <div class="calc-card">
+          <h3>Model Selection</h3>
+          <div class="calc-field">
+            <label for="modelSelect">Select a model</label>
+            <select id="modelSelect">
+              <option value="gpt-4o">GPT-4o</option>
+              <option value="gpt-4o-mini">GPT-4o-mini</option>
+              <option value="claude-opus-4">Claude Opus 4.6</option>
+              <option value="claude-sonnet-4" selected>Claude Sonnet 4.6</option>
+              <option value="claude-haiku-4">Claude Haiku 4.5</option>
+              <option value="gemini-flash">Gemini 2.0 Flash</option>
+              <option value="deepseek-v3">DeepSeek V3</option>
+            </select>
+            <div class="field-hint" id="modelPriceHint">$3.00 / 1M input &middot; $15.00 / 1M output</div>
+          </div>
+        </div>
+
+        <div class="calc-card">
+          <h3>Usage Parameters</h3>
+          <div class="calc-field">
+            <label for="inputTokens">Avg input tokens per request</label>
+            <input type="number" id="inputTokens" value="1000" min="1" max="10000000" step="100">
+            <div class="field-hint">~750 words of English text</div>
+          </div>
+          <div class="calc-field">
+            <label for="outputTokens">Avg output tokens per request</label>
+            <input type="number" id="outputTokens" value="500" min="1" max="10000000" step="100">
+            <div class="field-hint">~375 words of generated text</div>
+          </div>
+          <div class="calc-field">
+            <label for="requestsPerDay">Requests per day</label>
+            <input type="number" id="requestsPerDay" value="100" min="1" max="100000000" step="10">
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-btn-row">
+        <button class="calc-btn calc-btn-primary" id="btnCalculate" onclick="calculate()">Calculate Cost</button>
+        <button class="calc-btn calc-btn-secondary" id="btnCompare" onclick="toggleCompare()">Compare All Models</button>
+      </div>
+
+      <!-- Single Model Result -->
+      <div class="calc-single-result" id="singleResult">
+        <div class="results-section">
+          <h3 id="singleModelName">Claude Sonnet 4.6 — Cost Breakdown</h3>
+          <div class="single-cost-grid">
+            <div class="cost-box">
+              <div class="cost-label">Per Request</div>
+              <div class="cost-value" id="costPerRequest">$0.0000</div>
+            </div>
+            <div class="cost-box">
+              <div class="cost-label">Daily</div>
+              <div class="cost-value" id="costDaily">$0.00</div>
+            </div>
+            <div class="cost-box">
+              <div class="cost-label">Monthly</div>
+              <div class="cost-value large" id="costMonthly">$0.00</div>
+            </div>
+            <div class="cost-box">
+              <div class="cost-label">Yearly</div>
+              <div class="cost-value" id="costYearly">$0.00</div>
+            </div>
+          </div>
+          <div class="savings-note" id="savingsNote" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- Comparison Mode -->
+      <div class="calc-compare" id="compareResult" style="display:none;">
+        <div class="results-section">
+          <h3>Side-by-Side Cost Comparison</h3>
+          <div style="overflow-x:auto;">
+            <table class="compare-table" id="compareTable">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Per Request</th>
+                  <th>Daily</th>
+                  <th>Monthly</th>
+                  <th>Yearly</th>
+                </tr>
+              </thead>
+              <tbody id="compareBody"></tbody>
+            </table>
+          </div>
+          <div class="savings-note" id="compareSavings"></div>
+          <div class="compare-bars" id="compareBars"></div>
+        </div>
+      </div>
+
+      <!-- Pricing Reference Table -->
+      <div class="pricing-ref">
+        <div class="results-section">
+          <h3>2026 LLM API Pricing Reference</h3>
+          <div style="overflow-x:auto;">
+            <table class="pricing-ref">
+              <thead>
+                <tr><th>Model</th><th>Provider</th><th>Input (per 1M tokens)</th><th>Output (per 1M tokens)</th><th>Output / Input Ratio</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>GPT-4o</td><td>OpenAI</td><td class="mono">$2.50</td><td class="mono">$10.00</td><td class="mono">4.0x</td></tr>
+                <tr><td>GPT-4o-mini</td><td>OpenAI</td><td class="mono">$0.15</td><td class="mono">$0.60</td><td class="mono">4.0x</td></tr>
+                <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td class="mono">$15.00</td><td class="mono">$75.00</td><td class="mono">5.0x</td></tr>
+                <tr><td>Claude Sonnet 4.6</td><td>Anthropic</td><td class="mono">$3.00</td><td class="mono">$15.00</td><td class="mono">5.0x</td></tr>
+                <tr><td>Claude Haiku 4.5</td><td>Anthropic</td><td class="mono">$0.80</td><td class="mono">$4.00</td><td class="mono">5.0x</td></tr>
+                <tr><td>Gemini 2.0 Flash</td><td>Google</td><td class="mono">$0.075</td><td class="mono">$0.30</td><td class="mono">4.0x</td></tr>
+                <tr><td>DeepSeek V3</td><td>DeepSeek</td><td class="mono">$0.27</td><td class="mono">$1.10</td><td class="mono">4.1x</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ARTICLE CONTENT ==================== -->
+    <div class="article-content">
+
+      <h2>How LLM API Pricing Works</h2>
+      <p>Every major LLM provider charges based on <strong>token consumption</strong>, not time, compute, or number of characters. Tokens are sub-word units that the model processes internally. English text averages roughly 1.3 tokens per word, meaning a 1,000-word prompt consumes approximately 1,300 tokens. Code, JSON, and non-Latin scripts typically consume more tokens per word because specialized vocabulary gets broken into smaller subword pieces.</p>
+      <p>LLM APIs charge separately for <strong>input tokens</strong> (your prompt, system instructions, and any context you send) and <strong>output tokens</strong> (the model's response). Output tokens are always more expensive, typically 3x to 5x the input price. This asymmetry exists because generating each output token requires a full forward pass through the model, while input tokens can be processed in parallel during the prefill stage.</p>
+      <p>Understanding this split is critical for cost optimization. A retrieval-augmented generation (RAG) system that sends 10,000 tokens of context but only generates a 200-token answer is heavily input-weighted. A creative writing tool that takes a 50-token prompt and generates 2,000 tokens of prose is output-weighted. The same model can cost dramatically different amounts depending on which side of the split dominates your workload.</p>
+
+      <h2>Understanding the Calculator Inputs</h2>
+      <p>This calculator asks for three values that define your workload profile. Getting accurate numbers here is the difference between a useful estimate and a meaningless one.</p>
+      <p><strong>Average input tokens per request</strong> includes everything you send to the API: system prompts, user messages, retrieved context, conversation history, function definitions, and any other text in the request body. For a chatbot with a 500-token system prompt and 300 tokens of user message, that is 800 input tokens. For a RAG pipeline injecting 5 retrieved passages at 400 tokens each plus the query, that is 2,100 input tokens. Measure this from your actual API logs rather than guessing.</p>
+      <p><strong>Average output tokens per request</strong> is the length of the model's response. Short classification outputs might be 10-50 tokens. Conversational replies are typically 100-500 tokens. Long-form content generation can reach 2,000-4,000 tokens per response. You can control this with the <code>max_tokens</code> parameter, but setting it too low may truncate useful responses.</p>
+      <p><strong>Requests per day</strong> is your daily API call volume. For a B2B tool with 200 users making 5 requests each, that is 1,000 requests per day. For a consumer app with 50,000 daily active users and 3 interactions each, that is 150,000. Include retry requests and any background processing calls in this count.</p>
+
+      <h2>Token Counting: Rules of Thumb</h2>
+      <p>Precise token counting requires the provider's actual tokenizer, but these rules of thumb help with estimation:</p>
+      <ul>
+        <li><strong>English prose:</strong> 1 word = ~1.3 tokens. A 500-word email is approximately 650 tokens.</li>
+        <li><strong>Code (Python, JavaScript):</strong> 1 line = ~8-15 tokens depending on complexity. A 100-line function is roughly 1,000-1,500 tokens.</li>
+        <li><strong>JSON/structured data:</strong> Higher token density due to brackets, keys, and punctuation. A 1KB JSON payload is typically 300-500 tokens.</li>
+        <li><strong>Non-English text:</strong> Chinese, Japanese, Korean, and Arabic text use 1.5-3x more tokens per word than English due to character-level tokenization.</li>
+        <li><strong>System prompts:</strong> Often 200-2,000 tokens. These are sent with every request, so they contribute significantly to input costs at scale.</li>
+      </ul>
+      <p>For exact counts, use OpenAI's <code>tiktoken</code> library for GPT models or Anthropic's token counting API endpoint for Claude. Our <a href="/tools/token-counter.html">LLM Token Counter tool</a> provides quick estimates across multiple tokenizers.</p>
+
+      <h2>Batch API Pricing: Cut Costs by 50%</h2>
+      <p>If your workload does not require real-time responses, batch processing can halve your API spend. OpenAI's Batch API processes requests asynchronously and returns results within 24 hours at <strong>50% off standard pricing</strong>. Anthropic's Message Batches API offers similar discounts for bulk workloads.</p>
+      <p>Batch pricing is ideal for:</p>
+      <ul>
+        <li><strong>Content generation pipelines</strong> that produce articles, product descriptions, or marketing copy on a schedule</li>
+        <li><strong>Data extraction and classification</strong> running against large datasets overnight</li>
+        <li><strong>Evaluation and testing</strong> where you run thousands of test cases against model outputs</li>
+        <li><strong>Document summarization</strong> processing backlogs of reports, emails, or support tickets</li>
+      </ul>
+      <p>Batch pricing is not reflected in the calculator above (which uses standard real-time rates), but you can mentally halve the displayed costs for any workload that qualifies. At scale, the savings are substantial: a $3,000/month workload drops to $1,500/month with batch processing.</p>
+
+      <h2>Cost Optimization Strategies</h2>
+      <p>Beyond choosing the cheapest model, several engineering techniques can reduce LLM API costs by 50-90% without sacrificing quality.</p>
+      <h3>1. Prompt Caching</h3>
+      <p>Both <a href="/answers/gpt-4o-pricing.html">OpenAI</a> and Anthropic offer prompt caching that reduces input token costs when you repeatedly send the same prefix (system prompt, instructions, or static context). Anthropic's prompt caching charges a small write fee on the first request but then discounts cached input tokens by 90% on subsequent requests. If your system prompt is 1,500 tokens and you make 10,000 requests per day, caching saves roughly $40/day on Claude Sonnet alone.</p>
+      <h3>2. Model Routing</h3>
+      <p>Not every request needs the most capable model. A classifier (running on a cheap model like GPT-4o-mini or Haiku) can examine incoming requests and route simple ones to a budget model while sending complex queries to a premium model. Many production systems report that 70-80% of requests can be handled by the cheapest tier, reducing blended cost by 60% or more. See our <a href="/research/open-source-vs-api.html">open source vs API comparison</a> for more on tiered model architectures.</p>
+      <h3>3. Response Caching</h3>
+      <p>If users frequently ask similar questions, caching model responses eliminates redundant API calls entirely. A semantic similarity cache using embeddings can match new queries against previously generated answers. Even a simple exact-match cache on normalized inputs catches 10-30% of requests in most customer support and FAQ workloads.</p>
+      <h3>4. Output Length Control</h3>
+      <p>Since output tokens cost 3-5x more than input tokens, constraining response length has an outsized impact on cost. Use explicit instructions like "respond in 2-3 sentences" or "limit your answer to 100 words" in your system prompt. Set <code>max_tokens</code> to a reasonable ceiling. For structured outputs, use JSON mode or function calling to eliminate verbose prose.</p>
+      <h3>5. Context Window Management</h3>
+      <p>In multi-turn conversations, the context window grows with each exchange because you resend the full conversation history. Implement conversation summarization (compress earlier turns into a summary) or sliding window truncation (keep only the last N turns) to prevent input tokens from growing unboundedly. A 20-turn conversation without management can reach 15,000+ input tokens per request; with summarization, you keep it under 3,000.</p>
+
+      <h2>How GPT-4o Pricing Compares to Claude and Gemini</h2>
+      <p>GPT-4o sits in the mid-range of the pricing spectrum at $2.50 per million input tokens and $10.00 per million output tokens. It is substantially cheaper than Claude Opus 4.6 ($15/$75) but more expensive than Claude Sonnet 4.6 ($3/$15) on output and cheaper on input. For input-heavy workloads like RAG, GPT-4o has a slight price advantage over Sonnet. For output-heavy workloads like content generation, Sonnet and GPT-4o are comparable.</p>
+      <p>The budget tier tells a different story. GPT-4o-mini ($0.15/$0.60) is cheaper than Claude Haiku 4.5 ($0.80/$4.00) by a significant margin, but Gemini 2.0 Flash ($0.075/$0.30) undercuts both. DeepSeek V3 ($0.27/$1.10) slots between Flash and GPT-4o-mini. For high-volume, cost-sensitive applications, the choice often comes down to which budget model performs adequately for your specific use case.</p>
+      <p>Use the comparison mode in the calculator above to see exact dollar amounts for your specific workload. The model that is cheapest per token is not always cheapest in practice, because different models require different prompt lengths and produce different response lengths to achieve the same quality of output.</p>
+
+      <h2>Real-World Cost Examples</h2>
+      <p>Here are concrete cost projections for common application types, based on the 2026 pricing data in this calculator:</p>
+      <ul>
+        <li><strong>Customer support chatbot</strong> (1,000 conversations/day, 5 turns each, 1,500 input + 400 output tokens per turn): Claude Sonnet costs ~$1,125/month. GPT-4o costs ~$1,225/month. Haiku costs ~$132/month.</li>
+        <li><strong>Code review assistant</strong> (200 pull requests/day, 3,000 input + 800 output tokens per review): Claude Sonnet costs ~$270/month. GPT-4o costs ~$195/month.</li>
+        <li><strong>Document summarization pipeline</strong> (500 documents/day, 8,000 input + 600 output tokens per document): Claude Sonnet costs ~$495/month. Gemini Flash costs ~$12/month.</li>
+        <li><strong>AI writing assistant</strong> (5,000 requests/day, 500 input + 1,500 output tokens per request): Claude Sonnet costs ~$3,600/month. DeepSeek V3 costs ~$290/month.</li>
+      </ul>
+
+      <h2>When to Consider Self-Hosting</h2>
+      <p>API pricing makes sense when your monthly spend stays below $2,000-$5,000. Beyond that threshold, self-hosting open-source models like Llama 3 or Mistral on dedicated GPU infrastructure can deliver the same throughput at lower cost. A dual-A100 server running Llama 3 70B costs approximately $3,500/month in cloud GPU rental and handles 50-100 requests per second with no per-token charges.</p>
+      <p>The break-even depends on your quality requirements. If you need GPT-4o or Claude Opus-level reasoning, no open-source model matches them yet, and API access remains the only option. If your task is well-served by a 70B-parameter model, self-hosting pays for itself quickly at high volume. See our full <a href="/research/open-source-vs-api.html">open-source vs. API cost analysis</a> for detailed break-even calculations.</p>
+    </div>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" style="max-width:720px;margin:2.5rem auto;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How much does GPT-4o cost per request?</summary>
+        <p>GPT-4o costs $2.50 per million input tokens and $10.00 per million output tokens. A typical request with 1,000 input tokens and 500 output tokens costs approximately $0.0075 (three-quarters of a cent). Monthly cost depends on request volume: 1,000 requests per day would cost roughly $225 per month.</p>
+      </details>
+      <details>
+        <summary>What is the cheapest LLM API in 2026?</summary>
+        <p>Gemini 2.0 Flash is the cheapest major LLM API at $0.075 per million input tokens and $0.30 per million output tokens. DeepSeek V3 is the second cheapest at $0.27/$1.10 per million tokens. GPT-4o-mini at $0.15/$0.60 offers an excellent balance of cost and quality for lighter workloads.</p>
+      </details>
+      <details>
+        <summary>How do I calculate LLM API costs?</summary>
+        <p>Multiply your average input tokens per request by the model's input price per token, add your average output tokens multiplied by the output price per token. That gives you cost per request. Multiply by daily request count for daily cost, then by 30 for monthly cost. Remember that output tokens are typically 3-5x more expensive than input tokens.</p>
+      </details>
+      <details>
+        <summary>How much does Claude Opus 4.6 cost compared to GPT-4o?</summary>
+        <p>Claude Opus 4.6 is significantly more expensive: $15.00 per million input tokens and $75.00 per million output tokens, compared to GPT-4o at $2.50/$10.00. Opus costs roughly 6-7.5x more than GPT-4o. Opus is designed for complex reasoning tasks where maximum quality justifies the premium.</p>
+      </details>
+      <details>
+        <summary>What are tokens and how do they relate to words?</summary>
+        <p>A token is the smallest unit of text processed by an LLM. In English, one token is roughly 0.75 words, or equivalently, one word is about 1.3 tokens. A 500-word prompt uses approximately 650 tokens. Code and non-English text typically use more tokens per word. Each provider uses a different tokenizer, so exact counts vary by 10-15%.</p>
+      </details>
+      <details>
+        <summary>Does batch API pricing reduce LLM costs?</summary>
+        <p>Yes. OpenAI offers 50% off with Batch API for non-time-sensitive workloads (results within 24 hours). Anthropic offers a similar Message Batches API with reduced pricing. Batch processing is ideal for content generation, data extraction, and classification tasks where you do not need real-time responses.</p>
+      </details>
+    </section>
+
+    <!-- Related Links -->
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;" class="related-links">
+      <h2>Related Tools and Guides</h2>
+      <div class="related-grid">
+        <a href="/" class="related-card">LLM Pricing Comparison</a>
+        <a href="/answers/gpt-4o-pricing.html" class="related-card">GPT-4o Pricing Guide</a>
+        <a href="/research/open-source-vs-api.html" class="related-card">Open Source vs API Cost Analysis</a>
+        <a href="/tools/token-counter.html" class="related-card">LLM Token Counter</a>
+        <a href="/tools/claude-api-pricing.html" class="related-card">Claude API Pricing Guide</a>
+        <a href="/answers/llm-api-cost-optimization-tips.html" class="related-card">LLM Cost Optimization Tips</a>
+      </div>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;">
+      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="https://zovo.one">Michael Lip</a>. Pricing data sourced from official provider pages and updated as of May 2026. Actual costs may vary based on volume discounts, committed use agreements, and regional pricing.</p>
+    </section>
+  </main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm.com&utm_medium=satellite&utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a></div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+            <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+            <a href="https://claudhq.com">ClaudHQ &mdash; AI Code Tools &amp; Fixes</a>
+            <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+            <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+            <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+            <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &mdash; Security</a>
+            <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+            <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+        </div>
+    </div>
+</nav>
+
+  <script>
+  // === LLM COST CALCULATOR — 2026 PRICING DATA ===
+  const MODELS = {
+    'gpt-4o':          { name: 'GPT-4o',            provider: 'OpenAI',    inputPer1M: 2.50,   outputPer1M: 10.00 },
+    'gpt-4o-mini':     { name: 'GPT-4o-mini',       provider: 'OpenAI',    inputPer1M: 0.15,   outputPer1M: 0.60  },
+    'claude-opus-4':   { name: 'Claude Opus 4.6',   provider: 'Anthropic', inputPer1M: 15.00,  outputPer1M: 75.00 },
+    'claude-sonnet-4': { name: 'Claude Sonnet 4.6', provider: 'Anthropic', inputPer1M: 3.00,   outputPer1M: 15.00 },
+    'claude-haiku-4':  { name: 'Claude Haiku 4.5',  provider: 'Anthropic', inputPer1M: 0.80,   outputPer1M: 4.00  },
+    'gemini-flash':    { name: 'Gemini 2.0 Flash',  provider: 'Google',    inputPer1M: 0.075,  outputPer1M: 0.30  },
+    'deepseek-v3':     { name: 'DeepSeek V3',       provider: 'DeepSeek',  inputPer1M: 0.27,   outputPer1M: 1.10  }
+  };
+
+  let compareMode = false;
+
+  // Update price hint when model changes
+  document.getElementById('modelSelect').addEventListener('change', function() {
+    const m = MODELS[this.value];
+    document.getElementById('modelPriceHint').textContent =
+      '$' + m.inputPer1M.toFixed(2) + ' / 1M input \u00B7 $' + m.outputPer1M.toFixed(2) + ' / 1M output';
+  });
+
+  // Update word estimates when token inputs change
+  document.getElementById('inputTokens').addEventListener('input', function() {
+    const tokens = parseInt(this.value) || 0;
+    const words = Math.round(tokens / 1.3);
+    this.parentElement.querySelector('.field-hint').textContent = '~' + words.toLocaleString() + ' words of English text';
+  });
+  document.getElementById('outputTokens').addEventListener('input', function() {
+    const tokens = parseInt(this.value) || 0;
+    const words = Math.round(tokens / 1.3);
+    this.parentElement.querySelector('.field-hint').textContent = '~' + words.toLocaleString() + ' words of generated text';
+  });
+
+  function getInputs() {
+    return {
+      inputTokens:   parseInt(document.getElementById('inputTokens').value)    || 0,
+      outputTokens:  parseInt(document.getElementById('outputTokens').value)   || 0,
+      requestsPerDay: parseInt(document.getElementById('requestsPerDay').value) || 0
+    };
+  }
+
+  function calcCost(model, inputs) {
+    const inputCost  = (inputs.inputTokens / 1000000) * model.inputPer1M;
+    const outputCost = (inputs.outputTokens / 1000000) * model.outputPer1M;
+    const perRequest = inputCost + outputCost;
+    const daily      = perRequest * inputs.requestsPerDay;
+    const monthly    = daily * 30;
+    const yearly     = daily * 365;
+    return { perRequest, daily, monthly, yearly };
+  }
+
+  function fmt(val) {
+    if (val < 0.001)  return '$' + val.toFixed(6);
+    if (val < 0.01)   return '$' + val.toFixed(5);
+    if (val < 0.1)    return '$' + val.toFixed(4);
+    if (val < 1)      return '$' + val.toFixed(3);
+    if (val < 100)    return '$' + val.toFixed(2);
+    if (val < 10000)  return '$' + val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + Math.round(val).toLocaleString('en-US');
+  }
+
+  function calculate() {
+    const inputs = getInputs();
+    if (inputs.inputTokens <= 0 || inputs.outputTokens <= 0 || inputs.requestsPerDay <= 0) return;
+
+    if (compareMode) {
+      showComparison(inputs);
+    } else {
+      showSingleResult(inputs);
+    }
+  }
+
+  function showSingleResult(inputs) {
+    const modelKey = document.getElementById('modelSelect').value;
+    const model    = MODELS[modelKey];
+    const cost     = calcCost(model, inputs);
+
+    document.getElementById('singleModelName').textContent = model.name + ' \u2014 Cost Breakdown';
+    document.getElementById('costPerRequest').textContent  = fmt(cost.perRequest);
+    document.getElementById('costDaily').textContent       = fmt(cost.daily);
+    document.getElementById('costMonthly').textContent     = fmt(cost.monthly);
+    document.getElementById('costYearly').textContent      = fmt(cost.yearly);
+
+    // Show savings vs most expensive
+    let cheapest = Infinity, cheapestName = '', mostExpensive = 0;
+    for (const key in MODELS) {
+      const c = calcCost(MODELS[key], inputs);
+      if (c.monthly < cheapest) { cheapest = c.monthly; cheapestName = MODELS[key].name; }
+      if (c.monthly > mostExpensive) mostExpensive = c.monthly;
+    }
+
+    const note = document.getElementById('savingsNote');
+    if (cheapestName !== model.name && cost.monthly > 0) {
+      const savings = ((cost.monthly - cheapest) / cost.monthly * 100).toFixed(0);
+      note.innerHTML = 'Switching to <strong>' + cheapestName + '</strong> would save <strong>' + savings + '%</strong> (' + fmt(cost.monthly - cheapest) + '/month). Evaluate quality trade-offs before switching.';
+      note.style.display = 'block';
+    } else if (cheapestName === model.name) {
+      note.innerHTML = '<strong>' + model.name + '</strong> is the cheapest option for this workload.';
+      note.style.display = 'block';
+    } else {
+      note.style.display = 'none';
+    }
+
+    document.getElementById('singleResult').classList.add('visible');
+    document.getElementById('compareResult').style.display = 'none';
+    document.getElementById('singleResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function showComparison(inputs) {
+    const results = [];
+    for (const key in MODELS) {
+      const cost = calcCost(MODELS[key], inputs);
+      results.push({ key, name: MODELS[key].name, provider: MODELS[key].provider, ...cost });
+    }
+    results.sort((a, b) => a.monthly - b.monthly);
+
+    const cheapestMonthly = results[0].monthly;
+    const mostExpensiveMonthly = results[results.length - 1].monthly;
+
+    // Build table
+    const tbody = document.getElementById('compareBody');
+    tbody.innerHTML = '';
+    results.forEach((r, i) => {
+      const tr = document.createElement('tr');
+      if (i === 0) tr.className = 'cheapest';
+      tr.innerHTML =
+        '<td>' + r.name + '</td>' +
+        '<td class="mono">' + fmt(r.perRequest) + '</td>' +
+        '<td class="mono">' + fmt(r.daily) + '</td>' +
+        '<td class="mono">' + fmt(r.monthly) + '</td>' +
+        '<td class="mono">' + fmt(r.yearly) + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    // Savings note
+    const savingsEl = document.getElementById('compareSavings');
+    if (mostExpensiveMonthly > 0 && cheapestMonthly < mostExpensiveMonthly) {
+      const diff = mostExpensiveMonthly - cheapestMonthly;
+      const pct = ((diff / mostExpensiveMonthly) * 100).toFixed(0);
+      savingsEl.innerHTML = '<strong>' + results[0].name + '</strong> is ' + pct + '% cheaper than <strong>' + results[results.length - 1].name + '</strong> for this workload \u2014 a difference of <strong>' + fmt(diff) + '/month</strong> (' + fmt(diff * 12) + '/year).';
+    } else {
+      savingsEl.textContent = '';
+    }
+
+    // Build bar chart
+    const barsEl = document.getElementById('compareBars');
+    barsEl.innerHTML = '';
+    const maxMonthly = results[results.length - 1].monthly || 1;
+    results.forEach(r => {
+      const pct = Math.max((r.monthly / maxMonthly) * 100, 0.5);
+      const row = document.createElement('div');
+      row.className = 'cbar-row';
+      row.innerHTML =
+        '<div class="cbar-label">' + r.name + '</div>' +
+        '<div class="cbar-track"><div class="cbar-fill" style="width:' + pct.toFixed(1) + '%;' + (r === results[0] ? 'opacity:1;' : 'opacity:0.5;') + '"></div></div>' +
+        '<div class="cbar-value">' + fmt(r.monthly) + '/mo</div>';
+      barsEl.appendChild(row);
+    });
+
+    document.getElementById('singleResult').classList.remove('visible');
+    document.getElementById('compareResult').style.display = 'block';
+    document.getElementById('compareResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function toggleCompare() {
+    compareMode = !compareMode;
+    const btn = document.getElementById('btnCompare');
+    btn.classList.toggle('active', compareMode);
+    btn.textContent = compareMode ? 'Single Model' : 'Compare All Models';
+
+    const inputs = getInputs();
+    if (inputs.inputTokens > 0 && inputs.outputTokens > 0 && inputs.requestsPerDay > 0) {
+      calculate();
+    }
+  }
+
+  // Run initial calculation on load
+  document.addEventListener('DOMContentLoaded', function() {
+    calculate();
+  });
+  </script>
+  <script src="/assets/js/share.js"></script>
+  <script src="/assets/js/pro-nudge.js"></script>
+</body>
+</html>
