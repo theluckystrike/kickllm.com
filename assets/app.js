@@ -11,7 +11,21 @@ var MODELS = [
   { id:"gemini-25-flash", name:"Gemini 2.5 Flash", provider:"Google", inputPrice:0.30, outputPrice:2.50 },
   { id:"gemini-25-flash-lite", name:"Gemini 2.5 Flash-Lite", provider:"Google", inputPrice:0.10, outputPrice:0.40 },
   { id:"llama3-70b-groq", name:"Llama 3 70B (Groq)", provider:"Groq", inputPrice:0.59, outputPrice:0.79 },
-  { id:"mistral-large", name:"Mistral Large", provider:"Mistral AI", inputPrice:4.00, outputPrice:12.00 }
+  { id:"mistral-large", name:"Mistral Large", provider:"Mistral AI", inputPrice:4.00, outputPrice:12.00 },
+  { id:"gpt-41", name:"GPT-4.1", provider:"OpenAI", inputPrice:2.00, outputPrice:8.00 },
+  { id:"gpt-41-mini", name:"GPT-4.1 mini", provider:"OpenAI", inputPrice:0.40, outputPrice:1.60 },
+  { id:"gpt-41-nano", name:"GPT-4.1 nano", provider:"OpenAI", inputPrice:0.10, outputPrice:0.40 },
+  { id:"o3", name:"o3", provider:"OpenAI", inputPrice:2.00, outputPrice:8.00 },
+  { id:"o4-mini", name:"o4-mini", provider:"OpenAI", inputPrice:1.10, outputPrice:4.40 },
+  { id:"llama4-scout", name:"Llama 4 Scout", provider:"Meta", inputPrice:0.15, outputPrice:0.60 },
+  { id:"llama4-maverick", name:"Llama 4 Maverick", provider:"Meta", inputPrice:0.50, outputPrice:2.00 },
+  { id:"deepseek-v3", name:"DeepSeek V3", provider:"DeepSeek", inputPrice:0.27, outputPrice:1.10 },
+  { id:"deepseek-r1", name:"DeepSeek R1", provider:"DeepSeek", inputPrice:0.55, outputPrice:2.19 },
+  { id:"mistral-small", name:"Mistral Small", provider:"Mistral AI", inputPrice:0.10, outputPrice:0.30 },
+  { id:"codestral", name:"Codestral", provider:"Mistral AI", inputPrice:0.30, outputPrice:0.90 },
+  { id:"command-r-plus", name:"Command R+", provider:"Cohere", inputPrice:2.50, outputPrice:10.00 },
+  { id:"command-r", name:"Command R", provider:"Cohere", inputPrice:0.15, outputPrice:0.60 },
+  { id:"grok-2", name:"Grok-2", provider:"xAI", inputPrice:2.00, outputPrice:10.00 }
 ];
 
 var mode = 'monthly'; // 'monthly' or 'conversation'
