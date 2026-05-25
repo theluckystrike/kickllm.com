@@ -2,11 +2,14 @@
 'use strict';
 
 var MODELS = [
-  { id:"claude-35-sonnet", name:"Claude 3.5 Sonnet", provider:"Anthropic", inputPrice:3.00, outputPrice:15.00 },
-  { id:"claude-3-opus", name:"Claude 3 Opus", provider:"Anthropic", inputPrice:15.00, outputPrice:75.00 },
-  { id:"gpt-4o", name:"GPT-4o", provider:"OpenAI", inputPrice:5.00, outputPrice:15.00 },
-  { id:"gpt-4-turbo", name:"GPT-4 Turbo", provider:"OpenAI", inputPrice:10.00, outputPrice:30.00 },
-  { id:"gemini-15-pro", name:"Gemini 1.5 Pro", provider:"Google", inputPrice:3.50, outputPrice:10.50 },
+  { id:"claude-sonnet-46", name:"Claude Sonnet 4.6", provider:"Anthropic", inputPrice:3.00, outputPrice:15.00 },
+  { id:"claude-opus-47", name:"Claude Opus 4.7", provider:"Anthropic", inputPrice:5.00, outputPrice:25.00 },
+  { id:"claude-haiku-45", name:"Claude Haiku 4.5", provider:"Anthropic", inputPrice:1.00, outputPrice:5.00 },
+  { id:"gpt-4o", name:"GPT-4o", provider:"OpenAI", inputPrice:2.50, outputPrice:10.00 },
+  { id:"gpt-4o-mini", name:"GPT-4o mini", provider:"OpenAI", inputPrice:0.15, outputPrice:0.60 },
+  { id:"gemini-25-pro", name:"Gemini 2.5 Pro", provider:"Google", inputPrice:1.25, outputPrice:10.00 },
+  { id:"gemini-25-flash", name:"Gemini 2.5 Flash", provider:"Google", inputPrice:0.30, outputPrice:2.50 },
+  { id:"gemini-25-flash-lite", name:"Gemini 2.5 Flash-Lite", provider:"Google", inputPrice:0.10, outputPrice:0.40 },
   { id:"llama3-70b-groq", name:"Llama 3 70B (Groq)", provider:"Groq", inputPrice:0.59, outputPrice:0.79 },
   { id:"mistral-large", name:"Mistral Large", provider:"Mistral AI", inputPrice:4.00, outputPrice:12.00 }
 ];
@@ -25,7 +28,7 @@ function renderModelChecks() {
   var html = '';
   for (var i = 0; i < MODELS.length && i < 50; i++) {
     var m = MODELS[i];
-    var checked = (i < 4) ? ' checked' : '';
+    var checked = (i < 5) ? ' checked' : '';
     html += '<label class="model-check">';
     html += '<input type="checkbox" value="' + m.id + '"' + checked + '>';
     html += '<span class="model-name">' + m.name + '</span>';
