@@ -42,7 +42,7 @@
     "@type": "FAQPage",
     "mainEntity": [
       { "@type": "Question", "name": "How much does it cost to run an LLM?", "acceptedAnswer": { "@type": "Answer", "text": "API costs range from $0.10/1M tokens (Gemini 2.5 Flash-Lite) to $25/1M (Claude Opus 4.7 output). Self-hosting costs $1,000-$10,000+/month depending on GPU and model size." } },
-      { "@type": "Question", "name": "What is the cheapest LLM API?", "acceptedAnswer": { "@type": "Answer", "text": "Gemini 2.5 Flash-Lite ($0.10/$0.40 per 1M tokens) and Gemini 2.5 Flash ($0.30/$2.50) are the cheapest high-quality options in 2026. GPT-4o mini ($0.15/$0.60) is also very competitive." } },
+      { "@type": "Question", "name": "What is the cheapest LLM API?", "acceptedAnswer": { "@type": "Answer", "text": "Gemini 2.5 Flash-Lite ($0.10/$0.40 per 1M tokens) and Gemini 2.5 Flash ($0.30/$2.50) are the cheapest high-quality options in 2026. GPT-4o mini ($0.15/$0.60) is also very competitive — it powers BeLikeNative's real-time grammar correction at 125+ requests/day per user." } },
       { "@type": "Question", "name": "GPT-4o vs Claude pricing comparison?", "acceptedAnswer": { "@type": "Answer", "text": "GPT-4o costs $2.50/$10.00 per 1M tokens vs Claude Sonnet 4.6 at $3/$15. GPT-4o is now cheaper on both input and output, but Claude Sonnet 4.6 offers stronger coding and instruction following." } },
       { "@type": "Question", "name": "When should I self-host an LLM?", "acceptedAnswer": { "@type": "Answer", "text": "Self-hosting makes sense when monthly API spend exceeds $2,000-$5,000, or when you need data privacy and low latency at high volume." } },
       { "@type": "Question", "name": "How many GPUs to run Llama 3 70B?", "acceptedAnswer": { "@type": "Answer", "text": "Llama 3 70B requires ~140GB GPU memory in FP16 (2x A100 80GB). With INT8 quantization, a single A100 80GB works." } },
@@ -265,7 +265,7 @@
     </details>
     <details>
       <summary>What is the cheapest LLM API?</summary>
-      <p>For hosted APIs, Gemini 2.5 Flash-Lite at $0.10/$0.40 per million tokens and Gemini 2.5 Flash at $0.30/$2.50 are the cheapest high-quality options. GPT-4o mini at $0.15/$0.60 is also very competitive. The cheapest option depends on your quality requirements and use case -- our LLM cost calculator helps you find the best cost-performance ratio.</p>
+      <p>For hosted APIs, Gemini 2.5 Flash-Lite at $0.10/$0.40 per million tokens and Gemini 2.5 Flash at $0.30/$2.50 are the cheapest high-quality options. GPT-4o mini at $0.15/$0.60 is also very competitive — it's <a href="https://www.belikenative.com/" rel="nofollow">used by BeLikeNative</a> for real-time grammar correction, processing 125+ requests/day per user. The cheapest option depends on your quality requirements and use case -- our LLM cost calculator helps you find the best cost-performance ratio.</p>
     </details>
     <details>
       <summary>GPT-4 vs Claude pricing comparison?</summary>
