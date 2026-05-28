@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Fine-Tuning Cost Calculator — Estimate Training Costs | KickLLM</title>
+  <meta name="description" content="Free interactive LLM fine-tuning cost calculator. Estimate training costs, training time, and tokens processed for GPT-4o, Claude, Llama 3, Mistral, and Gemma. Break-even analysis vs API calls included.">
+  <link rel="canonical" href="https://kickllm.com/tools/fine-tuning-cost-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/tools/fine-tuning-cost-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/fine-tuning-cost-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LLM Fine-Tuning Cost Calculator — Estimate Training Costs | KickLLM">
+  <meta property="og:description" content="Estimate LLM fine-tuning costs across GPT-4o, Claude, Llama 3, Mistral, and Gemma. Training cost, time, tokens processed, and break-even vs API.">
+  <meta property="og:url" content="https://kickllm.com/tools/fine-tuning-cost-calculator.html">
+  <meta property="og:site_name" content="KickLLM">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Fine-Tuning Cost Calculator — Estimate Training Costs">
+  <meta name="twitter:description" content="Free interactive calculator for LLM fine-tuning costs. Break-even analysis vs API calls included.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "LLM Fine-Tuning Cost Calculator — KickLLM",
+    "url": "https://kickllm.com/tools/fine-tuning-cost-calculator.html",
+    "description": "Interactive calculator to estimate LLM fine-tuning training costs, training time, tokens processed, and break-even point versus ongoing API usage. Covers GPT-4o, Claude, Llama 3, Mistral, and Gemma.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "datePublished": "2026-05-28",
+    "dateModified": "2026-05-28",
+    "featureList": [
+      "Training cost estimation for 5 base models",
+      "Training time calculation",
+      "Total tokens processed",
+      "Provider comparison table",
+      "Break-even calculator vs API inference costs"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "LLM Fine-Tuning Cost Calculator — Estimate Training Costs",
+    "description": "How to estimate LLM fine-tuning costs across providers, understand training time, and calculate break-even versus API inference costs.",
+    "url": "https://kickllm.com/tools/fine-tuning-cost-calculator.html",
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "publisher": { "@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com" },
+    "datePublished": "2026-05-28",
+    "dateModified": "2026-05-28"
+  }
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},{"@type":"ListItem","position":3,"name":"Fine-Tuning Cost Calculator"}]}</script>
+  <style>
+    .ft-app { max-width: 960px; margin: 0 auto 2rem; padding: 0 2rem; }
+    .ft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .ft-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+    .ft-card h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600; }
+    .ft-field { margin-bottom: 1rem; }
+    .ft-field:last-child { margin-bottom: 0; }
+    .ft-field label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+    .ft-field select,
+    .ft-field input[type="number"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .ft-field select:focus,
+    .ft-field input:focus { outline: none; border-color: var(--accent); }
+    .ft-field .hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .ft-btn-row { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .ft-btn {
+      padding: 0.6rem 1.5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .ft-btn-primary { background: var(--accent); color: #000; }
+    .ft-btn-primary:hover { opacity: 0.85; }
+    .ft-btn-secondary { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border); }
+    .ft-btn-secondary:hover { color: var(--text); border-color: var(--accent); }
+    /* Results */
+    .ft-results { display: none; }
+    .ft-results.visible { display: block; }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .r-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; }
+    .r-box .r-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .r-box .r-value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+    .r-box .r-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; }
+    /* Provider comparison table */
+    .ft-compare { margin-bottom: 1.5rem; }
+    .ft-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .ft-table th {
+      text-align: left; padding: 0.65rem 0.75rem;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--text-muted); border-bottom: 2px solid var(--border); font-weight: 600;
+    }
+    .ft-table td { padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border); }
+    .ft-table td.mono { font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; }
+    .ft-table tr.selected-row td { color: var(--accent); }
+    .ft-table tr.selected-row td:first-child::after { content: " (selected)"; font-size: 0.7rem; opacity: 0.6; font-weight: 400; }
+    .ft-table tr:hover td { background: var(--bg-hover); }
+    /* Break-even */
+    .breakeven-section { margin-bottom: 1.5rem; }
+    .be-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .be-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+    .be-box h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600; }
+    .be-stat { margin-bottom: 0.75rem; }
+    .be-stat .be-val { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+    .be-stat .be-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .be-verdict { padding: 0.75rem 1rem; background: var(--accent-dim); border-radius: var(--radius); font-size: 0.85rem; border-left: 3px solid var(--accent); }
+    .be-verdict strong { color: var(--accent); }
+    /* Note box */
+    .info-note { padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .info-note strong { color: var(--text); }
+    /* Article */
+    .article-content { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+    .article-content h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 2.5rem 0 0.75rem; color: var(--accent); }
+    .article-content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; }
+    .article-content p { margin-bottom: 1rem; line-height: 1.7; }
+    .article-content ul, .article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
+    .article-content li { margin-bottom: 0.4rem; line-height: 1.6; }
+    .article-content strong { color: var(--text); }
+    .article-content code { background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 3px; font-family: var(--font-display); font-size: 0.85em; }
+    /* FAQ */
+    .faq-section details { border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+    .faq-section summary { cursor: pointer; font-weight: 600; font-size: 0.95rem; list-style: none; padding-right: 1rem; position: relative; }
+    .faq-section summary::after { content: "+"; position: absolute; right: 0; color: var(--accent); font-size: 1.2rem; line-height: 1; }
+    .faq-section details[open] summary::after { content: "−"; }
+    .faq-section details p { margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+    @media (max-width: 768px) {
+      .ft-grid { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: 1fr 1fr; }
+      .be-grid { grid-template-columns: 1fr; }
+      .ft-app { padding: 0 1rem; }
+      .ft-table { font-size: 0.78rem; }
+      .ft-table th, .ft-table td { padding: 0.5rem; }
+    }
+    @media (max-width: 480px) {
+      .result-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Compare</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/answers/">Answers</a></li>
+      <li><a href="/research/">Research</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>Fine-Tuning Cost Calculator</span></nav>
+      <h1>LLM Fine-Tuning <span>Cost</span> Calculator</h1>
+      <p>Estimate training cost, training time, and total tokens processed for any dataset. Compare across providers and calculate break-even versus ongoing API inference costs.</p>
+    </div>
+
+    <div class="ft-app" id="ftApp">
+
+      <div class="info-note">
+        <strong>How this works:</strong> Enter your dataset parameters and select a base model. The calculator estimates training cost using each provider's fine-tuning pricing (charged per training token), training time based on throughput benchmarks, and break-even point versus calling the base API model directly.
+      </div>
+
+      <div class="ft-grid">
+        <div class="ft-card">
+          <h3>Base Model</h3>
+          <div class="ft-field">
+            <label for="modelSelect">Select base model</label>
+            <select id="modelSelect">
+              <option value="gpt-4o-mini-ft">GPT-4o mini (fine-tunable)</option>
+              <option value="gpt-35-ft">GPT-3.5 Turbo (fine-tunable)</option>
+              <option value="llama3-70b">Llama 3 70B (self-hosted)</option>
+              <option value="llama3-8b">Llama 3 8B (self-hosted)</option>
+              <option value="mistral-7b">Mistral 7B (self-hosted)</option>
+              <option value="gemma-7b">Gemma 7B (self-hosted)</option>
+            </select>
+            <div class="hint" id="modelHint">$0.008 / 1K training tokens &middot; OpenAI managed</div>
+          </div>
+          <div class="ft-field">
+            <label for="epochs">Training epochs</label>
+            <input type="number" id="epochs" value="3" min="1" max="50" step="1">
+            <div class="hint">Typical range: 2–5 epochs for fine-tuning</div>
+          </div>
+        </div>
+
+        <div class="ft-card">
+          <h3>Dataset Parameters</h3>
+          <div class="ft-field">
+            <label for="numRows">Number of training examples</label>
+            <input type="number" id="numRows" value="10000" min="1" max="100000000" step="100">
+            <div class="hint">Each example = one prompt/completion pair</div>
+          </div>
+          <div class="ft-field">
+            <label for="avgTokens">Avg tokens per example</label>
+            <input type="number" id="avgTokens" value="512" min="1" max="32768" step="64">
+            <div class="hint" id="wordHint">~394 words (prompt + completion combined)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Break-even API comparison -->
+      <div class="ft-card" style="margin-bottom:1.5rem;">
+        <h3>Break-Even: API Inference Comparison</h3>
+        <div class="ft-grid" style="margin-bottom:0;">
+          <div class="ft-field">
+            <label for="inferRequests">Daily inference requests (post fine-tune)</label>
+            <input type="number" id="inferRequests" value="1000" min="1" max="10000000" step="100">
+            <div class="hint">How many requests/day will use the fine-tuned model?</div>
+          </div>
+          <div class="ft-field">
+            <label for="inferAvgTokens">Avg tokens per inference request</label>
+            <input type="number" id="inferAvgTokens" value="600" min="1" max="100000" step="50">
+            <div class="hint">Input + output tokens per production request</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ft-btn-row">
+        <button class="ft-btn ft-btn-primary" onclick="calculate()">Calculate Training Cost</button>
+        <button class="ft-btn ft-btn-secondary" onclick="resetForm()">Reset</button>
+      </div>
+
+      <!-- Results -->
+      <div class="ft-results" id="ftResults">
+
+        <div class="results-section">
+          <h3 id="resultTitle">GPT-4o mini — Training Cost Estimate</h3>
+          <div class="result-grid">
+            <div class="r-box">
+              <div class="r-label">Training Cost</div>
+              <div class="r-value" id="rTrainingCost">$0.00</div>
+              <div class="r-sub" id="rCostSub">one-time</div>
+            </div>
+            <div class="r-box">
+              <div class="r-label">Training Time</div>
+              <div class="r-value" id="rTrainingTime">0h 0m</div>
+              <div class="r-sub" id="rTimeSub">estimated</div>
+            </div>
+            <div class="r-box">
+              <div class="r-label">Total Tokens</div>
+              <div class="r-value" id="rTotalTokens">0</div>
+              <div class="r-sub">training tokens processed</div>
+            </div>
+            <div class="r-box">
+              <div class="r-label">Cost / 1K Ex.</div>
+              <div class="r-value" id="rCostPerK">$0.00</div>
+              <div class="r-sub">per 1,000 examples</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Provider comparison -->
+        <div class="ft-compare results-section">
+          <h3>Provider Comparison — Same Dataset</h3>
+          <div style="overflow-x:auto;">
+            <table class="ft-table" id="compTable">
+              <thead>
+                <tr>
+                  <th>Model / Provider</th>
+                  <th>Training Cost</th>
+                  <th>Cost / 1K Tokens</th>
+                  <th>Est. Time</th>
+                  <th>Hosting</th>
+                </tr>
+              </thead>
+              <tbody id="compBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Break-even -->
+        <div class="breakeven-section results-section">
+          <h3>Break-Even Analysis: Fine-Tune vs Pure API</h3>
+          <div class="be-grid">
+            <div class="be-box">
+              <h4>Fine-Tuned Model Costs</h4>
+              <div class="be-stat">
+                <div class="be-val" id="beTrainCost">$0.00</div>
+                <div class="be-desc">One-time training cost</div>
+              </div>
+              <div class="be-stat">
+                <div class="be-val" id="beInferCostFT">$0.00/mo</div>
+                <div class="be-desc">Monthly inference on fine-tuned model</div>
+              </div>
+              <div class="be-stat">
+                <div class="be-val" id="beTotalFT3">$0.00</div>
+                <div class="be-desc">Total cost at 3 months</div>
+              </div>
+            </div>
+            <div class="be-box">
+              <h4>Base API Model Costs</h4>
+              <div class="be-stat">
+                <div class="be-val">$0.00</div>
+                <div class="be-desc">Upfront cost (none)</div>
+              </div>
+              <div class="be-stat">
+                <div class="be-val" id="beInferCostAPI">$0.00/mo</div>
+                <div class="be-desc">Monthly API inference cost</div>
+              </div>
+              <div class="be-stat">
+                <div class="be-val" id="beTotalAPI3">$0.00</div>
+                <div class="be-desc">Total cost at 3 months</div>
+              </div>
+            </div>
+          </div>
+          <div class="be-verdict" id="beVerdict" style="margin-top:1rem;">
+            Run the calculator to see the break-even analysis.
+          </div>
+        </div>
+
+      </div><!-- /ft-results -->
+    </div><!-- /ft-app -->
+
+    <!-- Article content -->
+    <div class="article-content">
+
+      <h2>What Does Fine-Tuning an LLM Actually Cost?</h2>
+      <p>Fine-tuning costs break into three parts: <strong>training compute</strong>, <strong>data preparation</strong>, and <strong>ongoing inference</strong>. This calculator focuses on training compute, which is the most variable and hardest to estimate without tooling.</p>
+      <p>Managed APIs like OpenAI charge per training token. OpenAI's GPT-4o mini fine-tuning costs $0.008 per 1,000 training tokens, meaning a 10,000-example dataset with 512 tokens per example at 3 epochs costs roughly $123. GPT-3.5 Turbo fine-tuning is cheaper at $0.008/1K as well, though the base model quality is lower.</p>
+      <p>For self-hosted models like Llama 3, Mistral, or Gemma, you pay GPU compute rather than a per-token fee. A single A100-80GB GPU rents for approximately $2.50–$3.50/hour on major cloud providers. An 8B model fine-tuned with QLoRA can process 1–3 million tokens per hour, while a 70B model processes 200K–400K tokens per hour on the same hardware. This calculator uses representative throughput estimates to convert total training tokens to wall-clock hours and cost.</p>
+
+      <h2>Understanding Training Tokens</h2>
+      <p>Every training example contributes tokens across all epochs. If your dataset has 10,000 examples at 512 tokens each, that is 5.12 million tokens per epoch. At 3 epochs, total training tokens = 15.36 million. This is what you are charged for with managed APIs and what drives GPU-hours for self-hosted training.</p>
+      <p>The <strong>tokens per example</strong> field should include both the prompt (instruction) and the completion (desired output). For instruction-following fine-tunes, a typical example might be a 200-token system message, 100-token user query, and 200-token ideal response — totaling 500 tokens. For code generation tasks, examples tend to be longer (1,000–2,000 tokens) because code is verbose.</p>
+      <p>One important nuance: with some fine-tuning frameworks, only <strong>completion tokens</strong> are used in the loss calculation (not prompt tokens). OpenAI's API charges for all tokens in the training file regardless. Check provider documentation carefully, as this can double the effective cost if your examples are prompt-heavy.</p>
+
+      <h2>Managed API Fine-Tuning: GPT-4o mini and GPT-3.5</h2>
+      <p>OpenAI currently supports fine-tuning on GPT-4o mini and GPT-3.5 Turbo (and GPT-4o for select partners). The workflow is straightforward: upload a JSONL file of examples, kick off a training job via the API, and OpenAI handles all infrastructure. Jobs typically complete in 30 minutes to a few hours depending on dataset size.</p>
+      <p>Pricing is flat per training token regardless of dataset complexity. Inference on a fine-tuned GPT-4o mini model is priced higher than the base model: $0.30 per million input tokens and $1.20 per million output tokens (vs $0.15/$0.60 for base). This premium is important for the break-even calculation — fine-tuning improves quality but costs more per inference call.</p>
+      <p>Anthropic does not currently offer a public fine-tuning API for Claude models, though this is expected to change. Models requiring Claude-level capability with task specialization typically use prompt engineering, retrieval-augmented generation, or few-shot examples instead.</p>
+
+      <h2>Self-Hosted Fine-Tuning: Llama 3, Mistral, Gemma</h2>
+      <p>Open-source models can be fine-tuned on your own infrastructure with full control over data, training configuration, and the resulting weights. The standard approach in 2026 is <strong>QLoRA</strong> (Quantized Low-Rank Adaptation), which reduces VRAM requirements dramatically: an 8B model fine-tunes in 12–16GB of VRAM (a single consumer GPU), and a 70B model requires two A100-80GB GPUs or one H100.</p>
+      <p>Common frameworks include HuggingFace's <code>transformers</code> + <code>trl</code>, Axolotl, and LLaMA-Factory. Each supports JSONL training data in the same Alpaca or ShareGPT format. Training a Llama 3 8B model on 10,000 examples at 3 epochs takes approximately 2–4 hours on a single A100. At $2.50/hour for a spot instance, that is $5–$10 total — dramatically cheaper than managed APIs at scale.</p>
+      <p>The tradeoff is operational complexity. You are responsible for cloud instance provisioning, monitoring training loss, saving checkpoints, and serving the fine-tuned weights. For teams with ML infrastructure experience, this is straightforward. For product teams without a dedicated ML engineer, managed APIs often win despite higher per-token costs.</p>
+
+      <h2>When Does Fine-Tuning Beat Prompt Engineering?</h2>
+      <p>Fine-tuning is not always the right answer. It makes sense when:</p>
+      <ul>
+        <li><strong>You need consistent output format</strong> across thousands of requests. Prompt engineering is fragile; fine-tuning bakes in the format.</li>
+        <li><strong>Your task requires specialized knowledge</strong> not present in the base model. Medical terminology, legal language, and domain-specific jargon improve significantly with domain-specific training data.</li>
+        <li><strong>Latency matters</strong>. A smaller fine-tuned model (e.g., Llama 3 8B) can outperform a larger base model on your specific task while being 5–10x faster and cheaper to serve.</li>
+        <li><strong>System prompt overhead is large</strong>. If your system prompt is 3,000 tokens per request, fine-tuning that behavior into the model eliminates the overhead entirely.</li>
+      </ul>
+      <p>Fine-tuning is the wrong approach when you have fewer than 500–1,000 high-quality training examples, when your task changes frequently (making retraining expensive), or when you need the model to generalize to many different task types within one deployment.</p>
+
+      <h2>The Break-Even Calculation Explained</h2>
+      <p>The break-even point is the number of inference requests after which the upfront training cost is paid back by savings on inference. This requires comparing two scenarios:</p>
+      <ol>
+        <li><strong>Fine-tune route:</strong> Pay training cost upfront, then serve inference on the fine-tuned model. For managed fine-tunes (GPT-4o mini), inference costs slightly more than base. For self-hosted open-source models, inference costs are just GPU compute with no per-token fees.</li>
+        <li><strong>Base API route:</strong> No upfront cost. Pay standard API rates for every request. The base model may need longer prompts (system instructions, few-shot examples) to match fine-tuned quality — increasing per-request token counts.</li>
+      </ol>
+      <p>The break-even formula is: <code>Training Cost / (Monthly API Spend - Monthly Fine-Tune Spend) = Months to Break Even</code>. If the fine-tuned model costs the same or more per inference call (as with OpenAI's fine-tuned endpoint pricing), the break-even only comes from reduced prompt length (fewer tokens per request). If the fine-tuned model is cheaper per call (as with self-hosted), break-even can be very fast at high volume.</p>
+
+    </div>
+
+    <section class="faq-section" style="max-width:720px;margin:2.5rem auto;padding:0 2rem;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How much does it cost to fine-tune GPT-4o mini?</summary>
+        <p>OpenAI charges $0.008 per 1,000 training tokens for GPT-4o mini fine-tuning. A dataset of 10,000 examples at 512 tokens per example trained for 3 epochs totals 15.36 million training tokens, costing approximately $122.88. Inference on the resulting model costs $0.30 per million input tokens and $1.20 per million output tokens — slightly higher than the base model rates.</p>
+      </details>
+      <details>
+        <summary>Can you fine-tune Claude models?</summary>
+        <p>Anthropic does not currently offer a public fine-tuning API for Claude models as of 2026. Enterprise customers with specific needs can contact Anthropic about model customization programs. Most teams achieving specialized behavior from Claude use detailed system prompts, retrieval-augmented generation, or few-shot examples in the prompt.</p>
+      </details>
+      <details>
+        <summary>What is QLoRA and why does it matter for fine-tuning costs?</summary>
+        <p>QLoRA (Quantized Low-Rank Adaptation) is a fine-tuning technique that quantizes the base model to 4-bit precision and trains only small adapter layers (LoRA adapters) rather than the full model weights. This reduces VRAM requirements by 8–10x, enabling a 70B model to be fine-tuned on a single H100 or two A100s instead of requiring a multi-GPU cluster. QLoRA makes self-hosted fine-tuning practical for most teams, dramatically reducing cloud GPU costs.</p>
+      </details>
+      <details>
+        <summary>How long does fine-tuning take?</summary>
+        <p>Training time depends on model size, dataset size, epochs, and hardware. As a rough guide: Llama 3 8B with QLoRA on an A100 processes roughly 1.5 million tokens per hour. A 10,000-example dataset at 512 tokens per example across 3 epochs (15.36M total tokens) takes approximately 10 hours. Llama 3 70B on 2x A100s processes around 300K tokens per hour, making the same dataset take roughly 51 hours. Managed OpenAI jobs typically complete in 30 minutes to 3 hours.</p>
+      </details>
+      <details>
+        <summary>How many training examples do I need for effective fine-tuning?</summary>
+        <p>The minimum effective dataset size depends on the task. For format/style fine-tuning, 500–1,000 high-quality examples can produce noticeable improvement. For domain adaptation (specialized vocabulary, technical topics), 2,000–10,000 examples is typical. For complex reasoning tasks or significant capability changes, 10,000–100,000 examples may be needed. Quality matters far more than quantity — 500 carefully curated examples beat 5,000 mediocre ones.</p>
+      </details>
+      <details>
+        <summary>Is it cheaper to fine-tune or use prompt engineering?</summary>
+        <p>At low request volumes (under ~1,000 requests/day), prompt engineering is almost always cheaper because there is no upfront training cost. At high volumes, a well-fine-tuned smaller model can be significantly cheaper per request than a large base model with a long system prompt. The break-even calculator above shows the exact crossover point for your specific workload.</p>
+      </details>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;" class="related-links">
+      <h2>Related Tools and Guides</h2>
+      <div class="related-grid">
+        <a href="/tools/llm-cost-calculator.html" class="related-card">Interactive LLM Cost Calculator</a>
+        <a href="/guides/model-deployment-checklist.html" class="related-card">LLM Deployment Checklist</a>
+        <a href="/tools/llm-comparison.html" class="related-card">LLM Model Comparison</a>
+        <a href="/research/open-source-vs-api.html" class="related-card">Open Source vs API Cost Analysis</a>
+        <a href="/tools/token-counter.html" class="related-card">LLM Token Counter</a>
+        <a href="/answers/llm-api-cost-optimization-tips.html" class="related-card">LLM Cost Optimization Tips</a>
+      </div>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;">
+      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="https://zovo.one">Michael Lip</a>. Cost estimates based on 2026 provider pricing and GPU benchmark data. Self-hosted training time estimates assume QLoRA on A100-80GB. Actual results vary with hardware, batch size, and sequence length.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&utm_medium=satellite&utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a></div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ &mdash; AI Code Tools &amp; Fixes</a>
+        <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+        <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+        <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+        <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+        <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+        <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+        <a href="https://lochbot.com">LochBot &mdash; Security</a>
+        <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+        <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+  // ===== FINE-TUNING COST CALCULATOR =====
+
+  // Model data: costPer1KTokens (training), inferInputPer1M, inferOutputPer1M,
+  //             tokensPerHour (training throughput), hosting, gpuCostPerHr
+  const MODELS = {
+    'gpt-4o-mini-ft': {
+      name: 'GPT-4o mini (fine-tuned)',
+      provider: 'OpenAI',
+      hosting: 'Managed API',
+      costPer1KTokens: 0.008,      // $0.008 per 1K training tokens
+      inferInputPer1M: 0.30,       // fine-tuned model inference (higher than base)
+      inferOutputPer1M: 1.20,
+      baseInferInputPer1M: 0.15,   // base model inference for comparison
+      baseInferOutputPer1M: 0.60,
+      tokensPerHour: null,         // managed — not GPU-hour based
+      gpuCostPerHr: null,
+      // Estimated throughput for time estimate (OpenAI jobs ~1M tokens/hr effectively)
+      managedTokPerHour: 1500000
+    },
+    'gpt-35-ft': {
+      name: 'GPT-3.5 Turbo (fine-tuned)',
+      provider: 'OpenAI',
+      hosting: 'Managed API',
+      costPer1KTokens: 0.008,
+      inferInputPer1M: 0.012,
+      inferOutputPer1M: 0.016,
+      baseInferInputPer1M: 0.0005,
+      baseInferOutputPer1M: 0.0015,
+      tokensPerHour: null,
+      gpuCostPerHr: null,
+      managedTokPerHour: 2000000
+    },
+    'llama3-70b': {
+      name: 'Llama 3 70B',
+      provider: 'Meta (self-hosted)',
+      hosting: 'Self-hosted (2x A100)',
+      costPer1KTokens: null,
+      inferInputPer1M: 0.90,       // approximate self-host serving cost
+      inferOutputPer1M: 0.90,
+      baseInferInputPer1M: 0.90,
+      baseInferOutputPer1M: 0.90,
+      tokensPerHour: 320000,       // QLoRA training throughput, 2x A100-80GB
+      gpuCostPerHr: 6.00           // 2x A100 at ~$3/hr each
+    },
+    'llama3-8b': {
+      name: 'Llama 3 8B',
+      provider: 'Meta (self-hosted)',
+      hosting: 'Self-hosted (1x A100)',
+      costPer1KTokens: null,
+      inferInputPer1M: 0.15,
+      inferOutputPer1M: 0.15,
+      baseInferInputPer1M: 0.15,
+      baseInferOutputPer1M: 0.15,
+      tokensPerHour: 1600000,      // QLoRA on 1x A100-80GB
+      gpuCostPerHr: 3.00
+    },
+    'mistral-7b': {
+      name: 'Mistral 7B',
+      provider: 'Mistral (self-hosted)',
+      hosting: 'Self-hosted (1x A100)',
+      costPer1KTokens: null,
+      inferInputPer1M: 0.15,
+      inferOutputPer1M: 0.15,
+      baseInferInputPer1M: 0.15,
+      baseInferOutputPer1M: 0.15,
+      tokensPerHour: 1800000,
+      gpuCostPerHr: 3.00
+    },
+    'gemma-7b': {
+      name: 'Gemma 7B',
+      provider: 'Google (self-hosted)',
+      hosting: 'Self-hosted (1x A100)',
+      costPer1KTokens: null,
+      inferInputPer1M: 0.15,
+      inferOutputPer1M: 0.15,
+      baseInferInputPer1M: 0.15,
+      baseInferOutputPer1M: 0.15,
+      tokensPerHour: 1700000,
+      gpuCostPerHr: 3.00
+    }
+  };
+
+  function getInputs() {
+    return {
+      model: document.getElementById('modelSelect').value,
+      epochs: parseInt(document.getElementById('epochs').value) || 3,
+      numRows: parseInt(document.getElementById('numRows').value) || 0,
+      avgTokens: parseInt(document.getElementById('avgTokens').value) || 0,
+      inferRequests: parseInt(document.getElementById('inferRequests').value) || 0,
+      inferAvgTokens: parseInt(document.getElementById('inferAvgTokens').value) || 0
+    };
+  }
+
+  function calcTraining(m, inp) {
+    const totalTokens = inp.numRows * inp.avgTokens * inp.epochs;
+    let cost, hours;
+    if (m.costPer1KTokens !== null) {
+      cost = (totalTokens / 1000) * m.costPer1KTokens;
+      hours = totalTokens / m.managedTokPerHour;
+    } else {
+      hours = totalTokens / m.tokensPerHour;
+      cost = hours * m.gpuCostPerHr;
+    }
+    return { totalTokens, cost, hours };
+  }
+
+  function fmtCost(v) {
+    if (v < 0.01) return '$' + v.toFixed(4);
+    if (v < 100) return '$' + v.toFixed(2);
+    if (v < 10000) return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + Math.round(v).toLocaleString('en-US');
+  }
+
+  function fmtTokens(v) {
+    if (v >= 1e9) return (v / 1e9).toFixed(2) + 'B';
+    if (v >= 1e6) return (v / 1e6).toFixed(2) + 'M';
+    if (v >= 1e3) return (v / 1e3).toFixed(1) + 'K';
+    return v.toLocaleString();
+  }
+
+  function fmtTime(hours) {
+    if (hours < 1) {
+      const mins = Math.round(hours * 60);
+      return mins + 'm';
+    }
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+    if (m === 0) return h + 'h';
+    return h + 'h ' + m + 'm';
+  }
+
+  function calculate() {
+    const inp = getInputs();
+    if (inp.numRows <= 0 || inp.avgTokens <= 0) return;
+
+    const mKey = inp.model;
+    const m = MODELS[mKey];
+    const { totalTokens, cost, hours } = calcTraining(m, inp);
+
+    // Update headline result boxes
+    document.getElementById('resultTitle').textContent = m.name + ' \u2014 Training Cost Estimate';
+    document.getElementById('rTrainingCost').textContent = fmtCost(cost);
+    document.getElementById('rCostSub').textContent = m.hosting === 'Managed API' ? 'managed training job' : 'GPU compute (est.)';
+    document.getElementById('rTrainingTime').textContent = fmtTime(hours);
+    document.getElementById('rTimeSub').textContent = m.hosting === 'Managed API' ? 'approx. job time' : 'QLoRA estimated';
+    document.getElementById('rTotalTokens').textContent = fmtTokens(totalTokens);
+    document.getElementById('rCostPerK').textContent = fmtCost(inp.numRows > 0 ? cost / (inp.numRows / 1000) : 0);
+
+    // Provider comparison table
+    const tbody = document.getElementById('compBody');
+    tbody.innerHTML = '';
+    Object.keys(MODELS).forEach(k => {
+      const mm = MODELS[k];
+      const r = calcTraining(mm, inp);
+      const tr = document.createElement('tr');
+      if (k === mKey) tr.className = 'selected-row';
+      tr.innerHTML =
+        '<td>' + mm.name + '</td>' +
+        '<td class="mono">' + fmtCost(r.cost) + '</td>' +
+        '<td class="mono">' + (mm.costPer1KTokens !== null ? '$' + mm.costPer1KTokens.toFixed(4) : '$' + ((r.cost / (r.totalTokens / 1000))).toFixed(4)) + '</td>' +
+        '<td class="mono">' + fmtTime(r.hours) + '</td>' +
+        '<td style="font-size:0.82rem;color:var(--text-muted);">' + mm.hosting + '</td>';
+      tbody.appendChild(tr);
+    });
+
+    // Break-even
+    const inferIn = inp.inferAvgTokens * 0.6;   // ~60% input
+    const inferOut = inp.inferAvgTokens * 0.4;  // ~40% output
+    const ftMonthlyInfer = inp.inferRequests * 30 * ((inferIn / 1e6) * m.inferInputPer1M + (inferOut / 1e6) * m.inferOutputPer1M);
+    const baseMonthlyInfer = inp.inferRequests * 30 * ((inferIn / 1e6) * m.baseInferInputPer1M + (inferOut / 1e6) * m.baseInferOutputPer1M);
+
+    document.getElementById('beTrainCost').textContent = fmtCost(cost);
+    document.getElementById('beInferCostFT').textContent = fmtCost(ftMonthlyInfer) + '/mo';
+    document.getElementById('beTotalFT3').textContent = fmtCost(cost + ftMonthlyInfer * 3);
+    document.getElementById('beInferCostAPI').textContent = fmtCost(baseMonthlyInfer) + '/mo';
+    document.getElementById('beTotalAPI3').textContent = fmtCost(baseMonthlyInfer * 3);
+
+    const verdictEl = document.getElementById('beVerdict');
+    const monthlyDiff = baseMonthlyInfer - ftMonthlyInfer;
+    if (monthlyDiff <= 0 && cost > 0) {
+      const apiSavePct = Math.abs(monthlyDiff / Math.max(ftMonthlyInfer, 0.001) * 100).toFixed(0);
+      verdictEl.innerHTML = 'The base API is cheaper per month by <strong>' + fmtCost(Math.abs(monthlyDiff)) + '/mo</strong>. Fine-tuning only pays back if it reduces prompt length or dramatically improves task quality per request.';
+    } else if (monthlyDiff > 0) {
+      const months = cost / monthlyDiff;
+      if (months <= 0.1) {
+        verdictEl.innerHTML = '<strong>Break-even is under 3 days.</strong> Fine-tuning pays for itself almost immediately at this request volume.';
+      } else if (months < 1) {
+        const days = Math.round(months * 30);
+        verdictEl.innerHTML = '<strong>Break-even in approximately ' + days + ' days.</strong> Fine-tuning pays back the training cost quickly, then saves <strong>' + fmtCost(monthlyDiff) + '/month</strong> ongoing.';
+      } else if (months < 24) {
+        verdictEl.innerHTML = '<strong>Break-even in approximately ' + months.toFixed(1) + ' months.</strong> Fine-tuning saves <strong>' + fmtCost(monthlyDiff) + '/month</strong> on inference after recouping the training cost.';
+      } else {
+        verdictEl.innerHTML = 'Break-even takes <strong>' + months.toFixed(0) + ' months</strong> at current request volume. Consider whether volume will increase or if prompt engineering is sufficient.';
+      }
+    } else {
+      verdictEl.innerHTML = 'Enter inference parameters above to see break-even analysis.';
+    }
+
+    document.getElementById('ftResults').classList.add('visible');
+    document.getElementById('ftResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function resetForm() {
+    document.getElementById('modelSelect').value = 'gpt-4o-mini-ft';
+    document.getElementById('epochs').value = 3;
+    document.getElementById('numRows').value = 10000;
+    document.getElementById('avgTokens').value = 512;
+    document.getElementById('inferRequests').value = 1000;
+    document.getElementById('inferAvgTokens').value = 600;
+    document.getElementById('modelHint').textContent = '$0.008 / 1K training tokens \u00B7 OpenAI managed';
+    document.getElementById('wordHint').textContent = '~394 words (prompt + completion combined)';
+    document.getElementById('ftResults').classList.remove('visible');
+  }
+
+  // Update hint on model change
+  document.getElementById('modelSelect').addEventListener('change', function() {
+    const m = MODELS[this.value];
+    let hint;
+    if (m.costPer1KTokens !== null) {
+      hint = '$' + m.costPer1KTokens.toFixed(4) + ' / 1K training tokens \u00B7 ' + m.provider;
+    } else {
+      hint = '$' + m.gpuCostPerHr.toFixed(2) + '/hr GPU \u00B7 ' + fmtTokens(m.tokensPerHour) + ' tokens/hr (QLoRA)';
+    }
+    document.getElementById('modelHint').textContent = hint;
+  });
+
+  // Update word hint on token count change
+  document.getElementById('avgTokens').addEventListener('input', function() {
+    const tokens = parseInt(this.value) || 0;
+    const words = Math.round(tokens / 1.3);
+    document.getElementById('wordHint').textContent = '~' + words.toLocaleString() + ' words (prompt + completion combined)';
+  });
+
+  // Auto-calculate on load
+  document.addEventListener('DOMContentLoaded', calculate);
+  </script>
+  <script src="/assets/js/share.js"></script>
+  <script src="/assets/js/pro-nudge.js"></script>
+</body>
+</html>

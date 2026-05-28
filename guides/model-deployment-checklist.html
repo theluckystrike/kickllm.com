@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Deployment Checklist — 40 Steps from Fine-Tune to Production | KickLLM</title>
+  <meta name="description" content="Interactive 40-step LLM deployment checklist covering model selection, fine-tuning, evaluation, infrastructure, monitoring, and compliance. Track progress, expand best-practice details, export as text. localStorage persistence.">
+  <link rel="canonical" href="https://kickllm.com/guides/model-deployment-checklist.html">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/guides/model-deployment-checklist.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/guides/model-deployment-checklist.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="LLM Deployment Checklist — 40 Steps from Fine-Tune to Production | KickLLM">
+  <meta property="og:description" content="Interactive 40-step LLM deployment checklist across 6 phases: model selection, fine-tuning, evaluation, infrastructure, monitoring, compliance.">
+  <meta property="og:url" content="https://kickllm.com/guides/model-deployment-checklist.html">
+  <meta property="og:site_name" content="KickLLM">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLM Deployment Checklist — 40 Steps to Production">
+  <meta name="twitter:description" content="Interactive 40-item LLM deployment checklist with best-practice details and export. Free, no login required.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "LLM Deployment Checklist — 40 Steps from Fine-Tune to Production",
+    "description": "A comprehensive 40-item interactive checklist for deploying LLMs to production, covering model selection, fine-tuning, evaluation, infrastructure, monitoring, and compliance. Each item includes expandable best-practice guidance.",
+    "url": "https://kickllm.com/guides/model-deployment-checklist.html",
+    "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "publisher": { "@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com" },
+    "datePublished": "2026-05-28",
+    "dateModified": "2026-05-28",
+    "mainEntityOfPage": "https://kickllm.com/guides/model-deployment-checklist.html"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Deploy an LLM to Production",
+    "description": "A 40-step process for safely deploying a large language model from model selection through production monitoring and compliance.",
+    "url": "https://kickllm.com/guides/model-deployment-checklist.html",
+    "totalTime": "P14D",
+    "step": [
+      { "@type": "HowToStep", "name": "Define use case and requirements", "position": 1 },
+      { "@type": "HowToStep", "name": "Select base model", "position": 2 },
+      { "@type": "HowToStep", "name": "Estimate API costs vs self-hosting", "position": 3 },
+      { "@type": "HowToStep", "name": "Set up evaluation harness", "position": 10 },
+      { "@type": "HowToStep", "name": "Implement rate limiting and cost controls", "position": 25 },
+      { "@type": "HowToStep", "name": "Complete compliance review", "position": 38 }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://kickllm.com/guides/"},{"@type":"ListItem","position":3,"name":"LLM Deployment Checklist"}]}</script>
+  <style>
+    /* ---- Layout ---- */
+    .cl-app { max-width: 860px; margin: 0 auto 2rem; padding: 0 2rem; }
+
+    /* ---- Progress bar ---- */
+    .progress-bar-wrap {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.25rem; margin-bottom: 1.5rem; position: sticky; top: 65px; z-index: 50;
+    }
+    .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem; }
+    .progress-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; }
+    .progress-counter { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+    .progress-track { height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.3s ease; }
+    .progress-phases { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+    .phase-pill {
+      font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--text-muted); cursor: pointer;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .phase-pill:hover { border-color: var(--accent); color: var(--text); }
+    .phase-pill.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+    /* ---- Toolbar ---- */
+    .cl-toolbar { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .cl-btn {
+      padding: 0.5rem 1.1rem; border: none; border-radius: var(--radius);
+      font-family: inherit; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .cl-btn-primary { background: var(--accent); color: #000; }
+    .cl-btn-primary:hover { opacity: 0.85; }
+    .cl-btn-ghost { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border); }
+    .cl-btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+    .cl-btn-danger { background: var(--bg-card); color: #ef4444; border: 1px solid #ef444430; }
+    .cl-btn-danger:hover { border-color: #ef4444; }
+
+    /* ---- Phase groups ---- */
+    .phase-group { margin-bottom: 1.5rem; }
+    .phase-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .phase-badge {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 700;
+      background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent); flex-shrink: 0;
+    }
+    .phase-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; }
+    .phase-count { font-size: 0.8rem; color: var(--text-muted); margin-left: auto; }
+
+    /* ---- Checklist items ---- */
+    .cl-item {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 0.5rem; transition: border-color 0.15s;
+    }
+    .cl-item.checked { border-color: var(--accent); opacity: 0.75; }
+    .cl-item-header {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.85rem 1rem; cursor: pointer;
+    }
+    .cl-checkbox {
+      width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+      border: 2px solid var(--border); border-radius: 4px;
+      background: var(--bg); transition: all 0.15s; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      appearance: none; -webkit-appearance: none;
+    }
+    .cl-checkbox:checked { background: var(--accent); border-color: var(--accent); }
+    .cl-checkbox:checked::after { content: '\2713'; color: #000; font-size: 12px; font-weight: 700; }
+    .cl-item-text { flex: 1; }
+    .cl-item-title { font-size: 0.92rem; font-weight: 600; line-height: 1.4; }
+    .cl-item.checked .cl-item-title { text-decoration: line-through; color: var(--text-muted); }
+    .cl-item-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .cl-expand-btn {
+      flex-shrink: 0; background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 0.75rem; padding: 0.25rem 0.5rem;
+      border-radius: 4px; margin-top: 1px; transition: all 0.15s;
+    }
+    .cl-expand-btn:hover { color: var(--accent); background: var(--accent-dim); }
+    .cl-detail {
+      display: none; padding: 0 1rem 1rem 3.25rem;
+      font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; border-top: 1px solid var(--border);
+    }
+    .cl-detail.open { display: block; }
+    .cl-detail p { margin-bottom: 0.75rem; }
+    .cl-detail p:last-child { margin-bottom: 0; }
+    .cl-detail code { background: var(--bg); padding: 0.1rem 0.35rem; border-radius: 3px; font-family: var(--font-display); font-size: 0.82em; color: var(--text); }
+    .cl-detail ul { margin: 0.4rem 0 0.75rem 1.25rem; }
+    .cl-detail li { margin-bottom: 0.3rem; }
+    .cl-detail strong { color: var(--text); }
+
+    /* ---- Export area ---- */
+    .export-section { margin-top: 1.5rem; display: none; }
+    .export-section.visible { display: block; }
+    .export-textarea {
+      width: 100%; min-height: 200px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text); font-family: var(--font-display); font-size: 0.8rem;
+      padding: 1rem; resize: vertical; line-height: 1.6;
+    }
+    .export-textarea:focus { outline: none; border-color: var(--accent); }
+
+    /* Article */
+    .article-content { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+    .article-content h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 2.5rem 0 0.75rem; color: var(--accent); }
+    .article-content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; }
+    .article-content p { margin-bottom: 1rem; line-height: 1.7; }
+    .article-content ul { margin: 0.5rem 0 1rem 1.5rem; }
+    .article-content li { margin-bottom: 0.4rem; line-height: 1.6; }
+    .article-content strong { color: var(--text); }
+    .article-content code { background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 3px; font-family: var(--font-display); font-size: 0.85em; }
+    .faq-section details { border-bottom: 1px solid var(--border); padding: 0.75rem 0; }
+    .faq-section summary { cursor: pointer; font-weight: 600; font-size: 0.95rem; list-style: none; padding-right: 1rem; position: relative; }
+    .faq-section summary::after { content: "+"; position: absolute; right: 0; color: var(--accent); font-size: 1.2rem; line-height: 1; }
+    .faq-section details[open] summary::after { content: "\2212"; }
+    .faq-section details p { margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    @media (max-width: 768px) {
+      .cl-app { padding: 0 1rem; }
+      .progress-bar-wrap { top: 56px; }
+      .cl-toolbar { gap: 0.5rem; }
+      .cl-btn { font-size: 0.8rem; padding: 0.45rem 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Compare</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/answers/">Answers</a></li>
+      <li><a href="/research/">Research</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/guides/">Guides</a> <span>/</span> <span>Deployment Checklist</span></nav>
+      <h1>LLM Deployment <span>Checklist</span></h1>
+      <p>40 steps across 6 phases from model selection to production. Check items off, expand best-practice details, and export your progress. State saved locally — no login required.</p>
+    </div>
+
+    <div class="cl-app" id="clApp">
+
+      <!-- Sticky progress bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-header">
+          <span class="progress-title">Overall Progress</span>
+          <span class="progress-counter" id="progressCounter">0 / 40</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div class="progress-phases" id="progressPhases"></div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="cl-toolbar">
+        <button class="cl-btn cl-btn-primary" onclick="checkAll()">Check All</button>
+        <button class="cl-btn cl-btn-ghost" onclick="uncheckAll()">Uncheck All</button>
+        <button class="cl-btn cl-btn-ghost" onclick="toggleExport()">Export as Text</button>
+        <button class="cl-btn cl-btn-ghost" onclick="expandAll()">Expand All Details</button>
+        <button class="cl-btn cl-btn-ghost" onclick="collapseAll()">Collapse Details</button>
+        <button class="cl-btn cl-btn-danger" onclick="resetAll()">Reset Progress</button>
+      </div>
+
+      <!-- Checklist rendered here -->
+      <div id="checklistContainer"></div>
+
+      <!-- Export -->
+      <div class="export-section" id="exportSection">
+        <h3 style="margin-bottom:0.75rem;">Exported Checklist</h3>
+        <textarea class="export-textarea" id="exportTextarea" readonly></textarea>
+        <div style="margin-top:0.75rem;display:flex;gap:0.75rem;">
+          <button class="cl-btn cl-btn-ghost" onclick="copyExport()">Copy to Clipboard</button>
+          <button class="cl-btn cl-btn-ghost" onclick="toggleExport()">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Article -->
+    <div class="article-content">
+
+      <h2>Why a Deployment Checklist Matters for LLMs</h2>
+      <p>Deploying an LLM to production is categorically different from deploying a traditional API. The model is a probabilistic system that can fail in non-deterministic ways: it may refuse valid requests, hallucinate factual information, generate unsafe content, or regress in quality after a seemingly unrelated infrastructure change. A structured checklist catches the gaps that exploratory development misses.</p>
+      <p>The 40 items in this checklist represent patterns from teams shipping production LLM applications. The phases follow the natural workflow: deciding what to build, fine-tuning if needed, validating quality rigorously, standing up infrastructure, monitoring in production, and ensuring legal and compliance requirements are met.</p>
+
+      <h2>Phase 1: Model Selection</h2>
+      <p>The model selection phase is often the most consequential and the most under-researched. Teams frequently default to the largest available model without measuring whether a smaller model is sufficient for their task, and without calculating whether the cost is sustainable at projected scale.</p>
+      <p>The key questions are: What quality level does your task actually require? Does the task need the reasoning depth of Claude Opus or GPT-4o, or is a cheaper model (Haiku, GPT-4o-mini, Gemini Flash) adequate? Can the model handle your expected context length? Does it support structured output formats your application requires (JSON mode, function calling, etc.)? Use our <a href="/tools/llm-comparison.html">LLM comparison tool</a> to evaluate these dimensions side by side.</p>
+
+      <h2>Phase 2: Fine-Tuning</h2>
+      <p>Fine-tuning is optional but can unlock significant gains in format consistency, domain accuracy, and inference cost efficiency. The decision to fine-tune should be based on concrete evidence — a baseline evaluation showing that prompt engineering alone is insufficient — rather than assumption.</p>
+      <p>If you do fine-tune, data quality is the primary determinant of outcome. 500 carefully curated examples outperform 5,000 mediocre ones. Each training example should represent the exact input/output behavior you want the model to exhibit, including edge cases and refusals. Use our <a href="/tools/fine-tuning-cost-calculator.html">fine-tuning cost calculator</a> to estimate training cost and break-even before committing.</p>
+
+      <h2>Phase 3: Evaluation</h2>
+      <p>Evaluation is where most LLM deployments are weakest. "Looked good in testing" is not sufficient. A proper evaluation harness includes: a held-out test set with ground truth answers, automated metrics (ROUGE, BLEU, semantic similarity, or task-specific scoring), human rating for subjective quality, adversarial test cases targeting known failure modes, and regression tests that run on every deployment.</p>
+      <p>For safety-critical applications, red-teaming — systematically attempting to elicit harmful or incorrect outputs — should be documented before launch. Track evaluation results across model versions so regressions are immediately visible.</p>
+
+      <h2>Phase 4: Infrastructure</h2>
+      <p>Infrastructure for LLM applications has unique requirements. Latency is typically 1–30 seconds per request (vs milliseconds for traditional APIs), requiring timeout handling, streaming support, and user-facing loading states. Rate limits must be managed both at the provider level (per-minute and per-day caps) and at the application level (per-user quotas to prevent runaway costs). Retry logic with exponential backoff is essential for the 429 and 503 errors that occur under load.</p>
+      <p>Prompt and response logging requires careful design. Logs are essential for debugging and evaluation, but may contain sensitive user data. Decide on a data retention and access policy before launch, not after an incident.</p>
+
+      <h2>Phase 5: Monitoring</h2>
+      <p>Production LLM systems degrade in ways that are invisible without active monitoring. Model providers update underlying models (sometimes without notice), prompt caching behavior changes, latency profiles shift, and user behavior evolves in ways that surface new edge cases. Monitoring should track: response latency (p50, p95, p99), error rates by error type, token consumption and cost per day, output quality via automated scoring, and user-reported feedback signals.</p>
+      <p>Set alerting thresholds before launch. A latency spike or cost anomaly discovered the next morning in a dashboard is much worse than one that triggers an alert at 3am.</p>
+
+      <h2>Phase 6: Compliance</h2>
+      <p>Compliance requirements for LLM applications vary by use case and jurisdiction. Consumer-facing applications have stricter obligations than internal tools. Applications handling medical, legal, or financial information face additional regulatory scrutiny. The minimum requirements for most applications include: a reviewed terms of service covering AI-generated content, a data handling policy covering what user inputs are stored and for how long, compliance with provider usage policies (each provider has restrictions on use cases), and content filtering to prevent generation of illegal or harmful material.</p>
+      <p>Many teams defer compliance to "later" and find themselves unable to launch or forced into expensive retroactive changes. Completing the compliance phase before launch avoids both scenarios.</p>
+
+    </div>
+
+    <section class="faq-section" style="max-width:720px;margin:2.5rem auto;padding:0 2rem;">
+      <h2>Frequently Asked Questions</h2>
+      <details>
+        <summary>How long does it take to deploy an LLM to production?</summary>
+        <p>For a straightforward API integration (no fine-tuning, existing infrastructure), a focused team can complete all 40 checklist items in 2–4 weeks. Projects requiring fine-tuning add 1–2 weeks for data preparation and training. Applications in regulated industries (healthcare, finance, legal) typically add 2–4 weeks for compliance review and legal sign-off. The most common time sink is evaluation — building a rigorous test harness and running systematic red-teaming takes longer than most teams anticipate.</p>
+      </details>
+      <details>
+        <summary>Do I need to fine-tune my model before deploying to production?</summary>
+        <p>No. Most production LLM applications do not require fine-tuning. Prompt engineering — carefully designed system prompts, few-shot examples, and output constraints — is sufficient for the majority of use cases. Fine-tuning makes sense when you need consistent output formatting that prompt engineering cannot reliably achieve, when your domain contains specialized terminology not well-represented in the base model, when you need to reduce per-request token counts significantly for cost reasons, or when you need a smaller model to match a larger model's performance on your specific task.</p>
+      </details>
+      <details>
+        <summary>What is the most common LLM deployment failure mode?</summary>
+        <p>Lack of output validation. Teams build applications assuming the model will always return the expected format, and they break when the model returns an explanation instead of JSON, or returns an answer in a different language, or refuses a borderline request. Defensive parsing, schema validation, and graceful fallback handling should be implemented before launch. The second most common failure is inadequate rate limit handling — applications that hit provider rate limits return 429 errors to users with no retry logic.</p>
+      </details>
+      <details>
+        <summary>How do I monitor LLM output quality in production?</summary>
+        <p>The most practical approach is a combination of automated scoring and sampling-based human review. For structured outputs (JSON, function calls, classification), automated validation catches format failures immediately. For free-text quality, use an LLM-as-judge approach: send a sample of production outputs to a secondary model for quality scoring against a rubric. Track the score distribution over time and alert on significant drops. Human review a random 1–2% of requests weekly to catch systematic issues the automated scorer misses.</p>
+      </details>
+      <details>
+        <summary>What provider usage policies must I comply with?</summary>
+        <p>All major providers prohibit certain use cases. OpenAI's usage policy prohibits generating content that exploits minors, creating malware, generating disinformation at scale, and several other categories. Anthropic's usage policy has similar prohibitions plus restrictions on fully automated decision-making in high-stakes contexts. Google's Gemini API Terms restrict use in regulated healthcare and financial advice contexts without appropriate disclosures. Review the current usage policy for each provider you use — violations can result in API access termination. Store a copy of the policy version you reviewed for your compliance records.</p>
+      </details>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;" class="related-links">
+      <h2>Related Tools and Guides</h2>
+      <div class="related-grid">
+        <a href="/tools/fine-tuning-cost-calculator.html" class="related-card">Fine-Tuning Cost Calculator</a>
+        <a href="/tools/llm-cost-calculator.html" class="related-card">Interactive LLM Cost Calculator</a>
+        <a href="/tools/llm-comparison.html" class="related-card">LLM Model Comparison</a>
+        <a href="/research/open-source-vs-api.html" class="related-card">Open Source vs API Cost Analysis</a>
+        <a href="/answers/llm-api-cost-optimization-tips.html" class="related-card">LLM Cost Optimization Tips</a>
+        <a href="/answers/when-to-self-host-llm.html" class="related-card">When to Self-Host an LLM</a>
+      </div>
+    </section>
+
+    <section style="max-width:720px;margin:2rem auto;padding:0 2rem;">
+      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="https://zovo.one">Michael Lip</a>. Checklist items reflect best practices as of May 2026. Checklist state is stored in your browser's localStorage — nothing is sent to a server.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&utm_medium=satellite&utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a></div>
+    </div>
+  </footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+        <a href="https://abwex.com">ABWex &mdash; A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow &mdash; Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ &mdash; AI Code Tools &amp; Fixes</a>
+        <a href="https://claudkit.com">ClaudKit &mdash; API</a>
+        <a href="https://enhio.com">Enhio &mdash; Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot &mdash; Timestamps</a>
+        <a href="https://gen8x.com">Gen8X &mdash; Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X &mdash; AI Models</a>
+        <a href="https://heytensor.com">HeyTensor &mdash; ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot &mdash; Webhooks</a>
+        <a href="https://kappafy.com">Kappafy &mdash; JSON</a>
+        <a href="https://kappakit.com">KappaKit &mdash; Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen &mdash; Image Tools</a>
+        <a href="https://lochbot.com">LochBot &mdash; Security</a>
+        <a href="https://lockml.com">LockML &mdash; ML Compare</a>
+        <a href="https://ml3x.com">ML3X &mdash; Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+  // ===== LLM DEPLOYMENT CHECKLIST =====
+
+  const STORAGE_KEY = 'kickllm_deploy_checklist_v1';
+
+  const PHASES = [
+    {
+      id: 'phase1',
+      name: 'Phase 1: Model Selection',
+      short: 'Model Selection',
+      color: '#F43F5E',
+      items: [
+        {
+          id: 'p1_1',
+          title: 'Define the use case and success criteria',
+          meta: 'Foundation · Before everything else',
+          detail: `<p>Write down exactly what the model must do, what a successful output looks like, and how you will measure success. Without this, every subsequent decision is arbitrary.</p><ul><li>Specify the input format and expected output format</li><li>Define quantitative success metrics (accuracy, latency, cost per request)</li><li>Identify the top 5 failure modes and how critical each one is</li><li>Get stakeholder sign-off on the success criteria before building</li></ul>`
+        },
+        {
+          id: 'p1_2',
+          title: 'Research which base models support your requirements',
+          meta: 'Context window, modalities, output formats',
+          detail: `<p>Different models have different capabilities. Check:</p><ul><li><strong>Context window:</strong> How much text does a typical request include? Claude Sonnet 4.6 supports 200K tokens; GPT-4o supports 128K.</li><li><strong>Output formats:</strong> Does the task need JSON mode, function calling, or tool use? Not all models support all formats reliably.</li><li><strong>Modalities:</strong> Do you need vision, audio, or code-specific capabilities?</li><li><strong>Language support:</strong> If serving non-English users, test tokenization and quality on target languages.</li></ul><p>Use the <a href="/tools/llm-comparison.html">KickLLM model comparison</a> to evaluate side by side.</p>`
+        },
+        {
+          id: 'p1_3',
+          title: 'Run cost projections for candidate models',
+          meta: 'Token counts, daily volume, monthly spend',
+          detail: `<p>Before choosing a model, calculate the monthly cost at projected volume. A model that costs 10x more per token may not be justified if a cheaper model meets quality requirements.</p><ul><li>Estimate average input and output tokens per request</li><li>Project daily and monthly request volume</li><li>Calculate cost for each candidate model using the <a href="/tools/llm-cost-calculator.html">LLM cost calculator</a></li><li>Include fine-tuned inference pricing if fine-tuning is planned — it is typically higher than base model rates</li></ul>`
+        },
+        {
+          id: 'p1_4',
+          title: 'Compare API vs self-hosting economics',
+          meta: 'Break-even analysis for open-source alternatives',
+          detail: `<p>Self-hosting open-source models (Llama 3, Mistral, Gemma) eliminates per-token costs but requires GPU infrastructure and operational overhead. Self-hosting is typically cost-effective when monthly API spend exceeds $2,000–$5,000.</p><ul><li>A100-80GB spot instance: ~$2.50–$3.50/hour</li><li>Llama 3 70B on 2x A100 handles ~80 requests/second at 500 tokens each</li><li>Factor in engineering time for deployment, monitoring, and updates</li></ul><p>See the <a href="/research/open-source-vs-api.html">open source vs API analysis</a> for detailed break-even numbers.</p>`
+        },
+        {
+          id: 'p1_5',
+          title: 'Confirm the model provider\'s terms allow your use case',
+          meta: 'Usage policies, prohibited use cases',
+          detail: `<p>All major providers prohibit certain use cases. Verify your application does not violate the provider's usage policy before building on their API.</p><ul><li>OpenAI: <code>openai.com/policies/usage-policies</code></li><li>Anthropic: <code>anthropic.com/legal/aup</code></li><li>Google: Gemini API Terms of Service</li><li>Meta Llama: Llama Community License (restrictions on large-scale commercial use)</li></ul><p>Document the policy version reviewed and store it in your compliance records.</p>`
+        },
+        {
+          id: 'p1_6',
+          title: 'Select primary model and one fallback model',
+          meta: 'Resilience for API outages',
+          detail: `<p>Provider outages happen. Designate a fallback model from a different provider so your application degrades gracefully rather than going completely offline.</p><ul><li>Primary: best-fit model for your quality and cost requirements</li><li>Fallback: different provider, similar capability tier (e.g., GPT-4o-mini as fallback for Claude Haiku)</li><li>Implement automatic failover in your API client with a 2–3 second timeout before switching</li><li>Test the fallback path explicitly — do not assume it works without verifying output quality</li></ul>`
+        },
+        {
+          id: 'p1_7',
+          title: 'Prototype and informally validate model selection',
+          meta: 'Before committing to infrastructure',
+          detail: `<p>Before writing a line of production code, run 50–100 real examples through each candidate model and review outputs manually. Gut-check quality differences before committing to a model choice.</p><ul><li>Use the provider playground or a simple script to batch test examples</li><li>Include edge cases and expected failure cases in your test set</li><li>Rate outputs on the dimensions that matter most (accuracy, format, tone)</li><li>Document surprising behaviors — they will likely recur in production</li></ul>`
+        }
+      ]
+    },
+    {
+      id: 'phase2',
+      name: 'Phase 2: Fine-Tuning',
+      short: 'Fine-Tuning',
+      items: [
+        {
+          id: 'p2_1',
+          title: 'Verify fine-tuning is necessary (baseline evaluation first)',
+          meta: 'Skip if prompt engineering is sufficient',
+          detail: `<p>Fine-tuning is often unnecessary. Before starting, measure whether a well-engineered system prompt achieves acceptable performance on your evaluation set. Many teams fine-tune prematurely.</p><ul><li>Run your best prompt engineering attempt on a held-out test set</li><li>Score output quality against your defined success metrics</li><li>Only proceed with fine-tuning if the gap is material and clearly attributable to base model behavior</li><li>Document the baseline scores — you will need them to measure fine-tuning improvement</li></ul>`
+        },
+        {
+          id: 'p2_2',
+          title: 'Curate and validate training dataset (min 500 examples)',
+          meta: 'Quality over quantity — reviewed by a human',
+          detail: `<p>Training data quality determines fine-tuning outcome more than any other variable. Each example should be:</p><ul><li>Representative of real production inputs — not idealized examples</li><li>Correctly labeled or completed — errors in training data propagate into model behavior</li><li>Diverse — covering the full range of inputs your model will see, including edge cases</li><li>Reviewed by a domain expert if specialized knowledge is required</li></ul><p>Minimum viable dataset sizes: 500 examples for format/style, 2,000 for domain adaptation, 10,000+ for significant capability changes.</p>`
+        },
+        {
+          id: 'p2_3',
+          title: 'Split dataset: train / validation / test (80/10/10)',
+          meta: 'Hold out test set — do not train on it',
+          detail: `<p>A held-out test set that is never used during training is essential for measuring actual post-fine-tune performance. Use an 80/10/10 or 90/5/5 split:</p><ul><li><strong>Train:</strong> examples used for gradient updates</li><li><strong>Validation:</strong> examples used to monitor training loss and detect overfitting during training</li><li><strong>Test:</strong> never seen during training or validation — used only for final evaluation</li></ul><p>Ensure the test set contains representative examples across all input types, not just easy ones.</p>`
+        },
+        {
+          id: 'p2_4',
+          title: 'Calculate fine-tuning cost and time estimate',
+          meta: 'Before starting training job',
+          detail: `<p>Use the <a href="/tools/fine-tuning-cost-calculator.html">fine-tuning cost calculator</a> to estimate total training cost and time before starting.</p><ul><li>For managed APIs (OpenAI): total training tokens = rows * avg_tokens_per_example * epochs</li><li>For self-hosted (QLoRA on A100): estimate GPU hours based on model size and dataset size</li><li>Budget for 2–3 training runs — first runs rarely produce optimal results</li><li>Calculate break-even vs ongoing API costs to confirm fine-tuning is economically justified</li></ul>`
+        },
+        {
+          id: 'p2_5',
+          title: 'Run training job and monitor training/validation loss',
+          meta: 'Stop early if validation loss diverges',
+          detail: `<p>During training, monitor both training loss and validation loss in parallel. Overfitting occurs when training loss continues decreasing while validation loss plateaus or increases.</p><ul><li>For OpenAI fine-tunes: loss curves are available in the API response and dashboard</li><li>For self-hosted: use <code>wandb</code>, <code>tensorboard</code>, or HuggingFace <code>trainer</code> logging</li><li>Typical sign of overfitting: model memorizes training examples verbatim rather than generalizing</li><li>Save checkpoints every N steps so you can roll back to the best validation loss checkpoint</li></ul>`
+        },
+        {
+          id: 'p2_6',
+          title: 'Compare fine-tuned model against baseline on test set',
+          meta: 'Quantify improvement before using in production',
+          detail: `<p>Run the held-out test set through both the base model (with your best system prompt) and the fine-tuned model. Compare scores on your defined success metrics.</p><ul><li>If fine-tuning shows less than 5–10% improvement on key metrics, reconsider whether it is worth the inference cost premium</li><li>Check for regressions — fine-tuning sometimes improves one metric while degrading another</li><li>Run the adversarial test cases from Phase 3 on the fine-tuned model specifically</li></ul>`
+        }
+      ]
+    },
+    {
+      id: 'phase3',
+      name: 'Phase 3: Evaluation',
+      short: 'Evaluation',
+      items: [
+        {
+          id: 'p3_1',
+          title: 'Build automated evaluation harness with ground-truth test set',
+          meta: 'Runs on every deployment — catches regressions',
+          detail: `<p>An automated evaluation harness is the single most important investment for long-term LLM reliability. It should run before every production deployment and alert on quality regression.</p><ul><li>Minimum 200 examples with verified ground-truth answers</li><li>Automated scoring: exact match, ROUGE, semantic similarity, or task-specific metrics</li><li>Tracked over time with version tagging per run</li><li>Integrates with CI/CD to block deployment on score drops over a threshold</li></ul>`
+        },
+        {
+          id: 'p3_2',
+          title: 'Define and measure latency requirements (p50, p95, p99)',
+          meta: 'Set acceptance thresholds before launch',
+          detail: `<p>LLM latency is highly variable. A single request to GPT-4o or Claude can range from 1 second to 30+ seconds depending on output length, server load, and network conditions.</p><ul><li>Measure latency under realistic load with realistic prompt and output lengths</li><li>Set thresholds: e.g., p95 under 10 seconds, p99 under 30 seconds</li><li>Implement streaming responses to improve perceived latency for users — show text token by token rather than waiting for the full response</li><li>Set API timeout appropriately: 2x your p99 latency measurement</li></ul>`
+        },
+        {
+          id: 'p3_3',
+          title: 'Test all defined failure modes and edge cases',
+          meta: 'Include adversarial inputs',
+          detail: `<p>Every failure mode you identified in Phase 1 should have corresponding test cases. Additionally, test:</p><ul><li>Inputs at maximum and minimum length boundaries</li><li>Inputs in unexpected languages or with unusual characters</li><li>Prompt injection attempts (user inputs trying to override system instructions)</li><li>Requests for prohibited content per your content policy</li><li>Ambiguous or underspecified inputs that could be interpreted multiple ways</li></ul>`
+        },
+        {
+          id: 'p3_4',
+          title: 'Conduct red-teaming for safety-critical applications',
+          meta: 'Systematic attempts to elicit harmful outputs',
+          detail: `<p>Red-teaming means systematically attempting to make the model behave badly. For most applications, informal red-teaming by the development team is sufficient. Consumer-facing or high-stakes applications should use structured red-teaming.</p><ul><li>Test jailbreak attempts (attempts to bypass safety instructions)</li><li>Test for bias and fairness issues relevant to your use case</li><li>Test behavior on legally sensitive topics (medical, legal, financial advice)</li><li>Document all red-teaming attempts and outcomes before launch</li></ul>`
+        },
+        {
+          id: 'p3_5',
+          title: 'Validate output parsing and downstream system integration',
+          meta: 'JSON schema validation, type checking',
+          detail: `<p>If your application parses LLM outputs (JSON, structured data, function calls), validate that parsing is robust to model variation.</p><ul><li>Test what happens when the model returns prose instead of JSON</li><li>Test what happens when required fields are missing or have wrong types</li><li>Implement schema validation with a clear fallback (retry, default, or error message)</li><li>Test the entire downstream pipeline with realistic model outputs, not mocked responses</li></ul>`
+        },
+        {
+          id: 'p3_6',
+          title: 'Document evaluation results and sign off on launch readiness',
+          meta: 'Stakeholder approval based on metrics',
+          detail: `<p>Before launch, produce a written evaluation summary that includes: test set performance scores, latency measurements, identified failure modes and mitigations, and explicit confirmation that success criteria from Phase 1 are met. Get sign-off from technical and product stakeholders.</p><p>This document becomes the baseline for measuring post-launch quality and is essential for incident post-mortems.</p>`
+        }
+      ]
+    },
+    {
+      id: 'phase4',
+      name: 'Phase 4: Infrastructure',
+      short: 'Infrastructure',
+      items: [
+        {
+          id: 'p4_1',
+          title: 'Implement API key management with rotation policy',
+          meta: 'Never hardcode keys in source code',
+          detail: `<p>API keys for LLM providers should be treated as high-value secrets. A leaked key can result in significant unexpected charges.</p><ul><li>Store keys in a secrets manager (AWS Secrets Manager, HashiCorp Vault, or environment variables in production)</li><li>Use separate keys per environment (development, staging, production) with separate spending limits</li><li>Implement key rotation: replace keys every 90 days or immediately on any suspected compromise</li><li>Set spending limits on provider dashboards to cap accidental runaway cost</li></ul>`
+        },
+        {
+          id: 'p4_2',
+          title: 'Implement retry logic with exponential backoff',
+          meta: 'Handle 429 and 5xx errors gracefully',
+          detail: `<p>LLM provider APIs return rate limit errors (HTTP 429) and server errors (HTTP 503) under normal conditions. Without retry logic, these errors propagate to users as failures.</p><ul><li>Implement exponential backoff: retry after 1s, 2s, 4s, 8s, 16s with jitter</li><li>Distinguish retryable errors (429, 503) from non-retryable ones (400, 401)</li><li>Set a maximum retry count (3–5 attempts) and total timeout</li><li>Log all retried requests for rate limit monitoring</li></ul>`
+        },
+        {
+          id: 'p4_3',
+          title: 'Implement streaming for real-time response display',
+          meta: 'Improves perceived latency significantly',
+          detail: `<p>Streaming API responses allow you to display tokens to the user as they are generated, dramatically improving perceived response time even when total generation time is the same.</p><ul><li>Both OpenAI and Anthropic support streaming via server-sent events</li><li>Implement proper stream handling: parse chunks, handle stream errors, and display partial content gracefully</li><li>For APIs and batch processing where streaming is not needed, non-streaming is simpler to implement correctly</li><li>Test stream interruption handling — what happens when the user closes the connection mid-stream?</li></ul>`
+        },
+        {
+          id: 'p4_4',
+          title: 'Set per-user and global rate limits',
+          meta: 'Prevent runaway costs and abuse',
+          detail: `<p>Without rate limiting, a single user or bug can consume your entire monthly budget in minutes.</p><ul><li>Implement per-user token quotas (e.g., 50,000 tokens/day per free user)</li><li>Implement global daily token caps with alerting at 80% of limit</li><li>Return informative error messages when limits are hit (include retry-after time)</li><li>Log all rate limit hits — patterns indicate either abuse or legitimate high-usage users who need different plans</li></ul>`
+        },
+        {
+          id: 'p4_5',
+          title: 'Implement prompt and response logging',
+          meta: 'Essential for debugging and evaluation',
+          detail: `<p>Without logs, debugging production issues and running retrospective evaluations is nearly impossible. Logs should capture:</p><ul><li>Full prompt (system + user messages) and response</li><li>Model, token counts, latency, and cost per request</li><li>Request ID and user identifier (anonymized if required by privacy policy)</li><li>Timestamp and environment</li></ul><p>Decide on retention policy before launch. Logs with user content may have GDPR/CCPA implications — consult legal if uncertain.</p>`
+        },
+        {
+          id: 'p4_6',
+          title: 'Implement output caching for identical requests',
+          meta: 'Reduce costs on repeated queries',
+          detail: `<p>Semantic or exact-match caching eliminates redundant API calls for repeated queries. Even a simple exact-match cache on normalized prompts typically reduces API calls by 10–30% in FAQ and support workloads.</p><ul><li>Cache key: normalized prompt text (lowercased, whitespace-normalized, or hashed)</li><li>Cache TTL: depends on how frequently the underlying content changes</li><li>For semantic caching: embed queries and match against a vector store; return cached response if cosine similarity exceeds threshold (~0.95)</li></ul>`
+        },
+        {
+          id: 'p4_7',
+          title: 'Configure max_tokens and temperature for the use case',
+          meta: 'Output length and determinism tuning',
+          detail: `<p>Leaving <code>max_tokens</code> unset risks extremely long (expensive) responses. Leaving <code>temperature</code> at default may produce inconsistent outputs for structured tasks.</p><ul><li><code>max_tokens</code>: set to 2x the maximum useful response length for your task. Truncation is better than runaway generation.</li><li><code>temperature=0</code>: for factual, structured, or code tasks requiring consistency</li><li><code>temperature=0.7</code>: for creative or conversational tasks requiring variety</li><li>Test temperature settings with your actual evaluation set — the optimal value is task-specific</li></ul>`
+        },
+        {
+          id: 'p4_8',
+          title: 'Load test the system at 2x expected peak traffic',
+          meta: 'Validate behavior under realistic load',
+          detail: `<p>LLM applications can behave differently under load. Rate limits that are invisible at low volume become frequent at scale. Queue depth, timeout handling, and database connection pools all need validation under load.</p><ul><li>Use a tool like <code>k6</code>, <code>locust</code>, or <code>wrk</code> to simulate concurrent requests</li><li>Test at 1x expected load, 2x, and burst (10x for 30 seconds)</li><li>Measure error rates, latency percentiles, and cost per request under each load scenario</li><li>Verify that rate limiting kicks in gracefully rather than crashing</li></ul>`
+        }
+      ]
+    },
+    {
+      id: 'phase5',
+      name: 'Phase 5: Monitoring',
+      short: 'Monitoring',
+      items: [
+        {
+          id: 'p5_1',
+          title: 'Set up latency monitoring with p50/p95/p99 dashboards',
+          meta: 'Alerts on p95 regression',
+          detail: `<p>Latency is the most user-visible signal of system health. Track it continuously from day one, not reactively after complaints.</p><ul><li>Emit timing metrics for: API request start, first token received, last token received, total end-to-end latency including application processing</li><li>Track p50 (median), p95, and p99 separately — p99 spikes often indicate timeout issues invisible in the median</li><li>Alert when p95 latency exceeds a threshold (e.g., 10 seconds) for more than 5 minutes</li></ul>`
+        },
+        {
+          id: 'p5_2',
+          title: 'Set up cost monitoring with daily and monthly budgets',
+          meta: 'Alert at 80% of monthly budget',
+          detail: `<p>Token costs can spike unexpectedly due to bugs (runaway loops), viral traffic, or model pricing changes.</p><ul><li>Track daily token consumption and cost by model and by endpoint</li><li>Set alerts at 80% of monthly budget threshold</li><li>Alert immediately on anomalies: if today's spend is 3x the 7-day average, something is wrong</li><li>Build a cost dashboard showing cost per request, cost per user, and cost per feature</li></ul>`
+        },
+        {
+          id: 'p5_3',
+          title: 'Implement automated output quality scoring',
+          meta: 'LLM-as-judge on sampled production outputs',
+          detail: `<p>Quality cannot be monitored by latency and error rate alone. Implement automated quality scoring on a sample of production outputs.</p><ul><li>For structured outputs: schema validation pass rate is a direct quality signal</li><li>For free text: use an LLM-as-judge approach — send a sample to a secondary model for quality scoring against a rubric</li><li>Score 1–5% of production requests daily and track score distribution over time</li><li>Alert when the average quality score drops by more than 10% week-over-week</li></ul>`
+        },
+        {
+          id: 'p5_4',
+          title: 'Implement user feedback collection',
+          meta: 'Thumbs up/down or explicit rating',
+          detail: `<p>User feedback is the ground truth signal for quality that automated metrics approximate. Even a simple thumbs-up/thumbs-down on responses provides invaluable signal.</p><ul><li>Store feedback linked to the specific prompt, response, and model version</li><li>Track thumbs-down rate by category (wrong answer, bad format, offensive content, too slow)</li><li>Investigate all thumbs-down responses in the first week after launch</li><li>Feed high-confidence user feedback into your evaluation dataset for future model updates</li></ul>`
+        },
+        {
+          id: 'p5_5',
+          title: 'Create runbook for common failure scenarios',
+          meta: 'On-call procedures for outages and anomalies',
+          detail: `<p>When things go wrong at 3am, the on-call engineer needs to know what to do without tribal knowledge.</p><ul><li>Provider API outage: steps to verify, how to activate fallback model, how to communicate to users</li><li>Runaway cost spike: how to identify the cause, how to temporarily disable the feature, who to escalate to</li><li>Quality regression: how to identify affected requests, how to roll back to previous model version or prompt</li><li>Rate limit breach: how to throttle specific users, how to request limit increase from provider</li></ul>`
+        },
+        {
+          id: 'p5_6',
+          title: 'Subscribe to provider status pages and changelog notifications',
+          meta: 'Know about model updates before they affect users',
+          detail: `<p>Providers update models, change rate limits, and occasionally break API compatibility. Subscribe to their status and changelog feeds so you are not surprised.</p><ul><li>OpenAI: <code>status.openai.com</code> and developer forum announcements</li><li>Anthropic: <code>status.anthropic.com</code> and the Anthropic changelog</li><li>Google: Google Cloud Status Dashboard</li><li>Test model version pinning — some providers allow specifying an exact model snapshot to prevent unexpected quality changes from model updates</li></ul>`
+        }
+      ]
+    },
+    {
+      id: 'phase6',
+      name: 'Phase 6: Compliance',
+      short: 'Compliance',
+      items: [
+        {
+          id: 'p6_1',
+          title: 'Review and document applicable legal requirements',
+          meta: 'GDPR, CCPA, HIPAA, sector-specific rules',
+          detail: `<p>Legal requirements depend on your geography, industry, and user base. At minimum, identify which regulations apply to your application:</p><ul><li><strong>GDPR</strong>: applies if serving EU users. User prompts that contain personal data require a lawful basis for processing and may trigger data subject rights.</li><li><strong>CCPA</strong>: applies to California users. Requires disclosure of data practices and opt-out rights.</li><li><strong>HIPAA</strong>: applies to US healthcare data. LLM providers must sign a Business Associate Agreement (BAA). OpenAI offers BAAs for enterprise plans; Anthropic's coverage is contract-specific.</li><li><strong>EU AI Act</strong>: imposes obligations on high-risk AI applications (employment, credit, education, critical infrastructure).</li></ul>`
+        },
+        {
+          id: 'p6_2',
+          title: 'Implement content filtering for output safety',
+          meta: 'Block generation of harmful content categories',
+          detail: `<p>Even with well-designed prompts, models can generate harmful content. Implement a content filtering layer as a defense-in-depth measure.</p><ul><li>OpenAI Moderation API (free): classifies text across hate, harassment, violence, and sexual content categories</li><li>Custom classifiers for domain-specific prohibited content (e.g., medical advice without disclaimer)</li><li>Log all filtered outputs — patterns reveal prompt injection attempts and model weaknesses</li><li>Define a clear policy for what to return to the user when content is filtered (generic error vs. explanation)</li></ul>`
+        },
+        {
+          id: 'p6_3',
+          title: 'Add AI-generated content disclosures where required',
+          meta: 'User-facing transparency',
+          detail: `<p>Several jurisdictions and platforms require disclosure when content is AI-generated. Even where not legally required, disclosure builds user trust.</p><ul><li>Include disclosure in terms of service and, for AI-heavy products, in the UI</li><li>For synthetic media (images, audio, video), comply with emerging deepfake disclosure requirements</li><li>Marketing emails generated by AI may require disclosure in certain jurisdictions</li><li>Political advertising with AI-generated content has specific disclosure requirements in many regions</li></ul>`
+        },
+        {
+          id: 'p6_4',
+          title: 'Define data retention policy for prompts and responses',
+          meta: 'Align with privacy policy and legal requirements',
+          detail: `<p>Log data containing user input is governed by your privacy policy and applicable law. Define and implement a retention policy before you start accumulating logs.</p><ul><li>Determine minimum retention period for debugging vs. legal hold requirements</li><li>Implement automatic deletion or anonymization at the retention boundary</li><li>Ensure users can request deletion of their data (required under GDPR/CCPA)</li><li>Check provider data retention policies — OpenAI and Anthropic have their own retention windows for API inputs that may affect your policy</li></ul>`
+        },
+        {
+          id: 'p6_5',
+          title: 'Complete security review: prompt injection mitigations',
+          meta: 'Protect system instructions from user manipulation',
+          detail: `<p>Prompt injection is the primary security vulnerability in LLM applications. Attackers craft user inputs to override system instructions and change model behavior.</p><ul><li>Clearly separate system instructions from user inputs in your prompt structure</li><li>Test all known jailbreak patterns against your application</li><li>For high-security contexts, consider a two-step architecture: a validation model checks user input before the main model processes it</li><li>Never include secrets (API keys, passwords, private data) in system prompts — models can be instructed to reveal them</li></ul>`
+        },
+        {
+          id: 'p6_6',
+          title: 'Complete legal review of terms of service',
+          meta: 'Cover AI-specific liability and IP considerations',
+          detail: `<p>Standard SaaS terms of service do not address AI-specific risks. Your terms should cover:</p><ul><li>Disclaimer that outputs may be inaccurate, incomplete, or inappropriate</li><li>Prohibition on relying on AI output for professional advice (legal, medical, financial) without independent verification</li><li>Intellectual property: clarify who owns outputs generated using your product</li><li>Indemnification: user is responsible for harmful use of AI outputs</li></ul>`
+        },
+        {
+          id: 'p6_7',
+          title: 'Complete final production readiness review',
+          meta: 'All phases verified — approved to launch',
+          detail: `<p>Before flipping the production switch, do a final walkthrough of all 40 checklist items with the full launch team.</p><ul><li>All items in Phases 1–5 are checked and documented</li><li>Compliance review is signed off by legal or a designated stakeholder</li><li>Monitoring dashboards are live and alerts are configured</li><li>Runbook is distributed to the on-call team</li><li>Launch communication plan is ready (support documentation, release notes, status page message)</li></ul><p>Congratulations — you are production ready.</p>`
+        }
+      ]
+    }
+  ];
+
+  // ===== State management =====
+
+  let state = {};
+
+  function loadState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) state = JSON.parse(saved);
+    } catch (e) { state = {}; }
+  }
+
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function isChecked(id) { return state[id] === true; }
+  function setChecked(id, val) { state[id] = val; saveState(); updateProgress(); }
+
+  // ===== Rendering =====
+
+  function renderChecklist() {
+    const container = document.getElementById('checklistContainer');
+    const phasePills = document.getElementById('progressPhases');
+    container.innerHTML = '';
+    phasePills.innerHTML = '';
+
+    PHASES.forEach(phase => {
+      // Phase pill
+      const pill = document.createElement('button');
+      pill.className = 'phase-pill';
+      pill.textContent = phase.short;
+      pill.dataset.phaseId = phase.id;
+      pill.onclick = () => {
+        document.getElementById(phase.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      phasePills.appendChild(pill);
+
+      // Phase group
+      const group = document.createElement('div');
+      group.className = 'phase-group';
+      group.id = phase.id;
+
+      const header = document.createElement('div');
+      header.className = 'phase-header';
+      header.innerHTML = `<span class="phase-badge">Phase ${PHASES.indexOf(phase) + 1}</span><span class="phase-name">${phase.name.replace(/^Phase \d+: /, '')}</span><span class="phase-count" id="${phase.id}_count"></span>`;
+      group.appendChild(header);
+
+      phase.items.forEach((item, idx) => {
+        const checked = isChecked(item.id);
+        const div = document.createElement('div');
+        div.className = 'cl-item' + (checked ? ' checked' : '');
+        div.id = 'item_' + item.id;
+
+        div.innerHTML = `
+          <div class="cl-item-header">
+            <input type="checkbox" class="cl-checkbox" id="cb_${item.id}" ${checked ? 'checked' : ''} aria-label="${item.title}">
+            <div class="cl-item-text">
+              <div class="cl-item-title">${item.title}</div>
+              <div class="cl-item-meta">${item.meta}</div>
+            </div>
+            <button class="cl-expand-btn" onclick="toggleDetail('${item.id}', event)" aria-label="Toggle details">Details</button>
+          </div>
+          <div class="cl-detail" id="detail_${item.id}">${item.detail}</div>
+        `;
+
+        const cb = div.querySelector('input[type="checkbox"]');
+        cb.addEventListener('change', function() {
+          setChecked(item.id, this.checked);
+          div.classList.toggle('checked', this.checked);
+        });
+
+        group.appendChild(div);
+      });
+
+      container.appendChild(group);
+    });
+
+    updateProgress();
+  }
+
+  function toggleDetail(id, evt) {
+    evt.stopPropagation();
+    const detail = document.getElementById('detail_' + id);
+    detail.classList.toggle('open');
+  }
+
+  // ===== Progress =====
+
+  function updateProgress() {
+    const total = PHASES.reduce((s, p) => s + p.items.length, 0);
+    let checked = 0;
+    PHASES.forEach(phase => {
+      let phaseChecked = 0;
+      phase.items.forEach(item => { if (isChecked(item.id)) { checked++; phaseChecked++; } });
+      const countEl = document.getElementById(phase.id + '_count');
+      if (countEl) countEl.textContent = phaseChecked + ' / ' + phase.items.length;
+
+      // Update pill state
+      const pill = document.querySelector('.phase-pill[data-phase-id="' + phase.id + '"]');
+      if (pill) pill.classList.toggle('active', phaseChecked === phase.items.length);
+    });
+
+    document.getElementById('progressCounter').textContent = checked + ' / ' + total;
+    document.getElementById('progressFill').style.width = ((checked / total) * 100).toFixed(1) + '%';
+  }
+
+  // ===== Toolbar actions =====
+
+  function checkAll() {
+    PHASES.forEach(phase => phase.items.forEach(item => {
+      state[item.id] = true;
+      const cb = document.getElementById('cb_' + item.id);
+      if (cb) { cb.checked = true; document.getElementById('item_' + item.id).classList.add('checked'); }
+    }));
+    saveState(); updateProgress();
+  }
+
+  function uncheckAll() {
+    PHASES.forEach(phase => phase.items.forEach(item => {
+      state[item.id] = false;
+      const cb = document.getElementById('cb_' + item.id);
+      if (cb) { cb.checked = false; document.getElementById('item_' + item.id).classList.remove('checked'); }
+    }));
+    saveState(); updateProgress();
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all checklist progress? This cannot be undone.')) return;
+    state = {};
+    saveState();
+    uncheckAll();
+  }
+
+  function expandAll() {
+    document.querySelectorAll('.cl-detail').forEach(d => d.classList.add('open'));
+  }
+
+  function collapseAll() {
+    document.querySelectorAll('.cl-detail').forEach(d => d.classList.remove('open'));
+  }
+
+  let exportOpen = false;
+  function toggleExport() {
+    exportOpen = !exportOpen;
+    const section = document.getElementById('exportSection');
+    section.classList.toggle('visible', exportOpen);
+    if (exportOpen) {
+      document.getElementById('exportTextarea').value = buildExportText();
+      section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function buildExportText() {
+    const total = PHASES.reduce((s, p) => s + p.items.length, 0);
+    const checked = PHASES.reduce((s, p) => s + p.items.filter(i => isChecked(i.id)).length, 0);
+    let out = 'LLM DEPLOYMENT CHECKLIST\n';
+    out += 'Exported: ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '\n';
+    out += 'Progress: ' + checked + ' / ' + total + ' items completed\n';
+    out += '='.repeat(50) + '\n\n';
+
+    PHASES.forEach((phase, pi) => {
+      const pChecked = phase.items.filter(i => isChecked(i.id)).length;
+      out += phase.name.toUpperCase() + ' (' + pChecked + '/' + phase.items.length + ')\n';
+      out += '-'.repeat(40) + '\n';
+      phase.items.forEach((item, idx) => {
+        const mark = isChecked(item.id) ? '[x]' : '[ ]';
+        out += mark + ' ' + (idx + 1) + '. ' + item.title + '\n';
+        out += '     ' + item.meta + '\n';
+      });
+      out += '\n';
+    });
+    return out;
+  }
+
+  function copyExport() {
+    const ta = document.getElementById('exportTextarea');
+    ta.select();
+    try {
+      navigator.clipboard.writeText(ta.value).catch(() => document.execCommand('copy'));
+    } catch (e) { document.execCommand('copy'); }
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }
+
+  // ===== Init =====
+  loadState();
+  renderChecklist();
+  </script>
+  <script src="/assets/js/share.js"></script>
+  <script src="/assets/js/pro-nudge.js"></script>
+</body>
+</html>
