@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI API Playground — Test Prompts Before You Pay</title>
+  <meta name="description" content="Interactive mock API playground: estimate tokens & costs, compare models, and generate code for GPT-4o, Claude, Gemini, LLaMA, Mistral, DeepSeek.">
+  <link rel="canonical" href="https://kickllm.com/playground">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AI API Playground — Test Prompts Before You Pay",
+    "url": "https://kickllm.com/playground",
+    "description": "Interactive mock API playground: estimate tokens & costs, compare models, and generate code for GPT-4o, Claude, Gemini, LLaMA, Mistral, DeepSeek.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript enabled"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Playground", "item": "https://kickllm.com/playground" }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0a0a0a;
+      color: #e0d0f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1400px;
+      width: 100%;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #2a1a3a;
+      padding-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #b388ff, #a259ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      color: #9a8aaa;
+      margin-top: 0.3rem;
+      font-size: 1.05rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 800px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: #12101a;
+      border: 1px solid #2a1f3a;
+      border-radius: 24px;
+      padding: 1.8rem 1.8rem 2rem;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
+    .card h2 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      color: #c8b0f0;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: #b8a0d0;
+      margin-bottom: 0.3rem;
+      margin-top: 1.2rem;
+      font-weight: 450;
+    }
+    label:first-of-type {
+      margin-top: 0;
+    }
+    textarea, select, input {
+      width: 100%;
+      background: #0e0c14;
+      border: 1px solid #2f2240;
+      border-radius: 18px;
+      padding: 0.8rem 1rem;
+      color: #e8d8f8;
+      font-size: 0.95rem;
+      transition: border 0.15s;
+      font-family: inherit;
+    }
+    textarea:focus, select:focus, input:focus {
+      outline: none;
+      border-color: #a259ff;
+      box-shadow: 0 0 0 2px rgba(162,89,255,0.2);
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .preset-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+    .preset-btn {
+      background: #1a1428;
+      border: 1px solid #3a2850;
+      color: #c8b0f0;
+      padding: 0.35rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 450;
+    }
+    .preset-btn:hover {
+      background: #2f1f48;
+      border-color: #a259ff;
+      color: #e0d0ff;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      background: #0e0c14;
+      padding: 0.7rem 1.2rem;
+      border-radius: 40px;
+      margin: 0.8rem 0;
+      border: 1px solid #1f1730;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #8a7a9a;
+      letter-spacing: 0.04em;
+    }
+    .stat-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #d0bcf0;
+    }
+    .code-block {
+      background: #0a0812;
+      border-radius: 18px;
+      padding: 1rem 1.2rem;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.8rem;
+      border: 1px solid #2a1f3a;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #c0b0d8;
+      margin-top: 0.8rem;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .code-label {
+      font-size: 0.75rem;
+      color: #8a7a9a;
+      margin-top: 1rem;
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.02em;
+    }
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+    }
+    .cost-table th {
+      text-align: left;
+      color: #b8a0d0;
+      font-weight: 450;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #2a1f3a;
+    }
+    .cost-table td {
+      padding: 0.5rem 0.2rem;
+      border-bottom: 1px solid #1a1225;
+    }
+    .cost-table tr:last-child td {
+      border-bottom: none;
+    }
+    .cost-table .highlight {
+      color: #d0bcf0;
+      font-weight: 500;
+    }
+    .btn-primary {
+      background: #7a3eb0;
+      border: none;
+      color: #fff;
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background: #9147d4;
+    }
+    .footnote {
+      margin-top: 2rem;
+      color: #5a4a6a;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      background: #2a1a3a;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      color: #b088e0;
+    }
+    .mt-1 { margin-top: 0.7rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ AI API Playground</h1>
+    <div class="sub">Test prompts · estimate tokens & costs · compare models · generate code</div>
+  </header>
+
+  <!-- Breadcrumb (visual) -->
+  <nav style="font-size:0.8rem; color:#6a5a7a; margin-bottom:1.5rem;">
+    <a href="/" style="color:#8a7a9a; text-decoration:none;">Home</a> / <span style="color:#b8a0d0;">Playground</span>
+  </nav>
+
+  <div class="grid-2">
+    <!-- LEFT: Prompt & controls -->
+    <div class="card">
+      <h2><span>🧪</span> Prompt builder</h2>
+      <label>System prompt</label>
+      <textarea id="systemPrompt" placeholder="You are a helpful assistant...">You are a concise AI.</textarea>
+
+      <label>User message</label>
+      <textarea id="userMessage" placeholder="Write your message here...">Explain quantum computing in 2 sentences.</textarea>
+
+      <label>🎯 Preset prompts</label>
+      <div class="preset-group">
+        <button class="preset-btn" data-preset="summarize">Summarize</button>
+        <button class="preset-btn" data-preset="translate">Translate</button>
+        <button class="preset-btn" data-preset="codeReview">Code review</button>
+        <button class="preset-btn" data-preset="extract">Data extraction</button>
+        <button class="preset-btn" data-preset="creative">Creative writing</button>
+      </div>
+
+      <label>🤖 Model</label>
+      <select id="modelSelect">
+        <option value="gpt4o">GPT-4o</option>
+        <option value="claude35">Claude 3.5 Sonnet</option>
+        <option value="gemini">Gemini 1.5 Pro</option>
+        <option value="llama">LLaMA 3.1 70B</option>
+        <option value="mistral">Mistral Large</option>
+        <option value="deepseek">DeepSeek V2</option>
+      </select>
+
+      <button class="btn-primary" id="estimateBtn">✨ Estimate tokens & cost</button>
+
+      <div class="stat-row" id="statsRow">
+        <div class="stat-item"><span class="stat-label">Input tokens</span><span class="stat-value" id="inputTokens">0</span></div>
+        <div class="stat-item"><span class="stat-label">Output tokens</span><span class="stat-value" id="outputTokens">0</span></div>
+        <div class="stat-item"><span class="stat-label">Cost (USD)</span><span class="stat-value" id="costDisplay">$0.0000</span></div>
+      </div>
+      <div style="font-size:0.8rem; color:#8a7a9a; display:flex; justify-content:space-between;">
+        <span>⚡ estimated</span>
+        <span id="modelNameDisplay">GPT-4o</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Code & cost table -->
+    <div class="card">
+      <h2><span>📋</span> Code & cost comparison</h2>
+      <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-bottom:0.5rem;">
+        <span class="badge">cURL</span>
+        <span class="badge">Python (openai/anthropic)</span>
+        <span class="badge">JavaScript</span>
+      </div>
+
+      <div class="code-label">⬇️ Equivalent cURL</div>
+      <div class="code-block" id="curlCode">curl -X POST https://api.openai.com/v1/chat/completions ...</div>
+
+      <div class="code-label">🐍 Python (SDK style)</div>
+      <div class="code-block" id="pythonCode">from openai import OpenAI\nclient = OpenAI()\n...</div>
+
+      <div class="code-label">📜 JavaScript (fetch)</div>
+      <div class="code-block" id="jsCode">fetch('https://api.openai.com/v1/chat/completions', {...})</div>
+
+      <h2 style="margin-top:2rem; font-size:1.2rem;">💰 Cost per 1K tokens (USD)</h2>
+      <table class="cost-table" id="costTable">
+        <thead><tr><th>Provider</th><th>Input</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>GPT-4o</td><td>$2.50</td><td>$10.00</td></tr>
+          <tr><td>Claude 3.5</td><td>$3.00</td><td>$15.00</td></tr>
+          <tr><td>Gemini 1.5 Pro</td><td>$1.25</td><td>$5.00</td></tr>
+          <tr><td>LLaMA 3.1 70B</td><td>$0.90</td><td>$3.60</td></tr>
+          <tr><td>Mistral Large</td><td>$2.00</td><td>$8.00</td></tr>
+          <tr><td>DeepSeek V2</td><td>$0.50</td><td>$2.00</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:0.5rem; font-size:0.7rem; color:#5a4a6a;">* mock pricing for illustration</div>
+    </div>
+  </div>
+
+  <!-- extra info -->
+  <div class="footnote">
+    <span>🏷️ kickllm.com — AI API Playground. Presets, cost estimation, and code generation. No API key required.</span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- pricing map (per 1K tokens) -----
+    const pricing = {
+      gpt4o:     { input: 2.50, output: 10.00, name: 'GPT-4o', provider: 'openai' },
+      claude35:  { input: 3.00, output: 15.00, name: 'Claude 3.5 Sonnet', provider: 'anthropic' },
+      gemini:    { input: 1.25, output: 5.00, name: 'Gemini 1.5 Pro', provider: 'google' },
+      llama:     { input: 0.90, output: 3.60, name: 'LLaMA 3.1 70B', provider: 'meta' },
+      mistral:   { input: 2.00, output: 8.00, name: 'Mistral Large', provider: 'mistral' },
+      deepseek:  { input: 0.50, output: 2.00, name: 'DeepSeek V2', provider: 'deepseek' }
+    };
+
+    // DOM refs
+    const systemPrompt = document.getElementById('systemPrompt');
+    const userMessage = document.getElementById('userMessage');
+    const modelSelect = document.getElementById('modelSelect');
+    const inputTokensSpan = document.getElementById('inputTokens');
+    const outputTokensSpan = document.getElementById('outputTokens');
+    const costDisplay = document.getElementById('costDisplay');
+    const modelNameDisplay = document.getElementById('modelNameDisplay');
+    const curlCode = document.getElementById('curlCode');
+    const pythonCode = document.getElementById('pythonCode');
+    const jsCode = document.getElementById('jsCode');
+    const estimateBtn = document.getElementById('estimateBtn');
+
+    // preset buttons
+    const presetBtns = document.querySelectorAll('.preset-btn');
+    const presets = {
+      summarize: { system: 'You are a summarization expert. Keep it concise.', user: 'Summarize the following: The Industrial Revolution was a period of major industrialization that took place during the late 1700s and early 1800s. It began in Great Britain and spread to other parts of the world.' },
+      translate: { system: 'You are a translator. Translate to French.', user: 'Hello, how are you? I would like to book a hotel.' },
+      codeReview: { system: 'You are a senior code reviewer. Provide feedback.', user: 'function add(a,b){ return a+b; } // any issues?' },
+      extract: { system: 'Extract all names, dates, and locations from the text.', user: 'John Doe visited Paris on 2024-03-15 with Jane Smith.' },
+      creative: { system: 'You are a creative writer. Write a short poem.', user: 'Write a poem about a robot learning to paint.' }
+    };
+
+    // helper: rough token count (char/2.5)
+    function estimateTokens(text) {
+      if (!text) return 0;
+      return Math.ceil(text.length / 2.5);
+    }
+
+    // update all UI: tokens, cost, code
+    function updatePlayground() {
+      const sys = systemPrompt.value || '';
+      const usr = userMessage.value || '';
+      const modelKey = modelSelect.value;
+      const model = pricing[modelKey];
+      if (!model) return;
+
+      // input tokens = system + user
+      const inputTok = estimateTokens(sys) + estimateTokens(usr);
+      // output tokens: simulate between 40 and 200 depending on input length
+      let baseOut = Math.min(180, Math.max(40, Math.floor(inputTok * 0.6)));
+      // but keep within 30..250
+      const outputTok = Math.min(250, Math.max(30, baseOut + Math.floor(Math.random() * 20 - 10)));
+
+      const costInput = (inputTok / 1000) * model.input;
+      const costOutput = (outputTok / 1000) * model.output;
+      const totalCost = costInput + costOutput;
+
+      inputTokensSpan.textContent = inputTok;
+      outputTokensSpan.textContent = outputTok;
+      costDisplay.textContent = `$${totalCost.toFixed(4)}`;
+      modelNameDisplay.textContent = model.name;
+
+      // ----- generate code snippets -----
+      const baseUrlOpenAI = 'https://api.openai.com/v1/chat/completions';
+      const baseUrlAnthropic = 'https://api.anthropic.com/v1/messages';
+      const isAnthropic = modelKey === 'claude35';
+      
+      let curl = '';
+      let python = '';
+      let js = '';
+
+      const messages = [
+        { role: 'system', content: sys || 'You are a helpful assistant.' },
+        { role: 'user', content: usr || 'Hello.' }
+      ];
+
+      if (isAnthropic) {
+        // anthropic style
+        curl = `curl -X POST ${baseUrlAnthropic} \\\n  -H "x-api-key: $ANTHROPIC_API_KEY" \\\n  -H "anthropic-version: 2023-06-01" \\\n  -H "content-type: application/json" \\\n  -d '{\n    "model": "claude-3-5-sonnet-20241022",\n    "max_tokens": ${outputTok},\n    "messages": ${JSON.stringify(messages, null, 4)}\n  }'`;
+        python = `import anthropic\n\nclient = anthropic.Anthropic()\nresponse = client.messages.create(\n    model="claude-3-5-sonnet-20241022",\n    max_tokens=${outputTok},\n    messages=${JSON.stringify(messages, null, 4)}\n)\nprint(response.content)`;
+        js = `const response = await fetch('${baseUrlAnthropic}', {\n  method: 'POST',\n  headers: {\n    'x-api-key': '${'$'}{ANTHROPIC_API_KEY}',\n    'anthropic-version': '2023-06-01',\n    'content-type': 'application/json'\n  },\n  body: JSON.stringify({\n    model: 'claude-3-5-sonnet-20241022',\n    max_tokens: ${outputTok},\n    messages: ${JSON.stringify(messages)}\n  })\n});\nconst data = await response.json();`;
+      } else {
+        // openai / others (openai compatible)
+        const modelString = modelKey === 'gpt4o' ? 'gpt-4o' : modelKey === 'gemini' ? 'gemini-1.5-pro' : modelKey === 'llama' ? 'llama-3.1-70b' : modelKey === 'mistral' ? 'mistral-large-latest' : 'deepseek-chat';
+        curl = `curl -X POST ${baseUrlOpenAI} \\\n  -H "Authorization: Bearer $OPENAI_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "model": "${modelString}",\n    "messages": ${JSON.stringify(messages, null, 4)},\n    "max_tokens": ${outputTok}\n  }'`;
+        python = `from openai import OpenAI\n\nclient = OpenAI()\nresponse = client.chat.completions.create(\n    model="${modelString}",\n    messages=${JSON.stringify(messages, null, 4)},\n    max_tokens=${outputTok}\n)\nprint(response.choices[0].message.content)`;
+        js = `const response = await fetch('${baseUrlOpenAI}', {\n  method: 'POST',\n  headers: {\n    'Authorization': 'Bearer ${'$'}{OPENAI_API_KEY}',\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    model: '${modelString}',\n    messages: ${JSON.stringify(messages)},\n    max_tokens: ${outputTok}\n  })\n});\nconst data = await response.json();\nconsole.log(data.choices[0].message.content);`;
+      }
+
+      curlCode.textContent = curl;
+      pythonCode.textContent = python;
+      jsCode.textContent = js;
+    }
+
+    // preset loader
+    function loadPreset(key) {
+      const p = presets[key];
+      if (!p) return;
+      systemPrompt.value = p.system;
+      userMessage.value = p.user;
+      updatePlayground();
+    }
+
+    // event listeners
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const preset = this.dataset.preset;
+        loadPreset(preset);
+      });
+    });
+
+    estimateBtn.addEventListener('click', updatePlayground);
+
+    // also update on model change
+    modelSelect.addEventListener('change', updatePlayground);
+
+    // initial update
+    updatePlayground();
+
+    // extra: update on typing? we can add a small debounce but keep it manual via button.
+    // but we also want to reflect changes when preset loads.
+    // we also update on model change already.
+
+    // Make sure cost table is static, but we highlight selected model? optional.
+    // highlight row? not needed.
+  })();
+</script>
+</body>
+</html>
