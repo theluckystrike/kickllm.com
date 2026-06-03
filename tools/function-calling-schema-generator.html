@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Function Calling Schema Generator — Build Tool Definitions for LLMs | kickllm.com</title>
+  <meta name="description" content="Interactive tool to generate OpenAI function calling, Anthropic tool use, and generic JSON Schema. Add parameters, enums, arrays, real-time preview & validation.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/tools/function-calling-schema-generator">
+  <!-- JSON-LD FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What formats does the schema generator support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "OpenAI function calling format, Anthropic tool use format, and generic JSON Schema."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add enum values and array item types?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, for enum parameters you can add allowed values; for array type you can select the items type (string, number, etc.)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the schema validated in real time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the tool validates required fields and structure, highlighting errors instantly."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 1rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #e2e8f0 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: #94a3b8;
+      margin-top: 0.25rem;
+      font-size: 1.1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #f1f5f9;
+    }
+    .card h2 small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #64748b;
+      margin-left: auto;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: #cbd5e1;
+    }
+    input, select, textarea {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      padding: 0.7rem 1rem;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    input.error, select.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+    }
+    .error-text {
+      color: #f87171;
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      min-height: 1.2rem;
+    }
+    .btn {
+      background: #38bdf8;
+      border: none;
+      color: #0f172a;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn:hover {
+      background: #7dd3fc;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+    }
+    .btn-outline:hover {
+      background: #1e293b;
+    }
+    .btn-sm {
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #f87171;
+    }
+    .param-row {
+      background: #0f172a;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #2d3a4e;
+    }
+    .param-row .inline-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: flex-end;
+    }
+    .param-row .inline-group > div {
+      flex: 1 0 120px;
+      min-width: 100px;
+    }
+    .param-row .inline-group .small-field {
+      flex: 0 1 100px;
+    }
+    .param-row .inline-group .checkbox-field {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding-bottom: 0.2rem;
+    }
+    .param-row .inline-group .checkbox-field label {
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    .param-row .inline-group .checkbox-field input {
+      width: auto;
+      margin: 0;
+    }
+    .enum-values, .array-items {
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed #334155;
+    }
+    .enum-values .tag-group, .array-items .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.6rem;
+      align-items: center;
+    }
+    .tag {
+      background: #1e293b;
+      border: 1px solid #38bdf8;
+      border-radius: 2rem;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .tag .remove-tag {
+      cursor: pointer;
+      color: #f87171;
+      font-weight: bold;
+      margin-left: 0.2rem;
+    }
+    .add-enum-input {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+    .add-enum-input input {
+      flex: 1;
+    }
+    .schema-preview {
+      background: #0f172a;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 1px solid #2d3a4e;
+    }
+    .schema-preview pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #e2e8f0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .copy-area {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    .validation-summary {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: #fbbf24;
+    }
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mt-2 { margin-top: 0.8rem; }
+    .mb-1 { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ Function Calling Schema Generator</h1>
+    <p>Build tool definitions for LLMs — OpenAI, Anthropic, generic JSON Schema</p>
+  </header>
+
+  <div class="grid">
+    <!-- LEFT: Builder -->
+    <div class="card">
+      <div class="flex-between">
+        <h2>🧩 Function Builder</h2>
+        <small>required fields <span style="color:#f87171;">*</span></small>
+      </div>
+      <div class="form-group">
+        <label>Function name <span style="color:#f87171;">*</span></label>
+        <input type="text" id="funcName" value="get_weather" placeholder="e.g. get_weather">
+        <div class="error-text" id="funcNameError"></div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" id="funcDesc" value="Get current weather for a location" placeholder="Describe what the function does">
+      </div>
+
+      <div class="flex-between">
+        <h3 style="font-size:1.1rem; font-weight:500;">📋 Parameters</h3>
+        <button class="btn btn-sm btn-outline" id="addParamBtn">+ Add parameter</button>
+      </div>
+      <div id="paramsContainer" class="mt-2"></div>
+      <div class="validation-summary" id="validationSummary"></div>
+    </div>
+
+    <!-- RIGHT: Schema outputs -->
+    <div class="card">
+      <h2>📄 Generated Schemas</h2>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+        <span style="background:#334155; padding:0.2rem 0.8rem; border-radius:2rem; font-size:0.75rem;">Real‑time</span>
+        <span style="background:#334155; padding:0.2rem 0.8rem; border-radius:2rem; font-size:0.75rem;">Validated</span>
+      </div>
+
+      <!-- OpenAI -->
+      <div class="schema-preview">
+        <div class="copy-area">
+          <span style="color:#94a3b8; font-size:0.8rem;">OpenAI</span>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="openaiSchema">📋 Copy</button>
+        </div>
+        <pre id="openaiSchema">{
+  "type": "function",
+  "function": {
+    "name": "get_weather",
+    "description": "...",
+    "parameters": {}
+  }
+}</pre>
+      </div>
+
+      <!-- Anthropic -->
+      <div class="schema-preview">
+        <div class="copy-area">
+          <span style="color:#94a3b8; font-size:0.8rem;">Anthropic</span>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="anthropicSchema">📋 Copy</button>
+        </div>
+        <pre id="anthropicSchema">{
+  "name": "get_weather",
+  "description": "...",
+  "input_schema": {}
+}</pre>
+      </div>
+
+      <!-- Generic JSON Schema -->
+      <div class="schema-preview">
+        <div class="copy-area">
+          <span style="color:#94a3b8; font-size:0.8rem;">JSON Schema</span>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="genericSchema">📋 Copy</button>
+        </div>
+        <pre id="genericSchema">{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {}
+}</pre>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">© 2025 kickllm.com</footer>
+</div>
+
+<script>
+  (function() {
+    // ----- STATE -----
+    let params = []; // each: { id, name, type, description, required, enumValues, arrayItemsType }
+
+    // DOM refs
+    const funcNameInput = document.getElementById('funcName');
+    const funcDescInput = document.getElementById('funcDesc');
+    const paramsContainer = document.getElementById('paramsContainer');
+    const validationSummary = document.getElementById('validationSummary');
+    const funcNameError = document.getElementById('funcNameError');
+
+    const openaiPre = document.getElementById('openaiSchema');
+    const anthropicPre = document.getElementById('anthropicSchema');
+    const genericPre = document.getElementById('genericSchema');
+
+    // helpers
+    function generateId() { return '_' + Math.random().toString(36).substr(2, 9); }
+
+    // ----- RENDER PARAMS -----
+    function renderParams() {
+      let html = '';
+      if (params.length === 0) {
+        html = `<p style="color:#64748b; font-style:italic; padding:0.5rem 0;">No parameters yet. Click “+ Add parameter”</p>`;
+      } else {
+        params.forEach((p, idx) => {
+          const isEnum = p.type === 'enum';
+          const isArray = p.type === 'array';
+          const enumTags = (p.enumValues || []).map(v => 
+            `<span class="tag">${v} <span class="remove-tag" data-param-id="${p.id}" data-enum-val="${v}">✕</span></span>`
+          ).join('');
+          const arrayTypeOptions = ['string','number','integer','boolean','object','array'];
+          const arrayTypeSelect = arrayTypeOptions.map(t => 
+            `<option value="${t}" ${p.arrayItemsType === t ? 'selected' : ''}>${t}</option>`
+          ).join('');
+
+          html += `
+            <div class="param-row" data-param-id="${p.id}">
+              <div class="inline-group">
+                <div style="flex:2; min-width:130px;">
+                  <label>Name *</label>
+                  <input type="text" class="param-name" value="${p.name}" data-id="${p.id}" placeholder="param name">
+                </div>
+                <div>
+                  <label>Type</label>
+                  <select class="param-type" data-id="${p.id}">
+                    <option value="string" ${p.type==='string'?'selected':''}>string</option>
+                    <option value="number" ${p.type==='number'?'selected':''}>number</option>
+                    <option value="integer" ${p.type==='integer'?'selected':''}>integer</option>
+                    <option value="boolean" ${p.type==='boolean'?'selected':''}>boolean</option>
+                    <option value="array" ${p.type==='array'?'selected':''}>array</option>
+                    <option value="object" ${p.type==='object'?'selected':''}>object</option>
+                    <option value="enum" ${p.type==='enum'?'selected':''}>enum</option>
+                  </select>
+                </div>
+                <div style="flex:2; min-width:130px;">
+                  <label>Description</label>
+                  <input type="text" class="param-desc" value="${p.description}" data-id="${p.id}" placeholder="description">
+                </div>
+                <div class="checkbox-field">
+                  <input type="checkbox" class="param-required" data-id="${p.id}" ${p.required ? 'checked' : ''}>
+                  <label>required</label>
+                </div>
+                <div>
+                  <button class="btn btn-sm btn-danger remove-param" data-id="${p.id}" style="padding:0.3rem 0.7rem;">✕</button>
+                </div>
+              </div>
+              ${isEnum ? `
+                <div class="enum-values">
+                  <div class="tag-group">${enumTags}</div>
+                  <div class="add-enum-input">
+                    <input type="text" placeholder="Add enum value" class="enum-input" data-param-id="${p.id}">
+                    <button class="btn btn-sm btn-outline add-enum-btn" data-param-id="${p.id}">+</button>
+                  </div>
+                </div>
+              ` : ''}
+              ${isArray ? `
+                <div class="array-items">
+                  <label style="font-size:0.8rem; margin-bottom:0.2rem;">Items type</label>
+                  <select class="array-items-type" data-param-id="${p.id}" style="width:auto; min-width:120px;">
+                    ${arrayTypeSelect}
+                  </select>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+      }
+      paramsContainer.innerHTML = html;
+
+      // Attach events
+      document.querySelectorAll('.param-name').forEach(el => {
+        el.addEventListener('input', onParamChange);
+      });
+      document.querySelectorAll('.param-type').forEach(el => {
+        el.addEventListener('change', onParamTypeChange);
+      });
+      document.querySelectorAll('.param-desc').forEach(el => {
+        el.addEventListener('input', onParamChange);
+      });
+      document.querySelectorAll('.param-required').forEach(el => {
+        el.addEventListener('change', onParamChange);
+      });
+      document.querySelectorAll('.remove-param').forEach(el => {
+        el.addEventListener('click', removeParam);
+      });
+      // enum add
+      document.querySelectorAll('.add-enum-btn').forEach(el => {
+        el.addEventListener('click', addEnumValue);
+      });
+      document.querySelectorAll('.enum-input').forEach(el => {
+        el.addEventListener('keypress', (e) => { if(e.key === 'Enter') { e.preventDefault(); addEnumValueFromInput(el); } });
+      });
+      document.querySelectorAll('.remove-tag').forEach(el => {
+        el.addEventListener('click', removeEnumValue);
+      });
+      document.querySelectorAll('.array-items-type').forEach(el => {
+        el.addEventListener('change', onArrayItemsTypeChange);
+      });
+    }
+
+    // ----- PARAM EVENT HANDLERS -----
+    function getParamById(id) {
+      return params.find(p => p.id === id);
+    }
+
+    function onParamChange(e) {
+      const id = e.target.dataset.id;
+      const p = getParamById(id);
+      if (!p) return;
+      if (e.target.classList.contains('param-name')) p.name = e.target.value;
+      else if (e.target.classList.contains('param-desc')) p.description = e.target.value;
+      else if (e.target.classList.contains('param-required')) p.required = e.target.checked;
+      updateAll();
+    }
+
+    function onParamTypeChange(e) {
+      const id = e.target.dataset.id;
+      const p = getParamById(id);
+      if (!p) return;
+      const newType = e.target.value;
+      p.type = newType;
+      if (newType !== 'enum') { p.enumValues = []; }
+      if (newType !== 'array') { p.arrayItemsType = 'string'; }
+      else { p.arrayItemsType = p.arrayItemsType || 'string'; }
+      updateAll();
+    }
+
+    function removeParam(e) {
+      const id = e.target.dataset.id;
+      params = params.filter(p => p.id !== id);
+      updateAll();
+    }
+
+    function addEnumValue(e) {
+      const paramId = e.target.dataset.paramId;
+      const input = document.querySelector(`.enum-input[data-param-id="${paramId}"]`);
+      addEnumValueFromInput(input);
+    }
+
+    function addEnumValueFromInput(input) {
+      if (!input) return;
+      const paramId = input.dataset.paramId;
+      const val = input.value.trim();
+      if (!val) return;
+      const p = getParamById(paramId);
+      if (!p) return;
+      if (!p.enumValues) p.enumValues = [];
+      if (p.enumValues.includes(val)) return;
+      p.enumValues.push(val);
+      input.value = '';
+      updateAll();
+    }
+
+    function removeEnumValue(e) {
+      const paramId = e.target.dataset.paramId;
+      const val = e.target.dataset.enumVal;
+      const p = getParamById(paramId);
+      if (!p) return;
+      p.enumValues = (p.enumValues || []).filter(v => v !== val);
+      updateAll();
+    }
+
+    function onArrayItemsTypeChange(e) {
+      const paramId = e.target.dataset.paramId;
+      const p = getParamById(paramId);
+      if (!p) return;
+      p.arrayItemsType = e.target.value;
+      updateAll();
+    }
+
+    // ----- ADD PARAM -----
+    document.getElementById('addParamBtn').addEventListener('click', () => {
+      const newParam = {
+        id: generateId(),
+        name: '',
+        type: 'string',
+        description: '',
+        required: false,
+        enumValues: [],
+        arrayItemsType: 'string',
+      };
+      params.push(newParam);
+      updateAll();
+    });
+
+    // ----- VALIDATION & SCHEMA BUILD -----
+    function validateAndBuild() {
+      const errors = [];
+      const funcName = funcNameInput.value.trim();
+      if (!funcName) {
+        errors.push('Function name is required.');
+        funcNameError.textContent = 'Function name cannot be empty';
+        funcNameInput.classList.add('error');
+      } else {
+        funcNameError.textContent = '';
+        funcNameInput.classList.remove('error');
+      }
+
+      // validate params
+      let paramErrors = [];
+      params.forEach((p, idx) => {
+        if (!p.name.trim()) {
+          paramErrors.push(`Parameter #${idx+1} name is empty.`);
+        }
+      });
+      if (paramErrors.length > 0) {
+        errors.push(...paramErrors);
+      }
+
+      validationSummary.textContent = errors.length ? '⚠️ ' + errors.join(' ') : '✅ Schema valid';
+      validationSummary.style.color = errors.length ? '#fbbf24' : '#4ade80';
+
+      // build schemas
+      const properties = {};
+      const requiredArr = [];
+      params.forEach(p => {
+        if (!p.name.trim()) return;
+        let prop = {};
+        if (p.type === 'enum') {
+          prop.type = 'string';
+          prop.enum = p.enumValues || [];
+        } else if (p.type === 'array') {
+          prop.type = 'array';
+          prop.items = { type: p.arrayItemsType || 'string' };
+        } else {
+          prop.type = p.type;
+        }
+        if (p.description) prop.description = p.description;
+        properties[p.name] = prop;
+        if (p.required) requiredArr.push(p.name);
+      });
+
+      const schema = {
+        type: 'object',
+        properties: properties,
+        ...(requiredArr.length ? { required: requiredArr } : {}),
+      };
+
+      // OpenAI
+      const openai = {
+        type: 'function',
+        function: {
+          name: funcName || 'function_name',
+          description: funcDescInput.value || '',
+          parameters: schema,
+        }
+      };
+
+      // Anthropic
+      const anthropic = {
+        name: funcName || 'function_name',
+        description: funcDescInput.value || '',
+        input_schema: { ...schema },
+      };
+
+      // Generic JSON Schema
+      const generic = {
+        $schema: 'http://json-schema.org/draft-07/schema#',
+        title: funcName || 'Function',
+        description: funcDescInput.value || '',
+        ...schema,
+      };
+
+      return { openai, anthropic, generic, errors };
+    }
+
+    function updateAll() {
+      const { openai, anthropic, generic, errors } = validateAndBuild();
+      openaiPre.textContent = JSON.stringify(openai, null, 2);
+      anthropicPre.textContent = JSON.stringify(anthropic, null, 2);
+      genericPre.textContent = JSON.stringify(generic, null, 2);
+      renderParams(); // re-render to reflect enum/array changes
+    }
+
+    // ----- COPY BUTTONS -----
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const pre = document.getElementById(targetId);
+        if (!pre) return;
+        const text = pre.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = this.textContent;
+          this.textContent = '✅ Copied!';
+          setTimeout(() => { this.textContent = orig; }, 1800);
+        }).catch(() => {
+          // fallback
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          this.textContent = '✅ Copied!';
+          setTimeout(() => { this.textContent = '📋 Copy'; }, 1800);
+        });
+      });
+    });
+
+    // ----- INIT with demo params -----
+    function initDemo() {
+      params = [
+        { id: generateId(), name: 'location', type: 'string', description: 'City name', required: true, enumValues: [], arrayItemsType: 'string' },
+        { id: generateId(), name: 'unit', type: 'enum', description: 'Temperature unit', required: false, enumValues: ['celsius', 'fahrenheit'], arrayItemsType: 'string' },
+        { id: generateId(), name: 'details', type: 'array', description: 'Extra data', required: false, enumValues: [], arrayItemsType: 'string' },
+      ];
+      funcNameInput.value = 'get_weather';
+      funcDescInput.value = 'Get current weather for a location';
+      updateAll();
+    }
+    initDemo();
+
+    // extra listeners for func name/desc
+    funcNameInput.addEventListener('input', updateAll);
+    funcDescInput.addEventListener('input', updateAll);
+
+    // re-run update on any change (renderParams already calls updateAll, but we need to be safe)
+    // also attach to window for any missed
+  })();
+</script>
+</body>
+</html>

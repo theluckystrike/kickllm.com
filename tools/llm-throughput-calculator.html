@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>LLM Throughput Calculator — Tokens Per Second & Latency Estimator</title>
+  <meta name="description" content="Estimate LLM inference throughput: tokens/s, TTFT, TPOT, total generation time, requests per minute. Compare hardware, quantization, batch size.">
+  <meta name="keywords" content="LLM, throughput, tokens per second, latency, TTFT, TPOT, A100, H100, M3 Max, inference, calculator">
+  <link rel="canonical" href="https://kickllm.com/tools/llm-throughput-calculator">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is LLM throughput?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LLM throughput measures how many tokens a model can generate per second, considering batch size, hardware memory bandwidth, and compute."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is TTFT calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Time to first token (TTFT) is estimated based on model size, memory bandwidth, and batch size. It reflects the latency before generation starts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which hardware gives best tokens/sec?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "H100 typically offers highest throughput due to large memory bandwidth and compute. However, actual performance depends on quantization and batch size."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .subhead {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 1.25rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+      color: #f1f5f9;
+      border-left: 4px solid #38bdf8;
+      padding-left: 0.75rem;
+    }
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+    }
+    .input-group select, .input-group input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      color: #e2e8f0;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    .input-group select:focus, .input-group input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56,189,248,0.2);
+    }
+    .input-group input[type=number] {
+      -moz-appearance: textfield;
+    }
+    .input-group input[type=number]::-webkit-outer-spin-button,
+    .input-group input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+    .inline-flex {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn {
+      background: #38bdf8;
+      border: none;
+      color: #0f172a;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;
+      border-radius: 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(56,189,248,0.3);
+    }
+    .btn:hover {
+      background: #7dd3fc;
+      transform: scale(1.02);
+    }
+    .btn-secondary {
+      background: #334155;
+      color: #e2e8f0;
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background: #475569;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+    .metric {
+      background: #0f172a;
+      border-radius: 1rem;
+      padding: 0.8rem 1rem;
+      border-left: 3px solid #38bdf8;
+    }
+    .metric .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f0f9ff;
+      line-height: 1.2;
+    }
+    .metric .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #94a3b8;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    .comparison-table th {
+      text-align: left;
+      padding: 0.5rem 0.3rem;
+      color: #94a3b8;
+      font-weight: 500;
+      border-bottom: 1px solid #334155;
+    }
+    .comparison-table td {
+      padding: 0.5rem 0.3rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .chip {
+      background: #1e293b;
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.7rem;
+      color: #38bdf8;
+      border: 1px solid #334155;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+      width: 100%;
+    }
+    @media (max-width: 700px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .results-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+    .note {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #0f172a;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      color: #38bdf8;
+      margin-left: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ LLM Throughput Calculator</h1>
+    <div class="subhead">Tokens / sec · TTFT · TPOT · total time · requests per minute</div>
+  </header>
+
+  <div class="grid-2">
+    <!-- Left: Controls -->
+    <div class="card">
+      <h2>⚙️ Configuration</h2>
+      <div class="input-group">
+        <label>Model size</label>
+        <select id="modelSize">
+          <option value="7">7B</option>
+          <option value="13">13B</option>
+          <option value="34">34B</option>
+          <option value="70" selected>70B</option>
+          <option value="405">405B</option>
+          <option value="custom">Custom</option>
+        </select>
+        <div id="customParamDiv" style="display:none; margin-top: 0.5rem;">
+          <input type="number" id="customParams" min="1" max="1000" value="70" step="1">
+          <span class="badge">B parameters</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Hardware</label>
+        <select id="hardware">
+          <option value="A100_40">A100 40GB</option>
+          <option value="A100_80">A100 80GB</option>
+          <option value="H100" selected>H100</option>
+          <option value="L4">L4</option>
+          <option value="T4">T4</option>
+          <option value="M1_Max">M1 Max</option>
+          <option value="M2_Ultra">M2 Ultra</option>
+          <option value="M3_Max">M3 Max</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Quantization</label>
+        <select id="quantization">
+          <option value="FP16">FP16</option>
+          <option value="INT8">INT8</option>
+          <option value="INT4">INT4</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Batch size <span id="batchVal">1</span></label>
+        <input type="range" id="batchSize" min="1" max="128" value="1" step="1">
+        <div class="range-labels"><span>1</span><span>128</span></div>
+      </div>
+
+      <div class="input-group">
+        <label>Average output tokens <span id="outputTokensVal">256</span></label>
+        <input type="range" id="outputTokens" min="1" max="4096" value="256" step="1">
+        <div class="range-labels"><span>1</span><span>4096</span></div>
+      </div>
+
+      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem;">
+        <button class="btn" id="calculateBtn">⟳ Calculate</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset defaults</button>
+      </div>
+      <div class="note">Estimates based on memory bandwidth &amp; compute FLOPS. Real-world may vary.</div>
+    </div>
+
+    <!-- Right: Results -->
+    <div class="card">
+      <h2>📊 Estimated metrics</h2>
+      <div class="results-grid" id="metricsGrid">
+        <div class="metric"><div class="value" id="tokensPerSec">—</div><div class="label">Tokens / sec</div></div>
+        <div class="metric"><div class="value" id="ttft">—</div><div class="label">TTFT (ms)</div></div>
+        <div class="metric"><div class="value" id="tpot">—</div><div class="label">TPOT (ms)</div></div>
+        <div class="metric"><div class="value" id="totalGenTime">—</div><div class="label">Total gen. (s)</div></div>
+        <div class="metric" style="grid-column: span 2;"><div class="value" id="reqPerMin">—</div><div class="label">Requests / minute</div></div>
+      </div>
+
+      <h2 style="margin-top: 1.5rem; font-size: 1rem;">🔄 Hardware comparison</h2>
+      <div style="overflow-x: auto;">
+        <table class="comparison-table" id="comparisonTable">
+          <thead><tr><th>Hardware</th><th>Tokens/s</th><th>TTFT (ms)</th><th>TPOT (ms)</th></tr></thead>
+          <tbody id="comparisonBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <footer>© 2025 kickllm.com</footer>
+</div>
+
+<script>
+  (function() {
+    // ----- hardware database (memory bandwidth GB/s, peak FLOPS TFLOPS FP16) -----
+    const HW = {
+      'A100_40':  { name: 'A100 40GB', bw: 1555, flops: 312 },
+      'A100_80':  { name: 'A100 80GB', bw: 2039, flops: 312 },
+      'H100':     { name: 'H100',      bw: 3350, flops: 989 },
+      'L4':       { name: 'L4',        bw: 300,  flops: 242 },
+      'T4':       { name: 'T4',        bw: 320,  flops: 65 },
+      'M1_Max':   { name: 'M1 Max',    bw: 400,  flops: 106 },
+      'M2_Ultra': { name: 'M2 Ultra',  bw: 800,  flops: 270 },
+      'M3_Max':   { name: 'M3 Max',    bw: 600,  flops: 180 }
+    };
+
+    // quantization factor: effective bytes per param
+    const QUANT_BYTES = { 'FP16': 2, 'INT8': 1, 'INT4': 0.5 };
+
+    // DOM elements
+    const modelSizeSel = document.getElementById('modelSize');
+    const customParamDiv = document.getElementById('customParamDiv');
+    const customParamsInput = document.getElementById('customParams');
+    const hardwareSel = document.getElementById('hardware');
+    const quantSel = document.getElementById('quantization');
+    const batchSizeInput = document.getElementById('batchSize');
+    const batchVal = document.getElementById('batchVal');
+    const outputTokensInput = document.getElementById('outputTokens');
+    const outputTokensVal = document.getElementById('outputTokensVal');
+    const calcBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const tokensPerSecEl = document.getElementById('tokensPerSec');
+    const ttftEl = document.getElementById('ttft');
+    const tpotEl = document.getElementById('tpot');
+    const totalGenTimeEl = document.getElementById('totalGenTime');
+    const reqPerMinEl = document.getElementById('reqPerMin');
+    const comparisonBody = document.getElementById('comparisonBody');
+
+    // helpers
+    function getModelParams() {
+      if (modelSizeSel.value === 'custom') {
+        return parseFloat(customParamsInput.value) || 70;
+      }
+      return parseFloat(modelSizeSel.value);
+    }
+
+    function updateSliders() {
+      batchVal.textContent = batchSizeInput.value;
+      outputTokensVal.textContent = outputTokensInput.value;
+    }
+
+    // ----- core calculation -----
+    function calculateMetrics(modelParams, hwKey, quant, batch, outputLen) {
+      const hw = HW[hwKey];
+      if (!hw) return null;
+      const bytesPerParam = QUANT_BYTES[quant] || 2;
+      // memory load: model weights (GB) = params * bytesPerParam / 1e9
+      const modelGB = (modelParams * 1e9 * bytesPerParam) / 1e9; // in GB
+      // memory bandwidth GB/s -> seconds per token (theoretical min)
+      // TTFT: load whole model (one forward) ~ modelGB / bw (seconds) * some factor (batch)
+      // simplified: TTFT = (modelGB / (bw * 0.85)) * batch (contention) 
+      const bwEff = hw.bw * 0.85; // 85% efficiency
+      const ttftSec = (modelGB / bwEff) * Math.sqrt(batch); // batch scaling
+      // TPOT: each output token requires reading model weights again (autoregressive)
+      const tpotSec = (modelGB / bwEff) * (1 + 0.1 * Math.log2(batch+1)); // small batch overhead
+      // tokens per second (throughput) = batch / (ttft + tpot * outputLen) * outputLen? careful:
+      // total time for batch: TTFT + TPOT * outputLen
+      const totalTimeSec = ttftSec + tpotSec * outputLen;
+      const tokensPerSec = (batch * outputLen) / totalTimeSec;
+      // requests per minute: 60 / (totalTimeSec) * batch? Actually requests = batch per forward
+      const reqPerMin = (60 / totalTimeSec) * batch;
+
+      return {
+        tokensPerSec: tokensPerSec,
+        ttftMs: ttftSec * 1000,
+        tpotMs: tpotSec * 1000,
+        totalGenSec: totalTimeSec,
+        reqPerMin: reqPerMin
+      };
+    }
+
+    function render() {
+      updateSliders();
+      const params = getModelParams();
+      const hwKey = hardwareSel.value;
+      const quant = quantSel.value;
+      const batch = parseInt(batchSizeInput.value, 10);
+      const outputLen = parseInt(outputTokensInput.value, 10);
+
+      const result = calculateMetrics(params, hwKey, quant, batch, outputLen);
+      if (!result) return;
+
+      tokensPerSecEl.textContent = result.tokensPerSec.toFixed(1);
+      ttftEl.textContent = result.ttftMs.toFixed(1);
+      tpotEl.textContent = result.tpotMs.toFixed(2);
+      totalGenTimeEl.textContent = result.totalGenSec.toFixed(2);
+      reqPerMinEl.textContent = result.reqPerMin.toFixed(1);
+
+      // comparison across all hardware
+      let html = '';
+      const hwKeys = Object.keys(HW);
+      for (let key of hwKeys) {
+        const r = calculateMetrics(params, key, quant, batch, outputLen);
+        if (r) {
+          html += `<tr><td>${HW[key].name}</td><td>${r.tokensPerSec.toFixed(1)}</td><td>${r.ttftMs.toFixed(1)}</td><td>${r.tpotMs.toFixed(2)}</td></tr>`;
+        }
+      }
+      comparisonBody.innerHTML = html;
+    }
+
+    // reset defaults
+    function resetDefaults() {
+      modelSizeSel.value = '70';
+      customParamsInput.value = 70;
+      customParamDiv.style.display = 'none';
+      hardwareSel.value = 'H100';
+      quantSel.value = 'FP16';
+      batchSizeInput.value = 1;
+      outputTokensInput.value = 256;
+      updateSliders();
+      render();
+    }
+
+    // show/hide custom params
+    modelSizeSel.addEventListener('change', function() {
+      if (this.value === 'custom') {
+        customParamDiv.style.display = 'block';
+      } else {
+        customParamDiv.style.display = 'none';
+      }
+      render();
+    });
+
+    // event listeners
+    [modelSizeSel, hardwareSel, quantSel, batchSizeInput, outputTokensInput, customParamsInput].forEach(el => {
+      el.addEventListener('input', render);
+      el.addEventListener('change', render);
+    });
+
+    calcBtn.addEventListener('click', render);
+    resetBtn.addEventListener('click', resetDefaults);
+
+    // initial render
+    resetDefaults();
+  })();
+</script>
+</body>
+</html>
