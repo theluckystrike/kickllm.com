@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Prompt Template Builder — Create Structured Prompts</title>
+  <meta name="description" content="Build structured prompts visually: system+user, few-shot, chain-of-thought, ReAct, structured output. Add sections, reorder, toggle XML tags, export JSON.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/tools/prompt-template-builder">
+  <!-- JSON-LD FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What prompt templates can I build?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "System+user, few-shot, chain-of-thought, ReAct, and structured output templates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I reorder sections?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, use the up/down buttons to reorder sections. Drag simulation via buttons."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it support XML wrapping?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, toggle XML tags to wrap each section in <role>...</role> tags."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    h1 small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-left: 0.5rem;
+    }
+    .accent {
+      color: #38bdf8;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      border: 1px solid #334155;
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94a3b8;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+    select, button, textarea, input {
+      background: #0f172a;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    select:focus, textarea:focus, input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    button {
+      background: #1e293b;
+      border: 1px solid #334155;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    button:hover {
+      background: #2d3a4e;
+      border-color: #38bdf8;
+    }
+    button.primary {
+      background: #0f172a;
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    button.primary:hover {
+      background: #1e293b;
+    }
+    button.small {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+    }
+    .section-item {
+      background: #0f172a;
+      border-radius: 0.75rem;
+      padding: 1rem 1rem 1rem 1rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid #38bdf8;
+      transition: 0.1s;
+    }
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+    .section-header .role-select {
+      min-width: 120px;
+    }
+    .section-header .name-input {
+      min-width: 140px;
+      flex: 1;
+    }
+    .move-buttons {
+      display: flex;
+      gap: 0.3rem;
+      margin-left: auto;
+    }
+    .section-content textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      background: #0f172a;
+      border: 1px solid #2d3a4e;
+      margin-top: 0.3rem;
+    }
+    .example-pair {
+      background: #1a2538;
+      border-radius: 0.5rem;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-left: 2px solid #38bdf8;
+    }
+    .example-pair .pair-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+    .example-pair textarea {
+      min-height: 50px;
+      flex: 1;
+    }
+    .output-area {
+      background: #0f172a;
+      border-radius: 0.75rem;
+      padding: 1.2rem;
+      border: 1px solid #334155;
+      margin-top: 1rem;
+    }
+    .output-area pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+      background: #0a0f1a;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #1e293b;
+    }
+    .token-badge {
+      background: #1e293b;
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      border: 1px solid #334155;
+      display: inline-block;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .move-buttons {
+        margin-left: 0;
+        justify-content: flex-end;
+      }
+    }
+    .badge {
+      background: #334155;
+      padding: 0.2rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+    .flex-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+  </style>
+
+    <meta property="og:title" content="Prompt Template Builder — Create Structured Prompts">
+    <meta property="og:description" content="Build structured prompts visually: system+user, few-shot, chain-of-thought, ReAct, structured output. Add sections, reorder, toggle XML tags, export JSON.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kickllm.com/tools/prompt-template-builder">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🧠 Prompt Template Builder <small class="accent">kickllm.com</small></h1>
+    <p class="label" style="margin-top:0.25rem;">Build structured prompts: system+user, few-shot, CoT, ReAct, structured output</p>
+  </header>
+
+  <!-- Template type + controls -->
+  <div class="card">
+    <div class="flex-row" style="justify-content: space-between;">
+      <div>
+        <span class="label">Template type</span>
+        <select id="templateType" style="min-width:180px;">
+          <option value="system+user">System + User</option>
+          <option value="few-shot">Few-shot</option>
+          <option value="chain-of-thought">Chain-of-thought</option>
+          <option value="react">ReAct</option>
+          <option value="structured-output">Structured output</option>
+        </select>
+      </div>
+      <div class="flex-wrap">
+        <label class="label" style="display:flex; align-items:center; gap:0.5rem;">
+          <input type="checkbox" id="xmlToggle" checked> 
+          <span>XML tags</span>
+        </label>
+        <button id="addSectionBtn" class="primary">+ Add section</button>
+        <button id="addExampleBtn" class="primary">+ Few-shot pair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Builder area -->
+  <div class="grid-2">
+    <div>
+      <div class="card" style="padding:1rem 1.2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span class="label" style="font-size:1rem;">Sections & examples</span>
+          <span id="sectionCount" class="badge">0 sections</span>
+        </div>
+        <div id="sectionsContainer"></div>
+        <div id="examplesContainer" style="margin-top:0.5rem;"></div>
+        <div style="margin-top:1rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button id="clearAllBtn" style="border-color:#b91c1c;">🗑️ Clear all</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output panel -->
+    <div>
+      <div class="card" style="padding:1rem 1.2rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <span class="label" style="font-size:1rem;">📄 Generated prompt</span>
+          <div class="flex-wrap">
+            <span id="tokenEstimate" class="token-badge">~0 tokens</span>
+            <button id="copyBtn" class="small primary">📋 Copy</button>
+            <button id="exportJsonBtn" class="small primary">⬇️ Export JSON</button>
+          </div>
+        </div>
+        <div class="output-area">
+          <pre id="promptOutput">Select a template and add sections to build your prompt.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">© 2025 kickllm.com</footer>
+</div>
+
+<script>
+  (function() {
+    // ----- state -----
+    let sections = []; // { id, role, name, content }
+    let examples = []; // { id, input, output }
+    let nextId = 100;
+
+    const container = document.getElementById('sectionsContainer');
+    const examplesContainer = document.getElementById('examplesContainer');
+    const promptOutput = document.getElementById('promptOutput');
+    const tokenEstimate = document.getElementById('tokenEstimate');
+    const sectionCount = document.getElementById('sectionCount');
+    const templateType = document.getElementById('templateType');
+    const xmlToggle = document.getElementById('xmlToggle');
+
+    // helpers
+    function uid() { return nextId++; }
+
+    // ----- render -----
+    function render() {
+      // sections
+      let html = '';
+      sections.forEach((sec, idx) => {
+        html += `
+          <div class="section-item" data-id="${sec.id}">
+            <div class="section-header">
+              <select class="role-select" data-id="${sec.id}" data-field="role">
+                <option value="system" ${sec.role==='system'?'selected':''}>system</option>
+                <option value="user" ${sec.role==='user'?'selected':''}>user</option>
+                <option value="assistant" ${sec.role==='assistant'?'selected':''}>assistant</option>
+              </select>
+              <input class="name-input" type="text" placeholder="name (optional)" value="${sec.name || ''}" data-id="${sec.id}" data-field="name">
+              <div class="move-buttons">
+                <button class="small move-up" data-id="${sec.id}" ${idx===0?'disabled':''}>↑</button>
+                <button class="small move-down" data-id="${sec.id}" ${idx===sections.length-1?'disabled':''}>↓</button>
+                <button class="small remove-section" data-id="${sec.id}" style="color:#f87171;">✕</button>
+              </div>
+            </div>
+            <div class="section-content">
+              <textarea placeholder="Enter prompt content..." data-id="${sec.id}" data-field="content">${sec.content || ''}</textarea>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+
+      // examples
+      let exHtml = '';
+      examples.forEach((ex, idx) => {
+        exHtml += `
+          <div class="example-pair" data-id="${ex.id}">
+            <div class="pair-row">
+              <textarea placeholder="Input (user)" data-id="${ex.id}" data-field="input">${ex.input || ''}</textarea>
+              <textarea placeholder="Output (assistant)" data-id="${ex.id}" data-field="output">${ex.output || ''}</textarea>
+              <button class="small remove-example" data-id="${ex.id}" style="color:#f87171; align-self:center;">✕</button>
+            </div>
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+              <button class="small move-ex-up" data-id="${ex.id}" ${idx===0?'disabled':''}>↑</button>
+              <button class="small move-ex-down" data-id="${ex.id}" ${idx===examples.length-1?'disabled':''}>↓</button>
+            </div>
+          </div>
+        `;
+      });
+      examplesContainer.innerHTML = exHtml;
+
+      // update counts
+      sectionCount.textContent = `${sections.length} sections, ${examples.length} examples`;
+
+      // generate output
+      generateOutput();
+
+      // attach events (delegation also used)
+      attachEvents();
+    }
+
+    function attachEvents() {
+      // section role change
+      document.querySelectorAll('.role-select').forEach(el => {
+        el.onchange = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const sec = sections.find(s => s.id === id);
+          if (sec) sec.role = e.target.value;
+          generateOutput();
+        };
+      });
+      // name input
+      document.querySelectorAll('.name-input').forEach(el => {
+        el.oninput = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const sec = sections.find(s => s.id === id);
+          if (sec) sec.name = e.target.value;
+          generateOutput();
+        };
+      });
+      // content textarea
+      document.querySelectorAll('.section-content textarea').forEach(el => {
+        el.oninput = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const sec = sections.find(s => s.id === id);
+          if (sec) sec.content = e.target.value;
+          generateOutput();
+        };
+      });
+      // example inputs
+      document.querySelectorAll('.example-pair textarea').forEach(el => {
+        el.oninput = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const ex = examples.find(x => x.id === id);
+          if (!ex) return;
+          const field = e.target.dataset.field;
+          if (field === 'input') ex.input = e.target.value;
+          else if (field === 'output') ex.output = e.target.value;
+          generateOutput();
+        };
+      });
+
+      // move up/down sections (delegation)
+      document.querySelectorAll('.move-up').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const idx = sections.findIndex(s => s.id === id);
+          if (idx > 0) {
+            [sections[idx-1], sections[idx]] = [sections[idx], sections[idx-1]];
+            render();
+          }
+        };
+      });
+      document.querySelectorAll('.move-down').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const idx = sections.findIndex(s => s.id === id);
+          if (idx < sections.length-1) {
+            [sections[idx], sections[idx+1]] = [sections[idx+1], sections[idx]];
+            render();
+          }
+        };
+      });
+      document.querySelectorAll('.remove-section').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          sections = sections.filter(s => s.id !== id);
+          render();
+        };
+      });
+
+      // move examples
+      document.querySelectorAll('.move-ex-up').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const idx = examples.findIndex(x => x.id === id);
+          if (idx > 0) {
+            [examples[idx-1], examples[idx]] = [examples[idx], examples[idx-1]];
+            render();
+          }
+        };
+      });
+      document.querySelectorAll('.move-ex-down').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          const idx = examples.findIndex(x => x.id === id);
+          if (idx < examples.length-1) {
+            [examples[idx], examples[idx+1]] = [examples[idx+1], examples[idx]];
+            render();
+          }
+        };
+      });
+      document.querySelectorAll('.remove-example').forEach(btn => {
+        btn.onclick = (e) => {
+          const id = parseInt(e.target.dataset.id);
+          examples = examples.filter(x => x.id !== id);
+          render();
+        };
+      });
+    }
+
+    // ----- generate output -----
+    function generateOutput() {
+      const useXml = xmlToggle.checked;
+      const type = templateType.value;
+      let lines = [];
+
+      // optional type header
+      if (type === 'chain-of-thought') lines.push('(Chain-of-thought)');
+      else if (type === 'react') lines.push('(ReAct)');
+      else if (type === 'structured-output') lines.push('(Structured output)');
+      else if (type === 'few-shot') lines.push('(Few-shot)');
+
+      // sections
+      sections.forEach(sec => {
+        let role = sec.role || 'user';
+        let content = sec.content || '';
+        let nameAttr = sec.name ? ` name="${sec.name}"` : '';
+        if (useXml) {
+          lines.push(`<${role}${nameAttr}>`);
+          lines.push(content);
+          lines.push(`</${role}>`);
+        } else {
+          let prefix = role.toUpperCase();
+          if (sec.name) prefix += ` (${sec.name})`;
+          lines.push(`${prefix}: ${content}`);
+        }
+      });
+
+      // few-shot examples
+      if (examples.length > 0) {
+        if (useXml) lines.push('<examples>');
+        else lines.push('--- Examples ---');
+        examples.forEach((ex, i) => {
+          if (useXml) {
+            lines.push(`<example index="${i}">`);
+            if (ex.input) lines.push(`<input>${ex.input}</input>`);
+            if (ex.output) lines.push(`<output>${ex.output}</output>`);
+            lines.push(`</example>`);
+          } else {
+            if (ex.input) lines.push(`User: ${ex.input}`);
+            if (ex.output) lines.push(`Assistant: ${ex.output}`);
+            if (i < examples.length-1) lines.push('---');
+          }
+        });
+        if (useXml) lines.push('</examples>');
+      }
+
+      let outputText = lines.join('\n').trim();
+      if (!outputText) outputText = 'Add sections and examples to build your prompt.';
+      promptOutput.textContent = outputText;
+
+      // token estimate (simple: words + punctuation)
+      const wordCount = outputText.split(/\s+/).filter(w => w.length > 0).length;
+      const charCount = outputText.length;
+      const estimate = Math.ceil(wordCount * 1.3 + charCount * 0.04) + 4;
+      tokenEstimate.textContent = `~${estimate} tokens`;
+    }
+
+    // ----- add section -----
+    function addSection(role = 'user', content = '', name = '') {
+      sections.push({ id: uid(), role, content, name });
+      render();
+    }
+
+    function addExample(input = '', output = '') {
+      examples.push({ id: uid(), input, output });
+      render();
+    }
+
+    // ----- event listeners -----
+    document.getElementById('addSectionBtn').addEventListener('click', () => addSection('user', '', ''));
+    document.getElementById('addExampleBtn').addEventListener('click', () => addExample('', ''));
+
+    document.getElementById('clearAllBtn').addEventListener('click', () => {
+      if (confirm('Clear all sections and examples?')) {
+        sections = [];
+        examples = [];
+        render();
+      }
+    });
+
+    templateType.addEventListener('change', generateOutput);
+    xmlToggle.addEventListener('change', generateOutput);
+
+    // copy & export
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const text = promptOutput.textContent;
+      if (navigator.clipboard && text) {
+        navigator.clipboard.writeText(text).then(() => alert('Copied!')).catch(() => alert('Copy failed.'));
+      } else {
+        alert('Copy not supported.');
+      }
+    });
+
+    document.getElementById('exportJsonBtn').addEventListener('click', () => {
+      const messages = [];
+      sections.forEach(sec => {
+        let obj = { role: sec.role || 'user', content: sec.content || '' };
+        if (sec.name) obj.name = sec.name;
+        messages.push(obj);
+      });
+      examples.forEach(ex => {
+        if (ex.input) messages.push({ role: 'user', content: ex.input });
+        if (ex.output) messages.push({ role: 'assistant', content: ex.output });
+      });
+      const json = JSON.stringify({ messages }, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'prompt_template.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // initial render with default sections
+    addSection('system', 'You are a helpful assistant.', '');
+    addSection('user', 'What is the capital of France?', '');
+    render();
+  })();
+</script>
+</body>
+</html>

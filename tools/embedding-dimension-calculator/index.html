@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Embedding Dimension Calculator — Compare Vector Sizes &</title>
+  <meta name="description" content="Interactive embedding dimension calculator: compare OpenAI, Cohere, BGE, E5 models. Compute storage (float32/float16), Pinecone/Weaviate cost, API...">
+  <meta name="keywords" content="embedding, vector size, dimension calculator, OpenAI ada-002, text-embedding-3-small, Cohere v3, BGE, E5, Pinecone cost, Weaviate cost, float32, float16">
+  <link rel="canonical" href="https://kickllm.com/tools/embedding-dimension-calculator">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is storage size calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Storage = total vectors × dimensions × bytes per float (4 for float32, 2 for float16). Results shown in MB and GB."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which embedding models are compared?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "OpenAI ada-002 (1536), text-embedding-3-small (512/1536), text-embedding-3-large (256/3072), Cohere v3 (1024), BGE (1024), E5 (1024). Dimensions selectable where applicable."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What cost estimates are included?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pinecone/Weaviate storage cost (based on $0.10/GB/month), embedding API cost per 1K tokens, and relative query latency estimates."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      padding: 1.5rem 1rem;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1300px;
+      width: 100%;
+    }
+    header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .subhead {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 1.8rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 800px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 24px;
+      padding: 1.5rem 1.3rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      color: #f1f5f9;
+      border-left: 4px solid #38bdf8;
+      padding-left: 0.7rem;
+    }
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+    }
+    select, input {
+      width: 100%;
+      padding: 0.7rem 0.8rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      color: #e2e8f0;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .dimension-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .dim-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .dim-btn.active {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .dim-btn:hover {
+      border-color: #38bdf8;
+    }
+    .inline-hint {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.2rem;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .stat-label {
+      color: #94a3b8;
+    }
+    .stat-value {
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+    .accent {
+      color: #38bdf8;
+    }
+    .cost-positive {
+      color: #a5f3fc;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0 0.5rem;
+      border-radius: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      min-width: 600px;
+    }
+    th {
+      background: #0f172a;
+      color: #94a3b8;
+      font-weight: 500;
+      padding: 0.7rem 0.5rem;
+      text-align: left;
+      border-bottom: 2px solid #334155;
+    }
+    td {
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .bar-chart {
+      margin-top: 1.2rem;
+    }
+    .bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .bar-label {
+      width: 100px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: right;
+    }
+    .bar-fill {
+      height: 18px;
+      background: #38bdf8;
+      border-radius: 40px;
+      transition: width 0.2s;
+      min-width: 4px;
+    }
+    .bar-dim {
+      font-size: 0.7rem;
+      color: #cbd5e1;
+      margin-left: 0.3rem;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    .cost-summary {
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 0.8rem 1rem;
+      margin: 0.8rem 0;
+    }
+    .inline-code {
+      background: #0f172a;
+      padding: 0.1rem 0.4rem;
+      border-radius: 8px;
+      font-family: monospace;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .btn-secondary:hover {
+      border-color: #38bdf8;
+    }
+  </style>
+
+    <meta property="og:title" content="Embedding Dimension Calculator — Compare Vector Sizes &">
+    <meta property="og:description" content="Interactive embedding dimension calculator: compare OpenAI, Cohere, BGE, E5 models. Compute storage (float32/float16), Pinecone/Weaviate cost, API...">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kickllm.com/tools/embedding-dimension-calculator">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🧠 Embedding Dimension Calculator</h1>
+    <div class="subhead">Compare vector sizes, storage &amp; costs across models</div>
+  </header>
+
+  <div class="tool-grid">
+    <!-- left: controls -->
+    <div class="card">
+      <h2>⚙️ Configuration</h2>
+      <div class="input-group">
+        <label for="modelSelect">Embedding model</label>
+        <select id="modelSelect">
+          <option value="ada-002">OpenAI ada-002 (1536)</option>
+          <option value="text-3-small" selected>text-embedding-3-small (512 / 1536)</option>
+          <option value="text-3-large">text-embedding-3-large (256 / 3072)</option>
+          <option value="cohere-v3">Cohere v3 (1024)</option>
+          <option value="bge">BGE (1024)</option>
+          <option value="e5">E5 (1024)</option>
+        </select>
+        <div id="dimensionOptions" class="dimension-selector" style="margin-top: 10px;"></div>
+        <div class="inline-hint" id="dimHint">Select dimension variant</div>
+      </div>
+
+      <div class="input-group">
+        <label for="docCount">Number of documents</label>
+        <input type="number" id="docCount" value="100000" min="1" max="100000000" step="1000">
+      </div>
+      <div class="input-group">
+        <label for="avgTokens">Average tokens per document</label>
+        <input type="number" id="avgTokens" value="380" min="1" max="100000" step="10">
+      </div>
+
+      <div class="cost-summary">
+        <div class="stat-row"><span class="stat-label">📦 Total vectors</span><span class="stat-value" id="totalVectors">100,000</span></div>
+        <div class="stat-row"><span class="stat-label">💾 Storage (float32)</span><span class="stat-value" id="storageFloat32">—</span></div>
+        <div class="stat-row"><span class="stat-label">💾 Storage (float16)</span><span class="stat-value" id="storageFloat16">—</span></div>
+        <div class="stat-row"><span class="stat-label">☁️ Pinecone / Weaviate (est.)</span><span class="stat-value cost-positive" id="cloudCost">$0.00 / month</span></div>
+        <div class="stat-row"><span class="stat-label">💰 API cost (embedding)</span><span class="stat-value" id="apiCost">$0.00</span></div>
+        <div class="stat-row"><span class="stat-label">⚡ Latency estimate</span><span class="stat-value" id="latencyEst">~45ms</span></div>
+      </div>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn-secondary" id="resetDefault">Reset defaults</button>
+      </div>
+    </div>
+
+    <!-- right: comparison table + bar chart -->
+    <div class="card">
+      <h2>📊 Model comparison</h2>
+      <div class="table-wrap">
+        <table id="comparisonTable">
+          <thead><tr><th>Model</th><th>Dim.</th><th>Storage (f32)</th><th>Storage (f16)</th><th>Cloud $/mo</th><th>API cost</th><th>Latency</th></tr></thead>
+          <tbody id="comparisonBody"></tbody>
+        </table>
+      </div>
+      <div class="bar-chart" id="barChartContainer">
+        <div style="font-size:0.8rem; color:#94a3b8; margin-bottom: 0.5rem;">Dimension size comparison</div>
+        <div id="barChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 kickllm.com</div>
+</div>
+
+<script>
+  (function() {
+    // ----- model definitions -----
+    const MODELS = {
+      'ada-002': { name: 'ada-002', dims: [1536], defaultDim: 1536, apiPricePer1K: 0.0001, latencyBase: 30 },
+      'text-3-small': { name: 'text-3-small', dims: [512, 1536], defaultDim: 512, apiPricePer1K: 0.00002, latencyBase: 25 },
+      'text-3-large': { name: 'text-3-large', dims: [256, 3072], defaultDim: 256, apiPricePer1K: 0.00013, latencyBase: 35 },
+      'cohere-v3': { name: 'Cohere v3', dims: [1024], defaultDim: 1024, apiPricePer1K: 0.0001, latencyBase: 40 },
+      'bge': { name: 'BGE', dims: [1024], defaultDim: 1024, apiPricePer1K: 0.00005, latencyBase: 50 },
+      'e5': { name: 'E5', dims: [1024], defaultDim: 1024, apiPricePer1K: 0.00005, latencyBase: 55 }
+    };
+
+    // DOM refs
+    const modelSelect = document.getElementById('modelSelect');
+    const dimOptionsDiv = document.getElementById('dimensionOptions');
+    const dimHint = document.getElementById('dimHint');
+    const docCountInput = document.getElementById('docCount');
+    const avgTokensInput = document.getElementById('avgTokens');
+    const totalVectorsSpan = document.getElementById('totalVectors');
+    const storageFloat32Span = document.getElementById('storageFloat32');
+    const storageFloat16Span = document.getElementById('storageFloat16');
+    const cloudCostSpan = document.getElementById('cloudCost');
+    const apiCostSpan = document.getElementById('apiCost');
+    const latencyEstSpan = document.getElementById('latencyEst');
+    const comparisonBody = document.getElementById('comparisonBody');
+    const barChartDiv = document.getElementById('barChart');
+    const resetBtn = document.getElementById('resetDefault');
+
+    // state
+    let currentModelKey = 'text-3-small';
+    let currentDim = 512;
+    let docCount = 100000;
+    let avgTokens = 380;
+
+    // helpers
+    function numberFormat(n) {
+      if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+      if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+      if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+      return n.toString();
+    }
+
+    function formatMB(bytes) {
+      const mb = bytes / (1024*1024);
+      if (mb > 1024) return (mb/1024).toFixed(2) + ' GB';
+      return mb.toFixed(2) + ' MB';
+    }
+
+    function formatCost(num) {
+      if (num >= 1) return '$' + num.toFixed(2);
+      if (num >= 0.01) return '$' + num.toFixed(3);
+      return '$' + num.toFixed(6);
+    }
+
+    // dimension buttons
+    function renderDimButtons(modelKey) {
+      const model = MODELS[modelKey];
+      if (!model) return;
+      const dims = model.dims;
+      dimOptionsDiv.innerHTML = '';
+      dimHint.textContent = dims.length > 1 ? 'Select dimension variant' : 'Fixed dimension';
+      dims.forEach(d => {
+        const btn = document.createElement('button');
+        btn.className = 'dim-btn' + (d === currentDim ? ' active' : '');
+        btn.textContent = d;
+        btn.dataset.dim = d;
+        btn.addEventListener('click', function(e) {
+          document.querySelectorAll('.dim-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentDim = parseInt(this.dataset.dim, 10);
+          recalcAndRender();
+        });
+        dimOptionsDiv.appendChild(btn);
+      });
+      // ensure active
+      if (!dims.includes(currentDim)) {
+        currentDim = model.defaultDim || dims[0];
+      }
+      document.querySelectorAll('.dim-btn').forEach(b => {
+        if (parseInt(b.dataset.dim, 10) === currentDim) b.classList.add('active');
+      });
+    }
+
+    // compute all
+    function computeAll() {
+      const model = MODELS[currentModelKey];
+      if (!model) return null;
+      const dim = currentDim;
+      const docs = docCount;
+      const tokens = avgTokens;
+      const totalVectors = docs;
+      const bytesPerFloat32 = 4;
+      const bytesPerFloat16 = 2;
+      const storageF32 = totalVectors * dim * bytesPerFloat32;
+      const storageF16 = totalVectors * dim * bytesPerFloat16;
+      const cloudCostPerGB = 0.10; // $0.10/GB/month
+      const storageGB = storageF32 / (1024*1024*1024);
+      const monthlyCloud = storageGB * cloudCostPerGB;
+      // api cost: per 1K tokens
+      const totalTokens = docs * tokens;
+      const apiCost = (totalTokens / 1000) * model.apiPricePer1K;
+      // latency: base + dim factor
+      const latencyMs = Math.round(model.latencyBase + (dim / 100) * 2.5);
+      return {
+        totalVectors,
+        storageF32,
+        storageF16,
+        monthlyCloud,
+        apiCost,
+        latencyMs,
+        dim,
+        modelName: model.name,
+        apiPrice: model.apiPricePer1K
+      };
+    }
+
+    // update main summary + comparison table + bar chart
+    function recalcAndRender() {
+      // read inputs
+      docCount = parseInt(docCountInput.value, 10) || 100000;
+      avgTokens = parseInt(avgTokensInput.value, 10) || 380;
+      if (docCount < 1) docCount = 1;
+      if (avgTokens < 1) avgTokens = 1;
+
+      const mainResult = computeAll();
+      if (!mainResult) return;
+
+      // update summary
+      totalVectorsSpan.textContent = numberFormat(mainResult.totalVectors);
+      storageFloat32Span.textContent = formatMB(mainResult.storageF32);
+      storageFloat16Span.textContent = formatMB(mainResult.storageF16);
+      cloudCostSpan.textContent = '$' + mainResult.monthlyCloud.toFixed(2) + ' / month';
+      apiCostSpan.textContent = formatCost(mainResult.apiCost);
+      latencyEstSpan.textContent = '~' + mainResult.latencyMs + 'ms';
+
+      // comparison table (all models)
+      const allModels = ['ada-002', 'text-3-small', 'text-3-large', 'cohere-v3', 'bge', 'e5'];
+      let html = '';
+      for (const key of allModels) {
+        const m = MODELS[key];
+        let dims = m.dims;
+        // pick dim: if current model key, use currentDim; else use default or first
+        let useDim = (key === currentModelKey) ? currentDim : (m.defaultDim || dims[0]);
+        // but if dims includes currentDim and key==currentModelKey, already set
+        if (key === currentModelKey) useDim = currentDim;
+        else {
+          // for other models, use default dim (first)
+          useDim = dims[0];
+        }
+        const docs = docCount;
+        const tokens = avgTokens;
+        const totalV = docs;
+        const f32 = totalV * useDim * 4;
+        const f16 = totalV * useDim * 2;
+        const gb = f32 / (1024*1024*1024);
+        const cloud = gb * 0.10;
+        const totalTokens = docs * tokens;
+        const api = (totalTokens / 1000) * m.apiPricePer1K;
+        const lat = Math.round(m.latencyBase + (useDim / 100) * 2.5);
+        html += `<tr>
+          <td>${m.name}</td>
+          <td>${useDim}</td>
+          <td>${formatMB(f32)}</td>
+          <td>${formatMB(f16)}</td>
+          <td>$${cloud.toFixed(2)}</td>
+          <td>${formatCost(api)}</td>
+          <td>~${lat}ms</td>
+        </tr>`;
+      }
+      comparisonBody.innerHTML = html;
+
+      // bar chart
+      renderBarChart(allModels);
+    }
+
+    function renderBarChart(modelKeys) {
+      const bars = modelKeys.map(key => {
+        const m = MODELS[key];
+        let dim = (key === currentModelKey) ? currentDim : (m.defaultDim || m.dims[0]);
+        return { label: m.name, dim: dim };
+      });
+      const maxDim = Math.max(...bars.map(b => b.dim), 1);
+      let chartHtml = '';
+      for (const b of bars) {
+        const pct = (b.dim / maxDim) * 100;
+        chartHtml += `<div class="bar-item">
+          <span class="bar-label">${b.label}</span>
+          <div style="flex:1; background:#1e293b; border-radius:40px; overflow:hidden;">
+            <div class="bar-fill" style="width:${pct}%;"></div>
+          </div>
+          <span class="bar-dim">${b.dim}</span>
+        </div>`;
+      }
+      barChartDiv.innerHTML = chartHtml;
+    }
+
+    // model change
+    function onModelChange() {
+      const key = modelSelect.value;
+      currentModelKey = key;
+      const model = MODELS[key];
+      // set currentDim to default or first
+      if (model.dims.includes(currentDim) === false) {
+        currentDim = model.defaultDim || model.dims[0];
+      } else {
+        // keep if valid
+      }
+      renderDimButtons(key);
+      recalcAndRender();
+    }
+
+    // reset
+    function resetDefaults() {
+      modelSelect.value = 'text-3-small';
+      currentModelKey = 'text-3-small';
+      currentDim = 512;
+      docCount = 100000;
+      avgTokens = 380;
+      docCountInput.value = 100000;
+      avgTokensInput.value = 380;
+      renderDimButtons(currentModelKey);
+      recalcAndRender();
+    }
+
+    // attach events
+    modelSelect.addEventListener('change', onModelChange);
+    docCountInput.addEventListener('input', recalcAndRender);
+    avgTokensInput.addEventListener('input', recalcAndRender);
+    resetBtn.addEventListener('click', resetDefaults);
+
+    // init
+    renderDimButtons('text-3-small');
+    recalcAndRender();
+  })();
+</script>
+</body>
+</html>

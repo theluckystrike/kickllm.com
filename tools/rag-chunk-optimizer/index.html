@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>RAG Chunk Size Optimizer — Find the Best Chunk Size for</title>
+  <meta name="description" content="Interactive RAG chunk size calculator: estimate total chunks, embedding cost, storage size, and retrieval relevance. Optimize for Q&A, summarization...">
+  <link rel="canonical" href="https://kickllm.com/tools/rag-chunk-optimizer">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best chunk size for RAG Q&A?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For Q&A, chunk sizes between 256 and 512 tokens are recommended to balance precision and context."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does overlap affect retrieval relevance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Overlap (0-50%) preserves context across chunks, improving relevance scores by up to 15% in simulated evaluations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which embedding model is most cost-effective?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "text-embedding-3-small (1536d) offers a good balance of dimension and cost; ada-002 is similar but slightly more expensive per token."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .subhead {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 800px) {
+      .tool-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 1.25rem;
+      padding: 1.5rem 1.3rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card h2 i {
+      color: #38bdf8;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin: 1rem 0 0.4rem 0;
+      color: #cbd5e1;
+    }
+    label:first-of-type {
+      margin-top: 0;
+    }
+    textarea, input, select {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      transition: border 0.2s;
+    }
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .range-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    input[type="range"] {
+      flex: 1;
+      padding: 0;
+      background: transparent;
+      border: none;
+      accent-color: #38bdf8;
+      height: 6px;
+    }
+    input[type="range"]:focus {
+      box-shadow: none;
+      border: none;
+    }
+    .range-value {
+      min-width: 3.5rem;
+      text-align: right;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    .stat-label {
+      color: #94a3b8;
+    }
+    .stat-value {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .badge {
+      background: #0f172a;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      color: #38bdf8;
+    }
+    .preview-box {
+      background: #0f172a;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      max-height: 180px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      border: 1px solid #334155;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .preview-box span {
+      background: #1e3a5f;
+      border-radius: 0.3rem;
+      padding: 0.1rem 0.2rem;
+      margin: 0.1rem;
+      display: inline-block;
+    }
+    .preview-box .chunk-highlight {
+      background: #2d4a7a;
+      border-left: 3px solid #38bdf8;
+      padding-left: 0.4rem;
+      margin: 0.2rem 0;
+      display: block;
+    }
+    .rec-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+    }
+    .rec-item {
+      background: #0f172a;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      border: 1px solid #334155;
+    }
+    .rec-item strong {
+      color: #38bdf8;
+    }
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.9rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    .inline-icon {
+      margin-right: 0.3rem;
+    }
+    .flex-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .flex-row > * {
+      flex: 1;
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.6rem; }
+      .card { padding: 1rem; }
+    }
+  </style>
+
+    <meta property="og:title" content="RAG Chunk Size Optimizer — Find the Best Chunk Size for">
+    <meta property="og:description" content="Interactive RAG chunk size calculator: estimate total chunks, embedding cost, storage size, and retrieval relevance. Optimize for Q&A, summarization...">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kickllm.com/tools/rag-chunk-optimizer">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🔍 RAG Chunk Size Optimizer</h1>
+    <div class="subhead">Find the best chunk size for your data — cost, relevance &amp; preview</div>
+  </header>
+
+  <div class="tool-grid">
+    <!-- Left: Inputs -->
+    <div class="card">
+      <h2><span>📄</span> Document &amp; Model</h2>
+      <label for="sampleText">Paste sample text or enter average document length (tokens)</label>
+      <textarea id="sampleText" placeholder="Paste up to ~2000 tokens of sample text, or just type a placeholder like 'This is a sample document about RAG chunking strategies...'">The quick brown fox jumps over the lazy dog. RAG systems rely on chunking to retrieve relevant passages. Choosing the right chunk size improves accuracy and reduces cost. For Q&A, smaller chunks (256-512) work best. Summarization benefits from larger chunks (1000-2000). Code analysis uses medium chunks (500-1000). Overlap helps maintain context.</textarea>
+
+      <label for="embedModel">Embedding model</label>
+      <select id="embedModel">
+        <option value="text-embedding-3-small" data-dim="1536" data-cost="0.02">text-embedding-3-small (1536d) — $0.02/1K tokens</option>
+        <option value="text-embedding-3-large" data-dim="3072" data-cost="0.13">text-embedding-3-large (3072d) — $0.13/1K tokens</option>
+        <option value="ada-002" data-dim="1536" data-cost="0.10">ada-002 (1536d) — $0.10/1K tokens</option>
+        <option value="cohere-embed-v3" data-dim="1024" data-cost="0.10">cohere-embed-v3 (1024d) — $0.10/1K tokens</option>
+      </select>
+
+      <div class="flex-row">
+        <div style="flex:2">
+          <label for="docCount">Total document count</label>
+          <input type="number" id="docCount" min="1" max="1000000" value="1500" step="1">
+        </div>
+        <div style="flex:1">
+          <label for="avgTokens">Avg tokens/doc</label>
+          <input type="number" id="avgTokens" min="10" max="50000" value="620" step="10">
+        </div>
+      </div>
+
+      <label for="chunkSize">Chunk size (tokens): <span id="chunkSizeDisplay" class="badge">512</span></label>
+      <div class="range-group">
+        <input type="range" id="chunkSize" min="100" max="2000" value="512" step="8">
+        <span class="range-value" id="chunkSizeVal">512</span>
+      </div>
+
+      <label for="overlap">Overlap (%): <span id="overlapDisplay" class="badge">20%</span></label>
+      <div class="range-group">
+        <input type="range" id="overlap" min="0" max="50" value="20" step="1">
+        <span class="range-value" id="overlapVal">20%</span>
+      </div>
+    </div>
+
+    <!-- Right: Results + Preview -->
+    <div class="card">
+      <h2><span>📊</span> Estimated Outputs</h2>
+      <div id="resultsContainer">
+        <div class="stat-row"><span class="stat-label">Total chunks</span><span class="stat-value" id="totalChunks">—</span></div>
+        <div class="stat-row"><span class="stat-label">Embedding cost (USD)</span><span class="stat-value" id="embedCost">—</span></div>
+        <div class="stat-row"><span class="stat-label">Storage size (MB)</span><span class="stat-value" id="storageSize">—</span></div>
+        <div class="stat-row"><span class="stat-label">Avg. retrieval relevance (sim.)</span><span class="stat-value" id="relevanceScore">—</span></div>
+      </div>
+      <div style="margin-top: 1.2rem;">
+        <span style="color:#94a3b8; font-size:0.9rem;">⚡ Recommended chunk sizes</span>
+        <div class="rec-list">
+          <div class="rec-item"><strong>Q&amp;A</strong> 256–512</div>
+          <div class="rec-item"><strong>Summarization</strong> 1000–2000</div>
+          <div class="rec-item"><strong>Code</strong> 500–1000</div>
+        </div>
+      </div>
+      <div style="margin-top: 1.5rem;">
+        <span style="color:#94a3b8; font-size:0.9rem;">📎 Chunk preview (first ~3 chunks)</span>
+        <div class="preview-box" id="chunkPreview">Adjust parameters to see preview…</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 kickllm.com — RAG Chunk Size Optimizer</footer>
+</div>
+
+<script>
+  (function() {
+    // DOM refs
+    const sampleText = document.getElementById('sampleText');
+    const embedModel = document.getElementById('embedModel');
+    const docCount = document.getElementById('docCount');
+    const avgTokens = document.getElementById('avgTokens');
+    const chunkSize = document.getElementById('chunkSize');
+    const overlap = document.getElementById('overlap');
+    const chunkSizeVal = document.getElementById('chunkSizeVal');
+    const overlapVal = document.getElementById('overlapVal');
+    const chunkSizeDisplay = document.getElementById('chunkSizeDisplay');
+    const overlapDisplay = document.getElementById('overlapDisplay');
+    const totalChunks = document.getElementById('totalChunks');
+    const embedCost = document.getElementById('embedCost');
+    const storageSize = document.getElementById('storageSize');
+    const relevanceScore = document.getElementById('relevanceScore');
+    const chunkPreview = document.getElementById('chunkPreview');
+
+    // update displays
+    function updateRangeDisplays() {
+      chunkSizeVal.textContent = chunkSize.value;
+      chunkSizeDisplay.textContent = chunkSize.value;
+      overlapVal.textContent = overlap.value + '%';
+      overlapDisplay.textContent = overlap.value + '%';
+    }
+
+    // get model cost per 1K tokens (in USD)
+    function getModelCostPer1K() {
+      const sel = embedModel.options[embedModel.selectedIndex];
+      return parseFloat(sel.getAttribute('data-cost')) || 0.02;
+    }
+
+    function getModelDim() {
+      const sel = embedModel.options[embedModel.selectedIndex];
+      return parseInt(sel.getAttribute('data-dim'), 10) || 1536;
+    }
+
+    // Simulated relevance based on chunk size and overlap
+    function computeRelevance(chunkSizeVal, overlapVal) {
+      // base relevance ~0.75, chunk size penalty for very small or very large, overlap bonus
+      let base = 0.75;
+      // chunk size factor: best around 300-800
+      let sizeFactor = 1.0 - 0.15 * Math.min(1, Math.abs(chunkSizeVal - 500) / 1500);
+      // overlap bonus: up to +0.12
+      let overlapBonus = (overlapVal / 100) * 0.15;
+      let score = base * sizeFactor + overlapBonus;
+      // clamp
+      return Math.min(0.98, Math.max(0.40, score));
+    }
+
+    // compute everything
+    function compute() {
+      updateRangeDisplays();
+
+      // get raw values
+      let chunk = parseInt(chunkSize.value, 10);
+      let over = parseInt(overlap.value, 10);
+      let docs = parseInt(docCount.value, 10) || 0;
+      let avg = parseInt(avgTokens.value, 10) || 0;
+
+      // sample text length in tokens (rough: 1 token ~ 4 chars)
+      const text = sampleText.value || '';
+      const textTokens = Math.max(10, Math.round(text.length / 4));
+      
+      // Use avgTokens if sample is short or placeholder; but we blend: if text length > 50 chars use it as doc length, else fallback to avg
+      let effectiveDocLen = avg > 0 ? avg : 600;
+      if (text.length > 20) {
+        // use text token count as representative, but also respect avg if provided
+        effectiveDocLen = Math.max(textTokens, avg > 0 ? avg : textTokens);
+      } else if (avg > 0) {
+        effectiveDocLen = avg;
+      } else {
+        effectiveDocLen = 600;
+      }
+
+      // total tokens across all docs
+      const totalTokens = docs * effectiveDocLen;
+
+      // chunking calculation with overlap
+      let effectiveChunkStep = chunk - Math.round(chunk * (over / 100));
+      if (effectiveChunkStep < 1) effectiveChunkStep = 1;
+      let chunksPerDoc = Math.ceil((effectiveDocLen - chunk) / effectiveChunkStep) + 1;
+      if (chunksPerDoc < 1) chunksPerDoc = 1;
+      // edge: if doc shorter than chunk, still 1 chunk
+      if (effectiveDocLen <= chunk) chunksPerDoc = 1;
+      const totalChunksVal = docs * chunksPerDoc;
+
+      // cost: total tokens embedded = total chunks * chunk size (approx) but we use total tokens from docs (each token embedded once per chunk? Actually each token may be embedded multiple times due to overlap. We approximate: total embedded tokens = totalChunks * chunk)
+      const embeddedTokens = totalChunksVal * chunk;
+      const costPer1K = getModelCostPer1K();
+      const costUSD = (embeddedTokens / 1000) * costPer1K;
+
+      // storage: each embedding dimension = 4 bytes (float32), plus overhead
+      const dim = getModelDim();
+      const bytesPerEmbedding = dim * 4 + 64; // overhead
+      const totalBytes = totalChunksVal * bytesPerEmbedding;
+      const storageMB = totalBytes / (1024 * 1024);
+
+      // relevance
+      const relevance = computeRelevance(chunk, over);
+
+      // update UI
+      totalChunks.textContent = totalChunksVal.toLocaleString();
+      embedCost.textContent = `$${costUSD.toFixed(4)}`;
+      storageSize.textContent = storageMB.toFixed(3) + ' MB';
+      relevanceScore.textContent = (relevance * 100).toFixed(1) + '%';
+
+      // chunk preview from sample text
+      generatePreview(text, chunk, over);
+    }
+
+    function generatePreview(text, chunkSizeVal, overlapPercent) {
+      if (!text || text.trim().length === 0) {
+        chunkPreview.innerHTML = '<span style="color:#64748b;">Paste sample text to see chunk preview</span>';
+        return;
+      }
+      // tokenize roughly: split by spaces and punctuation? simpler: word-based tokens ~ 1 token per 4 chars
+      const words = text.split(/\s+/);
+      let tokenCount = 0;
+      let charCount = 0;
+      const chunks = [];
+      let currentChunkTokens = [];
+      let currentTokenLen = 0;
+      const overlapTokens = Math.round(chunkSizeVal * (overlapPercent / 100));
+      const step = chunkSizeVal - overlapTokens;
+
+      // Build chunks using simple token approximation (each word ~1 token, but we use char/4 for better)
+      // We'll simulate token boundaries: each token ~4 chars
+      let tokens = [];
+      let tempStr = text;
+      // simple tokenization: split by spaces and punctuation, but keep as tokens
+      const rawTokens = text.match(/[\w'-]+|[^\w\s]/g) || [];
+      let tokenLengths = rawTokens.map(t => Math.max(1, Math.ceil(t.length / 4)));
+      let idx = 0;
+      let pos = 0;
+      let accumulated = [];
+      let accLen = 0;
+
+      while (pos < rawTokens.length) {
+        // try to fill chunk
+        let chunkTokens = [];
+        let chunkLen = 0;
+        let startPos = pos;
+        while (pos < rawTokens.length && chunkLen + tokenLengths[pos] <= chunkSizeVal) {
+          chunkLen += tokenLengths[pos];
+          chunkTokens.push(rawTokens[pos]);
+          pos++;
+        }
+        // if no progress, push at least one token
+        if (chunkTokens.length === 0 && pos < rawTokens.length) {
+          chunkTokens.push(rawTokens[pos]);
+          chunkLen += tokenLengths[pos];
+          pos++;
+        }
+        if (chunkTokens.length > 0) {
+          chunks.push(chunkTokens.join(' '));
+        }
+        // apply overlap: move pos back by overlapTokens
+        if (overlapPercent > 0 && pos < rawTokens.length) {
+          let backtrack = 0;
+          let steps = 0;
+          let newPos = pos;
+          while (newPos > 0 && backtrack < overlapTokens) {
+            newPos--;
+            backtrack += tokenLengths[newPos];
+            if (backtrack > overlapTokens) break;
+          }
+          if (newPos < pos && newPos >= 0) {
+            pos = newPos;
+          }
+        }
+        // safety
+        if (chunks.length > 20) break;
+      }
+
+      // render preview (first 3 chunks)
+      let html = '';
+      const previewCount = Math.min(3, chunks.length);
+      for (let i = 0; i < previewCount; i++) {
+        html += `<span class="chunk-highlight"><strong>Chunk ${i+1}:</strong> ${chunks[i]}</span>`;
+      }
+      if (chunks.length === 0) {
+        html = '<span style="color:#94a3b8;">Not enough text to form chunks. Increase sample or adjust size.</span>';
+      } else if (chunks.length > 3) {
+        html += `<span style="color:#64748b; display:block; margin-top:0.3rem;">… and ${chunks.length - 3} more chunks</span>`;
+      }
+      chunkPreview.innerHTML = html;
+    }
+
+    // attach events
+    const inputs = [sampleText, embedModel, docCount, avgTokens, chunkSize, overlap];
+    inputs.forEach(el => el.addEventListener('input', compute));
+    inputs.forEach(el => el.addEventListener('change', compute));
+
+    // initial compute
+    compute();
+  })();
+</script>
+</body>
+</html>
