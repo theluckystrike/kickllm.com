@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Vector Database Cost Calculator · kickllm.com</title>
+  <meta name="description" content="Compare monthly costs for Pinecone, Weaviate, Qdrant, pgvector. Estimate storage, index overhead, and breakeven for vector databases.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/tools/vector-database-cost-calculator">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Vector Database Cost Calculator",
+      "url": "https://kickllm.com/tools/vector-database-cost-calculator",
+      "applicationCategory": "Developer Tool",
+      "operatingSystem": "All",
+      "browserRequirements": "JavaScript enabled",
+      "description": "Estimate and compare vector database costs: Pinecone, Weaviate, Qdrant, pgvector. Storage, index overhead, monthly pricing.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is storage calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Raw bytes = vectors × dimension × bytes per float (4 for float32, 2 for float16). Index overhead multiplier (2x–3x) is applied based on HNSW parameters."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I switch from serverless to dedicated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Breakeven analysis compares Pinecone serverless cost vs. self‑hosted pgvector. Typically above ~10M vectors or high QPS, dedicated becomes more economical."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which vector DB is best for my scale?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under 100K vectors: any free tier. 100K–10M: Pinecone serverless. Above 10M: self‑hosted pgvector or dedicated clusters."
+          }
+        }
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools"},
+        {"@type": "ListItem", "position": 3, "name": "Vector Database Cost Calculator", "item": "https://kickllm.com/tools/vector-database-cost-calculator"}
+      ]
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      padding: 1.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .subhead {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 700px) {
+      .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+    }
+    .input-panel {
+      background: #1e293b;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.01em;
+    }
+    .input-group .hint {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      color: #e2e8f0;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    input[type="range"] {
+      padding: 0;
+      background: transparent;
+      border: none;
+      accent-color: #38bdf8;
+      height: 2rem;
+    }
+    .range-value {
+      display: inline-block;
+      background: #0f172a;
+      padding: 0.1rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      border: 1px solid #334155;
+    }
+    .inline-range {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .inline-range input {
+      flex: 1;
+    }
+    .inline-range span {
+      min-width: 4rem;
+      text-align: right;
+      font-weight: 500;
+    }
+    .radio-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.3rem;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 400;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"] {
+      width: auto;
+      accent-color: #38bdf8;
+    }
+    .results-panel {
+      background: #1e293b;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .results-panel h2 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #38bdf8;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 0.5rem;
+    }
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #1e293b;
+      font-size: 0.95rem;
+    }
+    .cost-row .provider {
+      font-weight: 500;
+    }
+    .cost-row .price {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .highlight {
+      background: #0f172a;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      color: #38bdf8;
+    }
+    .breakeven-box {
+      background: #0f172a;
+      border-radius: 0.8rem;
+      padding: 0.8rem 1rem;
+      margin: 1rem 0 0.5rem;
+      border-left: 3px solid #38bdf8;
+    }
+    .breakeven-box strong {
+      color: #38bdf8;
+    }
+    .recommendation {
+      background: #1e293b;
+      border-radius: 0.8rem;
+      padding: 0.8rem 1rem;
+      margin-top: 1rem;
+      border: 1px solid #334155;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.9rem;
+    }
+    .comparison-table th {
+      text-align: left;
+      padding: 0.6rem 0.4rem;
+      color: #94a3b8;
+      font-weight: 500;
+      border-bottom: 1px solid #334155;
+    }
+    .comparison-table td {
+      padding: 0.6rem 0.4rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    .badge {
+      background: #0f172a;
+      border-radius: 2rem;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      color: #38bdf8;
+      border: 1px solid #334155;
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+
+<meta property="og:title" content="Vector Database Cost Calculator · kickllm.com">
+<meta property="og:description" content="Compare monthly costs for Pinecone, Weaviate, Qdrant, pgvector. Estimate storage, index overhead, and breakeven for vector databases.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kickllm.com/tools/vector-database-cost-calculator">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ Vector Database Cost Calculator</h1>
+    <div class="subhead">Estimate monthly spend · Pinecone · Weaviate · Qdrant · pgvector</div>
+  </header>
+
+  <div class="calculator-grid">
+    <!-- INPUTS -->
+    <div class="input-panel">
+      <div class="input-group">
+        <label>Number of vectors</label>
+        <div class="inline-range">
+          <input type="range" id="vectorsSlider" min="1000" max="1000000000" value="500000" step="1000">
+          <span id="vectorsDisplay">500K</span>
+        </div>
+        <div class="hint">1K – 1B (log scale)</div>
+      </div>
+
+      <div class="input-group">
+        <label>Embedding dimension</label>
+        <select id="dimSelect">
+          <option value="128">128</option>
+          <option value="256">256</option>
+          <option value="384">384</option>
+          <option value="768" selected>768</option>
+          <option value="1024">1024</option>
+          <option value="1536">1536</option>
+          <option value="3072">3072</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Queries per second (QPS)</label>
+        <input type="number" id="qpsInput" value="100" min="1" max="100000" step="1">
+      </div>
+
+      <div class="input-group">
+        <label>Replicas</label>
+        <select id="replicasSelect">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Metadata size per vector (bytes)</label>
+        <input type="number" id="metadataBytes" value="64" min="0" max="4096" step="1">
+      </div>
+
+      <div class="input-group">
+        <label>Float type</label>
+        <div class="radio-group">
+          <label><input type="radio" name="floatType" value="float32" checked> float32 (4B)</label>
+          <label><input type="radio" name="floatType" value="float16"> float16 (2B)</label>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Index overhead (HNSW)</label>
+        <select id="indexOverhead">
+          <option value="2">2x (fast)</option>
+          <option value="2.5" selected>2.5x (balanced)</option>
+          <option value="3">3x (accurate)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>pgvector self‑hosted instance (monthly $)</label>
+        <input type="number" id="pgvectorCost" value="150" min="0" step="10" placeholder="e.g. 150">
+        <div class="hint">Enter your compute cost (e.g. $150 for a dedicated VM)</div>
+      </div>
+    </div>
+
+    <!-- RESULTS & COST -->
+    <div class="results-panel">
+      <h2>📊 Monthly cost estimates</h2>
+      <div id="costSummary">
+        <div class="cost-row"><span class="provider">Pinecone serverless</span><span class="price" id="pineconeCost">$0.00</span></div>
+        <div class="cost-row"><span class="provider">Weaviate Cloud (Standard node)</span><span class="price" id="weaviateCost">$25.00</span></div>
+        <div class="cost-row"><span class="provider">Qdrant Cloud</span><span class="price" id="qdrantCost">$0.00</span></div>
+        <div class="cost-row"><span class="provider">pgvector self‑hosted</span><span class="price" id="pgvectorResult">$0.00</span></div>
+      </div>
+
+      <div class="breakeven-box" id="breakevenBox">
+        <strong>⚖️ Breakeven analysis</strong> <span id="breakevenText">vs serverless</span>
+      </div>
+
+      <div class="recommendation" id="recommendationBox">
+        <span style="color:#38bdf8;">🧠 Recommended</span> <span id="recommendationText">Pinecone serverless</span>
+      </div>
+
+      <div style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">
+        <span>Storage: </span><span id="storageDetail">0 GB</span> &nbsp;·&nbsp; <span>Index overhead: </span><span id="indexDetail">2.5x</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- comparison table -->
+  <h2 style="font-size:1.2rem; margin: 1.5rem 0 0.5rem; color:#38bdf8;">📋 Pricing comparison (2025)</h2>
+  <div style="overflow-x: auto;">
+    <table class="comparison-table">
+      <thead><tr><th>Provider</th><th>Pricing model</th><th>Free tier</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Pinecone</td><td>$0.033/1M writes, $0.10/1M reads, $0.000/1M stored (after free)</td><td>Free tier (limited)</td><td>Serverless</td></tr>
+        <tr><td>Weaviate</td><td>Sandbox free 14d, Standard ~$25/mo/node</td><td>14‑day sandbox</td><td>Cloud native</td></tr>
+        <tr><td>Qdrant</td><td>$0 for 1GB free, then ~$0.0019/GB/hr</td><td>1GB free</td><td>Per‑GB hourly</td></tr>
+        <tr><td>pgvector</td><td>Self‑hosted (compute + storage)</td><td>–</td><td>Enter instance cost</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    © 2025 kickllm.com · <a href="https://kickllm.com/tools/vector-database-cost-calculator" style="color:#38bdf8;">Canonical</a>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // DOM refs
+    const vectorsSlider = document.getElementById('vectorsSlider');
+    const vectorsDisplay = document.getElementById('vectorsDisplay');
+    const dimSelect = document.getElementById('dimSelect');
+    const qpsInput = document.getElementById('qpsInput');
+    const replicasSelect = document.getElementById('replicasSelect');
+    const metadataBytes = document.getElementById('metadataBytes');
+    const indexOverhead = document.getElementById('indexOverhead');
+    const pgvectorCost = document.getElementById('pgvectorCost');
+
+    const pineconeCostEl = document.getElementById('pineconeCost');
+    const weaviateCostEl = document.getElementById('weaviateCost');
+    const qdrantCostEl = document.getElementById('qdrantCost');
+    const pgvectorResultEl = document.getElementById('pgvectorResult');
+    const breakevenText = document.getElementById('breakevenText');
+    const recommendationText = document.getElementById('recommendationText');
+    const storageDetail = document.getElementById('storageDetail');
+    const indexDetail = document.getElementById('indexDetail');
+
+    // helpers
+    function formatNumber(num) {
+      if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
+      if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
+      if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K';
+      return num.toString();
+    }
+
+    function formatCurrency(val) {
+      if (val < 0.01) return '$0.00';
+      return '$' + val.toFixed(2);
+    }
+
+    function getFloatBytes() {
+      const radios = document.getElementsByName('floatType');
+      for (let r of radios) if (r.checked) return r.value === 'float32' ? 4 : 2;
+      return 4;
+    }
+
+    function compute() {
+      // read inputs
+      let nVectors = parseFloat(vectorsSlider.value) || 1000;
+      const dim = parseInt(dimSelect.value) || 768;
+      const qps = parseFloat(qpsInput.value) || 0;
+      const replicas = parseInt(replicasSelect.value) || 1;
+      const metaBytes = parseFloat(metadataBytes.value) || 0;
+      const overhead = parseFloat(indexOverhead.value) || 2.5;
+      const pgvectorMonthly = parseFloat(pgvectorCost.value) || 0;
+
+      const floatBytes = getFloatBytes();
+
+      // storage raw
+      const rawVectorBytes = nVectors * dim * floatBytes;
+      const metaTotalBytes = nVectors * metaBytes;
+      const rawTotalBytes = rawVectorBytes + metaTotalBytes;
+      const indexMultiplier = overhead;
+      const storageBytes = rawTotalBytes * indexMultiplier * replicas; // replicas multiply storage
+
+      // convert to GB
+      const storageGB = storageBytes / (1024**3);
+
+      // ---- Pinecone serverless ----
+      // writes: assume each vector written once (monthly) -> nVectors writes
+      const writes = nVectors; // monthly writes (ingestion)
+      const reads = qps * 86400 * 30; // monthly reads
+      const pineconeWritesCost = (writes / 1e6) * 0.033;
+      const pineconeReadsCost = (reads / 1e6) * 0.10;
+      // stored vectors: after free tier (first 1M free) -> assume free tier covers 1M
+      const storedBillable = Math.max(0, nVectors - 1_000_000);
+      const pineconeStorageCost = (storedBillable / 1e6) * 0.00; // $0/1M stored
+      const pineconeTotal = pineconeWritesCost + pineconeReadsCost + pineconeStorageCost;
+
+      // ---- Weaviate Cloud (Standard node) ----
+      // $25/mo per node, assume 1 node for simplicity, but replicas increase nodes? we treat as single node cost.
+      const weaviateNodeCost = 25 * replicas; // each replica = node? approximation
+      const weaviateTotal = weaviateNodeCost;
+
+      // ---- Qdrant Cloud ----
+      // $0 for 1GB free, then $0.0019/GB/hr
+      const freeGB = 1;
+      const billableGB = Math.max(0, storageGB - freeGB);
+      const qdrantHourly = billableGB * 0.0019;
+      const qdrantMonthly = qdrantHourly * 730; // avg hours/month
+      const qdrantTotal = qdrantMonthly;
+
+      // ---- pgvector self-hosted ----
+      const pgvectorTotal = pgvectorMonthly;
+
+      // update UI
+      pineconeCostEl.textContent = formatCurrency(pineconeTotal);
+      weaviateCostEl.textContent = formatCurrency(weaviateTotal);
+      qdrantCostEl.textContent = formatCurrency(qdrantTotal);
+      pgvectorResultEl.textContent = formatCurrency(pgvectorTotal);
+
+      // storage detail
+      storageDetail.textContent = storageGB.toFixed(2) + ' GB';
+      indexDetail.textContent = overhead.toFixed(1) + 'x';
+
+      // breakeven: compare pinecone serverless vs pgvector self-hosted
+      let breakevenMsg = '';
+      if (pgvectorTotal < pineconeTotal) {
+        breakevenMsg = `pgvector self‑hosted ($${pgvectorTotal.toFixed(1)}) < Pinecone ($${pineconeTotal.toFixed(1)}) → switch to dedicated.`;
+      } else {
+        breakevenMsg = `Pinecone serverless ($${pineconeTotal.toFixed(1)}) ≤ pgvector ($${pgvectorTotal.toFixed(1)}) → serverless is cost‑effective.`;
+      }
+      breakevenText.textContent = breakevenMsg;
+
+      // recommendation by scale
+      let rec = '';
+      if (nVectors < 100_000) {
+        rec = 'Any free tier (Pinecone free, Qdrant 1GB, Weaviate sandbox).';
+      } else if (nVectors <= 10_000_000) {
+        rec = 'Pinecone serverless (ease & scale).';
+      } else {
+        rec = 'Self‑hosted pgvector or dedicated cluster (cost efficient at scale).';
+      }
+      recommendationText.textContent = rec;
+
+      // update slider display
+      if (nVectors >= 1e9) vectorsDisplay.textContent = (nVectors / 1e9).toFixed(2) + 'B';
+      else if (nVectors >= 1e6) vectorsDisplay.textContent = (nVectors / 1e6).toFixed(2) + 'M';
+      else if (nVectors >= 1e3) vectorsDisplay.textContent = (nVectors / 1e3).toFixed(1) + 'K';
+      else vectorsDisplay.textContent = nVectors.toString();
+    }
+
+    // event listeners
+    vectorsSlider.addEventListener('input', compute);
+    dimSelect.addEventListener('change', compute);
+    qpsInput.addEventListener('input', compute);
+    replicasSelect.addEventListener('change', compute);
+    metadataBytes.addEventListener('input', compute);
+    indexOverhead.addEventListener('change', compute);
+    pgvectorCost.addEventListener('input', compute);
+    document.querySelectorAll('input[name="floatType"]').forEach(el => el.addEventListener('change', compute));
+
+    // initial compute
+    compute();
+  })();
+</script>
+</body>
+</html>

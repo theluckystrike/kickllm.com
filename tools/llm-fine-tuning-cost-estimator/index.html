@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>LLM Fine-Tuning Cost Estimator | kickllm.com</title>
+  <meta name="description" content="Estimate GPU hours, cost, and memory for fine-tuning LLMs. Supports Full FT, LoRA, QLoRA, DoRA. Compare A100, H100, L4.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/tools/llm-fine-tuning-cost-estimator">
+  <!-- JSON-LD Schema: WebApplication + FAQPage + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "LLM Fine-Tuning Cost Estimator",
+        "url": "https://kickllm.com/tools/llm-fine-tuning-cost-estimator",
+        "applicationCategory": "AI Tool",
+        "operatingSystem": "All",
+        "description": "Estimate GPU hours, cost, and memory for fine-tuning LLMs with Full FT, LoRA, QLoRA, DoRA."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How is training FLOPs calculated?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For full fine‑tuning: 6 × dataset_tokens × model_params. LoRA/QLoRA/DoRA use the same formula but only trainable parameters (LoRA params) count toward optimizer memory."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the LoRA parameter count formula?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "LoRA trainable params = 2 × r × d_model × num_layers × target_modules. We estimate target_modules as 2/3 of total layers, and d_model ≈ 4096 for 7B, 5120 for 13B, etc."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why does QLoRA use 0.5 bytes per parameter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "QLoRA loads base model in 4‑bit (0.5 bytes) precision, drastically reducing memory. Optimizer states are only stored for LoRA parameters (16‑bit)."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com" },
+          { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools" },
+          { "@type": "ListItem", "position": 3, "name": "LLM Fine-Tuning Cost Estimator", "item": "https://kickllm.com/tools/llm-fine-tuning-cost-estimator" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      padding: 1.5rem 1rem;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #f1f5f9;
+    }
+    h1 span {
+      color: #38bdf8;
+    }
+    .subhead {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 1.25rem;
+      padding: 1.5rem 1.3rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      border: 1px solid #334155;
+    }
+    .card h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card h2 i {
+      color: #38bdf8;
+      font-style: normal;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+    }
+    select, input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      transition: border 0.2s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56,189,248,0.2);
+    }
+    .inline-group {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .inline-group > div {
+      flex: 1 1 100px;
+    }
+    .badge {
+      background: #0f172a;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: #38bdf8;
+      border: 1px solid #1e293b;
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .result-item {
+      background: #0f172a;
+      border-radius: 0.8rem;
+      padding: 0.7rem 0.9rem;
+    }
+    .result-item .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #94a3b8;
+    }
+    .result-item .value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      word-break: break-word;
+    }
+    .result-item .value.green {
+      color: #4ade80;
+    }
+    .result-item .value.orange {
+      color: #fb923c;
+    }
+    .result-item .value.pink {
+      color: #f472b6;
+    }
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+    .cost-table th {
+      text-align: left;
+      padding: 0.4rem 0.2rem;
+      color: #94a3b8;
+      font-weight: 500;
+      border-bottom: 1px solid #334155;
+    }
+    .cost-table td {
+      padding: 0.5rem 0.2rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .cost-table tr:last-child td {
+      border-bottom: none;
+    }
+    .highlight {
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .footnote {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 1rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 0.8rem;
+    }
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1.5rem;
+    }
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+      .inline-group {
+        flex-direction: column;
+      }
+    }
+    .tooltip {
+      border-bottom: 1px dashed #475569;
+      cursor: help;
+    }
+    .memory-bar {
+      background: #0f172a;
+      border-radius: 1rem;
+      height: 0.8rem;
+      margin: 0.5rem 0;
+      overflow: hidden;
+    }
+    .memory-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      border-radius: 1rem;
+    }
+  </style>
+
+<meta property="og:title" content="LLM Fine-Tuning Cost Estimator | kickllm.com">
+<meta property="og:description" content="Estimate GPU hours, cost, and memory for fine-tuning LLMs. Supports Full FT, LoRA, QLoRA, DoRA. Compare A100, H100, L4.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kickllm.com/tools/llm-fine-tuning-cost-estimator">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ <span>LLM</span> Fine‑Tuning Cost Estimator</h1>
+    <div class="subhead">Estimate GPU hours, memory & cost for Full FT / LoRA / QLoRA / DoRA</div>
+  </header>
+
+  <div class="grid-2">
+    <!-- Inputs -->
+    <div class="card">
+      <h2><i>⚙️</i> Configuration</h2>
+      <div class="form-group">
+        <label>Base model size (parameters)</label>
+        <select id="modelSize">
+          <option value="1e9">1B</option>
+          <option value="3e9">3B</option>
+          <option value="7e9" selected>7B</option>
+          <option value="13e9">13B</option>
+          <option value="30e9">30B</option>
+          <option value="70e9">70B</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fine‑tuning method</label>
+        <select id="ftMethod">
+          <option value="full">Full Fine‑Tune</option>
+          <option value="lora" selected>LoRA</option>
+          <option value="qlora">QLoRA (4‑bit)</option>
+          <option value="dora">DoRA (LoRA variant)</option>
+        </select>
+      </div>
+      <div class="inline-group">
+        <div class="form-group">
+          <label>LoRA rank r</label>
+          <select id="loraRank">
+            <option value="4">4</option>
+            <option value="8" selected>8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+            <option value="64">64</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>LoRA alpha</label>
+          <input type="number" id="loraAlpha" value="16" min="1" max="256" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dataset size (tokens)</label>
+        <input type="range" id="datasetTokens" min="1e6" max="10e9" step="1e6" value="100e6">
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8;">
+          <span>1M</span>
+          <span id="datasetLabel">100M</span>
+          <span>10B</span>
+        </div>
+      </div>
+      <div class="inline-group">
+        <div class="form-group">
+          <label>Epochs</label>
+          <input type="number" id="epochs" value="3" min="1" max="10" step="1">
+        </div>
+        <div class="form-group">
+          <label>Batch size</label>
+          <input type="number" id="batchSize" value="8" min="1" max="512" step="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>GPU type</label>
+        <select id="gpuType">
+          <option value="A100-40GB" data-rate="3.31" data-tflops="312">A100‑40GB ($3.31/hr, 312 TFLOPS)</option>
+          <option value="A100-80GB" data-rate="4.00" data-tflops="312" selected>A100‑80GB ($4.00/hr, 312 TFLOPS)</option>
+          <option value="H100" data-rate="7.00" data-tflops="989">H100 ($7.00/hr, 989 TFLOPS)</option>
+          <option value="L4" data-rate="1.10" data-tflops="121">L4 ($1.10/hr, 121 TFLOPS)</option>
+        </select>
+      </div>
+      <button id="computeBtn" style="background:#38bdf8; color:#0f172a; font-weight:600; border:none; border-radius:2rem; padding:0.7rem 1.5rem; width:100%; margin-top:0.5rem; font-size:1rem; cursor:pointer;">Compute Estimate</button>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <h2><i>📊</i> Cost & Memory</h2>
+      <div id="resultsArea">
+        <div class="result-grid">
+          <div class="result-item"><span class="label">Training FLOPs</span><div class="value" id="flopsDisplay">—</div></div>
+          <div class="result-item"><span class="label">Trainable params</span><div class="value" id="trainableParams">—</div></div>
+          <div class="result-item"><span class="label">GPU hours</span><div class="value orange" id="gpuHours">—</div></div>
+          <div class="result-item"><span class="label">Total cost (selected GPU)</span><div class="value pink" id="totalCost">—</div></div>
+        </div>
+        <div style="margin:0.5rem 0 0.2rem;"><span class="label">Memory breakdown (single GPU)</span></div>
+        <div id="memoryBreakdown" style="font-size:0.9rem; background:#0f172a; border-radius:0.8rem; padding:0.6rem 0.8rem;">
+          <span>Model weights: </span><span id="memWeights">—</span><br>
+          <span>Optimizer states: </span><span id="memOptimizer">—</span><br>
+          <span>Activations (est.): </span><span id="memActivations">—</span>
+        </div>
+        <div class="memory-bar"><div class="memory-bar-fill" id="memBar" style="width:0%"></div></div>
+        <div id="fitSingle" style="font-weight:500; margin:0.3rem 0 0.8rem;">⚡ Checking fit ...</div>
+
+        <div style="font-weight:500; margin:0.8rem 0 0.2rem;">💵 Cost comparison across GPUs</div>
+        <table class="cost-table" id="costComparison">
+          <thead><tr><th>GPU</th><th>Hours</th><th>Cost</th></tr></thead>
+          <tbody id="costTableBody"></tbody>
+        </table>
+        <div class="footnote" id="loraFormula">LoRA params = 2 × r × d_model × num_layers × (2/3 layers)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 kickllm.com — LLM Fine‑Tuning Cost Estimator. All estimates are approximate.
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- helper constants (d_model, layers) for each size -----
+    const MODEL_ARCH = {
+      '1e9':  { d_model: 2048, layers: 24 },
+      '3e9':  { d_model: 3200, layers: 32 },
+      '7e9':  { d_model: 4096, layers: 32 },
+      '13e9': { d_model: 5120, layers: 40 },
+      '30e9': { d_model: 6656, layers: 48 },
+      '70e9': { d_model: 8192, layers: 80 }
+    };
+
+    const gpuSelect = document.getElementById('gpuType');
+    const modelSelect = document.getElementById('modelSize');
+    const methodSelect = document.getElementById('ftMethod');
+    const rankSelect = document.getElementById('loraRank');
+    const alphaInput = document.getElementById('loraAlpha');
+    const datasetSlider = document.getElementById('datasetTokens');
+    const datasetLabel = document.getElementById('datasetLabel');
+    const epochsInput = document.getElementById('epochs');
+    const batchInput = document.getElementById('batchSize');
+    const computeBtn = document.getElementById('computeBtn');
+
+    // display elements
+    const flopsDisplay = document.getElementById('flopsDisplay');
+    const trainableParams = document.getElementById('trainableParams');
+    const gpuHours = document.getElementById('gpuHours');
+    const totalCost = document.getElementById('totalCost');
+    const memWeights = document.getElementById('memWeights');
+    const memOptimizer = document.getElementById('memOptimizer');
+    const memActivations = document.getElementById('memActivations');
+    const memBar = document.getElementById('memBar');
+    const fitSingle = document.getElementById('fitSingle');
+    const costTableBody = document.getElementById('costTableBody');
+    const loraFormula = document.getElementById('loraFormula');
+
+    // update dataset label
+    datasetSlider.addEventListener('input', function() {
+      const val = parseFloat(this.value);
+      datasetLabel.textContent = val >= 1e9 ? (val/1e9).toFixed(1) + 'B' : (val/1e6).toFixed(0) + 'M';
+    });
+
+    function formatNumber(num) {
+      if (num >= 1e12) return (num/1e12).toFixed(2) + 'T';
+      if (num >= 1e9) return (num/1e9).toFixed(2) + 'B';
+      if (num >= 1e6) return (num/1e6).toFixed(2) + 'M';
+      return num.toFixed(2);
+    }
+
+    function formatCost(num) {
+      return '$' + num.toFixed(2);
+    }
+
+    function compute() {
+      // read inputs
+      const modelSize = parseFloat(modelSelect.value);
+      const method = methodSelect.value;
+      const rank = parseInt(rankSelect.value);
+      const alpha = parseFloat(alphaInput.value) || 16;
+      const datasetTokens = parseFloat(datasetSlider.value);
+      const epochs = parseInt(epochsInput.value) || 3;
+      const batchSize = parseInt(batchInput.value) || 8;
+      const gpuIdx = gpuSelect.selectedIndex;
+      const gpuOption = gpuSelect.options[gpuIdx];
+      const hourlyRate = parseFloat(gpuOption.dataset.rate);
+      const gpuTflops = parseFloat(gpuOption.dataset.tflops);
+
+      // architecture
+      const arch = MODEL_ARCH[modelSize.toString()];
+      if (!arch) return;
+      const d_model = arch.d_model;
+      const numLayers = arch.layers;
+      const totalParams = modelSize;
+
+      // trainable params
+      let trainable = totalParams; // full FT
+      let isLora = (method === 'lora' || method === 'qlora' || method === 'dora');
+      let loraTrainable = 0;
+      if (isLora) {
+        // target_modules = 2/3 of layers
+        const targetModules = Math.floor(2/3 * numLayers);
+        loraTrainable = 2 * rank * d_model * targetModules;  // simplified: 2 * r * d_model * num_target_modules
+        trainable = loraTrainable;
+      }
+
+      // FLOPs: 6 * dataset_tokens * model_params (full FT)  (use totalParams for full, else trainable? we follow standard: 6 * tokens * model_params (base) for FT, but LoRA still uses base model forward)
+      // For simplicity, we compute FLOPs based on totalParams (base model) for all methods (since forward/backward uses full model).
+      // But QLoRA/DoRA also use base model. So FLOPs = 6 * dataset_tokens * totalParams * epochs.
+      const totalFlops = 6 * datasetTokens * totalParams * epochs;
+
+      // GPU hours: total_flops / (gpu_tflops * 1e12 * mfu * 3600)
+      const mfu = 0.35;
+      const gpuFlopsPerSec = gpuTflops * 1e12 * mfu;
+      const gpuHoursVal = totalFlops / (gpuFlopsPerSec * 3600);
+
+      // cost
+      const costVal = gpuHoursVal * hourlyRate;
+
+      // memory estimation (bytes)
+      // model weights: full model in given precision
+      let bytesPerWeight = 2; // default FP16
+      if (method === 'qlora') bytesPerWeight = 0.5; // 4-bit
+      else if (method === 'full' || method === 'lora' || method === 'dora') bytesPerWeight = 2; // FP16
+      const modelWeightsBytes = totalParams * bytesPerWeight;
+
+      // optimizer states: for full FT: 2*model_params*4? (Adam: 2 states * 4 bytes = 8 bytes per param) but we simplify: 12 bytes per param (FP32)
+      // For LoRA: only trainable params in FP32 optimizer.
+      let optimizerBytes;
+      if (method === 'full') {
+        optimizerBytes = totalParams * 12; // FP32 momentum + variance + gradient? approx
+      } else {
+        // LoRA/QLoRA/DoRA: optimizer only for trainable (LoRA) params, 12 bytes each
+        optimizerBytes = trainable * 12;
+      }
+
+      // activations: rough estimate: batch_size * seq_len * d_model * layers * 2 bytes? we use simplified: 2 * batchSize * d_model * numLayers * 2? 
+      // use heuristic: 2 * batchSize * d_model * numLayers * 2 (fp16) = 4 * batchSize * d_model * numLayers
+      const activationBytes = 4 * batchSize * d_model * numLayers; // approximate
+
+      const totalMemoryBytes = modelWeightsBytes + optimizerBytes + activationBytes;
+      const totalMemoryGB = totalMemoryBytes / (1024**3);
+
+      // GPU memory limit
+      let gpuMemoryGB = 40; // default A100-40
+      const gpuType = gpuOption.value;
+      if (gpuType === 'A100-80GB') gpuMemoryGB = 80;
+      else if (gpuType === 'H100') gpuMemoryGB = 80; // H100 80GB
+      else if (gpuType === 'L4') gpuMemoryGB = 24;
+      else gpuMemoryGB = 40;
+
+      const fits = totalMemoryGB < gpuMemoryGB * 0.9; // 90% threshold
+
+      // update display
+      flopsDisplay.textContent = formatNumber(totalFlops) + ' FLOPs';
+      if (isLora) {
+        trainableParams.textContent = formatNumber(trainable) + ' (LoRA)';
+        loraFormula.textContent = `LoRA params = 2 × r × d_model × target_modules = 2 × ${rank} × ${d_model} × ${Math.floor(2/3*numLayers)} = ${formatNumber(loraTrainable)}`;
+      } else {
+        trainableParams.textContent = formatNumber(totalParams) + ' (full)';
+        loraFormula.textContent = 'Full fine‑tune: all parameters trainable.';
+      }
+
+      gpuHours.textContent = gpuHoursVal.toFixed(2) + ' hrs';
+      totalCost.textContent = formatCost(costVal);
+
+      // memory breakdown
+      memWeights.textContent = (modelWeightsBytes / (1024**3)).toFixed(2) + ' GB';
+      memOptimizer.textContent = (optimizerBytes / (1024**3)).toFixed(2) + ' GB';
+      memActivations.textContent = (activationBytes / (1024**3)).toFixed(2) + ' GB';
+      const pct = Math.min(100, (totalMemoryGB / gpuMemoryGB) * 100);
+      memBar.style.width = pct + '%';
+      fitSingle.textContent = fits ? `✅ Fits in ${gpuType} (${totalMemoryGB.toFixed(1)} GB / ${gpuMemoryGB} GB)` : `❌ Does NOT fit in ${gpuType} (${totalMemoryGB.toFixed(1)} GB > ${gpuMemoryGB} GB)`;
+
+      // cost comparison across all GPUs
+      const gpuList = [
+        { name: 'A100-40GB', rate: 3.31, tflops: 312, mem: 40 },
+        { name: 'A100-80GB', rate: 4.00, tflops: 312, mem: 80 },
+        { name: 'H100', rate: 7.00, tflops: 989, mem: 80 },
+        { name: 'L4', rate: 1.10, tflops: 121, mem: 24 }
+      ];
+      let html = '';
+      for (const g of gpuList) {
+        const gpuFlops = g.tflops * 1e12 * mfu;
+        const hrs = totalFlops / (gpuFlops * 3600);
+        const cst = hrs * g.rate;
+        const fitsMem = (totalMemoryGB < g.mem * 0.9) ? '✅' : '⚠️';
+        html += `<tr><td>${g.name}</td><td>${hrs.toFixed(2)}</td><td>${formatCost(cst)} ${fitsMem}</td></tr>`;
+      }
+      costTableBody.innerHTML = html;
+    }
+
+    computeBtn.addEventListener('click', compute);
+    // initial compute
+    compute();
+    // also recompute on any change? we bind to button, but also auto on change for convenience
+    const autoInputs = [modelSelect, methodSelect, rankSelect, alphaInput, datasetSlider, epochsInput, batchInput, gpuSelect];
+    autoInputs.forEach(el => el.addEventListener('change', compute));
+    datasetSlider.addEventListener('input', function() {
+      const val = parseFloat(this.value);
+      datasetLabel.textContent = val >= 1e9 ? (val/1e9).toFixed(1) + 'B' : (val/1e6).toFixed(0) + 'M';
+      // debounce? we call compute on change
+      compute();
+    });
+    // also call on input for range
+    compute();
+  })();
+</script>
+</body>
+</html>

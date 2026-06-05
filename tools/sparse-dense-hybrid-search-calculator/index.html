@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Hybrid Search Score Calculator · kickllm.com</title>
+  <meta name="description" content="Interactive hybrid retrieval calculator: BM25 + dense vector fusion. RRF, weighted sum, relative fusion, alpha sensitivity, and BM25 from scratch.">
+  <meta name="keywords" content="hybrid search, BM25, dense retrieval, RRF, score fusion, alpha, TF-IDF, kickllm">
+  <link rel="canonical" href="https://kickllm.com/tools/sparse-dense-hybrid-search-calculator">
+  <meta property="og:title" content="Hybrid Search Score Calculator">
+  <meta property="og:description" content="BM25 + dense vector hybrid fusion: RRF, weighted sum, alpha sensitivity, and BM25 from scratch.">
+  <meta property="og:url" content="https://kickllm.com/tools/sparse-dense-hybrid-search-calculator">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Hybrid Search Score Calculator",
+    "url": "https://kickllm.com/tools/sparse-dense-hybrid-search-calculator",
+    "applicationCategory": "Data Science Tool",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript enabled",
+    "description": "Interactive hybrid retrieval calculator: BM25 + dense vector fusion. RRF, weighted sum, relative fusion, alpha sensitivity, and BM25 from scratch."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does alpha mean in hybrid search?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Alpha controls the balance between dense vector (cosine) and sparse (BM25) scores. α=0 → pure BM25, α=1 → pure dense, α=0.5 → equal weight."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is RRF score calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RRF (Reciprocal Rank Fusion) combines rankings: score(d) = Σ 1/(k + rank_i(d)), with k=60. Higher rank positions contribute more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is BM25 from scratch?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BM25 uses TF-IDF with length normalization: BM25 = IDF * (TF*(k1+1))/(TF+k1*(1-b+b*dl/avgdl)). k1=1.5, b=0.75."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem","position": 1,"name": "Home","item": "https://kickllm.com"},
+      {"@type": "ListItem","position": 2,"name": "Tools","item": "https://kickllm.com/tools"},
+      {"@type": "ListItem","position": 3,"name": "Hybrid Search Score Calculator","item": "https://kickllm.com/tools/sparse-dense-hybrid-search-calculator"}
+    ]
+  }
+  </script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;padding:1rem;line-height:1.5}
+    .container{max-width:1200px;margin:0 auto}
+    h1,h2,h3{color:#38bdf8;font-weight:600;letter-spacing:-0.01em}
+    h1{font-size:2rem;margin-bottom:0.25rem;border-bottom:2px solid #1e293b;padding-bottom:0.5rem}
+    h2{font-size:1.5rem;margin:1.5rem 0 0.75rem}
+    h3{font-size:1.2rem;margin:1rem 0 0.5rem;color:#94a3b8}
+    .card{background:#1e293b;border-radius:1rem;padding:1.25rem;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,0.4)}
+    .flex-row{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start}
+    .flex-col{flex:1 1 280px}
+    label{display:block;font-size:0.9rem;color:#94a3b8;margin:0.5rem 0 0.25rem}
+    input,textarea,select{background:#0f172a;border:1px solid #334155;color:#e2e8f0;border-radius:0.5rem;padding:0.5rem 0.75rem;width:100%;font-size:0.95rem;transition:border 0.2s}
+    input:focus,textarea:focus{border-color:#38bdf8;outline:none}
+    textarea{font-family:monospace;resize:vertical;min-height:60px}
+    .btn{background:#38bdf8;color:#0f172a;border:none;border-radius:2rem;padding:0.6rem 1.5rem;font-weight:600;cursor:pointer;transition:0.2s;margin-top:0.5rem;font-size:0.95rem}
+    .btn:hover{background:#7dd3fc;transform:scale(1.02)}
+    .btn-secondary{background:#334155;color:#e2e8f0;margin-left:0.5rem}
+    .btn-secondary:hover{background:#475569}
+    table{width:100%;border-collapse:collapse;margin:0.75rem 0;font-size:0.9rem}
+    th,td{text-align:left;padding:0.4rem 0.5rem;border-bottom:1px solid #1e293b}
+    th{color:#38bdf8;font-weight:500}
+    td{color:#cbd5e1}
+    .mono{font-family:'SF Mono',monospace;font-size:0.85rem}
+    .badge{display:inline-block;background:#0f172a;color:#38bdf8;padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.75rem;margin-left:0.3rem}
+    .slider-container{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .slider-container input{flex:2;min-width:140px}
+    .slider-value{min-width:3rem;font-weight:600;color:#38bdf8}
+    canvas{background:#0f172a;border-radius:0.75rem;border:1px solid #334155;width:100%;height:auto;max-width:600px;display:block;margin:0.5rem auto}
+    .footnote{font-size:0.8rem;color:#64748b;margin-top:0.5rem}
+    .footer{margin-top:3rem;padding-top:1rem;border-top:1px solid #1e293b;text-align:center;color:#64748b;font-size:0.9rem}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media (max-width:640px){.grid-2{grid-template-columns:1fr}}
+    .inline-code{background:#0f172a;padding:0.1rem 0.3rem;border-radius:4px;font-family:monospace;color:#f1f5f9}
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>⚡ Hybrid Search Score Calculator</h1>
+    <p style="color:#94a3b8;margin-top:0.25rem">BM25 + dense vector fusion · RRF · weighted sum · alpha sensitivity · BM25 from scratch</p>
+  </header>
+
+  <!-- Mode 1: Single query fusion -->
+  <section class="card">
+    <h2>🔹 Mode 1 — Single query fusion</h2>
+    <div class="flex-row">
+      <div class="flex-col">
+        <label>BM25 scores (0–20, comma separated, 10 docs):</label>
+        <input type="text" id="bm25Input" value="15,12,8,6,4,3,2,1,0,0" placeholder="e.g. 15,12,8,6,4,3,2,1,0,0">
+        <label>Cosine similarity (0–1, comma separated, 10 docs):</label>
+        <input type="text" id="denseInput" value="0.9,0.7,0.4,0.3,0.2,0.1,0.05,0.02,0.01,0.0" placeholder="e.g. 0.9,0.7,0.4,0.3,0.2,0.1,0.05,0.02,0.01,0.0">
+        <div class="slider-container" style="margin-top:0.75rem">
+          <span style="color:#94a3b8">α (alpha):</span>
+          <input type="range" id="alphaSlider" min="0" max="1" step="0.01" value="0.5">
+          <span class="slider-value" id="alphaDisplay">0.50</span>
+        </div>
+        <button class="btn" id="computeFusionBtn">Compute fusion</button>
+        <p class="footnote">α=0 → pure BM25, α=1 → pure dense, 0.5 balanced.</p>
+      </div>
+      <div class="flex-col" style="min-width:260px">
+        <h3>Reranked lists</h3>
+        <div id="fusionResults"><p style="color:#94a3b8">Click "Compute fusion"</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mode 2: Alpha sensitivity -->
+  <section class="card">
+    <h2>🔹 Mode 2 — Alpha sensitivity (two competing docs)</h2>
+    <div class="grid-2">
+      <div>
+        <label>Doc A: BM25, Dense (cosine)</label>
+        <input type="text" id="docA" value="18, 0.9" placeholder="BM25, dense">
+        <label>Doc B: BM25, Dense</label>
+        <input type="text" id="docB" value="5, 0.95" placeholder="BM25, dense">
+        <button class="btn" id="plotAlphaBtn">Plot sensitivity</button>
+      </div>
+      <div>
+        <canvas id="alphaCanvas" width="500" height="300"></canvas>
+      </div>
+    </div>
+    <p class="footnote">Hybrid score = α·dense + (1-α)·(BM25/20). Curves show score vs α.</p>
+  </section>
+
+  <!-- Mode 3: BM25 from scratch -->
+  <section class="card">
+    <h2>🔹 Mode 3 — BM25 from scratch (TF-IDF based)</h2>
+    <div class="grid-2">
+      <div>
+        <label>Query terms (space separated):</label>
+        <input type="text" id="queryTerms" value="machine learning" placeholder="e.g. machine learning">
+        <label>Document texts (one per line, at least 2):</label>
+        <textarea id="docTexts" rows="4">Machine learning is fun. Learning machine learning.\nDeep learning and neural networks.\nMachine learning for everyone.</textarea>
+        <button class="btn" id="computeBM25Btn">Compute BM25</button>
+      </div>
+      <div>
+        <h3>BM25 scores</h3>
+        <div id="bm25Results"><p style="color:#94a3b8">Click "Compute BM25"</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interpretation -->
+  <section class="card">
+    <h2>📖 Interpretation of α</h2>
+    <ul style="list-style:disc;padding-left:1.5rem;color:#cbd5e1">
+      <li><strong>α = 0</strong> → pure BM25 (sparse) ranking.</li>
+      <li><strong>α = 1</strong> → pure dense vector (cosine) ranking.</li>
+      <li><strong>α = 0.5</strong> → balanced hybrid.</li>
+      <li>Weighted sum: <span class="inline-code">score = α·dense_norm + (1-α)·bm25_norm</span> (BM25 normalized to 0–1).</li>
+    </ul>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">© 2025 kickllm.com</footer>
+</div>
+
+<script>
+  (function() {
+    // ----- helpers -----
+    function parseNumList(str, len = 10) {
+      return str.split(',').map(s => parseFloat(s.trim())).filter(v => !isNaN(v)).slice(0, len);
+    }
+
+    function normalizeBM25(arr, maxVal = 20) {
+      return arr.map(v => Math.min(v / maxVal, 1));
+    }
+
+    // RRF: k=60
+    function computeRRF(rankedLists) {
+      // rankedLists: array of arrays of doc indices (ranked 1..N)
+      const k = 60;
+      const scores = {};
+      rankedLists.forEach(rankList => {
+        rankList.forEach((docIdx, pos) => {
+          const rank = pos + 1;
+          scores[docIdx] = (scores[docIdx] || 0) + 1 / (k + rank);
+        });
+      });
+      return scores;
+    }
+
+    // relative score fusion: just weighted sum after min-max? we use normalized BM25 + dense
+    function computeWeightedSum(bm25Norm, dense, alpha) {
+      return bm25Norm.map((b, i) => alpha * dense[i] + (1 - alpha) * b);
+    }
+
+    // ----- Mode 1 fusion -----
+    const computeBtn = document.getElementById('computeFusionBtn');
+    const fusionResults = document.getElementById('fusionResults');
+    const alphaSlider = document.getElementById('alphaSlider');
+    const alphaDisplay = document.getElementById('alphaDisplay');
+
+    alphaSlider.addEventListener('input', () => {
+      alphaDisplay.textContent = parseFloat(alphaSlider.value).toFixed(2);
+    });
+
+    computeBtn.addEventListener('click', function() {
+      const bm25Raw = parseNumList(document.getElementById('bm25Input').value, 10);
+      const denseRaw = parseNumList(document.getElementById('denseInput').value, 10);
+      const alpha = parseFloat(alphaSlider.value);
+
+      if (bm25Raw.length < 10 || denseRaw.length < 10) {
+        fusionResults.innerHTML = '<p style="color:#f87171">Please enter exactly 10 values for both BM25 and dense.</p>';
+        return;
+      }
+
+      // normalize BM25 to 0-1
+      const bm25Norm = normalizeBM25(bm25Raw, 20);
+      const dense = denseRaw.map(v => Math.min(Math.max(v, 0), 1));
+
+      // 1. RRF: treat BM25 rank (descending) and dense rank (descending)
+      const bm25Rank = bm25Raw.map((v, i) => ({v, i})).sort((a,b) => b.v - a.v).map(x => x.i);
+      const denseRank = dense.map((v, i) => ({v, i})).sort((a,b) => b.v - a.v).map(x => x.i);
+      const rrfScores = computeRRF([bm25Rank, denseRank]);
+      const rrfRank = Object.entries(rrfScores).sort((a,b) => b[1] - a[1]).map(x => parseInt(x[0]));
+
+      // 2. weighted sum
+      const weighted = computeWeightedSum(bm25Norm, dense, alpha);
+      const weightedRank = weighted.map((v, i) => ({v, i})).sort((a,b) => b.v - a.v).map(x => x.i);
+
+      // 3. relative score fusion: just weighted sum (same as above) but we show as "relative fusion"
+      // For demonstration, we compute min-max normalized weighted
+      const minW = Math.min(...weighted);
+      const maxW = Math.max(...weighted);
+      const relative = weighted.map(v => (maxW - minW) > 1e-9 ? (v - minW) / (maxW - minW) : 0);
+      const relativeRank = relative.map((v, i) => ({v, i})).sort((a,b) => b.v - a.v).map(x => x.i);
+
+      // Build table
+      let html = `<table><thead><tr><th>Doc</th><th>BM25</th><th>Dense</th><th>RRF rank</th><th>Weighted (α=${alpha.toFixed(2)})</th><th>Relative rank</th></tr></thead><tbody>`;
+      for (let i = 0; i < 10; i++) {
+        const rrfPos = rrfRank.indexOf(i) + 1;
+        const wPos = weightedRank.indexOf(i) + 1;
+        const relPos = relativeRank.indexOf(i) + 1;
+        html += `<tr><td>${i+1}</td><td>${bm25Raw[i].toFixed(1)}</td><td>${dense[i].toFixed(3)}</td><td>${rrfPos}</td><td>${weighted[i].toFixed(4)}</td><td>${relPos}</td></tr>`;
+      }
+      html += '</tbody></table>';
+      html += `<p class="footnote">RRF (k=60), weighted sum = α·dense + (1-α)·(BM25/20). Relative: min-max normalized weighted.</p>`;
+      fusionResults.innerHTML = html;
+    });
+
+    // ----- Mode 2: Alpha sensitivity canvas -----
+    const plotBtn = document.getElementById('plotAlphaBtn');
+    const canvas = document.getElementById('alphaCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function plotSensitivity(docA, docB) {
+      const [bm25A, denseA] = docA;
+      const [bm25B, denseB] = docB;
+      const width = canvas.width, height = canvas.height;
+      ctx.clearRect(0, 0, width, height);
+      
+      // background
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, width, height);
+
+      // axis
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(40, 20);
+      ctx.lineTo(40, height-20);
+      ctx.lineTo(width-20, height-20);
+      ctx.stroke();
+
+      // labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Score', 5, 25);
+      ctx.fillText('α', width-20, height-5);
+
+      // compute curves
+      const pointsA = [], pointsB = [];
+      for (let i = 0; i <= 100; i++) {
+        const alpha = i / 100;
+        const normA = bm25A / 20;
+        const normB = bm25B / 20;
+        const scoreA = alpha * denseA + (1 - alpha) * normA;
+        const scoreB = alpha * denseB + (1 - alpha) * normB;
+        pointsA.push({alpha, score: scoreA});
+        pointsB.push({alpha, score: scoreB});
+      }
+
+      // scale
+      const xMin = 0, xMax = 1, yMin = 0, yMax = 1;
+      const xScale = (width - 60) / (xMax - xMin);
+      const yScale = (height - 40) / (yMax - yMin);
+      const mapX = (a) => 40 + (a - xMin) * xScale;
+      const mapY = (s) => height - 20 - (s - yMin) * yScale;
+
+      // draw grid
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i <= 5; i++) {
+        const x = mapX(i/5);
+        ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, height-20); ctx.stroke();
+        const y = mapY(i/5);
+        ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(width-20, y); ctx.stroke();
+      }
+
+      // draw curve A
+      ctx.beginPath();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2.5;
+      pointsA.forEach((p, idx) => {
+        const x = mapX(p.alpha), y = mapY(p.score);
+        idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // curve B
+      ctx.beginPath();
+      ctx.strokeStyle = '#f472b6';
+      ctx.lineWidth = 2.5;
+      pointsB.forEach((p, idx) => {
+        const x = mapX(p.alpha), y = mapY(p.score);
+        idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // legend
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(width-130, 25, 12, 12);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText(`Doc A (BM25=${bm25A}, dense=${denseA})`, width-115, 36);
+      ctx.fillStyle = '#f472b6';
+      ctx.fillRect(width-130, 45, 12, 12);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText(`Doc B (BM25=${bm25B}, dense=${denseB})`, width-115, 56);
+    }
+
+    plotBtn.addEventListener('click', function() {
+      const aStr = document.getElementById('docA').value.split(',').map(s => parseFloat(s.trim()));
+      const bStr = document.getElementById('docB').value.split(',').map(s => parseFloat(s.trim()));
+      if (aStr.length < 2 || bStr.length < 2 || isNaN(aStr[0]) || isNaN(aStr[1]) || isNaN(bStr[0]) || isNaN(bStr[1])) {
+        alert('Please enter valid numbers for Doc A and Doc B (BM25, dense).');
+        return;
+      }
+      plotSensitivity([aStr[0], aStr[1]], [bStr[0], bStr[1]]);
+    });
+
+    // initial plot
+    plotSensitivity([18, 0.9], [5, 0.95]);
+
+    // ----- Mode 3: BM25 from scratch -----
+    const computeBM25Btn = document.getElementById('computeBM25Btn');
+    const bm25Results = document.getElementById('bm25Results');
+
+    computeBM25Btn.addEventListener('click', function() {
+      const queryStr = document.getElementById('queryTerms').value.trim();
+      const docsStr = document.getElementById('docTexts').value;
+      const docs = docsStr.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+      if (!queryStr || docs.length < 1) {
+        bm25Results.innerHTML = '<p style="color:#f87171">Please enter query and at least one document.</p>';
+        return;
+      }
+      const queryTerms = queryStr.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+      const docTokens = docs.map(d => d.toLowerCase().split(/\s+/).filter(t => t.length > 0));
+      const N = docTokens.length;
+      const avgDocLen = docTokens.reduce((sum, t) => sum + t.length, 0) / N;
+
+      // compute IDF for each query term
+      const idfMap = {};
+      queryTerms.forEach(term => {
+        let df = 0;
+        docTokens.forEach(tokens => {
+          if (tokens.includes(term)) df++;
+        });
+        idfMap[term] = df > 0 ? Math.log(1 + (N - df + 0.5) / (df + 0.5)) : 0;
+      });
+
+      const k1 = 1.5, b = 0.75;
+      const scores = docs.map((_, docIdx) => {
+        const tokens = docTokens[docIdx];
+        const docLen = tokens.length;
+        let score = 0;
+        queryTerms.forEach(term => {
+          const tf = tokens.filter(t => t === term).length;
+          if (tf === 0) return;
+          const idf = idfMap[term] || 0;
+          const numerator = tf * (k1 + 1);
+          const denominator = tf + k1 * (1 - b + b * (docLen / avgDocLen));
+          score += idf * (numerator / denominator);
+        });
+        return score;
+      });
+
+      let html = `<table><thead><tr><th>Doc #</th><th>BM25 score</th><th>Preview</th></tr></thead><tbody>`;
+      scores.forEach((s, i) => {
+        const preview = docs[i].length > 50 ? docs[i].slice(0,50)+'…' : docs[i];
+        html += `<tr><td>${i+1}</td><td>${s.toFixed(4)}</td><td>${preview}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      html += `<p class="footnote">k1=1.5, b=0.75. IDF = ln(1+(N-df+0.5)/(df+0.5))</p>`;
+      bm25Results.innerHTML = html;
+    });
+
+    // auto-run mode1 on load
+    window.addEventListener('load', function() {
+      computeBtn.click();
+    });
+  })();
+</script>
+</body>
+</html>

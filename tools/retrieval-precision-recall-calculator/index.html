@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>RAG Retrieval Metrics Calculator | kickllm.com</title>
+  <meta name="description" content="Interactive RAG retrieval metrics: precision, recall, F1, MRR, NDCG, MAP. Three modes with instant calculation and confusion matrix.">
+  <meta name="keywords" content="RAG, retrieval metrics, precision, recall, F1, MRR, NDCG, MAP, kickllm">
+  <link rel="canonical" href="https://kickllm.com/tools/retrieval-precision-recall-calculator">
+  <meta property="og:title" content="RAG Retrieval Metrics Calculator">
+  <meta property="og:description" content="Interactive RAG retrieval metrics: precision, recall, F1, MRR, NDCG, MAP. Three modes with instant calculation and confusion matrix.">
+  <meta property="og:url" content="https://kickllm.com/tools/retrieval-precision-recall-calculator">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "RAG Retrieval Metrics Calculator",
+    "url": "https://kickllm.com/tools/retrieval-precision-recall-calculator",
+    "description": "Interactive tool for RAG retrieval metrics: precision, recall, F1, MRR, NDCG, MAP.",
+    "applicationCategory": "Data Analysis",
+    "operatingSystem": "All",
+    "browserRequirements": "JavaScript enabled"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a good precision for RAG retrieval?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Typically precision > 0.7 is considered good, indicating most retrieved items are relevant."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What recall value is acceptable?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Recall > 0.6 is a typical target, meaning the system captures most relevant documents."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is NDCG calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NDCG@k = DCG@k / IDCG@k, where DCG = sum(rel_i / log2(i+1)) and IDCG is DCG of ideal ranking."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools" },
+      { "@type": "ListItem", "position": 3, "name": "RAG Retrieval Metrics Calculator", "item": "https://kickllm.com/tools/retrieval-precision-recall-calculator" }
+    ]
+  }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f172a; color: #e2e8f0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; padding: 1rem; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+    .container { max-width: 1100px; width: 100%; }
+    h1, h2, h3 { color: #f1f5f9; font-weight: 600; letter-spacing: -0.01em; }
+    h1 { font-size: 1.9rem; margin: 0.5rem 0 0.25rem; border-left: 5px solid #38bdf8; padding-left: 0.75rem; }
+    h2 { font-size: 1.4rem; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid #1e293b; padding-bottom: 0.3rem; }
+    h3 { font-size: 1.15rem; margin: 1rem 0 0.5rem; }
+    .subhead { color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .mode-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.5rem; }
+    .mode-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 0.6rem 1.2rem; border-radius: 30px; font-weight: 500; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+    .mode-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.3); }
+    .mode-btn:hover { background: #334155; }
+    .card { background: #1e293b; border-radius: 20px; padding: 1.5rem; margin: 1.5rem 0; box-shadow: 0 8px 20px rgba(0,0,0,0.5); border: 1px solid #2d3a4e; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .input-group { margin-bottom: 1rem; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 500; color: #94a3b8; margin-bottom: 0.25rem; }
+    .input-group input { width: 100%; padding: 0.6rem 0.8rem; background: #0f172a; border: 1px solid #334155; border-radius: 12px; color: #e2e8f0; font-size: 1rem; }
+    .input-group input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56,189,248,0.2); }
+    .metric-row { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; margin: 0.5rem 0; }
+    .metric-badge { background: #0f172a; padding: 0.4rem 1rem; border-radius: 30px; border: 1px solid #2d3a4e; font-size: 0.9rem; }
+    .metric-badge strong { color: #38bdf8; font-weight: 600; margin-right: 0.3rem; }
+    .confusion-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; max-width: 320px; margin: 1rem 0; }
+    .conf-cell { padding: 0.8rem; text-align: center; border-radius: 12px; font-weight: 500; background: #0f172a; border: 1px solid #2d3a4e; }
+    .conf-cell.true-pos { background: #064e3b; border-color: #10b981; color: #a7f3d0; }
+    .conf-cell.false-neg { background: #4a1d2b; border-color: #f43f5e; color: #fecdd3; }
+    .conf-cell.false-pos { background: #4a1d2b; border-color: #f43f5e; color: #fecdd3; }
+    .conf-cell.true-neg { background: #064e3b; border-color: #10b981; color: #a7f3d0; }
+    .rank-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+    .rank-item { width: 2.6rem; height: 2.6rem; display: flex; align-items: center; justify-content: center; background: #0f172a; border: 2px solid #334155; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.1s; user-select: none; font-size: 0.9rem; }
+    .rank-item.relevant { background: #065f46; border-color: #10b981; color: #d1fae5; }
+    .rank-item.not-relevant { background: #4a1d2b; border-color: #f43f5e; color: #fecdd3; }
+    .rank-item:hover { transform: scale(1.05); }
+    .rank-label { font-size: 0.7rem; color: #94a3b8; margin-top: 0.2rem; text-align: center; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .formula { background: #0f172a; padding: 0.5rem 1rem; border-radius: 30px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #7dd3fc; border: 1px solid #2d3a4e; display: inline-block; margin: 0.25rem 0; }
+    .interpret { background: #0f172a; border-left: 4px solid #38bdf8; padding: 1rem 1.2rem; border-radius: 16px; margin: 1.5rem 0; }
+    .interpret strong { color: #38bdf8; }
+    footer { margin-top: 3rem; padding: 1.5rem 0; text-align: center; color: #64748b; border-top: 1px solid #1e293b; width: 100%; }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } .mode-tabs { gap: 0.3rem; } .mode-btn { padding: 0.4rem 0.9rem; font-size: 0.8rem; } .card { padding: 1rem; } }
+    .hidden { display: none; }
+    .btn-secondary { background: #334155; border: none; color: #e2e8f0; padding: 0.4rem 1rem; border-radius: 30px; cursor: pointer; font-size: 0.8rem; }
+    .btn-secondary:hover { background: #475569; }
+    .inline-schema { display: none; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🔍 RAG Retrieval Metrics Calculator</h1>
+    <div class="subhead">Precision · Recall · F1 · MRR · NDCG · MAP — interactive & instant</div>
+  </header>
+
+  <!-- Mode tabs -->
+  <div class="mode-tabs">
+    <button class="mode-btn active" data-mode="basic">📊 Basic Metrics</button>
+    <button class="mode-btn" data-mode="ranking">📈 Ranking Metrics</button>
+    <button class="mode-btn" data-mode="map">🎯 Multi‑query MAP</button>
+  </div>
+
+  <!-- ========== MODE 1: BASIC ========== -->
+  <div id="mode-basic" class="mode-panel">
+    <div class="card">
+      <h2>Confusion Matrix & Basic Metrics</h2>
+      <div class="grid-2">
+        <div>
+          <div class="input-group"><label>True Positives (TP)</label><input type="number" id="tp" value="45" min="0" step="1"></div>
+          <div class="input-group"><label>False Positives (FP)</label><input type="number" id="fp" value="12" min="0" step="1"></div>
+          <div class="input-group"><label>False Negatives (FN)</label><input type="number" id="fn" value="8" min="0" step="1"></div>
+          <div class="input-group"><label>True Negatives (TN) — for specificity</label><input type="number" id="tn" value="100" min="0" step="1"></div>
+          <button class="btn-secondary" id="reset-basic">Reset defaults</button>
+        </div>
+        <div>
+          <div class="confusion-matrix">
+            <div class="conf-cell true-pos">TP<br><span id="disp-tp">45</span></div>
+            <div class="conf-cell false-neg">FN<br><span id="disp-fn">8</span></div>
+            <div class="conf-cell false-pos">FP<br><span id="disp-fp">12</span></div>
+            <div class="conf-cell true-neg">TN<br><span id="disp-tn">100</span></div>
+          </div>
+          <div style="font-size:0.8rem; color:#94a3b8;">Predicted → Positive (left), Negative (right)</div>
+        </div>
+      </div>
+      <div class="metric-row" id="basic-metrics-display">
+        <span class="metric-badge"><strong>Precision</strong> <span id="precision-val">0.789</span></span>
+        <span class="metric-badge"><strong>Recall</strong> <span id="recall-val">0.849</span></span>
+        <span class="metric-badge"><strong>F1</strong> <span id="f1-val">0.818</span></span>
+        <span class="metric-badge"><strong>Accuracy</strong> <span id="accuracy-val">0.879</span></span>
+        <span class="metric-badge"><strong>Specificity</strong> <span id="specificity-val">0.893</span></span>
+      </div>
+      <div class="formula">P = TP/(TP+FP) &nbsp; R = TP/(TP+FN) &nbsp; F1 = 2·P·R/(P+R) &nbsp; Acc = (TP+TN)/(TP+TN+FP+FN) &nbsp; Spec = TN/(TN+FP)</div>
+    </div>
+  </div>
+
+  <!-- ========== MODE 2: RANKING ========== -->
+  <div id="mode-ranking" class="mode-panel hidden">
+    <div class="card">
+      <h2>Ranking Metrics (up to 20)</h2>
+      <p style="color:#94a3b8; margin-bottom:0.5rem;">Click cells to toggle relevant (green) / not relevant (red).</p>
+      <div id="rank-grid-container" class="rank-grid"></div>
+      <div class="flex-between" style="margin:0.5rem 0 1rem;">
+        <button class="btn-secondary" id="set-relevant-3">Set first 3 relevant</button>
+        <button class="btn-secondary" id="set-random">Random pattern</button>
+        <button class="btn-secondary" id="clear-ranking">Clear all</button>
+      </div>
+      <div class="metric-row" id="ranking-metrics-display">
+        <span class="metric-badge"><strong>MRR</strong> <span id="mrr-val">—</span></span>
+        <span class="metric-badge"><strong>P@1</strong> <span id="p1-val">—</span></span>
+        <span class="metric-badge"><strong>P@3</strong> <span id="p3-val">—</span></span>
+        <span class="metric-badge"><strong>P@5</strong> <span id="p5-val">—</span></span>
+        <span class="metric-badge"><strong>P@10</strong> <span id="p10-val">—</span></span>
+        <span class="metric-badge"><strong>R@1</strong> <span id="r1-val">—</span></span>
+        <span class="metric-badge"><strong>R@3</strong> <span id="r3-val">—</span></span>
+        <span class="metric-badge"><strong>R@5</strong> <span id="r5-val">—</span></span>
+        <span class="metric-badge"><strong>R@10</strong> <span id="r10-val">—</span></span>
+        <span class="metric-badge"><strong>NDCG@1</strong> <span id="ndcg1-val">—</span></span>
+        <span class="metric-badge"><strong>NDCG@3</strong> <span id="ndcg3-val">—</span></span>
+        <span class="metric-badge"><strong>NDCG@5</strong> <span id="ndcg5-val">—</span></span>
+        <span class="metric-badge"><strong>NDCG@10</strong> <span id="ndcg10-val">—</span></span>
+        <span class="metric-badge"><strong>AP</strong> <span id="ap-val">—</span></span>
+      </div>
+      <div class="formula">MRR = 1/rank₁ &nbsp; P@k = rel@k/k &nbsp; R@k = rel@k / total_rel &nbsp; DCG = Σ relᵢ/log₂(i+1) &nbsp; NDCG = DCG/IDCG &nbsp; AP = Σ(P@k·relₖ)/total_rel</div>
+    </div>
+  </div>
+
+  <!-- ========== MODE 3: MAP ========== -->
+  <div id="mode-map" class="mode-panel hidden">
+    <div class="card">
+      <h2>Multi‑query MAP</h2>
+      <p style="color:#94a3b8;">Enter AP values for each query (comma or space separated).</p>
+      <div class="input-group"><label>AP values (e.g. 0.8, 0.65, 0.9, 0.72)</label><input type="text" id="ap-list" value="0.82, 0.67, 0.91, 0.74, 0.88"></div>
+      <button class="btn-secondary" id="compute-map">Compute MAP</button>
+      <div class="metric-row" style="margin-top:1rem;">
+        <span class="metric-badge"><strong>MAP</strong> <span id="map-val">0.804</span></span>
+        <span class="metric-badge"><strong>Queries</strong> <span id="map-count">5</span></span>
+      </div>
+      <div class="formula">MAP = (1/Q) Σ APᵢ</div>
+    </div>
+  </div>
+
+  <!-- Interpretation guide -->
+  <div class="interpret">
+    <strong>📖 Interpretation guide</strong> — Typical RAG retrieval targets: <strong>Precision > 0.7</strong> (few false positives), <strong>Recall > 0.6</strong> (most relevant captured). MRR > 0.8 indicates first relevant result appears early. NDCG > 0.8 is excellent. AP > 0.7 reflects strong ranking quality.
+  </div>
+
+  <footer>© 2025 kickllm.com</footer>
+</div>
+
+<script>
+  (function() {
+    // ----- Basic mode -----
+    const tpInput = document.getElementById('tp');
+    const fpInput = document.getElementById('fp');
+    const fnInput = document.getElementById('fn');
+    const tnInput = document.getElementById('tn');
+    const dispTP = document.getElementById('disp-tp');
+    const dispFP = document.getElementById('disp-fp');
+    const dispFN = document.getElementById('disp-fn');
+    const dispTN = document.getElementById('disp-tn');
+    const precisionVal = document.getElementById('precision-val');
+    const recallVal = document.getElementById('recall-val');
+    const f1Val = document.getElementById('f1-val');
+    const accuracyVal = document.getElementById('accuracy-val');
+    const specificityVal = document.getElementById('specificity-val');
+
+    function computeBasic() {
+      const tp = parseFloat(tpInput.value) || 0;
+      const fp = parseFloat(fpInput.value) || 0;
+      const fn = parseFloat(fnInput.value) || 0;
+      const tn = parseFloat(tnInput.value) || 0;
+      dispTP.textContent = tp; dispFP.textContent = fp; dispFN.textContent = fn; dispTN.textContent = tn;
+      const precision = (tp + fp) > 0 ? tp / (tp + fp) : 0;
+      const recall = (tp + fn) > 0 ? tp / (tp + fn) : 0;
+      const f1 = (precision + recall) > 0 ? 2 * precision * recall / (precision + recall) : 0;
+      const total = tp + tn + fp + fn;
+      const accuracy = total > 0 ? (tp + tn) / total : 0;
+      const specificity = (tn + fp) > 0 ? tn / (tn + fp) : 0;
+      precisionVal.textContent = precision.toFixed(4);
+      recallVal.textContent = recall.toFixed(4);
+      f1Val.textContent = f1.toFixed(4);
+      accuracyVal.textContent = accuracy.toFixed(4);
+      specificityVal.textContent = specificity.toFixed(4);
+    }
+    [tpInput, fpInput, fnInput, tnInput].forEach(el => el.addEventListener('input', computeBasic));
+    document.getElementById('reset-basic').addEventListener('click', () => {
+      tpInput.value = 45; fpInput.value = 12; fnInput.value = 8; tnInput.value = 100;
+      computeBasic();
+    });
+    computeBasic();
+
+    // ----- Ranking mode -----
+    const rankContainer = document.getElementById('rank-grid-container');
+    let rankArray = new Array(20).fill(0); // 0 = not relevant, 1 = relevant
+    // display elements
+    const mrrEl = document.getElementById('mrr-val');
+    const p1 = document.getElementById('p1-val'), p3 = document.getElementById('p3-val'), p5 = document.getElementById('p5-val'), p10 = document.getElementById('p10-val');
+    const r1 = document.getElementById('r1-val'), r3 = document.getElementById('r3-val'), r5 = document.getElementById('r5-val'), r10 = document.getElementById('r10-val');
+    const ndcg1 = document.getElementById('ndcg1-val'), ndcg3 = document.getElementById('ndcg3-val'), ndcg5 = document.getElementById('ndcg5-val'), ndcg10 = document.getElementById('ndcg10-val');
+    const apEl = document.getElementById('ap-val');
+
+    function renderRankGrid() {
+      rankContainer.innerHTML = '';
+      rankArray.forEach((val, idx) => {
+        const div = document.createElement('div');
+        div.className = `rank-item ${val === 1 ? 'relevant' : 'not-relevant'}`;
+        div.textContent = idx + 1;
+        div.dataset.index = idx;
+        div.addEventListener('click', function() {
+          const i = parseInt(this.dataset.index);
+          rankArray[i] = rankArray[i] === 1 ? 0 : 1;
+          renderRankGrid();
+          computeRankingMetrics();
+        });
+        rankContainer.appendChild(div);
+      });
+    }
+
+    function computeRankingMetrics() {
+      const rel = rankArray;
+      const totalRel = rel.reduce((a,b) => a+b, 0);
+      // MRR
+      let firstRelIdx = rel.indexOf(1);
+      const mrr = firstRelIdx !== -1 ? 1 / (firstRelIdx + 1) : 0;
+      mrrEl.textContent = mrr.toFixed(4);
+      // Precision@k, Recall@k, NDCG@k
+      const ks = [1,3,5,10];
+      const pEls = [p1, p3, p5, p10];
+      const rEls = [r1, r3, r5, r10];
+      const ndcgEls = [ndcg1, ndcg3, ndcg5, ndcg10];
+      ks.forEach((k, idx) => {
+        if (k > rel.length) { pEls[idx].textContent = '—'; rEls[idx].textContent = '—'; ndcgEls[idx].textContent = '—'; return; }
+        const sub = rel.slice(0, k);
+        const relCount = sub.reduce((a,b)=>a+b,0);
+        const prec = relCount / k;
+        const rec = totalRel > 0 ? relCount / totalRel : 0;
+        pEls[idx].textContent = prec.toFixed(4);
+        rEls[idx].textContent = rec.toFixed(4);
+        // NDCG@k
+        let dcg = 0, idcg = 0;
+        for (let i = 0; i < k; i++) {
+          const relI = rel[i] || 0;
+          dcg += relI / Math.log2(i + 2); // i+2 because i=0 -> log2(2)=1
+        }
+        // ideal: sort descending
+        const ideal = [...rel].sort((a,b)=>b-a);
+        for (let i = 0; i < k; i++) {
+          idcg += ideal[i] / Math.log2(i + 2);
+        }
+        const ndcg = idcg > 0 ? dcg / idcg : 0;
+        ndcgEls[idx].textContent = ndcg.toFixed(4);
+      });
+      // Average Precision
+      let ap = 0;
+      if (totalRel > 0) {
+        let relSoFar = 0;
+        for (let i = 0; i < rel.length; i++) {
+          if (rel[i] === 1) {
+            relSoFar++;
+            const precAt = relSoFar / (i + 1);
+            ap += precAt;
+          }
+        }
+        ap = ap / totalRel;
+      }
+      apEl.textContent = ap.toFixed(4);
+    }
+
+    function setRankPattern(pattern) {
+      rankArray = pattern.slice(0,20);
+      while (rankArray.length < 20) rankArray.push(0);
+      renderRankGrid();
+      computeRankingMetrics();
+    }
+
+    document.getElementById('set-relevant-3').addEventListener('click', () => {
+      const arr = new Array(20).fill(0);
+      for (let i=0; i<3; i++) arr[i]=1;
+      setRankPattern(arr);
+    });
+    document.getElementById('clear-ranking').addEventListener('click', () => {
+      setRankPattern(new Array(20).fill(0));
+    });
+    document.getElementById('set-random').addEventListener('click', () => {
+      const arr = [];
+      for (let i=0; i<20; i++) arr.push(Math.random() > 0.5 ? 1 : 0);
+      setRankPattern(arr);
+    });
+
+    // initialize ranking with some default
+    const defaultRank = [1,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    setRankPattern(defaultRank);
+
+    // ----- MAP mode -----
+    const apListInput = document.getElementById('ap-list');
+    const mapVal = document.getElementById('map-val');
+    const mapCount = document.getElementById('map-count');
+    document.getElementById('compute-map').addEventListener('click', () => {
+      const raw = apListInput.value;
+      const nums = raw.split(/[,\s]+/).map(s => parseFloat(s.trim())).filter(v => !isNaN(v));
+      if (nums.length === 0) { mapVal.textContent = '0'; mapCount.textContent = '0'; return; }
+      const sum = nums.reduce((a,b)=>a+b,0);
+      const map = sum / nums.length;
+      mapVal.textContent = map.toFixed(4);
+      mapCount.textContent = nums.length;
+    });
+    // trigger initial
+    document.getElementById('compute-map').click();
+
+    // ----- Mode switching -----
+    const modeBtns = document.querySelectorAll('.mode-btn');
+    const panels = {
+      basic: document.getElementById('mode-basic'),
+      ranking: document.getElementById('mode-ranking'),
+      map: document.getElementById('mode-map')
+    };
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const mode = this.dataset.mode;
+        modeBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        Object.keys(panels).forEach(key => {
+          panels[key].classList.toggle('hidden', key !== mode);
+        });
+      });
+    });
+  })();
+</script>
+<!-- inline schema breadcrumb (already in JSON-LD) -->
+<div class="inline-schema"></div>
+</body>
+</html>
