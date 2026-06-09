@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Model Routing Planner - LLM Tools</title>
+    <meta name="description" content="Plan optimal multi-model routing strategies. Compare costs, latency, and quality tradeoffs across different LLM tiers.">
+    <meta name="canonical" content="https://kickllm.com/tools/multi-model-routing-planner">
+    <meta property="og:title" content="Multi-Model Routing Planner">
+    <meta property="og:description" content="Design cost-effective multi-model routing strategies for LLM applications.">
+    <meta property="og:url" content="https://kickllm.com/tools/multi-model-routing-planner">
+    <meta property="og:type" content="website">
+    <meta property="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Multi-Model Routing Planner",
+        "description": "Plan optimal multi-model routing strategies with cost and latency analysis",
+        "url": "https://kickllm.com/tools/multi-model-routing-planner",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #7c3aed;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: rgba(30, 27, 75, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .card label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-size: 0.95em;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .model-input {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .model-input label {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .model-input input {
+            margin-bottom: 10px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .metric {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            color: #7c3aed;
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-box {
+            background: rgba(30, 27, 75, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .comparison-title {
+            color: #7c3aed;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-item-label {
+            color: #94a3b8;
+        }
+
+        .metric-item-value {
+            color: #7c3aed;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            color: #7c3aed;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-label {
+            min-width: 150px;
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .chart-fill {
+            height: 25px;
+            background: linear-gradient(90deg, #7c3aed 0%, #6d28d9 100%);
+            border-radius: 4px;
+            margin-left: 10px;
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        .chart-value {
+            min-width: 80px;
+            text-align: right;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+
+        .routing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .routing-table th, .routing-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+
+        .routing-table th {
+            background: rgba(15, 23, 42, 0.8);
+            color: #7c3aed;
+            font-weight: 700;
+        }
+
+        .routing-table td {
+            color: #e2e8f0;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(124, 58, 237, 0.2);
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+    </style>
+<link rel="canonical" href="https://kickllm.com/tools/multi-model-routing-planner">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Multi-Model Routing Planner</h1>
+            <p class="subtitle">Optimize costs with intelligent model routing</p>
+        </header>
+
+        <div class="card">
+            <label for="dailyRequests">Daily Requests</label>
+            <input type="number" id="dailyRequests" value="50000" min="100" step="1000">
+
+            <label for="avgTokens">Average Input Tokens</label>
+            <input type="number" id="avgTokens" value="400" min="50" step="50">
+
+            <label for="avgOutputTokens">Average Output Tokens</label>
+            <input type="number" id="avgOutputTokens" value="250" min="50" step="50">
+
+            <div style="margin-bottom: 20px; padding: 15px; background: rgba(15, 23, 42, 0.8); border-radius: 8px; border-left: 3px solid #7c3aed;">
+                <label style="margin-bottom: 15px; display: block; font-weight: 600;">Complexity Distribution</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <div>
+                        <label for="simplePercent" style="margin-bottom: 5px;">Simple (%)</label>
+                        <input type="number" id="simplePercent" value="40" min="0" max="100" step="5">
+                    </div>
+                    <div>
+                        <label for="mediumPercent" style="margin-bottom: 5px;">Medium (%)</label>
+                        <input type="number" id="mediumPercent" value="35" min="0" max="100" step="5">
+                    </div>
+                    <div>
+                        <label for="complexPercent" style="margin-bottom: 5px;">Complex (%)</label>
+                        <input type="number" id="complexPercent" value="25" min="0" max="100" step="5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <label style="font-weight: 700; margin-bottom: 15px; display: block;">Configure Models</label>
+            <div class="grid-3">
+                <div class="model-input">
+                    <label>Fast Model (Simple Queries)</label>
+                    <input type="text" id="fastModelName" value="GPT-3.5" placeholder="Model name">
+                    <label>Price (per 1K in/out tokens)</label>
+                    <input type="number" id="fastModelPrice" value="0.002" min="0" step="0.0001">
+                    <label>Latency (ms)</label>
+                    <input type="number" id="fastModelLatency" value="300" min="50" step="50">
+                </div>
+                <div class="model-input">
+                    <label>Medium Model (Balanced)</label>
+                    <input type="text" id="mediumModelName" value="Claude 3 Sonnet" placeholder="Model name">
+                    <label>Price (per 1K in/out tokens)</label>
+                    <input type="number" id="mediumModelPrice" value="0.0075" min="0" step="0.0001">
+                    <label>Latency (ms)</label>
+                    <input type="number" id="mediumModelLatency" value="600" min="50" step="50">
+                </div>
+                <div class="model-input">
+                    <label>Complex Model (High Quality)</label>
+                    <input type="text" id="complexModelName" value="GPT-4" placeholder="Model name">
+                    <label>Price (per 1K in/out tokens)</label>
+                    <input type="number" id="complexModelPrice" value="0.03" min="0" step="0.001">
+                    <label>Latency (ms)</label>
+                    <input type="number" id="complexModelLatency" value="1000" min="50" step="50">
+                </div>
+            </div>
+
+            <button class="button" onclick="calculateRouting()">Calculate Optimal Routing</button>
+        </div>
+
+        <div class="results" id="results">
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Single Model Cost</div>
+                    <div class="metric-value" id="singleModelCost">$0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Routed Cost</div>
+                    <div class="metric-value" id="routedCost">$0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Monthly Savings</div>
+                    <div class="metric-value" id="monthlySavings">$0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Savings %</div>
+                    <div class="metric-value" id="savingsPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <div class="comparison-title">📊 Single Model (Always GPT-4)</div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Daily Requests</span>
+                        <span class="metric-item-value" id="dailyReqSingle">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Monthly Cost</span>
+                        <span class="metric-item-value" id="monthlyCostSingle">$0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Avg Latency</span>
+                        <span class="metric-item-value" id="avgLatencySingle">0ms</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Annual Cost</span>
+                        <span class="metric-item-value" id="annualSingle">$0</span>
+                    </div>
+                </div>
+
+                <div class="comparison-box">
+                    <div class="comparison-title">🚀 Multi-Model Routing</div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Daily Requests</span>
+                        <span class="metric-item-value" id="dailyReqRouted">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Monthly Cost</span>
+                        <span class="metric-item-value" id="monthlyCostRouted">$0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Avg Latency</span>
+                        <span class="metric-item-value" id="avgLatencyRouted">0ms</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-item-label">Annual Cost</span>
+                        <span class="metric-item-value" id="annualRouted">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Request Distribution</div>
+                <div class="chart-bar">
+                    <div class="chart-label" id="fastLabel">Fast Model</div>
+                    <div class="chart-fill" id="fastBar" style="width: 40%;"></div>
+                    <div class="chart-value" id="fastValue">0%</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label" id="mediumLabel">Medium Model</div>
+                    <div class="chart-fill" id="mediumBar" style="width: 35%;"></div>
+                    <div class="chart-value" id="mediumValue">0%</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label" id="complexLabel">Complex Model</div>
+                    <div class="chart-fill" id="complexBar" style="width: 25%;"></div>
+                    <div class="chart-value" id="complexValue">0%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="color: #7c3aed; font-weight: 700; margin-bottom: 15px; font-size: 1.1em;">📋 Routing Strategy</div>
+                <table class="routing-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Requests/Day</th>
+                            <th>Daily Cost</th>
+                            <th>Monthly Cost</th>
+                            <th>Avg Latency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="routingTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div style="color: #7c3aed; font-weight: 700; margin-bottom: 15px; font-size: 1.1em;">💡 Recommendations</div>
+                <div id="recommendations" style="color: #94a3b8; line-height: 1.8;"></div>
+            </div>
+        </div>
+
+        <footer>
+            © 2026 kickllm.com — LLM Engineering Tools
+        </footer>
+<div style="margin:20px auto;max-width:728px;text-align:center">
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+    </div>
+
+    <script>
+        function calculateRouting() {
+            const dailyRequests = parseInt(document.getElementById('dailyRequests').value);
+            const avgTokens = parseInt(document.getElementById('avgTokens').value);
+            const avgOutputTokens = parseInt(document.getElementById('avgOutputTokens').value);
+
+            const simplePercent = parseInt(document.getElementById('simplePercent').value) / 100;
+            const mediumPercent = parseInt(document.getElementById('mediumPercent').value) / 100;
+            const complexPercent = parseInt(document.getElementById('complexPercent').value) / 100;
+
+            const fastModelPrice = parseFloat(document.getElementById('fastModelPrice').value);
+            const mediumModelPrice = parseFloat(document.getElementById('mediumModelPrice').value);
+            const complexModelPrice = parseFloat(document.getElementById('complexModelPrice').value);
+
+            const fastModelLatency = parseInt(document.getElementById('fastModelLatency').value);
+            const mediumModelLatency = parseInt(document.getElementById('mediumModelLatency').value);
+            const complexModelLatency = parseInt(document.getElementById('complexModelLatency').value);
+
+            const fastModelName = document.getElementById('fastModelName').value;
+            const mediumModelName = document.getElementById('mediumModelName').value;
+            const complexModelName = document.getElementById('complexModelName').value;
+
+            // Distribution
+            const simpleRequests = Math.round(dailyRequests * simplePercent);
+            const mediumRequests = Math.round(dailyRequests * mediumPercent);
+            const complexRequests = Math.round(dailyRequests * complexPercent);
+
+            // Token costs (input + output)
+            const tokenCostPerRequest = (avgTokens + avgOutputTokens) / 1000;
+
+            // Daily routed cost
+            const fastDailyCost = simpleRequests * tokenCostPerRequest * fastModelPrice;
+            const mediumDailyCost = mediumRequests * tokenCostPerRequest * mediumModelPrice;
+            const complexDailyCost = complexRequests * tokenCostPerRequest * complexModelPrice;
+
+            const totalDailyRouted = fastDailyCost + mediumDailyCost + complexDailyCost;
+            const monthlyRouted = totalDailyRouted * 30;
+
+            // Single model (always complex)
+            const singleDailyCost = dailyRequests * tokenCostPerRequest * complexModelPrice;
+            const monthlySingle = singleDailyCost * 30;
+
+            const savings = monthlySingle - monthlyRouted;
+            const savingsPercent = (savings / monthlySingle) * 100;
+
+            // Latency calculations
+            const avgLatencySingle = complexModelLatency;
+            const avgLatencyRouted = (simplePercent * fastModelLatency) + (mediumPercent * mediumModelLatency) + (complexPercent * complexModelLatency);
+
+            document.getElementById('singleModelCost').textContent = '$' + monthlySingle.toFixed(2);
+            document.getElementById('routedCost').textContent = '$' + monthlyRouted.toFixed(2);
+            document.getElementById('monthlySavings').textContent = '$' + savings.toFixed(2);
+            document.getElementById('savingsPercent').textContent = savingsPercent.toFixed(1) + '%';
+
+            document.getElementById('dailyReqSingle').textContent = dailyRequests.toLocaleString();
+            document.getElementById('monthlyCostSingle').textContent = '$' + monthlySingle.toFixed(2);
+            document.getElementById('avgLatencySingle').textContent = avgLatencySingle + 'ms';
+            document.getElementById('annualSingle').textContent = '$' + (monthlySingle * 12).toFixed(0);
+
+            document.getElementById('dailyReqRouted').textContent = dailyRequests.toLocaleString();
+            document.getElementById('monthlyCostRouted').textContent = '$' + monthlyRouted.toFixed(2);
+            document.getElementById('avgLatencyRouted').textContent = Math.round(avgLatencyRouted) + 'ms';
+            document.getElementById('annualRouted').textContent = '$' + (monthlyRouted * 12).toFixed(0);
+
+            document.getElementById('fastLabel').textContent = fastModelName;
+            document.getElementById('mediumLabel').textContent = mediumModelName;
+            document.getElementById('complexLabel').textContent = complexModelName;
+
+            document.getElementById('fastBar').style.width = (simplePercent * 100) + '%';
+            document.getElementById('mediumBar').style.width = (mediumPercent * 100) + '%';
+            document.getElementById('complexBar').style.width = (complexPercent * 100) + '%';
+
+            document.getElementById('fastValue').textContent = Math.round(simplePercent * 100) + '%';
+            document.getElementById('mediumValue').textContent = Math.round(mediumPercent * 100) + '%';
+            document.getElementById('complexValue').textContent = Math.round(complexPercent * 100) + '%';
+
+            document.getElementById('routingTableBody').innerHTML = `
+                <tr>
+                    <td>${fastModelName}</td>
+                    <td>${simpleRequests.toLocaleString()}</td>
+                    <td>$${fastDailyCost.toFixed(2)}</td>
+                    <td>$${(fastDailyCost * 30).toFixed(2)}</td>
+                    <td>${fastModelLatency}ms</td>
+                </tr>
+                <tr>
+                    <td>${mediumModelName}</td>
+                    <td>${mediumRequests.toLocaleString()}</td>
+                    <td>$${mediumDailyCost.toFixed(2)}</td>
+                    <td>$${(mediumDailyCost * 30).toFixed(2)}</td>
+                    <td>${mediumModelLatency}ms</td>
+                </tr>
+                <tr>
+                    <td>${complexModelName}</td>
+                    <td>${complexRequests.toLocaleString()}</td>
+                    <td>$${complexDailyCost.toFixed(2)}</td>
+                    <td>$${(complexDailyCost * 30).toFixed(2)}</td>
+                    <td>${complexModelLatency}ms</td>
+                </tr>
+            `;
+
+            const recommendation = savingsPercent > 40
+                ? `Excellent savings opportunity! Multi-model routing saves ${savingsPercent.toFixed(1)}% (~$${(savings).toFixed(0)}/month). Implementation is highly recommended.`
+                : savingsPercent > 15
+                ? `Good savings potential. Multi-model routing saves ${savingsPercent.toFixed(1)}% (~$${(savings).toFixed(0)}/month) with slightly reduced latency.`
+                : `Moderate savings. Multi-model routing saves ${savingsPercent.toFixed(1)}% (~$${(savings).toFixed(0)}/month). Consider implementation for larger scales.`;
+
+            document.getElementById('recommendations').innerHTML = `
+                <p><strong>Cost Analysis:</strong> ${recommendation}</p>
+                <p style="margin-top: 10px;"><strong>Latency Trade-off:</strong> Single model averages ${avgLatencySingle}ms vs routed average of ${Math.round(avgLatencyRouted)}ms (${Math.round(avgLatencyRouted - avgLatencySingle)}ms difference). Quality impact is minimal for simple/medium complexity queries.</p>
+                <p style="margin-top: 10px;"><strong>Annual Impact:</strong> Switching to multi-model routing saves ~$${(savings * 12).toFixed(0)}/year while maintaining quality for complex tasks.</p>
+            `;
+
+            document.getElementById('results').classList.add('active');
+        }
+    </script>
+</body>
+</html>
