@@ -673,3 +673,10 @@ main,
   color: var(--accent);
   text-decoration: none;
 }
+
+/* PoW builder identity strip */
+.pow-strip{border-top:1px solid var(--border,rgba(255,255,255,0.06));padding:.75rem 2rem;text-align:center}
+.pow-strip-inner{max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.2rem .9rem}
+.pow-label{font-size:.7rem;color:var(--text-muted,#666);font-weight:600}
+.pow-strip-inner a{font-size:.7rem;color:var(--text-muted,#666);text-decoration:none}
+.pow-strip-inner a:hover{color:var(--accent,#7c6ef8)}
