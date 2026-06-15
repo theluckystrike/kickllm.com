@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Token Optimizer — Free Calculator | KickLLM</title>
+<meta name="description" content="Analyze token usage in prompts. Get compression suggestions and calculate cost savings. Optimize LLM efficiency instantly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kickllm.com/tools/prompt-token-optimizer/">
+<meta property="og:title" content="Prompt Token Optimizer - Reduce Token Costs">
+<meta property="og:description" content="Paste your prompt, analyze token usage, discover compression techniques, and estimate cost savings across models.">
+<meta property="og:url" content="https://kickllm.com/tools/prompt-token-optimizer/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Prompt Token Optimizer",
+  "url": "https://kickllm.com/tools/prompt-token-optimizer/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0a0a0a;
+  color: #e8e8e8;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 30px;
+}
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #3b82f6;
+}
+.subtitle {
+  font-size: 1.1rem;
+  color: #888;
+}
+.tool-section {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+.form-group {
+  margin-bottom: 25px;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #3b82f6;
+  font-weight: 500;
+}
+textarea {
+  width: 100%;
+  padding: 15px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #e8e8e8;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  resize: vertical;
+  min-height: 200px;
+}
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+.char-count {
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+button {
+  background: #3b82f6;
+  color: #0a0a0a;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+.button-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+button.secondary {
+  background: #666;
+}
+button.secondary:hover {
+  background: #777;
+}
+.results-container {
+  margin-top: 30px;
+  display: none;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.stat-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-label {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+.stat-value {
+  color: #38bdf8;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.stat-change {
+  color: #3b82f6;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+.suggestions {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.suggestions h3 {
+  color: #3b82f6;
+  margin-bottom: 15px;
+}
+.suggestion-item {
+  background: #0f0f0f;
+  border-left: 4px solid #3b82f6;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+.suggestion-title {
+  color: #38bdf8;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.suggestion-desc {
+  color: #888;
+  font-size: 0.9rem;
+}
+.compressed-prompt {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.compressed-prompt h3 {
+  color: #3b82f6;
+  margin-bottom: 12px;
+}
+.compressed-text {
+  background: #0f0f0f;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #222;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.copy-button {
+  background: #38bdf8;
+  color: #0a0a0a;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+.copy-button:hover {
+  background: #22d3ee;
+}
+.cost-comparison {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+.cost-comparison h3 {
+  color: #3b82f6;
+  margin-bottom: 15px;
+}
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #222;
+}
+.cost-row:last-child {
+  border-bottom: none;
+}
+.cost-label {
+  color: #888;
+}
+.cost-value {
+  color: #38bdf8;
+  font-weight: 600;
+}
+.footer-section {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.85rem;
+}
+.footer-section a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+.footer-section a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Prompt Token Optimizer</h1>
+    <p class="subtitle">Analyze and compress prompts to reduce costs across all LLM APIs</p>
+  </header>
+
+  <div class="tool-section">
+    <div class="form-group">
+      <label for="promptInput">Paste Your Prompt:</label>
+      <textarea id="promptInput" placeholder="Enter your full system prompt, few-shot examples, or any text to analyze..."></textarea>
+      <div class="char-count"><span id="charCount">0</span> characters</div>
+    </div>
+
+    <div class="form-group">
+      <label>Optimization Focus:</label>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <label style="display: flex; align-items: center; font-weight: 400; color: #e8e8e8;">
+          <input type="checkbox" id="removeRedundant" checked style="margin-right: 8px; cursor: pointer;">
+          Remove Redundancy
+        </label>
+        <label style="display: flex; align-items: center; font-weight: 400; color: #e8e8e8;">
+          <input type="checkbox" id="minifyWhitespace" checked style="margin-right: 8px; cursor: pointer;">
+          Minify Whitespace
+        </label>
+        <label style="display: flex; align-items: center; font-weight: 400; color: #e8e8e8;">
+          <input type="checkbox" id="abbreviate" checked style="margin-right: 8px; cursor: pointer;">
+          Use Abbreviations
+        </label>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button onclick="analyzeAndOptimize()">Analyze & Optimize</button>
+      <button class="secondary" onclick="resetForm()">Clear</button>
+    </div>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="suggestions" id="suggestionsDiv"></div>
+
+    <div class="compressed-prompt" id="compressedDiv"></div>
+
+    <div class="cost-comparison" id="costDiv"></div>
+  </div>
+
+  <div style="margin:30px auto;max-width:728px;text-align:center;padding:18px 24px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #334155;border-radius:10px">
+    <p style="margin:0 0 6px;color:#94a3b8;font-size:0.85rem">Recommended by our team</p>
+    <a href="https://www.belikenative.com?ref=satellite" target="_blank" rel="noopener" style="color:#38bdf8;font-weight:600;font-size:1.05rem;text-decoration:none">BeLikeNative.com</a>
+    <p style="margin:6px 0 0;color:#cbd5e1;font-size:0.9rem">The #1 AI writing tool for freelancers — perfect grammar in any language, instantly.</p>
+  </div>
+
+  <div style="margin:20px auto;max-width:728px;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+
+<div class="footer-section">
+  <p>&copy; 2026 KickLLM. All rights reserved.</p>
+  <p><a href="https://kickllm.com/tools/">Back to KickLLM Tools</a></p>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+
+<script>
+document.getElementById('promptInput').addEventListener('input', function() {
+  document.getElementById('charCount').textContent = this.value.length;
+});
+
+function estimateTokens(text) {
+  return Math.ceil(text.split(/\s+/).length * 1.3);
+}
+
+function analyzeAndOptimize() {
+  const originalText = document.getElementById('promptInput').value;
+  if (!originalText.trim()) {
+    alert('Please enter some text to analyze');
+    return;
+  }
+
+  const removeRedundant = document.getElementById('removeRedundant').checked;
+  const minifyWhitespace = document.getElementById('minifyWhitespace').checked;
+  const abbreviate = document.getElementById('abbreviate').checked;
+
+  const originalTokens = estimateTokens(originalText);
+  let optimizedText = originalText;
+
+  // Remove redundant phrases
+  if (removeRedundant) {
+    optimizedText = optimizedText.replace(/\b(please|kindly|thank you|regards)\b/gi, '');
+    optimizedText = optimizedText.replace(/\s+/g, ' ');
+  }
+
+  // Minify whitespace
+  if (minifyWhitespace) {
+    optimizedText = optimizedText.replace(/\n\n+/g, '\n');
+    optimizedText = optimizedText.replace(/\t/g, '');
+  }
+
+  // Apply abbreviations
+  if (abbreviate) {
+    const abbrevMap = {
+      'should': 'shld',
+      'because': 'bc',
+      'you are': "you're",
+      'it is': "it's",
+      'that is': "that's",
+      'important': 'imp',
+      'information': 'info',
+      'response': 'resp',
+      'example': 'ex',
+      'following': 'foll',
+      'according': 'acc',
+      'previous': 'prev'
+    };
+
+    for (const [word, abbr] of Object.entries(abbrevMap)) {
+      const regex = new RegExp('\\b' + word + '\\b', 'gi');
+      optimizedText = optimizedText.replace(regex, abbr);
+    }
+  }
+
+  optimizedText = optimizedText.trim();
+  const optimizedTokens = estimateTokens(optimizedText);
+  const tokensSaved = originalTokens - optimizedTokens;
+  const percentSaved = ((tokensSaved / originalTokens) * 100).toFixed(1);
+
+  // Generate stats
+  let statsHtml = `
+    <div class="stat-card">
+      <div class="stat-label">Original Tokens</div>
+      <div class="stat-value">${originalTokens}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Optimized Tokens</div>
+      <div class="stat-value">${optimizedTokens}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tokens Saved</div>
+      <div class="stat-value">${tokensSaved}</div>
+      <div class="stat-change">${percentSaved}% reduction</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Original Chars</div>
+      <div class="stat-value">${originalText.length}</div>
+    </div>
+  `;
+  document.getElementById('statsGrid').innerHTML = statsHtml;
+
+  // Generate suggestions
+  let suggestions = [
+    { title: 'Remove Filler Words', desc: 'Eliminate "please", "kindly", "thank you" - they add tokens without semantic value.' },
+    { title: 'Consolidate Whitespace', desc: 'Replace multiple line breaks with single lines. Extra spacing wastes tokens.' },
+    { title: 'Use Abbreviations', desc: 'Replace common words with shorter versions (important → imp, information → info).' },
+    { title: 'Use Bullet Points', desc: 'Replace verbose prose with structured lists - more tokens-efficient for structured data.' },
+    { title: 'Remove Repetition', desc: 'Avoid restating the same instruction. Reference previous context instead.' }
+  ];
+
+  let suggestionsHtml = '<h3>💡 Optimization Tips</h3>';
+  suggestions.forEach(s => {
+    suggestionsHtml += `
+      <div class="suggestion-item">
+        <div class="suggestion-title">${s.title}</div>
+        <div class="suggestion-desc">${s.desc}</div>
+      </div>
+    `;
+  });
+  document.getElementById('suggestionsDiv').innerHTML = suggestionsHtml;
+
+  // Show compressed version
+  let compressedHtml = `
+    <h3>Optimized Prompt</h3>
+    <div class="compressed-text">${optimizedText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+    <button class="copy-button" onclick="copyToClipboard()">📋 Copy Optimized Prompt</button>
+  `;
+  document.getElementById('compressedDiv').innerHTML = compressedHtml;
+  window.optimizedPrompt = optimizedText;
+
+  // Cost comparison
+  const models = [
+    { name: 'GPT-3.5 Turbo', origCost: (originalTokens / 1000000) * 0.0015, optCost: (optimizedTokens / 1000000) * 0.0015 },
+    { name: 'GPT-4o', origCost: (originalTokens / 1000000) * 0.0025, optCost: (optimizedTokens / 1000000) * 0.0025 },
+    { name: 'Claude 3.5 Haiku', origCost: (originalTokens / 1000000) * 0.00080, optCost: (optimizedTokens / 1000000) * 0.00080 },
+    { name: 'Gemini 2.0 Flash', origCost: (originalTokens / 1000000) * 0.00375, optCost: (optimizedTokens / 1000000) * 0.00375 }
+  ];
+
+  let costHtml = '<h3>💰 Cost Savings by Model</h3>';
+  models.forEach(m => {
+    const savings = m.origCost - m.optCost;
+    const savingsPercent = ((savings / m.origCost) * 100).toFixed(1);
+    costHtml += `
+      <div class="cost-row">
+        <span class="cost-label">${m.name}</span>
+        <span style="color: #888;">$${m.origCost.toFixed(6)} → $${m.optCost.toFixed(6)}</span>
+        <span class="cost-value">-$${savings.toFixed(6)} (${savingsPercent}%)</span>
+      </div>
+    `;
+  });
+  costHtml += `
+    <div class="cost-row" style="background: rgba(59, 130, 246, 0.1); border-top: 2px solid #3b82f6; margin-top: 10px; padding-top: 15px;">
+      <span style="color: #3b82f6; font-weight: 600;">Total Monthly Savings (100 calls/day)</span>
+      <span class="cost-value">~$${(((originalTokens - optimizedTokens) / 1000000) * 0.003 * 3000).toFixed(2)}</span>
+    </div>
+  `;
+  document.getElementById('costDiv').innerHTML = costHtml;
+
+  document.getElementById('resultsContainer').style.display = 'block';
+}
+
+function copyToClipboard() {
+  const text = window.optimizedPrompt;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Optimized prompt copied to clipboard!');
+  }).catch(() => {
+    alert('Could not copy to clipboard');
+  });
+}
+
+function resetForm() {
+  document.getElementById('promptInput').value = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('resultsContainer').style.display = 'none';
+  document.getElementById('removeRedundant').checked = true;
+  document.getElementById('minifyWhitespace').checked = true;
+  document.getElementById('abbreviate').checked = true;
+}
+</script>
+</body>
+</html>

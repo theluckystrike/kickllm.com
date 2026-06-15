@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Chunk Size Calculator — Free Tool | KickLLM</title>
+<meta name="description" content="Calculate optimal RAG chunk size based on context window, overlap, and embedding model. Maximize retrieval accuracy instantly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kickllm.com/tools/rag-chunk-size-calculator/">
+<meta property="og:title" content="RAG Chunk Size Calculator - Optimize Your Vector Store">
+<meta property="og:description" content="Calculate optimal chunk size for RAG retrieval. Input context window, overlap %, embedding model to get recommendations.">
+<meta property="og:url" content="https://kickllm.com/tools/rag-chunk-size-calculator/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "RAG Chunk Size Calculator",
+  "url": "https://kickllm.com/tools/rag-chunk-size-calculator/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0a0a0a;
+  color: #e8e8e8;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 30px;
+}
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #3b82f6;
+}
+.subtitle {
+  font-size: 1.1rem;
+  color: #888;
+}
+.tool-section {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+.form-group {
+  margin-bottom: 25px;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #3b82f6;
+  font-weight: 500;
+}
+input[type="number"],
+input[type="range"],
+select {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #e8e8e8;
+  font-size: 1rem;
+}
+input[type="range"] {
+  padding: 8px;
+  height: 6px;
+  cursor: pointer;
+}
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+.slider-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.slider-value span {
+  background: #1a1a1a;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 600px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+button {
+  background: #3b82f6;
+  color: #0a0a0a;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+}
+button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+.results-container {
+  margin-top: 30px;
+  display: none;
+}
+.result-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.result-title {
+  color: #3b82f6;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+.result-value {
+  color: #38bdf8;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.result-unit {
+  color: #888;
+  font-size: 0.9rem;
+}
+.result-details {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 15px;
+}
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #222;
+}
+.detail-item:last-child {
+  border-bottom: none;
+}
+.detail-label {
+  color: #888;
+}
+.detail-value {
+  color: #3b82f6;
+  font-weight: 600;
+}
+.recommendation {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(56, 189, 248, 0.05));
+  border-left: 4px solid #3b82f6;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+.recommendation h3 {
+  color: #3b82f6;
+  margin-bottom: 8px;
+}
+.recommendation p {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+.visualization {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.viz-bar {
+  height: 40px;
+  background: linear-gradient(90deg, #3b82f6, #38bdf8);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  color: #0a0a0a;
+  font-weight: 600;
+}
+.footer-section {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.85rem;
+}
+.footer-section a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+.footer-section a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>RAG Chunk Size Calculator</h1>
+    <p class="subtitle">Optimize vector store retrieval with data-driven chunk sizing</p>
+  </header>
+
+  <div class="tool-section">
+    <div class="form-group">
+      <label for="contextWindow">LLM Context Window (tokens):</label>
+      <select id="contextWindow">
+        <option value="4096">GPT-3.5 Turbo (4K)</option>
+        <option value="8192">GPT-4 (8K)</option>
+        <option value="16384">GPT-4 Turbo (16K)</option>
+        <option value="32768">Claude 3 Sonnet (200K)</option>
+        <option value="131072">Claude 3 Opus (200K)</option>
+        <option value="1000000">Gemini 1.5 Pro (1M)</option>
+        <option value="2048">Custom (2K)</option>
+        <option value="custom">Custom Value</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="customContextDiv" style="display: none;">
+      <label for="customContext">Enter Custom Context Window:</label>
+      <input type="number" id="customContext" value="8192" min="1024" step="1024">
+    </div>
+
+    <div class="form-group">
+      <label for="embeddingModel">Embedding Model:</label>
+      <select id="embeddingModel">
+        <option value="text-embedding-3-small">OpenAI text-embedding-3-small (512 dims)</option>
+        <option value="text-embedding-3-large">OpenAI text-embedding-3-large (3072 dims)</option>
+        <option value="multilingual-e5-large">Multilingual E5 Large (1024 dims)</option>
+        <option value="bge-large-en">BGE Large EN (1024 dims)</option>
+        <option value="stella-en">Stella EN (384 dims)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="chunkOverlap">Chunk Overlap (%):</label>
+      <input type="range" id="chunkOverlap" min="0" max="50" value="20" step="5">
+      <div class="slider-value">
+        <span id="overlapDisplay">20%</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="avgTokensPerWord">Average Tokens per Word:</label>
+      <input type="number" id="avgTokensPerWord" value="1.3" min="1" max="2" step="0.1">
+      <small style="color: #666; margin-top: 4px; display: block;">(Typically 1.2-1.4 for English)</small>
+    </div>
+
+    <div class="form-group">
+      <label for="retrievalCount">Expected Retrieved Chunks:</label>
+      <input type="number" id="retrievalCount" value="5" min="1" step="1">
+      <small style="color: #666; margin-top: 4px; display: block;">Number of chunks to retrieve per query</small>
+    </div>
+
+    <div class="two-column">
+      <button onclick="calculateChunkSize()">Calculate Optimal Size</button>
+      <button onclick="resetForm()" style="background: #666;">Reset</button>
+    </div>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <h2 style="margin-bottom: 20px; color: #3b82f6;">Recommended Chunk Size</h2>
+
+    <div class="result-card">
+      <div class="result-title">Optimal Chunk Size</div>
+      <div class="result-value" id="optimalChunkSize">512</div>
+      <div class="result-unit">tokens (approximately <span id="optimalWords">400</span> words)</div>
+
+      <div class="result-details">
+        <div class="detail-item">
+          <span class="detail-label">Characters</span>
+          <span class="detail-value" id="optimalChars">2560</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Overlap Size</span>
+          <span class="detail-value" id="overlapSize">102</span> tokens
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Effective Chunk Size</span>
+          <span class="detail-value" id="effectiveChunk">410</span> tokens
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">Context Window Utilization</div>
+      <div class="visualization">
+        <div>
+          <div style="margin-bottom: 8px; color: #888; font-size: 0.9rem;">Total context after retrieval:</div>
+          <div class="viz-bar" id="utilizationBar" style="width: 60%;">60%</div>
+          <div style="color: #888; font-size: 0.85rem;">
+            <span id="contextUsed">2560</span> / <span id="totalContext">8192</span> tokens
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">Retrieval Configuration</div>
+      <div class="result-details">
+        <div class="detail-item">
+          <span class="detail-label">Chunks Retrieved</span>
+          <span class="detail-value" id="retrievedCount">5</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Total Retrieved Tokens</span>
+          <span class="detail-value" id="totalRetrieved">2560</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Available for User/System</span>
+          <span class="detail-value" id="availableTokens">5632</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="recommendation" id="recommendationDiv"></div>
+  </div>
+
+  <div style="margin:30px auto;max-width:728px;text-align:center;padding:18px 24px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #334155;border-radius:10px">
+    <p style="margin:0 0 6px;color:#94a3b8;font-size:0.85rem">Recommended by our team</p>
+    <a href="https://www.belikenative.com?ref=satellite" target="_blank" rel="noopener" style="color:#38bdf8;font-weight:600;font-size:1.05rem;text-decoration:none">BeLikeNative.com</a>
+    <p style="margin:6px 0 0;color:#cbd5e1;font-size:0.9rem">The #1 AI writing tool for freelancers — perfect grammar in any language, instantly.</p>
+  </div>
+
+  <div style="margin:20px auto;max-width:728px;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+
+<div class="footer-section">
+  <p>&copy; 2026 KickLLM. All rights reserved.</p>
+  <p><a href="https://kickllm.com/tools/">Back to KickLLM Tools</a></p>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+
+<script>
+const contextWindows = {
+  '4096': 4096,
+  '8192': 8192,
+  '16384': 16384,
+  '32768': 32768,
+  '131072': 131072,
+  '1000000': 1000000,
+  '2048': 2048
+};
+
+document.getElementById('contextWindow').addEventListener('change', function() {
+  const customDiv = document.getElementById('customContextDiv');
+  if (this.value === 'custom') {
+    customDiv.style.display = 'block';
+  } else {
+    customDiv.style.display = 'none';
+  }
+});
+
+document.getElementById('chunkOverlap').addEventListener('input', function() {
+  document.getElementById('overlapDisplay').textContent = this.value + '%';
+});
+
+function calculateChunkSize() {
+  let contextWindow = document.getElementById('contextWindow').value;
+  if (contextWindow === 'custom') {
+    contextWindow = parseInt(document.getElementById('customContext').value);
+  } else {
+    contextWindow = contextWindows[contextWindow];
+  }
+
+  const overlapPercent = parseInt(document.getElementById('chunkOverlap').value);
+  const avgTokensPerWord = parseFloat(document.getElementById('avgTokensPerWord').value);
+  const retrievalCount = parseInt(document.getElementById('retrievalCount').value);
+
+  // Reserve tokens for system prompt + user input
+  const reservedTokens = 500 + 200;
+  const availableForRetrieval = contextWindow - reservedTokens;
+  const idealChunkSize = Math.floor(availableForRetrieval / retrievalCount);
+
+  // Round to nearest power of 2 or 50 for practical use
+  let recommendedChunkSize = idealChunkSize;
+  const standardSizes = [128, 256, 512, 768, 1024, 1536, 2048];
+  standardSizes.forEach(size => {
+    if (Math.abs(size - idealChunkSize) < Math.abs(recommendedChunkSize - idealChunkSize)) {
+      recommendedChunkSize = size;
+    }
+  });
+
+  const overlapTokens = Math.ceil(recommendedChunkSize * overlapPercent / 100);
+  const effectiveSize = recommendedChunkSize - overlapTokens;
+  const wordCount = Math.round(recommendedChunkSize / avgTokensPerWord);
+  const charCount = recommendedChunkSize * 4;
+
+  const totalRetrievedTokens = recommendedChunkSize * retrievalCount;
+  const contextAfterRetrieval = reservedTokens + totalRetrievedTokens;
+  const utilizationPercent = Math.round((contextAfterRetrieval / contextWindow) * 100);
+  const availableForInput = contextWindow - contextAfterRetrieval;
+
+  document.getElementById('optimalChunkSize').textContent = recommendedChunkSize;
+  document.getElementById('optimalWords').textContent = wordCount;
+  document.getElementById('optimalChars').textContent = charCount;
+  document.getElementById('overlapSize').textContent = overlapTokens;
+  document.getElementById('effectiveChunk').textContent = effectiveSize;
+
+  document.getElementById('contextUsed').textContent = contextAfterRetrieval;
+  document.getElementById('totalContext').textContent = contextWindow;
+  document.getElementById('utilizationBar').style.width = utilizationPercent + '%';
+  document.getElementById('utilizationBar').textContent = utilizationPercent + '%';
+
+  document.getElementById('retrievedCount').textContent = retrievalCount;
+  document.getElementById('totalRetrieved').textContent = totalRetrievedTokens;
+  document.getElementById('availableTokens').textContent = availableForInput;
+
+  let recommendation = `
+    <h3>Configuration Insights</h3>
+    <p>Your optimal chunk size of <strong>${recommendedChunkSize} tokens</strong> balances semantic coherence with retrieval precision. This leaves <strong>${availableForInput} tokens</strong> for your system prompt and user query after retrieving ${retrievalCount} chunks.</p>
+    <p style="margin-top: 12px;">
+      ${utilizationPercent > 85 ? '⚠️ <strong>High context utilization:</strong> Consider retrieving fewer chunks or reducing chunk size.' :
+        utilizationPercent < 50 ? '✓ <strong>Efficient utilization:</strong> You could retrieve more chunks if needed.' :
+        '✓ <strong>Well-balanced:</strong> Good use of context window for retrieval and user input.'}
+    </p>
+  `;
+
+  document.getElementById('recommendationDiv').innerHTML = recommendation;
+  document.getElementById('resultsContainer').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('contextWindow').value = '8192';
+  document.getElementById('chunkOverlap').value = '20';
+  document.getElementById('avgTokensPerWord').value = '1.3';
+  document.getElementById('retrievalCount').value = '5';
+  document.getElementById('customContextDiv').style.display = 'none';
+  document.getElementById('overlapDisplay').textContent = '20%';
+  document.getElementById('resultsContainer').style.display = 'none';
+}
+
+// Calculate on load
+window.addEventListener('load', () => {
+  calculateChunkSize();
+});
+</script>
+</body>
+</html>

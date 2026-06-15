@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM API Cost Comparison — Free Calculator | KickLLM</title>
+<meta name="description" content="Compare API costs across OpenAI, Anthropic, Google, Mistral. Calculate expenses by token count and use case. Free LLM cost estimator.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kickllm.com/tools/llm-api-cost-comparison/">
+<meta property="og:title" content="LLM API Cost Comparison Calculator">
+<meta property="og:description" content="Compare API costs across OpenAI, Claude, Gemini, Mistral. Instant pricing calculator for LLM operations.">
+<meta property="og:url" content="https://kickllm.com/tools/llm-api-cost-comparison/">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "LLM API Cost Comparison",
+  "url": "https://kickllm.com/tools/llm-api-cost-comparison/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #0a0a0a;
+  color: #e8e8e8;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 30px;
+}
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #3b82f6;
+}
+.subtitle {
+  font-size: 1.1rem;
+  color: #888;
+}
+.tool-section {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+.form-group {
+  margin-bottom: 25px;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #3b82f6;
+  font-weight: 500;
+}
+input[type="number"],
+select {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #e8e8e8;
+  font-size: 1rem;
+}
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 600px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+button {
+  background: #3b82f6;
+  color: #0a0a0a;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+.results-container {
+  margin-top: 30px;
+  display: none;
+}
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.price-card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.provider-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3b82f6;
+  margin-bottom: 12px;
+}
+.price-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+.price-label {
+  color: #888;
+  font-size: 0.9rem;
+}
+.breakdown {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #222;
+}
+.breakdown-item:last-child {
+  border-bottom: none;
+}
+.breakdown-label {
+  color: #888;
+}
+.breakdown-value {
+  color: #3b82f6;
+  font-weight: 600;
+}
+.footer-section {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 0.85rem;
+}
+.footer-section a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+.footer-section a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>LLM API Cost Comparison</h1>
+    <p class="subtitle">Compare pricing across OpenAI, Anthropic, Google, and Mistral instantly</p>
+  </header>
+
+  <div class="tool-section">
+    <div class="form-group">
+      <label for="inputTokens">Input Tokens (prompt):</label>
+      <input type="number" id="inputTokens" value="1000" min="0" step="100">
+    </div>
+
+    <div class="form-group">
+      <label for="outputTokens">Output Tokens (completion):</label>
+      <input type="number" id="outputTokens" value="500" min="0" step="100">
+    </div>
+
+    <div class="form-group">
+      <label for="useCase">Use Case / Model Tier:</label>
+      <select id="useCase">
+        <option value="gpt-4o">OpenAI GPT-4o (Latest)</option>
+        <option value="gpt-4-turbo">OpenAI GPT-4 Turbo</option>
+        <option value="gpt-35-turbo">OpenAI GPT-3.5 Turbo</option>
+        <option value="claude-opus">Anthropic Claude 3.5 Opus</option>
+        <option value="claude-sonnet">Anthropic Claude 3.5 Sonnet</option>
+        <option value="claude-haiku">Anthropic Claude 3.5 Haiku</option>
+        <option value="gemini-pro">Google Gemini 2.0 Flash</option>
+        <option value="gemini-ultra">Google Gemini 1.5 Pro</option>
+        <option value="mistral-large">Mistral Large</option>
+        <option value="mistral-small">Mistral Small</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="requestsPerDay">Estimated Daily API Calls:</label>
+      <input type="number" id="requestsPerDay" value="100" min="1" step="10">
+    </div>
+
+    <div class="two-column">
+      <button onclick="calculateAllProviders()">Calculate All Providers</button>
+      <button onclick="resetForm()" style="background: #666;">Reset</button>
+    </div>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <h2 style="margin-bottom: 20px; color: #3b82f6;">Cost Comparison Results</h2>
+
+    <div class="results-grid" id="resultsGrid"></div>
+
+    <div class="breakdown" id="detailBreakdown"></div>
+
+    <div style="margin-top: 30px; padding: 20px; background: #1a1a1a; border-radius: 8px; border-left: 4px solid #3b82f6;">
+      <h3 style="color: #3b82f6; margin-bottom: 12px;">Monthly Cost Projection</h3>
+      <p id="monthlyProjection" style="font-size: 1.2rem; color: #38bdf8;"></p>
+    </div>
+  </div>
+
+  <div style="margin:30px auto;max-width:728px;text-align:center;padding:18px 24px;background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #334155;border-radius:10px">
+    <p style="margin:0 0 6px;color:#94a3b8;font-size:0.85rem">Recommended by our team</p>
+    <a href="https://www.belikenative.com?ref=satellite" target="_blank" rel="noopener" style="color:#38bdf8;font-weight:600;font-size:1.05rem;text-decoration:none">BeLikeNative.com</a>
+    <p style="margin:6px 0 0;color:#cbd5e1;font-size:0.9rem">The #1 AI writing tool for freelancers — perfect grammar in any language, instantly.</p>
+  </div>
+
+  <div style="margin:20px auto;max-width:728px;text-align:center;"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2241192243363112" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+
+<div class="footer-section">
+  <p>&copy; 2026 KickLLM. All rights reserved.</p>
+  <p><a href="https://kickllm.com/tools/">Back to KickLLM Tools</a></p>
+</div>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2241192243363112" crossorigin="anonymous"></script>
+
+<script>
+const apiPricing = {
+  'gpt-4o': { inputPrice: 0.0025, outputPrice: 0.010, name: 'GPT-4o' },
+  'gpt-4-turbo': { inputPrice: 0.01, outputPrice: 0.03, name: 'GPT-4 Turbo' },
+  'gpt-35-turbo': { inputPrice: 0.0015, outputPrice: 0.002, name: 'GPT-3.5 Turbo' },
+  'claude-opus': { inputPrice: 0.015, outputPrice: 0.075, name: 'Claude 3.5 Opus' },
+  'claude-sonnet': { inputPrice: 0.003, outputPrice: 0.015, name: 'Claude 3.5 Sonnet' },
+  'claude-haiku': { inputPrice: 0.00080, outputPrice: 0.0024, name: 'Claude 3.5 Haiku' },
+  'gemini-pro': { inputPrice: 0.00375, outputPrice: 0.015, name: 'Gemini 2.0 Flash' },
+  'gemini-ultra': { inputPrice: 0.001875, outputPrice: 0.0075, name: 'Gemini 1.5 Pro' },
+  'mistral-large': { inputPrice: 0.002, outputPrice: 0.006, name: 'Mistral Large' },
+  'mistral-small': { inputPrice: 0.00014, outputPrice: 0.00042, name: 'Mistral Small' }
+};
+
+function calculateCost(inputTokens, outputTokens, modelKey) {
+  const pricing = apiPricing[modelKey];
+  const inputCost = (inputTokens / 1000000) * pricing.inputPrice;
+  const outputCost = (outputTokens / 1000000) * pricing.outputPrice;
+  return inputCost + outputCost;
+}
+
+function calculateAllProviders() {
+  const inputTokens = parseInt(document.getElementById('inputTokens').value) || 1000;
+  const outputTokens = parseInt(document.getElementById('outputTokens').value) || 500;
+  const requestsPerDay = parseInt(document.getElementById('requestsPerDay').value) || 100;
+
+  const results = [];
+  for (const [key, data] of Object.entries(apiPricing)) {
+    const costPerRequest = calculateCost(inputTokens, outputTokens, key);
+    const dailyCost = costPerRequest * requestsPerDay;
+    const monthlyCost = dailyCost * 30;
+    results.push({ key, ...data, costPerRequest, dailyCost, monthlyCost });
+  }
+
+  results.sort((a, b) => a.costPerRequest - b.costPerRequest);
+
+  let html = '';
+  results.forEach(result => {
+    html += `
+      <div class="price-card">
+        <div class="provider-name">${result.name}</div>
+        <div class="price-display">$${result.costPerRequest.toFixed(6)}</div>
+        <div class="price-label">Per request</div>
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #333;">
+          <div style="color: #888; font-size: 0.85rem; margin-bottom: 4px;">Daily: <span style="color: #38bdf8;">$${result.dailyCost.toFixed(2)}</span></div>
+          <div style="color: #888; font-size: 0.85rem;">Monthly: <span style="color: #3b82f6;">$${result.monthlyCost.toFixed(2)}</span></div>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById('resultsGrid').innerHTML = html;
+
+  const cheapest = results[0];
+  const mostExpensive = results[results.length - 1];
+  const savings = mostExpensive.monthlyCost - cheapest.monthlyCost;
+
+  let breakdown = `
+    <h3 style="color: #3b82f6; margin-bottom: 15px;">Analysis</h3>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Cheapest Option</span>
+      <span class="breakdown-value">${cheapest.name} - $${cheapest.monthlyCost.toFixed(2)}/mo</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Most Expensive Option</span>
+      <span class="breakdown-value">${mostExpensive.name} - $${mostExpensive.monthlyCost.toFixed(2)}/mo</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Potential Monthly Savings</span>
+      <span class="breakdown-value">$${savings.toFixed(2)}</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Input Tokens Per Request</span>
+      <span class="breakdown-value">${inputTokens.toLocaleString()}</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Output Tokens Per Request</span>
+      <span class="breakdown-value">${outputTokens.toLocaleString()}</span>
+    </div>
+    <div class="breakdown-item">
+      <span class="breakdown-label">Daily API Calls</span>
+      <span class="breakdown-value">${requestsPerDay.toLocaleString()}</span>
+    </div>
+  `;
+
+  document.getElementById('detailBreakdown').innerHTML = breakdown;
+
+  const monthlyTotal = cheapest.monthlyCost;
+  document.getElementById('monthlyProjection').innerHTML =
+    `Cheapest provider (${cheapest.name}) would cost approximately <strong>$${monthlyTotal.toFixed(2)}</strong> per month with your current usage.`;
+
+  document.getElementById('resultsContainer').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('inputTokens').value = 1000;
+  document.getElementById('outputTokens').value = 500;
+  document.getElementById('requestsPerDay').value = 100;
+  document.getElementById('useCase').value = 'gpt-4o';
+  document.getElementById('resultsContainer').style.display = 'none';
+}
+
+// Load results on page load with defaults
+window.addEventListener('load', () => {
+  calculateAllProviders();
+});
+</script>
+</body>
+</html>
