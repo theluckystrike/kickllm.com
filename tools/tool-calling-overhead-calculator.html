@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tool Calling Token Overhead Calculator | KickLLM</title>
+<meta name="description" content="Calculate the token and cost overhead of function/tool definitions in your system prompt across LLM models, per request and at scale.">
+<link rel="canonical" href="https://kickllm.com/tools/tool-calling-overhead-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/tool-calling-overhead-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/tool-calling-overhead-calculator.html">
+<meta property="og:title" content="Tool Calling Token Overhead Calculator | KickLLM">
+<meta property="og:description" content="Calculate the token and cost overhead of function/tool definitions in your system prompt across LLM models, per request and at scale.">
+<meta property="og:url" content="https://kickllm.com/tools/tool-calling-overhead-calculator.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "name": "Tool Calling Token Overhead Calculator",
+  "url": "https://kickllm.com/tools/tool-calling-overhead-calculator.html",
+  "description": "Calculate the token and cost overhead of function/tool definitions in your system prompt across LLM models, per request and at scale.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Michael Lip",
+    "url": "https://zovo.one"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "KickLLM",
+    "url": "https://kickllm.com"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://kickllm.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://kickllm.com/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Tool Calling Token Overhead Calculator",
+      "item": "https://kickllm.com/tools/tool-calling-overhead-calculator.html"
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #141414;
+    --bg-elev-2: #1c1c1c;
+    --border: #262626;
+    --border-light: #333333;
+    --text: #ededed;
+    --text-muted: #9a9a9a;
+    --text-dim: #6a6a6a;
+    --accent: #4ade80;
+    --accent-dim: #22c55e;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  nav.site-nav {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .nav-brand {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 18px; font-size: 14px; }
+  .nav-links a { color: var(--text-muted); }
+  .nav-links a:hover { color: var(--text); }
+
+  /* Main */
+  main { padding: 36px 0 24px; }
+  h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+  }
+  .intro {
+    color: var(--text-muted);
+    font-size: 17px;
+    margin: 0 0 28px;
+  }
+
+  /* Tool card */
+  .tool-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 8px;
+  }
+  .form-grid.one { grid-template-columns: 1fr; }
+  label.field {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  label.field span.hint {
+    display: block;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  select, input[type="number"], textarea {
+    width: 100%;
+    background: var(--bg-elev-2);
+    color: var(--text);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.15s;
+  }
+  select:focus, input[type="number"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  textarea {
+    min-height: 130px;
+    resize: vertical;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* Results */
+  .results {
+    margin-top: 26px;
+    border-top: 1px solid var(--border);
+    padding-top: 22px;
+  }
+  .results-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .result-box {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .result-box .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .result-box .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .result-box .value.accent { color: var(--accent); }
+  .result-box .value.warn { color: var(--warn); }
+  .result-box .sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  table.breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  table.breakdown th, table.breakdown td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  table.breakdown th {
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  table.breakdown td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.breakdown tr:last-child td { border-bottom: none; }
+  .note {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* Explanation */
+  .explanation {
+    color: var(--text);
+    font-size: 16px;
+    margin: 8px 0 28px;
+  }
+  .explanation p { margin: 0 0 14px; color: var(--text-muted); }
+  .explanation h2 {
+    font-size: 22px;
+    color: var(--text);
+    margin: 26px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .explanation strong { color: var(--text); }
+
+  /* Related */
+  .related {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 32px;
+  }
+  .related h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+  .related-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .related-links a {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .related-links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* Footer */
+  footer.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 26px 20px;
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  .footer-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-inner a { color: var(--text-muted); }
+  .footer-inner a:hover { color: var(--text); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 26px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .nav-links { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="/">Kick<span>LLM</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/tools/">Tools</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <h1>Function Tool Definition Token &amp; Cost Overhead Calculator</h1>
+    <p class="intro">Measure how many tokens your tool/function definitions consume in the system prompt, then convert that into per-request and at-scale cost across major LLM providers. Paste your schema, pick a model, and see the overhead live.</p>
+
+    <div class="tool-card">
+      <div class="form-grid one">
+        <label class="field" for="schema">Tool / function JSON schema
+          <span class="hint">Paste one or more OpenAI-style function objects. The calculator estimates input tokens from character length (approx. 4 chars per token, tuned for JSON).</span>
+        </label>
+        <textarea id="schema" spellcheck="false" placeholder='[{ "type": "function", "function": { "name": "get_weather", "description": "Get current weather for a city", "parameters": { "type": "object", "properties": { "city": { "type": "string" } }, "required": ["city"] } } }]'>[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_weather",
+      "description": "Get the current weather for a given city",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "city": { "type": "string", "description": "City name" },
+          "units": { "type": "string", "enum": ["celsius", "fahrenheit"] }
+        },
+        "required": ["city"]
+      }
+    }
+  }
+]</textarea>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label class="field" for="model">Model
+            <span class="hint">Input price per 1M tokens used for cost math.</span>
+          </label>
+          <select id="model">
+            <option value="0.15" data-label="GPT-4o mini">GPT-4o mini ($0.15/1M in)</option>
+            <option value="2.50" data-label="GPT-4o" selected>GPT-4o ($2.50/1M in)</option>
+            <option value="10.00" data-label="GPT-4.5">GPT-4.5 ($10.00/1M in)</option>
+            <option value="3.00" data-label="Claude Sonnet 4.5">Claude Sonnet 4.5 ($3.00/1M in)</option>
+            <option value="15.00" data-label="Claude Opus 4">Claude Opus 4 ($15.00/1M in)</option>
+            <option value="0.25" data-label="Gemini 2.0 Flash">Gemini 2.0 Flash ($0.25/1M in)</option>
+            <option value="1.25" data-label="Gemini 2.0 Pro">Gemini 2.0 Pro ($1.25/1M in)</option>
+            <option value="0.20" data-label="DeepSeek V3">DeepSeek V3 ($0.20/1M in)</option>
+            <option value="0.60" data-label="Llama 3.1 405B (Groq)">Llama 3.1 405B ($0.60/1M in)</option>
+            <option value="custom" data-label="Custom">Custom price…</option>
+          </select>
+        </div>
+        <div>
+          <label class="field" for="charsPerTok">Chars per token
+            <span class="hint">JSON averages ~3.6 chars/token. Lower = denser tokens.</span>
+          </label>
+          <input type="number" id="charsPerTok" value="3.6" min="1" max="10" step="0.1">
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div>
+          <label class="field" for="markup">Schema markup factor
+            <span class="hint">Providers wrap the schema with control tokens. 1.15 = +15% overhead.</span>
+          </label>
+          <input type="number" id="markup" value="1.15" min="1" max="3" step="0.05">
+        </div>
+        <div>
+          <label class="field" for="requests">Monthly requests (at scale)
+            <span class="hint">Total API calls per month carrying these tools.</span>
+          </label>
+          <input type="number" id="requests" value="1000000" min="0" step="1000">
+        </div>
+      </div>
+
+      <div class="form-grid one" id="customPriceWrap" style="display:none;">
+        <label class="field" for="customPrice">Custom input price (USD per 1M tokens)
+          <span class="hint">Used when "Custom price…" is selected above.</span>
+        </label>
+        <input type="number" id="customPrice" value="1.00" min="0" step="0.05">
+      </div>
+
+      <div class="results">
+        <p class="results-title">Overhead breakdown</p>
+        <div class="result-grid">
+          <div class="result-box">
+            <div class="label">Tool tokens / request</div>
+            <div class="value accent" id="outTokens">0</div>
+            <div class="sub" id="outTokensSub">schema + markup</div>
+          </div>
+          <div class="result-box">
+            <div class="label">Cost overhead / request</div>
+            <div class="value warn" id="outCostReq">$0.000000</div>
+            <div class="sub" id="outCostReqSub">at current model price</div>
+          </div>
+          <div class="result-box">
+            <div class="label">Monthly cost at scale</div>
+            <div class="value" id="outCostMonth">$0.00</div>
+            <div class="sub" id="outCostMonthSub">requests &times; per-req cost</div>
+          </div>
+        </div>
+
+        <table class="breakdown">
+          <thead>
+            <tr><th>Component</th><th class="num">Characters</th><th class="num">Tokens</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Raw schema text</td><td class="num" id="bdRawChars">0</td><td class="num" id="bdRawToks">0</td></tr>
+            <tr><td>Provider markup overhead</td><td class="num" id="bdMarkChars">0</td><td class="num" id="bdMarkToks">0</td></tr>
+            <tr><td><strong>Total tool overhead</strong></td><td class="num" id="bdTotChars">0</td><td class="num" id="bdTotToks">0</td></tr>
+          </tbody>
+        </table>
+        <p class="note" id="footnote">Estimates are heuristic. Real token counts vary by tokenizer and provider encoding — validate with the official tokenizer for exact billing.</p>
+      </div>
+    </div>
+
+    <section class="explanation">
+      <h2>Why tool definitions cost you money</h2>
+      <p>Every function or tool you expose to an LLM has to be declared in the request. Providers serialize your JSON schema into the prompt and re-send the <strong>entire tool set on every single call</strong>. If you register 12 tools totaling 3,000 tokens and you fire a million requests a month, those definitions are billed as a million input tokens &times; 3,000 — a recurring, invisible tax that grows linearly with traffic and tool count.</p>
+      <p>This tool calling token overhead calculator quantifies that tax. It estimates the input-token footprint of your schema from character length, applies a provider markup factor to account for the control tokens each API wraps around definitions, then converts tokens to dollars using the selected model's input price. Switch the model dropdown and the per-request and monthly figures update instantly, so you can compare, say, GPT-4o against Gemini 2.0 Flash before committing to an architecture.</p>
+      <p>The biggest lever is rarely the model — it is <strong>tool sprawl</strong>. Trimming verbose descriptions, dropping unused tools per agent, and batching only the tools a given request needs can cut overhead by 50-90%. For multi-turn agents, also consider prompt caching (Anthropic, Google, and OpenAI all support it), which discounts repeated tool-prefix tokens heavily. Use this calculator to baseline before and after any optimization so the savings are concrete.</p>
+    </section>
+
+    <div class="related">
+      <h3>Related KickLLM tools</h3>
+      <div class="related-links">
+        <a href="/tools/system-prompt-optimizer.html">System Prompt Optimizer</a>
+        <a href="/tools/token-counter.html">Token Counter</a>
+        <a href="/tools/llm-cost-calculator.html">LLM Cost Calculator</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>&copy; KickLLM</span>
+    <span><a href="/">Home</a> &nbsp;&middot;&nbsp; <a href="/tools/">Tools</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var schema = document.getElementById("schema");
+  var model = document.getElementById("model");
+  var charsPerTok = document.getElementById("charsPerTok");
+  var markup = document.getElementById("markup");
+  var requests = document.getElementById("requests");
+  var customPrice = document.getElementById("customPrice");
+  var customPriceWrap = document.getElementById("customPriceWrap");
+
+  var outTokens = document.getElementById("outTokens");
+  var outCostReq = document.getElementById("outCostReq");
+  var outCostMonth = document.getElementById("outCostMonth");
+  var bdRawChars = document.getElementById("bdRawChars");
+  var bdRawToks = document.getElementById("bdRawToks");
+  var bdMarkChars = document.getElementById("bdMarkChars");
+  var bdMarkToks = document.getElementById("bdMarkToks");
+  var bdTotChars = document.getElementById("bdTotChars");
+  var bdTotToks = document.getElementById("bdTotToks");
+
+  function fmt(n, d) {
+    if (!isFinite(n)) n = 0;
+    return n.toLocaleString("en-US", { maximumFractionDigits: d, minimumFractionDigits: d });
+  }
+  function fmtMoney(n) {
+    if (!isFinite(n)) n = 0;
+    if (n >= 1) return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 6, minimumFractionDigits: 6 });
+  }
+
+  function getPricePerMillion() {
+    if (model.value === "custom") {
+      var cp = parseFloat(customPrice.value);
+      return isFinite(cp) && cp >= 0 ? cp : 0;
+    }
+    var p = parseFloat(model.value);
+    return isFinite(p) && p >= 0 ? p : 0;
+  }
+  function getModelLabel() {
+    var opt = model.options[model.selectedIndex];
+    return opt ? (opt.getAttribute("data-label") || opt.text) : "model";
+  }
+
+  function compute() {
+    var text = schema.value || "";
+    // Strip whitespace-only chars for a fairer density estimate
+    var nonWs = text.replace(/\s+/g, " ").trim();
+    var rawChars = text.length;
+    var cpt = parseFloat(charsPerTok.value);
+    if (!isFinite(cpt) || cpt <= 0) cpt = 3.6;
+    var mk = parseFloat(markup.value);
+    if (!isFinite(mk) || mk < 1) mk = 1;
+
+    var rawToks = Math.ceil(rawChars / cpt);
+    var totToks = Math.ceil(rawToks * mk);
+    var markToks = totToks - rawToks;
+    var markChars = Math.round(markToks * cpt);
+
+    var pricePerMillion = getPricePerMillion();
+    var pricePerToken = pricePerMillion / 1000000;
+    var costPerReq = totToks * pricePerToken;
+
+    var reqCount = parseInt(requests.value, 10);
+    if (!isFinite(reqCount) || reqCount < 0) reqCount = 0;
+    var costMonth = costPerReq * reqCount;
+
+    outTokens.textContent = fmt(totToks, 0);
+    outCostReq.textContent = fmtMoney(costPerReq);
+    outCostReqSub.textContent = getModelLabel() + " input";
+    outCostMonth.textContent = fmtMoney(costMonth);
+    outCostMonthSub.textContent = fmt(reqCount, 0) + " requests &times; " + fmt(costPerReq, 6);
+
+    bdRawChars.textContent = fmt(rawChars, 0);
+    bdRawToks.textContent = fmt(rawToks, 0);
+    bdMarkChars.textContent = fmt(markChars, 0);
+    bdMarkToks.textContent = fmt(markToks, 0);
+    bdTotChars.textContent = fmt(rawChars + markChars, 0);
+    bdTotToks.textContent = fmt(totToks, 0);
+  }
+
+  function toggleCustom() {
+    customPriceWrap.style.display = (model.value === "custom") ? "grid" : "none";
+    compute();
+  }
+
+  schema.addEventListener("input", compute);
+  charsPerTok.addEventListener("input", compute);
+  markup.addEventListener("input", compute);
+  requests.addEventListener("input", compute);
+  customPrice.addEventListener("input", compute);
+  model.addEventListener("change", toggleCustom);
+
+  compute();
+})();
+</script>
+</body>
+</html>

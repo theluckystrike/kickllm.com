@@ -159,4 +159,9 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+<url><loc>https://kickllm.com/tools/prompt-caching-break-even-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
+<url><loc>https://kickllm.com/tools/batch-api-savings-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
+<url><loc>https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
+<url><loc>https://kickllm.com/tools/llm-rate-limit-capacity-planner.html</loc><lastmod>2026-06-23</lastmod></url>
+<url><loc>https://kickllm.com/tools/tool-calling-overhead-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
 </urlset>

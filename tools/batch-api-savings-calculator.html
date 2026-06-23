@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LLM Batch API Savings Calculator | KickLLM</title>
+<meta name="description" content="Calculate LLM batch API savings vs realtime. Compare async batch pricing (up to 50% off), turnaround time, and request volume instantly.">
+<link rel="canonical" href="https://kickllm.com/tools/batch-api-savings-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/batch-api-savings-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/batch-api-savings-calculator.html">
+<meta property="og:title" content="LLM Batch API Savings Calculator | KickLLM">
+<meta property="og:description" content="Calculate LLM batch API savings vs realtime. Compare async batch pricing (up to 50% off), turnaround time, and request volume instantly.">
+<meta property="og:url" content="https://kickllm.com/tools/batch-api-savings-calculator.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#0a0a0a;--panel:#131313;--panel2:#1a1a1a;--border:#262626;
+  --text:#ededed;--muted:#9a9a9a;--accent:#4ade80;--accent2:#22d3ee;
+  --warn:#fbbf24;--bad:#f87171;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;border-bottom:1px solid var(--border);
+  background:#0d0d0d;position:sticky;top:0;z-index:10;
+}
+nav .brand{font-weight:700;font-size:18px;color:#fff;letter-spacing:.5px}
+nav .brand span{color:var(--accent)}
+nav .links a{margin-left:18px;color:var(--muted);font-size:14px}
+nav .links a:hover{color:#fff}
+main{max-width:880px;margin:0 auto;padding:32px 22px 64px}
+h1{font-size:30px;line-height:1.25;margin:0 0 12px;color:#fff;font-weight:800}
+.intro{color:var(--muted);font-size:16px;margin:0 0 28px}
+.tool{
+  background:var(--panel);border:1px solid var(--border);border-radius:14px;
+  padding:26px;margin-bottom:30px;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.field select,
+.field input{
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  padding:11px 12px;border-radius:9px;font-size:15px;font-family:inherit;outline:none;
+  transition:border-color .15s;
+}
+.field select:focus,.field input:focus{border-color:var(--accent)}
+.hint{font-size:11px;color:#6f6f6f;margin-top:4px}
+.output{
+  margin-top:24px;border-top:1px solid var(--border);padding-top:22px;
+}
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.card{
+  background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:16px;
+}
+.card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.card .v{font-size:22px;font-weight:800;color:#fff}
+.card.green .v{color:var(--accent)}
+.card.cyan .v{color:var(--accent2)}
+.card.warn .v{color:var(--warn)}
+.bar{height:12px;border-radius:6px;background:#222;overflow:hidden;margin:6px 0 4px}
+.bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width .3s}
+.note{font-size:13px;color:var(--muted)}
+.note b{color:#cfcfcf}
+.verdict{margin-top:8px;font-size:14px;color:#cfcfcf}
+.explain{color:#c4c4c4;font-size:15.5px}
+.explain h2{font-size:21px;color:#fff;margin:30px 0 10px;font-weight:700}
+.explain h2:first-child{margin-top:0}
+.explain p{margin:0 0 14px}
+.explain ul{margin:0 0 14px;padding-left:22px}
+.explain li{margin-bottom:6px}
+.related{margin-top:34px;border-top:1px solid var(--border);padding-top:22px}
+.related h2{font-size:19px;color:#fff;margin:0 0 12px}
+.related ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
+.related li a{
+  display:inline-block;padding:9px 14px;border:1px solid var(--border);
+  border-radius:9px;background:var(--panel);color:var(--text);font-size:14px;
+}
+.related li a:hover{border-color:var(--accent);text-decoration:none}
+footer.site-footer{
+  border-top:1px solid var(--border);background:#0d0d0d;color:var(--muted);
+  padding:24px;text-align:center;font-size:14px;
+}
+footer.site-footer a{margin:0 8px}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .out-grid{grid-template-columns:1fr}
+  h1{font-size:24px}
+  main{padding:24px 16px 48px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"LLM Batch API Savings Calculator",
+  "url":"https://kickllm.com/tools/batch-api-savings-calculator.html",
+  "description":"Calculate savings from async LLM batch processing (Anthropic/OpenAI batch ~50% off) versus realtime API calls, including turnaround time and request volume.",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"Web",
+  "browserRequirements":"Requires JavaScript",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "author":{"@type":"Person","name":"Michael Lip","url":"https://zovo.one"},
+  "isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},
+    {"@type":"ListItem","position":3,"name":"LLM Batch API Savings Calculator","item":"https://kickllm.com/tools/batch-api-savings-calculator.html"}
+  ]
+}
+</script>
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">kick<span>llm</span></a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/tools/">Tools</a>
+  </div>
+</nav>
+
+<main>
+  <h1>Batch API Savings Calculator for LLM Workloads</h1>
+  <p class="intro">
+    Compare the cost of async batch processing against realtime API calls. Enter your request volume and per-call token usage to see how much you save with discounted batch pricing from Anthropic and OpenAI.
+  </p>
+
+  <div class="tool">
+    <div class="grid">
+      <div class="field">
+        <label for="provider">Provider</label>
+        <select id="provider">
+          <option value="50">Anthropic (50% off)</option>
+          <option value="50">OpenAI (50% off)</option>
+          <option value="25">Custom 25% off</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="discount">Batch discount</label>
+        <select id="discount">
+          <option value="50">50% (standard batch)</option>
+          <option value="25">25%</option>
+          <option value="10">10%</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="requests">Monthly requests</label>
+        <input type="number" id="requests" value="100000" min="0" step="1000">
+      </div>
+      <div class="field">
+        <label for="inTokens">Input tokens / request</label>
+        <input type="number" id="inTokens" value="1200" min="0" step="10">
+      </div>
+      <div class="field">
+        <label for="outTokens">Output tokens / request</label>
+        <input type="number" id="outTokens" value="400" min="0" step="10">
+      </div>
+      <div class="field">
+        <label for="inPrice">Input price ($ / 1M tokens)</label>
+        <input type="number" id="inPrice" value="3.00" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="outPrice">Output price ($ / 1M tokens)</label>
+        <input type="number" id="outPrice" value="15.00" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="turnaround">Batch turnaround (hours)</label>
+        <input type="number" id="turnaround" value="24" min="0" step="1">
+        <span class="hint">Anthropic &amp; OpenAI batch completes within ~24h.</span>
+      </div>
+    </div>
+
+    <div class="output">
+      <div class="out-grid">
+        <div class="card red">
+          <div class="k">Realtime cost</div>
+          <div class="v" id="realtimeCost">$0</div>
+        </div>
+        <div class="card cyan">
+          <div class="k">Batch cost</div>
+          <div class="v" id="batchCost">$0</div>
+        </div>
+        <div class="card green">
+          <div class="k">Monthly savings</div>
+          <div class="v" id="savings">$0</div>
+        </div>
+      </div>
+
+      <div class="bar"><span id="bar"></span></div>
+      <p class="note"><b id="pctSaved">0%</b> of realtime spend kept — <b id="annual">0</b> projected annual savings.</p>
+      <p class="verdict" id="verdict"></p>
+    </div>
+  </div>
+
+  <section class="explain">
+    <h2>How the LLM batch API savings calculator works</h2>
+    <p>
+      Async batch APIs let you submit large volumes of non-urgent requests that providers process offline and return hours later. Because that traffic is flexible, Anthropic and OpenAI both discount batch completions by roughly 50% versus standard realtime calls. This calculator multiplies your monthly request count by the per-call token cost, applies the discount you select, and reports the difference as both a dollar figure and a percentage.
+    </p>
+    <ul>
+      <li><b>Realtime cost</b> = requests &times; (input tokens &times; input price + output tokens &times; output price) &divide; 1,000,000.</li>
+      <li><b>Batch cost</b> = realtime cost &times; (1 &minus; discount &divide; 100).</li>
+      <li><b>Savings</b> = realtime cost &minus; batch cost, then &times; 12 for the annual projection.</li>
+    </ul>
+
+    <h2>When batch processing makes sense</h2>
+    <p>
+      Batch is ideal when a human is not waiting on the response. Bulk classification, document summarization, embeddings generation, dataset labeling, and evaluation harnesses all tolerate a 24-hour turnaround in exchange for half the cost. If your workload is interactive, latency-sensitive, or needs streaming, keep it on realtime endpoints.
+    </p>
+
+    <h2>Tips for maximizing savings</h2>
+    <ul>
+      <li>Coalesce small requests into fewer batch files to stay above the minimum batch size.</li>
+      <li>Move evaluation and regression suites entirely to batch — they rarely need realtime results.</li>
+      <li>Watch token caps per file: Anthropic caps batch files at 100,000 requests and 256 MB.</li>
+      <li>Re-run this calculator whenever pricing changes or volume scales, since savings compound linearly.</li>
+    </ul>
+  </section>
+
+  <div class="related">
+    <h2>Related KickLLM tools</h2>
+    <ul>
+      <li><a href="/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
+      <li><a href="/tools/fine-tuning-cost-calculator.html">Fine-Tuning Cost Calculator</a></li>
+      <li><a href="/tools/llm-latency-estimator.html">LLM Latency Estimator</a></li>
+      <li><a href="/tools/token-counter.html">Token Counter</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div>&copy; KickLLM</div>
+  <div style="margin-top:8px">
+    <a href="/">Home</a>
+    <a href="/tools/">Tools</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){return document.getElementById(id);};
+
+  function fmt(n){
+    if(n >= 1){return "$" + n.toLocaleString("en-US",{maximumFractionDigits:0});}
+    return "$" + n.toFixed(2);
+  }
+
+  function num(id){
+    var v = parseFloat($(id).value);
+    return isNaN(v) || v < 0 ? 0 : v;
+  }
+
+  function compute(){
+    var requests   = num("requests");
+    var inTokens   = num("inTokens");
+    var outTokens  = num("outTokens");
+    var inPrice    = num("inPrice");
+    var outPrice   = num("outPrice");
+    var discount   = parseFloat($("discount").value) || 0;
+    var turnaround = num("turnaround");
+
+    var perCallIn  = (inTokens * inPrice) / 1e6;
+    var perCallOut = (outTokens * outPrice) / 1e6;
+    var perCall    = perCallIn + perCallOut;
+
+    var realtime = requests * perCall;
+    var batch    = realtime * (1 - discount / 100);
+    var saved    = realtime - batch;
+    var annual   = saved * 12;
+    var pct      = realtime > 0 ? (saved / realtime) * 100 : 0;
+
+    $("realtimeCost").textContent = fmt(realtime);
+    $("batchCost").textContent    = fmt(batch);
+    $("savings").textContent      = fmt(saved);
+    $("annual").textContent       = fmt(annual);
+    $("pctSaved").textContent     = pct.toFixed(0) + "% kept";
+
+    var barPct = realtime > 0 ? Math.round((batch / realtime) * 100) : 0;
+    $("bar").style.width = barPct + "%";
+
+    var v = $("verdict");
+    if(realtime <= 0){
+      v.textContent = "Enter your request volume and token usage to see savings.";
+    } else if(turnaround > 0 && saved > 0){
+      v.textContent = "Batching " + requests.toLocaleString("en-US") +
+        " requests at ~" + turnaround + "h turnaround saves " + fmt(saved) +
+        "/month while halving latency-critical spend.";
+    } else {
+      v.textContent = "Adjust inputs to compare batch and realtime costs.";
+    }
+  }
+
+  var inputs = ["provider","discount","requests","inTokens","outTokens",
+                "inPrice","outPrice","turnaround"];
+  for(var i=0;i<inputs.length;i++){
+    var el = $(inputs[i]);
+    el.addEventListener("input", compute);
+    el.addEventListener("change", compute);
+  }
+  compute();
+})();
+</script>
+</body>
+</html>

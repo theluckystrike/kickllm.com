@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vision Token Cost Calculator for GPT-4o & Claude | KickLLM</title>
+<meta name="description" content="This vision token cost calculator estimates image and text token costs across GPT-4o, Claude, and Gemini. Enter image size and detail for USD instantly.">
+<link rel="canonical" href="https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html">
+<meta property="og:title" content="Vision Token Cost Calculator for GPT-4o & Claude | KickLLM">
+<meta property="og:description" content="This vision token cost calculator estimates image and text token costs across GPT-4o, Claude, and Gemini. Enter image size and detail for USD instantly.">
+<meta property="og:url" content="https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Vision Token Cost Calculator",
+  "url": "https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "description": "Estimate image and text token costs across GPT-4o, Claude, and Gemini. Enter image size, detail level, and model to get tokens and USD instantly.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Michael Lip",
+    "url": "https://zovo.one"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/"},
+    {"@type": "ListItem", "position": 3, "name": "Vision Token Cost Calculator", "item": "https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html"}
+  ]
+}
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0a;
+    color: #e5e7eb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; width: 100%; padding: 1.5rem 1.2rem; flex: 1; }
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #1f1f1f;
+    max-width: 980px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  nav .brand { font-weight: 700; color: #fafafa; text-decoration: none; font-size: 1.1rem; }
+  nav .links a { color: #a1a1aa; text-decoration: none; margin-left: 1rem; font-size: 0.9rem; }
+  nav .links a:hover { color: #fafafa; }
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 0.5rem;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .intro { color: #a1a1aa; font-size: 1rem; margin-bottom: 1.8rem; max-width: 70ch; }
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 720px) { .tool-grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 0.9rem;
+    padding: 1.4rem 1.2rem;
+  }
+  .field { margin-bottom: 1.1rem; }
+  .field label { display: block; font-size: 0.82rem; font-weight: 600; color: #d4d4d8; margin-bottom: 0.35rem; }
+  .field .hint { font-size: 0.72rem; color: #71717a; margin-top: 0.25rem; }
+  input, select {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    border-radius: 0.55rem;
+    color: #fafafa;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  input:focus, select:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 2px rgba(96,165,250,0.2); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .radio-row { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .radio-row label { display: flex; align-items: center; gap: 0.3rem; font-size: 0.85rem; color: #d4d4d8; cursor: pointer; font-weight: 400; }
+  .radio-row input { width: auto; accent-color: #60a5fa; }
+  .results h2 { font-size: 1.05rem; font-weight: 600; color: #60a5fa; margin-bottom: 0.9rem; border-bottom: 1px solid #262626; padding-bottom: 0.5rem; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #1f1f1f; font-size: 0.92rem; }
+  .row .k { color: #a1a1aa; }
+  .row .v { font-weight: 600; color: #fafafa; }
+  .big-result {
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    border-left: 3px solid #a78bfa;
+    border-radius: 0.6rem;
+    padding: 0.9rem 1rem;
+    margin: 1rem 0;
+  }
+  .big-result .lbl { font-size: 0.72rem; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; }
+  .big-result .val { font-size: 1.8rem; font-weight: 700; color: #fafafa; margin-top: 0.15rem; }
+  .big-result .sub { font-size: 0.8rem; color: #a1a1aa; margin-top: 0.1rem; }
+  .compare { margin-top: 0.6rem; }
+  .compare .row { font-size: 0.85rem; }
+  .badge { display: inline-block; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 2rem; padding: 0.1rem 0.55rem; font-size: 0.68rem; color: #a78bfa; margin-left: 0.4rem; }
+  .explain { color: #a1a1aa; font-size: 0.95rem; max-width: 72ch; margin: 1rem 0 1.5rem; }
+  .explain h2 { font-size: 1.2rem; font-weight: 600; color: #fafafa; margin: 1.4rem 0 0.5rem; }
+  .explain p { margin-bottom: 0.7rem; }
+  .explain ul { margin: 0 0 0.7rem 1.3rem; }
+  .explain li { margin-bottom: 0.3rem; }
+  .related { margin: 2rem 0 1rem; }
+  .related h2 { font-size: 1.1rem; font-weight: 600; color: #fafafa; margin-bottom: 0.6rem; }
+  .related a {
+    display: inline-block;
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    margin: 0.25rem 0.3rem 0.25rem 0;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  .related a:hover { border-color: #60a5fa; }
+  .site-footer {
+    border-top: 1px solid #1f1f1f;
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+    color: #71717a;
+    font-size: 0.85rem;
+  }
+  .site-footer a { color: #a1a1aa; text-decoration: none; margin: 0 0.5rem; }
+  .site-footer a:hover { color: #fafafa; }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="https://kickllm.com/">KickLLM</a>
+  <div class="links">
+    <a href="https://kickllm.com/">Home</a>
+    <a href="https://kickllm.com/tools/">Tools</a>
+  </div>
+</nav>
+<div class="wrap">
+  <h1>Vision Token Cost Calculator</h1>
+  <p class="intro">Estimate how many tokens an image costs and translate that into USD across GPT-4o, Claude, and Gemini. Adjust image dimensions, detail level, and model to see cost in real time.</p>
+
+  <div class="tool-grid">
+    <div class="panel">
+      <div class="field">
+        <label for="model">Model</label>
+        <select id="model">
+          <option value="gpt4o">GPT-4o ($2.50 / 1M input tokens)</option>
+          <option value="gpt4o-mini">GPT-4o mini ($0.15 / 1M input tokens)</option>
+          <option value="claude-sonnet">Claude Sonnet 4.5 ($3.00 / 1M input tokens)</option>
+          <option value="gemini-flash">Gemini 2.5 Flash ($0.30 / 1M input tokens)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="width">Image dimensions</label>
+        <div class="two-col">
+          <input type="number" id="width" value="1024" min="16" max="8192" step="1" placeholder="Width (px)">
+          <input type="number" id="height" value="1024" min="16" max="8192" step="1" placeholder="Height (px)">
+        </div>
+        <div class="hint">Pixels per side. Common: 512&times;512, 768&times;768, 1024&times;1024.</div>
+      </div>
+
+      <div class="field">
+        <label>Detail level <span class="badge" id="modelNote">GPT-style tiles</span></label>
+        <div class="radio-row">
+          <label><input type="radio" name="detail" value="high" checked> High</label>
+          <label><input type="radio" name="detail" value="low"> Low</label>
+        </div>
+        <div class="hint">High resamples into 512px tiles; Low uses a single fixed tile.</div>
+      </div>
+
+      <div class="field">
+        <label for="imageCount">Number of images</label>
+        <input type="number" id="imageCount" value="1" min="1" max="10000" step="1">
+        <div class="hint">Batch cost across N identical images.</div>
+      </div>
+
+      <div class="field">
+        <label for="textTokens">Accompanying text tokens (prompt)</label>
+        <input type="number" id="textTokens" value="300" min="0" max="1000000" step="1">
+        <div class="hint">Add prompt/answer text tokens to the total cost.</div>
+      </div>
+    </div>
+
+    <div class="panel results">
+      <h2>Live estimate</h2>
+      <div class="big-result">
+        <div class="lbl">Image + text cost (USD)</div>
+        <div class="val" id="totalCost">$0.0000</div>
+        <div class="sub" id="costBreakdown">0 image tokens + 0 text tokens</div>
+      </div>
+
+      <div class="row"><span class="k">Image tokens (per image)</span><span class="v" id="imgTokens">0</span></div>
+      <div class="row"><span class="k">Tiles processed</span><span class="v" id="tiles">0</span></div>
+      <div class="row"><span class="k">All images tokens</span><span class="v" id="allImgTokens">0</span></div>
+      <div class="row"><span class="k">Text tokens</span><span class="v" id="textTokOut">0</span></div>
+      <div class="row"><span class="k">Total tokens</span><span class="v" id="totalTokens">0</span></div>
+      <div class="row"><span class="k">Price per 1M tokens</span><span class="v" id="price">$0.00</span></div>
+
+      <div class="compare">
+        <div class="row"><span class="k">Same image on GPT-4o</span><span class="v" id="cmpGpt4o">$0.00</span></div>
+        <div class="row"><span class="k">Same image on Claude Sonnet</span><span class="v" id="cmpClaude">$0.00</span></div>
+        <div class="row"><span class="k">Same image on Gemini Flash</span><span class="v" id="cmpGemini">$0.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>How vision token cost is calculated</h2>
+    <p>Multimodal models do not read pixels directly. They slice an image into fixed-size tiles, embed each tile, and charge you for the resulting tokens just like text. This vision token cost calculator makes that hidden cost visible before you send a batch of images to an API.</p>
+
+    <h2>The tile math</h2>
+    <p>OpenAI's GPT-4o family scales images so the shortest side is 768px (High) or uses a single 512px tile (Low). Each 512&times;512 tile costs a base of 85 tokens, plus the model adds a fixed overhead of 170 tokens per image. So a 1024&times;1024 photo at High detail becomes four tiles: 4 &times; 85 + 170 = 510 tokens. Larger documents with many tiles multiply quickly.</p>
+
+    <h2>Claude and Gemini differences</h2>
+    <p>Anthropic's Claude models approximate vision tokens at roughly (width &times; height) / 750 for typical screenshots, with a 1.6x safety multiplier on dense content. Google's Gemini charges about (width &times; height) / 285 tokens for inline images. This tool uses the conservative tile model for GPT-4o and the published per-pixel approximations for Claude and Gemini, so the comparison row shows how the same picture costs different amounts on each provider.</p>
+
+    <h2>Practical cost-saving tips</h2>
+    <ul>
+      <li>Downscale before upload: a 2048px image can cost 4&ndash;9x more tiles than a 768px one for marginal accuracy gain.</li>
+      <li>Use Low detail for classification or yes/no checks; reserve High for OCR or fine detail.</li>
+      <li>Route high-volume vision workloads to GPT-4o mini or Gemini Flash, which are an order of magnitude cheaper per token.</li>
+      <li>Crop whitespace and borders so fewer tiles fall on blank pixels.</li>
+    </ul>
+  </div>
+
+  <div class="related">
+    <h2>Related KickLLM tools</h2>
+    <a href="https://kickllm.com/tools/llm-cost-calculator.html">LLM Cost Calculator</a>
+    <a href="https://kickllm.com/tools/token-counter.html">Token Counter</a>
+    <a href="https://kickllm.com/tools/context-window-utilization.html">Context Window Utilization</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div>
+    <a href="https://kickllm.com/">Home</a>
+    <a href="https://kickllm.com/tools/">Tools</a>
+  </div>
+  <div style="margin-top:0.5rem;">&copy; KickLLM</div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // Per 1M input token pricing (USD). 2025/2026 list prices.
+  var PRICING = {
+    "gpt4o": 2.50,
+    "gpt4o-mini": 0.15,
+    "claude-sonnet": 3.00,
+    "gemini-flash": 0.30
+  };
+
+  var els = {
+    model: document.getElementById("model"),
+    width: document.getElementById("width"),
+    height: document.getElementById("height"),
+    imageCount: document.getElementById("imageCount"),
+    textTokens: document.getElementById("textTokens"),
+    modelNote: document.getElementById("modelNote"),
+    totalCost: document.getElementById("totalCost"),
+    costBreakdown: document.getElementById("costBreakdown"),
+    imgTokens: document.getElementById("imgTokens"),
+    tiles: document.getElementById("tiles"),
+    allImgTokens: document.getElementById("allImgTokens"),
+    textTokOut: document.getElementById("textTokOut"),
+    totalTokens: document.getElementById("totalTokens"),
+    price: document.getElementById("price"),
+    cmpGpt4o: document.getElementById("cmpGpt4o"),
+    cmpClaude: document.getElementById("cmpClaude"),
+    cmpGemini: document.getElementById("cmpGemini")
+  };
+
+  function getDetail() {
+    var radios = document.getElementsByName("detail");
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) return radios[i].value;
+    }
+    return "high";
+  }
+
+  // Compute image tokens for a single image given provider + detail.
+  // GPT family uses the documented tile model; Claude/Gemini use per-pixel approximations.
+  function imageTokens(provider, detail, w, h) {
+    w = Math.max(16, Math.floor(w) || 0);
+    h = Math.max(16, Math.floor(h) || 0);
+
+    if (provider === "gpt4o" || provider === "gpt4o-mini") {
+      if (detail === "low") {
+        return { tokens: 85, tiles: 1 };
+      }
+      // High: scale so shortest side <= 768, then tile into 512px squares.
+      var shortest = Math.min(w, h);
+      var scale = shortest > 768 ? 768 / shortest : 1;
+      var sw = w * scale;
+      var sh = h * scale;
+      // number of 512px tiles across each dimension (ceil)
+      var tilesX = Math.ceil(sw / 512);
+      var tilesY = Math.ceil(sh / 512);
+      var tileCount = tilesX * tilesY;
+      return { tokens: tileCount * 85 + 170, tiles: tileCount };
+    }
+
+    if (provider === "claude-sonnet") {
+      // Anthropic approximation: (w*h)/750 with 1.6x dense multiplier.
+      var base = (w * h) / 750;
+      return { tokens: Math.round(base * 1.6), tiles: Math.max(1, Math.round(base / 85)) };
+    }
+
+    if (provider === "gemini-flash") {
+      // Google approximation: (w*h)/285 tokens per inline image.
+      return { tokens: Math.round((w * h) / 285), tiles: Math.max(1, Math.round((w * h) / (512 * 512))) };
+    }
+
+    return { tokens: 0, tiles: 0 };
+  }
+
+  function fmtMoney(v) {
+    if (v < 0.0001 && v > 0) return "$" + v.toFixed(6);
+    return "$" + v.toFixed(4);
+  }
+  function fmtInt(v) {
+    return Math.round(v).toLocaleString("en-US");
+  }
+
+  function compute() {
+    var provider = els.model.value;
+    var detail = getDetail();
+    var w = parseInt(els.width.value, 10) || 0;
+    var h = parseInt(els.height.value, 10) || 0;
+    var count = Math.max(1, parseInt(els.imageCount.value, 10) || 1);
+    var textTok = Math.max(0, parseInt(els.textTokens.value, 10) || 0);
+
+    var info = imageTokens(provider, detail, w, h);
+    var perImage = info.tokens;
+    var allImg = perImage * count;
+    var total = allImg + textTok;
+    var rate = PRICING[provider] || 0;
+    var cost = (total / 1e6) * rate;
+
+    els.totalCost.textContent = fmtMoney(cost);
+    els.costBreakdown.textContent = fmtInt(allImg) + " image tokens + " + fmtInt(textTok) + " text tokens";
+    els.imgTokens.textContent = fmtInt(perImage);
+    els.tiles.textContent = fmtInt(info.tiles);
+    els.allImgTokens.textContent = fmtInt(allImg);
+    els.textTokOut.textContent = fmtInt(textTok);
+    els.totalTokens.textContent = fmtInt(total);
+    els.price.textContent = "$" + rate.toFixed(2);
+
+    // Comparison row: same image+text on each provider at their High-equivalent rate.
+    var gptInfo = imageTokens("gpt4o", detail, w, h);
+    var claudeInfo = imageTokens("claude-sonnet", detail, w, h);
+    var geminiInfo = imageTokens("gemini-flash", detail, w, h);
+
+    var gptTok = gptInfo.tokens * count + textTok;
+    var claudeTok = claudeInfo.tokens * count + textTok;
+    var geminiTok = geminiInfo.tokens * count + textTok;
+
+    els.cmpGpt4o.textContent = fmtMoney((gptTok / 1e6) * PRICING["gpt4o"]);
+    els.cmpClaude.textContent = fmtMoney((claudeTok / 1e6) * PRICING["claude-sonnet"]);
+    els.cmpGemini.textContent = fmtMoney((geminiTok / 1e6) * PRICING["gemini-flash"]);
+
+    // Label which method the selected provider uses.
+    if (provider === "gpt4o" || provider === "gpt4o-mini") {
+      els.modelNote.textContent = "GPT-style tiles";
+    } else if (provider === "claude-sonnet") {
+      els.modelNote.textContent = "px / 750 &times;1.6";
+    } else {
+      els.modelNote.textContent = "px / 285";
+    }
+  }
+
+  // Event handlers
+  els.model.addEventListener("change", compute);
+  els.width.addEventListener("input", compute);
+  els.height.addEventListener("input", compute);
+  els.imageCount.addEventListener("input", compute);
+  els.textTokens.addEventListener("input", compute);
+  var detailRadios = document.getElementsByName("detail");
+  for (var i = 0; i < detailRadios.length; i++) {
+    detailRadios[i].addEventListener("change", compute);
+  }
+
+  compute();
+})();
+</script>
+</body>
+</html>

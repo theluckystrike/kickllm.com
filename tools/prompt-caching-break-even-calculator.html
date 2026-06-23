@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Prompt Caching Break Even Calculator | KickLLM</title>
+<meta name="description" content="Calculate the minimum cache-reuse rate needed for prompt caching to break even. Enter write premium, cache discount, and reuse count for instant results.">
+<link rel="canonical" href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">
+<meta property="og:title" content="Prompt Caching Break Even Calculator">
+<meta property="og:description" content="Find the minimum cache-reuse rate for prompt caching to save money. Input write premium, cache discount, and reuse count.">
+<meta property="og:url" content="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Prompt Caching Break Even Calculator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "url": "https://kickllm.com/tools/prompt-caching-break-even-calculator.html",
+  "description": "Find the minimum cache-reuse rate required for prompt caching to break even versus full write cost.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Michael Lip",
+    "url": "https://zovo.one"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://kickllm.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://kickllm.com/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Prompt Caching Break Even Calculator",
+      "item": "https://kickllm.com/tools/prompt-caching-break-even-calculator.html"
+    }
+  ]
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #0a0a0a;
+  color: #e5e7eb;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: #60a5fa; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 60px; }
+nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1f2937;
+  max-width: 880px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+nav .brand { font-weight: 700; color: #f9fafb; font-size: 1.1rem; }
+nav a { color: #9ca3af; font-size: 0.95rem; }
+nav a:hover { color: #e5e7eb; }
+h1 { font-size: 2rem; margin: 28px 0 12px; color: #f9fafb; line-height: 1.25; }
+.intro { color: #9ca3af; margin-bottom: 28px; font-size: 1.02rem; }
+.tool {
+  background: #111111;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.field .hint { color: #6b7280; font-weight: 400; font-size: 0.82rem; }
+.field input {
+  width: 100%;
+  padding: 11px 13px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.field input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+.output {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid #1f2937;
+}
+.output .label { color: #9ca3af; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.big {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #4ade80;
+  margin: 6px 0 4px;
+  line-height: 1.1;
+}
+.big.warn { color: #fbbf24; }
+.big.bad { color: #f87171; }
+.sub { color: #9ca3af; font-size: 0.95rem; margin-bottom: 18px; }
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+.stat {
+  background: #0a0a0a;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 14px;
+}
+.stat .v { font-size: 1.35rem; font-weight: 700; color: #f9fafb; }
+.stat .l { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+.verdict {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #0a0a0a;
+  border: 1px solid #1f2937;
+  color: #d1d5db;
+}
+.note { font-size: 0.85rem; color: #6b7280; margin-top: 14px; }
+.explain { color: #d1d5db; margin-bottom: 32px; }
+.explain h2 { font-size: 1.3rem; color: #f9fafb; margin: 24px 0 10px; }
+.explain p { margin-bottom: 12px; color: #b0b3b8; }
+.explain strong { color: #e5e7eb; }
+.related { margin-top: 20px; }
+.related h2 { font-size: 1.2rem; color: #f9fafb; margin-bottom: 12px; }
+.related ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.related li a {
+  display: inline-block;
+  padding: 10px 14px;
+  background: #111111;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+.related li a:hover { border-color: #60a5fa; color: #f9fafb; text-decoration: none; }
+.site-footer {
+  border-top: 1px solid #1f2937;
+  margin-top: 40px;
+  padding: 24px 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+.site-footer a { color: #9ca3af; margin: 0 8px; }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="https://kickllm.com/">KickLLM</a>
+  <a href="https://kickllm.com/">Home</a>
+  <a href="https://kickllm.com/tools/">Tools</a>
+</nav>
+
+<div class="wrap">
+  <h1>Prompt Caching Break Even Calculator</h1>
+  <p class="intro">Find the minimum cache-reuse rate required for prompt caching (Anthropic, OpenAI, Google) to actually save money versus paying the write premium. Numbers update live as you type.</p>
+
+  <div class="tool">
+    <div class="field">
+      <label for="basePrice">Base input price <span class="hint">($ per 1M tokens)</span></label>
+      <input type="number" id="basePrice" value="3.00" min="0" step="0.01">
+    </div>
+    <div class="field">
+      <label for="writePremium">Write premium multiplier <span class="hint">(e.g. 1.25 = 25% surcharge to cache)</span></label>
+      <input type="number" id="writePremium" value="1.25" min="1" step="0.05">
+    </div>
+    <div class="field">
+      <label for="cacheDiscount">Cache-read discount <span class="hint">(fraction of base, e.g. 0.1 = 10% of base price)</span></label>
+      <input type="number" id="cacheDiscount" value="0.10" min="0" max="1" step="0.01">
+    </div>
+    <div class="field">
+      <label for="reuseCount">Expected cache hits per cached token <span class="hint">(avg reuses before TTL expiry)</span></label>
+      <input type="number" id="reuseCount" value="4" min="0" step="1">
+    </div>
+
+    <div class="output">
+      <div class="label">Minimum reuse rate to break even</div>
+      <div class="big" id="breakEvenPct">—</div>
+      <div class="sub" id="breakEvenSub">Enter your inputs above.</div>
+
+      <div class="grid2">
+        <div class="stat">
+          <div class="v" id="costPerUse">—</div>
+          <div class="l">Effective $ per 1M tokens (with caching)</div>
+        </div>
+        <div class="stat">
+          <div class="v" id="savingsPct">—</div>
+          <div class="l">Cost savings vs no caching</div>
+        </div>
+      </div>
+
+      <div class="verdict" id="verdict">—</div>
+      <p class="note">Math: amortized cost per cached token = (writePremium + reuseRate * cacheDiscount) / (1 + reuseRate). Break-even vs base price (1.0) gives the minimum reuseRate.</p>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>How prompt caching break-even works</h2>
+    <p>Prompt caching lets an LLM provider store the prefix of a prompt so that repeat requests charge a steeply discounted <strong>cache-read</strong> rate instead of the full input rate. The catch: the very first write of that prefix carries a <strong>write premium</strong> (Anthropic charges 1.25x, OpenAI 1.25-2x depending on model) on top of the base price. Caching only pays off once you reuse the same cached prefix enough times to amortize that upfront surcharge.</p>
+    <p>This prompt caching break even calculator solves for the tipping point. Given your write premium, cache-read discount, and how many times you expect to reuse each cached block before its TTL expires, it returns the exact minimum reuse count required for caching to beat the no-cache baseline, plus the effective cost per token and percentage savings at your actual reuse level. If your real reuse count clears the threshold, caching is a net win; if it falls short, you are paying extra for nothing.</p>
+    <p>Typical break-even thresholds are low (often 1-2 reuses) because cache-read discounts are aggressive (Anthropic Sonnet caches at 0.1x, OpenAI at 0.5x), but they balloon quickly for large system prompts, long RAG contexts, or few-shot examples that change rarely. Use this tool before wiring caching into a production pipeline so you know the reuse volume your traffic must sustain.</p>
+  </div>
+
+  <div class="related">
+    <h2>Related KickLLM tools</h2>
+    <ul>
+      <li><a href="https://kickllm.com/tools/llm-cost-calculator">LLM Cost Calculator</a></li>
+      <li><a href="https://kickllm.com/tools/llm-latency-estimator">LLM Latency Estimator</a></li>
+      <li><a href="https://kickllm.com/tools/context-window-utilization">Context Window Utilization</a></li>
+    </ul>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div>
+    <a href="https://kickllm.com/">Home</a>
+    <a href="https://kickllm.com/tools/">Tools</a>
+  </div>
+  <p style="margin-top:10px">&copy; KickLLM</p>
+</footer>
+
+<script>
+(function () {
+  var basePrice = document.getElementById('basePrice');
+  var writePremium = document.getElementById('writePremium');
+  var cacheDiscount = document.getElementById('cacheDiscount');
+  var reuseCount = document.getElementById('reuseCount');
+
+  var outPct = document.getElementById('breakEvenPct');
+  var outSub = document.getElementById('breakEvenSub');
+  var outCost = document.getElementById('costPerUse');
+  var outSavings = document.getElementById('savingsPct');
+  var verdict = document.getElementById('verdict');
+
+  function num(el) {
+    var v = parseFloat(el.value);
+    return isNaN(v) ? 0 : v;
+  }
+
+  function fmtPct(x) {
+    return (x * 100).toFixed(1) + '%';
+  }
+
+  function calc() {
+    var wp = num(writePremium);   // write premium multiplier (1.0 = base)
+    var cd = num(cacheDiscount);  // cache read fraction of base (0..1)
+    var rc = num(reuseCount);     // actual reuses
+
+    // Amortized cost per cached token, normalized to base price = 1.0:
+    //   first use costs wp, each of rc reuses costs cd.
+    //   total cost over (1 + rc) uses = wp + rc*cd
+    //   per-use normalized = (wp + rc*cd) / (1 + rc)
+    // Break-even vs no-cache (per-use = 1.0) => solve for rc:
+    //   wp + rc*cd = 1 + rc  =>  rc*(cd - 1) = 1 - wp
+    //   rc = (1 - wp) / (cd - 1) = (wp - 1) / (1 - cd)
+
+    var denom = 1 - cd;
+    var minReuses;
+    if (denom <= 0) {
+      minReuses = 0; // cache read free or negative — always wins if any reuse
+    } else {
+      minReuses = (wp - 1) / denom;
+      if (minReuses < 0) minReuses = 0;
+    }
+
+    // Display break-even as a reuse count threshold (clearer than a % here)
+    outPct.textContent = minReuses.toFixed(2) + ' reuses';
+    outPct.className = 'big';
+
+    var actualCostNorm;
+    if (rc <= 0) {
+      actualCostNorm = wp; // only the write, no reuse
+    } else {
+      actualCostNorm = (wp + rc * cd) / (1 + rc);
+    }
+    var baseP = num(basePrice);
+    if (baseP <= 0) baseP = 1;
+    var effPerM = actualCostNorm * baseP;
+    outCost.textContent = '$' + effPerM.toFixed(4);
+
+    var savings;
+    if (actualCostNorm <= 0) {
+      savings = 1;
+    } else {
+      savings = 1 - actualCostNorm; // vs baseline normalized 1.0
+    }
+    outSavings.textContent = (savings * 100).toFixed(1) + '%';
+    if (savings < 0) outSavings.style.color = '#f87171';
+    else outSavings.style.color = '#4ade80';
+
+    // Verdict
+    if (rc <= 0) {
+      outSub.textContent = 'With 0 reuses you only pay the write premium — set an expected reuse count.';
+      verdict.textContent = 'Caching is not worth it without reuse: you pay ' + (wp).toFixed(2) + 'x base and get no discount back.';
+      outPct.className = 'big warn';
+    } else if (rc >= minReuses && savings >= 0) {
+      outSub.textContent = 'At ' + rc.toFixed(0) + ' reuses you clear the ' + minReuses.toFixed(2) + ' break-even threshold.';
+      verdict.textContent = 'Caching pays off: you save ' + (savings * 100).toFixed(1) + '% vs no caching. Keep your cache hit rate high to maximize this.';
+      outPct.className = 'big';
+    } else {
+      outSub.textContent = 'At ' + rc.toFixed(0) + ' reuses you are below the ' + minReuses.toFixed(2) + ' break-even threshold.';
+      verdict.textContent = 'Caching loses money at this reuse level — you need at least ' + Math.ceil(minReuses) + ' reuses per cached token. Raise reuse (longer TTL, more uniform prefixes) or skip caching.';
+      outPct.className = 'big bad';
+    }
+  }
+
+    calc();
+  });
+  basePrice.addEventListener('input', calc);
+  writePremium.addEventListener('input', calc);
+  cacheDiscount.addEventListener('input', calc);
+  reuseCount.addEventListener('input', calc);
+  calc();
+})();
+</script>
+</body>
+</html>

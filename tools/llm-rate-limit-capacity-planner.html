@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LLM Rate Limit Capacity Planner | KickLLM</title>
+<meta name="description" content="Plan LLM API capacity: convert RPM and TPM limits into max concurrent users and expected 429 errors for your traffic pattern. Free tool.">
+<link rel="canonical" href="https://kickllm.com/tools/llm-rate-limit-capacity-planner.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/llm-rate-limit-capacity-planner.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/llm-rate-limit-capacity-planner.html">
+<meta property="og:title" content="LLM Rate Limit Capacity Planner | KickLLM">
+<meta property="og:description" content="Plan LLM API capacity: convert RPM and TPM limits into max concurrent users and expected 429 errors for your traffic pattern.">
+<meta property="og:url" content="https://kickllm.com/tools/llm-rate-limit-capacity-planner.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "name": "LLM Rate Limit Capacity Planner",
+  "url": "https://kickllm.com/tools/llm-rate-limit-capacity-planner.html",
+  "description": "Convert RPM and TPM rate limits into max concurrent users and expected 429 errors for a given per-user request pattern.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+  "isPartOf": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/" },
+      { "@type": "ListItem", "position": 3, "name": "LLM Rate Limit Capacity Planner", "item": "https://kickllm.com/tools/llm-rate-limit-capacity-planner.html" }
+    ]
+  }
+}
+</script>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:#0a0a0a;color:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;font-size:16px}
+  a{color:#6ea8fe;text-decoration:none}
+  a:hover{text-decoration:underline}
+  nav{display:flex;gap:1.25rem;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid #1f1f1f;background:#0a0a0a;position:sticky;top:0;z-index:10}
+  nav .brand{font-weight:700;color:#fff;font-size:1.15rem;margin-right:auto}
+  nav a{color:#cfcfcf;font-size:.95rem}
+  main{max-width:820px;margin:0 auto;padding:2rem 1.25rem 3rem}
+  h1{font-size:1.9rem;line-height:1.25;margin:0 0 .6rem;color:#fff}
+  .intro{color:#b5b5b5;font-size:1.02rem;margin:0 0 1.75rem}
+  .tool{background:#141414;border:1px solid #242424;border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.25rem}
+  label{display:block;font-size:.82rem;color:#a0a0a0;margin-bottom:.35rem;font-weight:600}
+  input,select{width:100%;background:#0d0d0d;border:1px solid #2a2a2a;color:#fff;border-radius:8px;padding:.6rem .7rem;font-size:.95rem;font-family:inherit}
+  input:focus,select:focus{outline:none;border-color:#4a7bd6}
+  .full{grid-column:1 / -1}
+  button{grid-column:1 / -1;background:#2962ff;color:#fff;border:none;border-radius:8px;padding:.7rem;font-size:.95rem;font-weight:600;cursor:pointer;font-family:inherit}
+  button:hover{background:#1f51d6}
+  .results{margin-top:1.5rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}
+  .card{background:#0d0d0d;border:1px solid #262626;border-radius:10px;padding:1rem .9rem}
+  .card .v{font-size:1.55rem;font-weight:700;color:#fff;line-height:1.1}
+  .card.warn .v{color:#ffb454}
+  .card.bad .v{color:#ff6b6b}
+  .card.good .v{color:#5fd17a}
+  .card .k{font-size:.78rem;color:#9a9a9a;margin-top:.25rem;text-transform:uppercase;letter-spacing:.04em}
+  .note{grid-column:1 / -1;font-size:.82rem;color:#888;margin-top:.25rem}
+  .explain{color:#c4c4c4;font-size:.98rem}
+  .explain h2{font-size:1.2rem;color:#fff;margin:1.75rem 0 .5rem}
+  .explain p{margin:.5rem 0}
+  .related{margin-top:2rem;border-top:1px solid #1f1f1f;padding-top:1.25rem}
+  .related h2{font-size:1.05rem;color:#fff;margin:0 0 .6rem}
+  .related ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem .9rem}
+  .related li a{font-size:.92rem}
+  .site-footer{border-top:1px solid #1f1f1f;padding:1.5rem;text-align:center;color:#777;font-size:.88rem}
+  .site-footer a{color:#9a9a9a;margin:0 .5rem}
+  @media(max-width:560px){
+    .grid{grid-template-columns:1fr}
+    .results{grid-template-columns:1fr}
+    h1{font-size:1.5rem}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="/">KickLLM</a>
+  <a href="/">Home</a>
+  <a href="/tools/">Tools</a>
+</nav>
+<main>
+  <h1>LLM Rate Limit Capacity Planner</h1>
+  <p class="intro">Turn your provider's RPM and TPM limits into real-world numbers: how many concurrent users you can sustain and how often callers will hit 429 Too Many Requests. Built for anyone sizing traffic against OpenAI, Anthropic, Google, or open-source inference endpoints.</p>
+
+  <div class="tool">
+    <div class="grid">
+      <div>
+        <label for="rpm">Requests-per-minute (RPM) limit</label>
+        <input type="number" id="rpm" value="500" min="0" step="1">
+      </div>
+      <div>
+        <label for="tpm">Tokens-per-minute (TPM) limit</label>
+        <input type="number" id="tpm" value="150000" min="0" step="100">
+      </div>
+      <div>
+        <label for="users">Expected concurrent users</label>
+        <input type="number" id="users" value="100" min="0" step="1">
+      </div>
+      <div>
+        <label for="rpu">Requests per user per minute</label>
+        <input type="number" id="rpu" value="6" min="0" step="0.1">
+      </div>
+      <div>
+        <label for="tpu">Tokens per request</label>
+        <input type="number" id="tpu" value="1200" min="0" step="10">
+      </div>
+      <div>
+        <label for="burst">Burst multiplier (peak vs avg)</label>
+        <input type="number" id="burst" value="1.5" min="1" step="0.1">
+      </div>
+      <div class="note">Burst multiplier models short peak windows (e.g. 1.5 = peaks hit 150% of average load). Higher values raise expected 429s.</div>
+      <button id="calc">Recalculate</button>
+    </div>
+
+    <div class="results" id="results">
+      <div class="card"><div class="v" id="out-maxu">—</div><div class="k">Max sustainable users</div></div>
+      <div class="card"><div class="v" id="out-demand">—</div><div class="k">Your peak demand (RPM)</div></div>
+      <div class="card"><div class="v" id="out-headroom">—</div><div class="k">RPM headroom</div></div>
+      <div class="card"><div class="v" id="out-p429">—</div><div class="k">Expected 429 rate</div></div>
+      <div class="card"><div class="v" id="out-429min">—</div><div class="k">Rejected requests / min</div></div>
+      <div class="card"><div class="v" id="out-status">—</div><div class="k">Capacity verdict</div></div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>How this LLM rate limit capacity planner works</h2>
+    <p>An API rate limit is not an abstract number. It is a hard ceiling on the request volume and token throughput your application can push in a rolling 60-second window. This planner converts those ceilings into the metric product teams actually care about: how many simultaneous users the service supports, and how many requests will be rejected with a <code>429 Too Many Requests</code> response.</p>
+    <p>For each concurrent user, the planner multiplies their per-minute request rate by the burst multiplier to estimate peak demand. It compares that demand against both the RPM limit and the TPM limit (requests times tokens per request). The binding constraint is whichever runs out first, and the maximum sustainable user count is derived from it. Expected 429s are estimated with a simple Poisson-style overflow model: when peak demand exceeds capacity, the rejected fraction approximates <code>1 - capacity/demand</code>, scaled by the share of time the system is over its limit. The result is a percentage of requests that will fail and an absolute count of dropped calls per minute.</p>
+    <p>Use it before a launch, before onboarding a large customer, or when switching models or providers. If the verdict comes back red, your options are to raise limits with the provider, add request queuing and exponential-backoff retries, cache responses to cut token volume, reduce per-request prompt size, or shard traffic across multiple API keys. Pair the results with token-level budgeting and latency estimates to get a complete picture of inference capacity.</p>
+
+    <div class="related">
+      <h2>Related KickLLM tools</h2>
+      <ul>
+        <li><a href="/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
+        <li><a href="/tools/llm-latency-estimator.html">LLM Latency Estimator</a></li>
+        <li><a href="/tools/token-counter.html">Token Counter</a></li>
+      </ul>
+    </div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div>&copy; KickLLM</div>
+  <div><a href="/">Home</a> <a href="/tools/">Tools</a></div>
+</footer>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var rpmEl=$("rpm"), tpmEl=$("tpm"), usersEl=$("users"), rpuEl=$("rpu"), tpuEl=$("tpu"), burstEl=$("burst");
+
+  function num(el){ var v=parseFloat(el.value); return isNaN(v)||v<0?0:v; }
+
+  function fmt(n){
+    if(n>=1e6) return (n/1e6).toFixed(2)+"M";
+    if(n>=1e3) return (n/1e3).toFixed(1)+"k";
+    if(n>=100) return Math.round(n).toString();
+    if(n>=10) return n.toFixed(1);
+    return n.toFixed(2);
+  }
+
+  function compute(){
+    var rpm=num(rpmEl), tpm=num(tpmEl), users=num(usersEl), rpu=num(rpuEl), tpu=num(tpuEl), burst=num(burstEl);
+    var effBurst = burst<1?1:burst;
+
+    // capacity ceilings
+    var rpmCapUsers = rpu>0 ? rpm/rpu : Infinity;
+    var tpmDemandPerUser = rpu*tpu;
+    var tpmCapUsers = tpmDemandPerUser>0 ? tpm/tpmDemandPerUser : Infinity;
+    var maxUsers = Math.min(rpmCapUsers, tpmCapUsers);
+    var binding = rpmCapUsers<=tpmCapUsers ? "RPM" : "TPM";
+
+    // demand at peak
+    var avgDemandRpm = users*rpu;
+    var peakDemandRpm = avgDemandRpm*effBurst;
+    var peakDemandTpm = users*rpu*tpu*effBurst;
+
+    var headroomRpm = rpm - peakDemandRpm;
+    var headroomTpm = tpm - peakDemandTpm;
+
+    // overflow / 429 estimate (Poisson-style)
+    var overRpm = peakDemandRpm>rpm ? peakDemandRpm-rpm : 0;
+    var overTpm = peakDemandTpm>tpm ? peakDemandTpm-tpm : 0;
+    var rejectedRpm = Math.max(overRpm, peakDemandRpm>0 ? overTpm/tpu : 0);
+    var p429 = peakDemandRpm>0 ? (rejectedRpm/peakDemandRpm)*100 : 0;
+    if(p429>100) p429=100;
+
+    // verdict
+    var status, sClass;
+    if(users<=maxUsers*0.85){ status="Healthy"; sClass="card good"; }
+    else if(users<=maxUsers){ status="Near limit"; sClass="card warn"; }
+    else { status="Over capacity"; sClass="card bad"; }
+
+    $("out-maxu").textContent = isFinite(maxUsers)?fmt(maxUsers)+" (bind: "+binding+")":"—";
+    $("out-demand").textContent = fmt(peakDemandRpm)+" rpm";
+    var hr = headroomRpm<0?"(":"";
+    $("out-headroom").textContent = (headroomRpm>=0?"+":"")+fmt(headroomRpm)+" rpm";
+    $("out-p429").textContent = p429.toFixed(1)+"%";
+    $("out-429min").textContent = fmt(rejectedRpm)+"/min";
+    $("out-status").textContent = status;
+    $("out-status").parentElement.className = sClass;
+  }
+
+  ["input","change"].forEach(function(ev){
+    [rpmEl,tpmEl,usersEl,rpuEl,tpuEl,burstEl].forEach(function(el){
+      el.addEventListener(ev, compute);
+    });
+  });
+  $("calc").addEventListener("click", compute);
+  compute();
+})();
+</script>
+</body>
+</html>
