@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tokens/sec to Words/min Converter</title>
+<meta name="description" content="Convert LLM throughput between tokens per second and words per minute to gauge real reading speed and streaming feel.">
+<link rel="canonical" href="https://kickllm.com/tools/tokens-per-second-to-words-per-minute-converter">
+<meta property="og:title" content="Tokens/sec to Words/min Converter">
+<meta property="og:description" content="Convert LLM throughput between tokens per second and words per minute to gauge real reading speed and streaming feel.">
+<meta property="og:url" content="https://kickllm.com/tools/tokens-per-second-to-words-per-minute-converter">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Tokens/sec to Words/min Converter",
+      "description": "Convert LLM throughput between tokens per second and words per minute to gauge real reading speed and streaming feel.",
+      "url": "https://kickllm.com/tools/tokens-per-second-to-words-per-minute-converter",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/" },
+        { "@type": "ListItem", "position": 3, "name": "Tokens/sec to Words/min Converter", "item": "https://kickllm.com/tools/tokens-per-second-to-words-per-minute-converter" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#0b1020; --panel:#141b32; --panel2:#1c2542; --line:#2a3458;
+  --text:#e7ecff; --muted:#9aa6c9; --accent:#6ea8ff; --accent2:#46e0b0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  background:linear-gradient(180deg,#080c1a,#0b1020 40%); color:var(--text);
+  line-height:1.6;
+}
+nav{
+  display:flex; gap:18px; align-items:center; padding:16px 22px;
+  border-bottom:1px solid var(--line); background:rgba(8,12,26,.7);
+}
+nav a{color:var(--accent); text-decoration:none; font-weight:600; font-size:.95rem}
+nav a:hover{text-decoration:underline}
+main{max-width:880px; margin:0 auto; padding:26px 18px 60px}
+h1{font-size:1.7rem; line-height:1.25; margin:18px 0 8px}
+.intro{color:var(--muted); margin:0 0 24px}
+section{
+  background:var(--panel); border:1px solid var(--line); border-radius:14px;
+  padding:22px; margin:0 0 22px;
+}
+h2{font-size:1.2rem; margin:0 0 14px}
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{display:block; font-size:.85rem; color:var(--muted); margin:0 0 6px; font-weight:600}
+input,select{
+  width:100%; padding:11px 12px; border-radius:9px; border:1px solid var(--line);
+  background:var(--panel2); color:var(--text); font-size:1rem; font-family:inherit;
+}
+input:focus,select:focus{outline:none; border-color:var(--accent)}
+.out{
+  margin-top:18px; background:var(--panel2); border:1px solid var(--line);
+  border-radius:12px; padding:18px;
+}
+.bigrow{display:flex; flex-wrap:wrap; gap:16px}
+.bignum{flex:1; min-width:150px}
+.bignum .v{font-size:1.9rem; font-weight:700; color:var(--accent2)}
+.bignum .l{font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em}
+.note{font-size:.85rem; color:var(--muted); margin-top:12px}
+.bar{height:10px; border-radius:6px; background:#0e1530; overflow:hidden; margin-top:6px}
+.bar > i{display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.prose p{margin:0 0 12px}
+.prose code{background:var(--panel2); padding:2px 6px; border-radius:5px; font-size:.9em}
+.rel a{
+  display:inline-block; margin:6px 8px 0 0; padding:9px 13px; border-radius:9px;
+  background:var(--panel2); border:1px solid var(--line); color:var(--accent);
+  text-decoration:none; font-weight:600; font-size:.92rem;
+}
+.rel a:hover{border-color:var(--accent)}
+footer{
+  border-top:1px solid var(--line); padding:22px; text-align:center; color:var(--muted);
+  font-size:.9rem;
+}
+footer a{color:var(--accent); text-decoration:none; margin:0 10px}
+table{width:100%; border-collapse:collapse; font-size:.9rem; margin-top:8px}
+th,td{text-align:left; padding:7px 8px; border-bottom:1px solid var(--line)}
+th{color:var(--muted); font-weight:600}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">kickllm.com</a>
+  <a href="/tools/">All Tools</a>
+</nav>
+<main>
+  <h1>Convert LLM Tokens Per Second Into Words Per Minute</h1>
+  <p class="intro">Translate raw model throughput into a human reading-speed number. Enter a generation rate and see how fast the stream feels, plus how long a full response takes.</p>
+
+  <section id="tool">
+    <h2>Converter</h2>
+    <div class="grid">
+      <div>
+        <label for="dir">Convert from</label>
+        <select id="dir">
+          <option value="t2w" selected>Tokens / second → Words / minute</option>
+          <option value="w2t">Words / minute → Tokens / second</option>
+        </select>
+      </div>
+      <div>
+        <label for="rate" id="rateLabel">Tokens per second</label>
+        <input id="rate" type="number" min="0" step="0.1" value="40">
+      </div>
+      <div>
+        <label for="ratio">Tokens per word (model ratio)</label>
+        <input id="ratio" type="number" min="0.2" step="0.05" value="1.33">
+      </div>
+      <div>
+        <label for="resp">Response length (words, for timing)</label>
+        <input id="resp" type="number" min="0" step="10" value="400">
+      </div>
+    </div>
+
+    <div class="out">
+      <div class="bigrow">
+        <div class="bignum"><div class="v" id="oWpm">—</div><div class="l">Words / minute</div></div>
+        <div class="bignum"><div class="v" id="oTps">—</div><div class="l">Tokens / second</div></div>
+        <div class="bignum"><div class="v" id="oTime">—</div><div class="l">Time for response</div></div>
+      </div>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+      <div class="note" id="feel">—</div>
+    </div>
+
+    <table>
+      <thead><tr><th>Reference</th><th>Words / minute</th><th>Feel</th></tr></thead>
+      <tbody>
+        <tr><td>Average human reading</td><td>~238</td><td>baseline</td></tr>
+        <tr><td>Comfortable streaming</td><td>~300–600</td><td>natural</td></tr>
+        <tr><td>Skim-only / too fast to read</td><td>900+</td><td>instant</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="prose">
+    <h2>How the conversion works</h2>
+    <p>Large language models emit text one <em>token</em> at a time, not one word at a time. A token is a sub-word fragment, so a word usually costs more than one token. Across typical English prompts the empirical average is about <code>1.33</code> tokens per word (roughly 0.75 words per token), though code, JSON, and non-Latin scripts push that ratio higher. This converter lets you set the ratio so the result matches your own workload instead of a generic constant.</p>
+    <p>The core formula is a unit conversion. To go from tokens per second to words per minute, divide the token rate by the tokens-per-word ratio to get words per second, then multiply by 60:</p>
+    <p><code>wpm = (tokens_per_sec ÷ tokens_per_word) × 60</code></p>
+    <p>The inverse direction simply rearranges the same equation:</p>
+    <p><code>tokens_per_sec = (wpm × tokens_per_word) ÷ 60</code></p>
+    <p>For example, a model streaming 40 tokens per second at 1.33 tokens per word produces about <code>(40 ÷ 1.33) × 60 ≈ 1,805</code> words per minute — far faster than the ~238 wpm an average adult reads, which is why fast models feel like they finish before you can follow along. The response-timing field uses <code>seconds = (response_words × tokens_per_word) ÷ tokens_per_sec</code> to estimate wall-clock generation time for a full answer, ignoring the separate time-to-first-token latency.</p>
+    <p>Why bother converting at all? Tokens per second is the number vendors quote and the unit that drives cost and GPU sizing, but words per minute is the number that maps to perceived speed and reading comfort. Holding the two side by side helps you judge whether a cheaper, slower endpoint still streams faster than a user can read — in which case extra throughput buys nothing but bandwidth. The progress bar above scales perceived speed against a 600 wpm "comfortable streaming" reference so you can eyeball where a model lands.</p>
+  </section>
+
+  <section class="rel">
+    <h2>Related Tools</h2>
+    <a href="/tools/llm-throughput-calculator">LLM Throughput Calculator</a>
+    <a href="/tools/llm-latency-estimator">LLM Latency Estimator</a>
+    <a href="/tools/token-counter">Token Counter</a>
+  </section>
+</main>
+
+<footer>
+  <a href="/">Home</a>
+  <a href="/tools/">All Tools</a>
+  <div style="margin-top:8px">© 2026 kickllm.com</div>
+</footer>
+
+<script>
+(function(){
+  var dir = document.getElementById('dir');
+  var rate = document.getElementById('rate');
+  var ratio = document.getElementById('ratio');
+  var resp = document.getElementById('resp');
+  var rateLabel = document.getElementById('rateLabel');
+  var oWpm = document.getElementById('oWpm');
+  var oTps = document.getElementById('oTps');
+  var oTime = document.getElementById('oTime');
+  var bar = document.getElementById('bar');
+  var feel = document.getElementById('feel');
+
+  function fmt(n){
+    if(!isFinite(n)) return '—';
+    if(n >= 1000) return Math.round(n).toLocaleString();
+    if(n >= 100) return n.toFixed(0);
+    if(n >= 10) return n.toFixed(1);
+    return n.toFixed(2);
+  }
+  function fmtTime(s){
+    if(!isFinite(s) || s < 0) return '—';
+    if(s < 1) return (s*1000).toFixed(0) + ' ms';
+    if(s < 60) return s.toFixed(1) + ' s';
+    var m = Math.floor(s/60), r = Math.round(s%60);
+    return m + 'm ' + r + 's';
+  }
+  function describe(wpm){
+    if(wpm <= 0) return 'Enter a rate to see results.';
+    if(wpm < 200) return 'Slower than average reading (~238 wpm) — the stream may feel sluggish.';
+    if(wpm < 320) return 'Around natural reading pace — comfortable to follow word by word.';
+    if(wpm < 700) return 'Faster than you can read — text scrolls smoothly, feels responsive.';
+    if(wpm < 1200) return 'Very fast — you skim rather than read each word as it streams.';
+    return 'Effectively instant — output arrives faster than human perception of reading.';
+  }
+
+  function recompute(){
+    var r = parseFloat(ratio.value);
+    if(!(r > 0)) r = 1.33;
+    var inVal = parseFloat(rate.value);
+    if(!(inVal >= 0)) inVal = 0;
+    var words = parseFloat(resp.value);
+    if(!(words >= 0)) words = 0;
+
+    var tps, wpm;
+    if(dir.value === 't2w'){
+      rateLabel.textContent = 'Tokens per second';
+      tps = inVal;
+      wpm = (tps / r) * 60;
+    } else {
+      rateLabel.textContent = 'Words per minute';
+      wpm = inVal;
+      tps = (wpm * r) / 60;
+    }
+
+    var seconds = tps > 0 ? (words * r) / tps : Infinity;
+
+    oWpm.textContent = fmt(wpm);
+    oTps.textContent = fmt(tps);
+    oTime.textContent = fmtTime(seconds);
+
+    var pct = Math.max(0, Math.min(100, (wpm / 600) * 100));
+    bar.style.width = pct.toFixed(1) + '%';
+    feel.textContent = describe(wpm);
+  }
+
+  [dir, rate, ratio, resp].forEach(function(el){
+    el.addEventListener('input', recompute);
+    el.addEventListener('change', recompute);
+  });
+  recompute();
+})();
+</script>
+</body>
+</html>

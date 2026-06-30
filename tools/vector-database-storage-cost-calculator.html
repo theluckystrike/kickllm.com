@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector Database Storage Cost Calculator</title>
+<meta name="description" content="Estimate monthly vector DB cost from your embedding count, dimensions, precision, and price per GB. Plan RAG storage before you scale.">
+<link rel="canonical" href="https://kickllm.com/tools/vector-database-storage-cost-calculator">
+<meta property="og:title" content="Vector Database Storage Cost Calculator">
+<meta property="og:description" content="Estimate monthly vector DB cost from your embedding count, dimensions, precision, and price per GB. Plan RAG storage before you scale.">
+<meta property="og:url" content="https://kickllm.com/tools/vector-database-storage-cost-calculator">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Vector Database Storage Cost Calculator",
+      "url": "https://kickllm.com/tools/vector-database-storage-cost-calculator",
+      "description": "Estimate monthly vector DB cost from your embedding count, dimensions, precision, and price per GB. Plan RAG storage before you scale.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Michael Lip",
+        "url": "https://zovo.one"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/" },
+        { "@type": "ListItem", "position": 3, "name": "Vector Database Storage Cost Calculator", "item": "https://kickllm.com/tools/vector-database-storage-cost-calculator" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#0b0f17;--panel:#131a26;--panel2:#1a2334;--ink:#e7edf6;--muted:#9aa8bd;
+  --accent:#5eead4;--accent2:#7dd3fc;--line:#243047;--warn:#fbbf24;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  line-height:1.6;
+}
+nav{
+  display:flex;gap:18px;padding:16px 20px;border-bottom:1px solid var(--line);
+  background:#0a0e16;position:sticky;top:0;z-index:5;
+}
+nav a{color:var(--accent2);text-decoration:none;font-weight:600;font-size:.95rem}
+nav a:hover{text-decoration:underline}
+main{max-width:880px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:1.8rem;line-height:1.25;margin:.2em 0 .3em}
+h2{font-size:1.3rem;margin:1.6em 0 .5em;color:var(--accent)}
+.lead{color:var(--muted);font-size:1.05rem;margin-bottom:1.4em}
+section#tool{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:22px;margin:18px 0;
+}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:.85rem;color:var(--muted);font-weight:600}
+input,select{
+  background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+  color:var(--ink);padding:10px 12px;font-size:1rem;font-family:inherit;
+}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.out{
+  margin-top:20px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:12px;padding:18px;
+}
+.big{font-size:2.2rem;font-weight:800;color:var(--accent);letter-spacing:-.5px}
+.sub{color:var(--muted);font-size:.9rem;margin-top:2px}
+.rows{margin-top:16px;border-top:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.row span:first-child{color:var(--muted)}
+.row span:last-child{font-variant-numeric:tabular-nums;font-weight:600}
+.note{background:#1d2740;border-left:3px solid var(--warn);padding:10px 14px;border-radius:8px;margin-top:14px;font-size:.9rem;color:#dbe3f0}
+.related a{color:var(--accent2);text-decoration:none}
+.related a:hover{text-decoration:underline}
+.related li{margin:6px 0}
+code{background:var(--panel2);padding:2px 6px;border-radius:5px;font-size:.9em;color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;color:var(--muted);font-size:.9rem}
+footer a{color:var(--accent2);text-decoration:none;margin:0 8px}
+footer a:hover{text-decoration:underline}
+p{margin:.7em 0}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">kickllm.com</a>
+  <a href="/tools/">All Tools</a>
+</nav>
+<main>
+  <h1>Estimate Your Monthly Vector DB Storage Spend</h1>
+  <p class="lead">Size your RAG index before the bill arrives. Enter how many embeddings you store, their dimensionality, and your provider's price per GB to see raw vector size, index overhead, and projected monthly cost.</p>
+
+  <section id="tool">
+    <div class="grid">
+      <div class="field">
+        <label for="count">Number of embeddings (vectors)</label>
+        <input id="count" type="number" min="0" step="1000" value="1000000">
+      </div>
+      <div class="field">
+        <label for="dims">Dimensions per vector</label>
+        <input id="dims" type="number" min="1" step="1" value="1536">
+      </div>
+      <div class="field">
+        <label for="precision">Precision (bytes per value)</label>
+        <select id="precision">
+          <option value="4">float32 (4 bytes)</option>
+          <option value="2">float16 / bfloat16 (2 bytes)</option>
+          <option value="1">int8 quantized (1 byte)</option>
+          <option value="0.5">binary / 4-bit (0.5 bytes)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="index">Index type (memory overhead)</label>
+        <select id="index">
+          <option value="1.30">HNSW (~30% graph overhead)</option>
+          <option value="1.10">IVF / IVF-PQ (~10%)</option>
+          <option value="1.00">Flat / brute-force (0%)</option>
+          <option value="1.50">HNSW + high connectivity (~50%)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="meta">Metadata bytes per vector</label>
+        <input id="meta" type="number" min="0" step="50" value="500">
+      </div>
+      <div class="field">
+        <label for="replicas">Replicas (copies for HA)</label>
+        <input id="replicas" type="number" min="1" step="1" value="1">
+      </div>
+      <div class="field">
+        <label for="price">Price per GB / month (USD)</label>
+        <input id="price" type="number" min="0" step="0.01" value="0.25">
+      </div>
+      <div class="field">
+        <label for="growth">Monthly growth rate (%)</label>
+        <input id="growth" type="number" min="0" step="1" value="0">
+      </div>
+    </div>
+
+    <div class="out">
+      <div class="big" id="costOut">$0.00</div>
+      <div class="sub">estimated monthly storage cost</div>
+      <div class="rows">
+        <div class="row"><span>Raw vector data</span><span id="rawOut">—</span></div>
+        <div class="row"><span>Index overhead</span><span id="idxOut">—</span></div>
+        <div class="row"><span>Metadata</span><span id="metaOut">—</span></div>
+        <div class="row"><span>Total per replica</span><span id="perRepOut">—</span></div>
+        <div class="row"><span>Total stored (all replicas)</span><span id="totalOut">—</span></div>
+        <div class="row"><span>Bytes per vector (effective)</span><span id="bpvOut">—</span></div>
+        <div class="row"><span>Projected cost in 12 months</span><span id="yearOut">—</span></div>
+      </div>
+      <div class="note" id="tip"></div>
+    </div>
+  </section>
+
+  <h2>How the calculation works</h2>
+  <p>Every embedding is a list of numbers, so its raw size is simply <code>dimensions × bytes-per-value</code>. A 1,536-dimension float32 vector occupies 1,536 × 4 = 6,144 bytes, or about 6 KB. Multiply by your vector count to get the raw payload. The calculator then applies an <strong>index multiplier</strong>, because production vector stores rarely keep flat arrays — an HNSW graph adds neighbor lists that typically inflate footprint by 25–40%, while IVF-PQ adds far less. Metadata (source text, document IDs, filter fields) is counted separately at your stated bytes-per-vector, since RAG payloads often carry chunk text that dwarfs the vector itself.</p>
+  <p>The full formula is:</p>
+  <p><code>perReplica = (count × dims × bytes × indexMult) + (count × metaBytes)</code><br>
+  <code>totalBytes = perReplica × replicas</code><br>
+  <code>monthlyCost = (totalBytes / 1,073,741,824) × pricePerGB</code></p>
+  <p>We convert with the binary gibibyte (2³⁰ = 1,073,741,824 bytes) rather than 10⁹, because memory-resident indexes are provisioned in GiB — using decimal GB would understate RAM-backed cost by about 7%. The <em>information gain</em> most calculators miss is the interplay between precision and index overhead: dropping from float32 to int8 cuts raw size 4× <em>and</em> shrinks the absolute graph overhead proportionally, so quantization compounds. Binary embeddings push this to 32×, which is why high-volume RAG systems re-rank a binary first pass with full-precision vectors. The optional growth rate compounds the monthly footprint over 12 months so you can budget for an expanding corpus rather than today's snapshot. All math runs locally in your browser; nothing you type leaves the page.</p>
+
+  <section class="related">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/tools/embedding-dimension-calculator">Embedding Dimension Calculator</a></li>
+      <li><a href="/tools/rag-chunk-size-calculator">RAG Chunk Size Calculator</a></li>
+      <li><a href="/tools/llm-memory-usage-estimator">LLM Memory Usage Estimator</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <div><a href="/">Home</a> · <a href="/tools/">All Tools</a></div>
+  <p>© 2026 kickllm.com — built by Michael Lip</p>
+</footer>
+
+<script>
+(function(){
+  var ids=['count','dims','precision','index','meta','replicas','price','growth'];
+  var el={};
+  ids.forEach(function(id){el[id]=document.getElementById(id);});
+  var costOut=document.getElementById('costOut');
+  var rawOut=document.getElementById('rawOut');
+  var idxOut=document.getElementById('idxOut');
+  var metaOut=document.getElementById('metaOut');
+  var perRepOut=document.getElementById('perRepOut');
+  var totalOut=document.getElementById('totalOut');
+  var bpvOut=document.getElementById('bpvOut');
+  var yearOut=document.getElementById('yearOut');
+  var tip=document.getElementById('tip');
+  var GIB=1073741824;
+
+  function num(v,min){var n=parseFloat(v);if(isNaN(n)||n<min)return min;return n;}
+
+  function fmtBytes(b){
+    if(b<1024)return b.toFixed(0)+' B';
+    if(b<1048576)return (b/1024).toFixed(2)+' KB';
+    if(b<GIB)return (b/1048576).toFixed(2)+' MB';
+    if(b<GIB*1024)return (b/GIB).toFixed(3)+' GB';
+    return (b/(GIB*1024)).toFixed(3)+' TB';
+  }
+  function usd(n){
+    return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+
+  function compute(){
+    var count=num(el.count.value,0);
+    var dims=num(el.dims.value,1);
+    var bytes=parseFloat(el.precision.value);
+    var idxMult=parseFloat(el.index.value);
+    var metaB=num(el.meta.value,0);
+    var replicas=num(el.replicas.value,1);
+    var price=num(el.price.value,0);
+    var growth=num(el.growth.value,0)/100;
+
+    var rawBytes=count*dims*bytes;
+    var indexedBytes=rawBytes*idxMult;
+    var indexOverhead=indexedBytes-rawBytes;
+    var metaBytes=count*metaB;
+    var perReplica=indexedBytes+metaBytes;
+    var totalBytes=perReplica*replicas;
+
+    var monthlyCost=(totalBytes/GIB)*price;
+    var bpv=count>0?(perReplica/count):0;
+
+    var yearBytes=totalBytes*Math.pow(1+growth,12);
+    var yearCost=(yearBytes/GIB)*price;
+
+    costOut.textContent=usd(monthlyCost);
+    rawOut.textContent=fmtBytes(rawBytes);
+    idxOut.textContent=fmtBytes(indexOverhead);
+    metaOut.textContent=fmtBytes(metaBytes);
+    perRepOut.textContent=fmtBytes(perReplica);
+    totalOut.textContent=fmtBytes(totalBytes);
+    bpvOut.textContent=bpv.toFixed(0)+' B/vec';
+    yearOut.textContent=usd(yearCost)+(growth>0?' /mo':'');
+
+    var msg;
+    if(count===0){
+      msg='Enter a vector count to see your storage estimate.';
+    }else if(bytes>=4 && count>=1000000){
+      msg='Tip: at this scale, int8 quantization could cut raw size ~4× — try the precision dropdown to compare.';
+    }else if(metaB>dims*bytes){
+      msg='Your metadata is larger than the vector itself — store long chunk text in a cheaper object store and keep only IDs in the vector DB.';
+    }else if(idxMult>=1.5){
+      msg='High-connectivity HNSW boosts recall but inflates RAM ~50%. Lower M or use IVF-PQ if cost matters more than tail latency.';
+    }else{
+      msg='Cost scales linearly with vectors, dimensions, and replicas — halving any one halves the storage line item.';
+    }
+    tip.textContent=msg;
+  }
+
+  ids.forEach(function(id){
+    el[id].addEventListener('input',compute);
+    el[id].addEventListener('change',compute);
+  });
+  compute();
+})();
+</script>
+</body>
+</html>

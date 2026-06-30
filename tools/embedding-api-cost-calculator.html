@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embedding API Cost Calculator</title>
+<meta name="description" content="Compute the cost to embed your documents: enter token count, model price per 1M tokens, and re-embed frequency to get a total.">
+<link rel="canonical" href="https://kickllm.com/tools/embedding-api-cost-calculator">
+<meta property="og:title" content="Embedding API Cost Calculator">
+<meta property="og:description" content="Compute the cost to embed your documents: enter token count, model price per 1M tokens, and re-embed frequency to get a total.">
+<meta property="og:url" content="https://kickllm.com/tools/embedding-api-cost-calculator">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Embedding API Cost Calculator",
+      "url": "https://kickllm.com/tools/embedding-api-cost-calculator",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "author": {"@type": "Person", "name": "Michael Lip", "url": "https://zovo.one"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/"},
+        {"@type": "ListItem", "position": 3, "name": "Embedding API Cost Calculator", "item": "https://kickllm.com/tools/embedding-api-cost-calculator"}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#0c1018;--panel:#151b27;--panel2:#1b2333;--line:#27324a;
+  --ink:#e8edf6;--muted:#93a0b8;--accent:#5eead4;--accent2:#38bdf8;--warn:#fbbf24;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  line-height:1.6;
+}
+nav{
+  display:flex;gap:20px;padding:16px 22px;border-bottom:1px solid var(--line);
+  background:#0a0e15;font-size:14px;flex-wrap:wrap;
+}
+nav a{color:var(--accent);text-decoration:none;font-weight:600}
+nav a:hover{text-decoration:underline}
+main{max-width:860px;margin:0 auto;padding:30px 22px 60px}
+h1{font-size:1.85rem;line-height:1.2;margin:.2em 0 .3em}
+h2{font-size:1.3rem;margin:1.8em 0 .5em;color:var(--accent)}
+.intro{color:var(--muted);font-size:1.05rem;max-width:680px}
+#tool{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:22px;margin:26px 0;
+}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:.85rem;color:var(--muted);font-weight:600}
+input,select{
+  background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+  color:var(--ink);padding:11px 12px;font-size:1rem;font-family:inherit;
+}
+input:focus,select:focus{outline:none;border-color:var(--accent2)}
+.hint{font-size:.72rem;color:#6b7896}
+.out{
+  margin-top:22px;background:linear-gradient(135deg,#11202a,#16263a);
+  border:1px solid var(--line);border-radius:12px;padding:20px;
+}
+.big{font-size:2.4rem;font-weight:700;color:var(--accent);letter-spacing:-.5px}
+.big small{font-size:1rem;color:var(--muted);font-weight:500}
+.rows{margin-top:16px;display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:6px 0;font-size:.95rem}
+.row span:first-child{color:var(--muted)}
+.row b{color:var(--ink);font-variant-numeric:tabular-nums}
+.note{background:#1a2333;border-left:3px solid var(--warn);padding:10px 14px;border-radius:8px;font-size:.85rem;color:var(--muted);margin-top:16px}
+.prose p{color:#cdd6e6}
+.formula{
+  background:#0a0e15;border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.9rem;color:var(--accent);overflow-x:auto
+}
+.rel{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.rel a{
+  display:block;background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:14px 16px;color:var(--ink);text-decoration:none
+}
+.rel a:hover{border-color:var(--accent2)}
+.rel a b{color:var(--accent);display:block;margin-bottom:3px}
+.rel a span{font-size:.82rem;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 22px;text-align:center;color:var(--muted);font-size:.85rem}
+footer a{color:var(--accent);text-decoration:none;margin:0 8px}
+@media(max-width:420px){.big{font-size:1.9rem}h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">kickllm.com</a>
+  <a href="/tools/">All Tools</a>
+</nav>
+<main>
+  <h1>Estimate Your Embedding API Spend</h1>
+  <p class="intro">Project the real dollar cost of vectorizing a corpus for retrieval-augmented generation. Enter your token volume, the model's price per million tokens, and how often you re-embed.</p>
+
+  <section id="tool">
+    <div class="grid">
+      <div class="field">
+        <label for="docs">Documents</label>
+        <input id="docs" type="number" min="0" step="1" value="50000">
+        <span class="hint">Number of chunks / records to embed</span>
+      </div>
+      <div class="field">
+        <label for="tpd">Tokens per document</label>
+        <input id="tpd" type="number" min="0" step="1" value="512">
+        <span class="hint">Avg tokens per chunk (≈ words × 1.33)</span>
+      </div>
+      <div class="field">
+        <label for="price">Price per 1M tokens (USD)</label>
+        <input id="price" type="number" min="0" step="0.001" value="0.02">
+        <span class="hint">e.g. text-embedding-3-small ≈ $0.02</span>
+      </div>
+      <div class="field">
+        <label for="freq">Re-embeds per month</label>
+        <input id="freq" type="number" min="0" step="0.1" value="1">
+        <span class="hint">Full re-index passes over the corpus</span>
+      </div>
+      <div class="field">
+        <label for="churn">Monthly new/changed docs (%)</label>
+        <input id="churn" type="number" min="0" max="100" step="1" value="10">
+        <span class="hint">Incremental updates between re-embeds</span>
+      </div>
+      <div class="field">
+        <label for="overhead">Query embedding (per month)</label>
+        <input id="overhead" type="number" min="0" step="1" value="100000">
+        <span class="hint">Search queries embedded at runtime</span>
+      </div>
+    </div>
+
+    <div class="out" aria-live="polite">
+      <div class="big" id="monthly">$0.00 <small>/ month</small></div>
+      <div class="rows">
+        <div class="row"><span>Corpus tokens</span><b id="corpusTok">—</b></div>
+        <div class="row"><span>Initial one-time embed</span><b id="initCost">—</b></div>
+        <div class="row"><span>Scheduled re-embeds / mo</span><b id="reCost">—</b></div>
+        <div class="row"><span>Incremental churn / mo</span><b id="churnCost">—</b></div>
+        <div class="row"><span>Query embedding / mo</span><b id="queryCost">—</b></div>
+        <div class="row"><span>Projected annual cost</span><b id="annual">—</b></div>
+      </div>
+      <div class="note" id="note"></div>
+    </div>
+  </section>
+
+  <section class="prose">
+    <h2>How this calculator works</h2>
+    <p>Embedding pricing is metered purely on <em>input</em> tokens — unlike chat models there are no output tokens, so cost is a clean linear function of how much text you push through the API. The calculator first derives your one-time corpus volume, then layers on the recurring work that RAG systems quietly accumulate: scheduled re-indexing, incremental churn as documents change, and the live query embeddings every search request generates.</p>
+    <div class="formula">corpus_tokens = documents × tokens_per_document<br>
+init_cost      = corpus_tokens / 1e6 × price_per_M<br>
+reembed_cost   = init_cost × reembeds_per_month<br>
+churn_cost     = init_cost × (churn% / 100)<br>
+query_cost     = query_count × tokens_per_document / 1e6 × price_per_M<br>
+<b>monthly = reembed_cost + churn_cost + query_cost</b></div>
+    <p>The often-missed line items are churn and query traffic. Teams budget for the headline "embed everything once" number and forget that a corpus is alive: a 10% monthly change rate on a 25M-token corpus quietly re-bills 2.5M tokens every month. Query embedding is sneakier still — each search must embed the user's text before the vector lookup, so a high-QPS product can spend more on query vectors than on its entire document store. We approximate query token size with your per-document token figure, which you can lower if your queries are short.</p>
+    <p>To trim spend, the biggest levers are dimensionality and model tier. Smaller models (and Matryoshka-truncated dimensions) cut storage and sometimes price without wrecking recall, while batching documents into fewer, denser chunks reduces redundant overlap tokens. The annual projection multiplies the recurring monthly figure by twelve and adds the one-time initial embed, giving you a realistic first-year line for a finance spreadsheet rather than a misleading single-pass quote.</p>
+  </section>
+
+  <section>
+    <h2>Related Tools</h2>
+    <div class="rel">
+      <a href="/tools/embedding-dimension-calculator"><b>Embedding Dimension Calculator</b><span>Size vector storage and recall trade-offs</span></a>
+      <a href="/tools/token-counter"><b>Token Counter</b><span>Measure tokens per document before embedding</span></a>
+      <a href="/tools/rag-chunk-optimizer"><b>RAG Chunk Optimizer</b><span>Tune chunk size and overlap for retrieval</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>
+    <a href="/">Home</a>
+    <a href="/tools/">All Tools</a>
+  </div>
+  <p>© 2026 kickllm.com</p>
+</footer>
+
+<script>
+(function(){
+  var ids=['docs','tpd','price','freq','churn','overhead'];
+  var el={};
+  ids.forEach(function(i){el[i]=document.getElementById(i);});
+  var monthly=document.getElementById('monthly');
+  var corpusTok=document.getElementById('corpusTok');
+  var initCost=document.getElementById('initCost');
+  var reCost=document.getElementById('reCost');
+  var churnCost=document.getElementById('churnCost');
+  var queryCost=document.getElementById('queryCost');
+  var annual=document.getElementById('annual');
+  var note=document.getElementById('note');
+
+  function num(x){var v=parseFloat(x);return isFinite(v)&&v>=0?v:0;}
+  function usd(n){
+    if(n>=1000)return '$'+n.toLocaleString('en-US',{maximumFractionDigits:0});
+    if(n>=1)return '$'+n.toFixed(2);
+    return '$'+n.toFixed(4);
+  }
+  function intf(n){return Math.round(n).toLocaleString('en-US');}
+
+  function calc(){
+    var docs=num(el.docs.value);
+    var tpd=num(el.tpd.value);
+    var price=num(el.price.value);
+    var freq=num(el.freq.value);
+    var churn=num(el.churn.value);
+    var queries=num(el.overhead.value);
+
+    var corpus=docs*tpd;
+    var initT=corpus/1e6;
+    var init=initT*price;
+    var re=init*freq;
+    var ch=init*(churn/100);
+    var queryTokens=queries*tpd;
+    var q=queryTokens/1e6*price;
+
+    var mo=re+ch+q;
+    var yr=init+mo*12;
+
+    corpusTok.textContent=intf(corpus)+' tok';
+    initCost.textContent=usd(init);
+    reCost.textContent=usd(re);
+    churnCost.textContent=usd(ch);
+    queryCost.textContent=usd(q);
+    annual.textContent=usd(yr);
+    monthly.innerHTML=usd(mo)+' <small>/ month</small>';
+
+    var msg;
+    if(corpus===0){
+      msg='Enter document count and tokens to see an estimate.';
+    }else if(q>(re+ch)&&q>0){
+      msg='Query embedding dominates your monthly bill — consider caching repeat queries or a cheaper query-side model.';
+    }else if(freq>=4){
+      msg='You re-embed weekly or more. Switching to incremental churn-only updates could cut recurring cost sharply.';
+    }else{
+      msg='Tip: the one-time initial embed of '+usd(init)+' is separate from the recurring '+usd(mo)+'/mo.';
+    }
+    note.textContent=msg;
+  }
+
+  ids.forEach(function(i){el[i].addEventListener('input',calc);});
+  calc();
+})();
+</script>
+</body>
+</html>

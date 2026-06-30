@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Self-Host vs API Break-Even Calculator</title>
+<meta name="description" content="Find the monthly token volume where self-hosting an LLM beats API pricing. Compare GPU rental cost against per-token API spend.">
+<link rel="canonical" href="https://kickllm.com/tools/self-host-vs-api-break-even-calculator">
+<meta property="og:title" content="Self-Host vs API Break-Even Calculator">
+<meta property="og:description" content="Find the monthly token volume where self-hosting an LLM beats API pricing. Compare GPU rental cost against per-token API spend.">
+<meta property="og:url" content="https://kickllm.com/tools/self-host-vs-api-break-even-calculator">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Self-Host vs API Break-Even Calculator",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "url": "https://kickllm.com/tools/self-host-vs-api-break-even-calculator",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/" },
+        { "@type": "ListItem", "position": 3, "name": "Self-Host vs API Break-Even Calculator", "item": "https://kickllm.com/tools/self-host-vs-api-break-even-calculator" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#0c1018; --panel:#151b27; --panel2:#1c2433; --edge:#283143;
+    --txt:#e6ecf5; --mut:#93a0b5; --acc:#4ea1ff; --acc2:#36d39a; --warn:#ffb454;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    line-height:1.6;
+  }
+  nav{
+    display:flex; gap:18px; padding:14px 20px; background:#0a0e15;
+    border-bottom:1px solid var(--edge); position:sticky; top:0; z-index:5;
+  }
+  nav a{color:var(--acc); text-decoration:none; font-weight:600; font-size:14px}
+  nav a:hover{text-decoration:underline}
+  main{max-width:880px; margin:0 auto; padding:26px 18px 60px}
+  h1{font-size:26px; line-height:1.25; margin:14px 0 8px}
+  h2{font-size:19px; margin:34px 0 12px; border-left:3px solid var(--acc); padding-left:10px}
+  .lead{color:var(--mut); font-size:16px; margin:0 0 22px}
+  section#tool{
+    background:var(--panel); border:1px solid var(--edge); border-radius:14px;
+    padding:20px;
+  }
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .field{display:flex; flex-direction:column; gap:6px}
+  label{font-size:13px; color:var(--mut); font-weight:600}
+  label .u{color:#6f7d92; font-weight:400}
+  input,select{
+    background:var(--panel2); border:1px solid var(--edge); border-radius:9px;
+    color:var(--txt); padding:10px 12px; font-size:15px; width:100%;
+  }
+  input:focus,select:focus{outline:none; border-color:var(--acc)}
+  .out{
+    margin-top:22px; background:var(--panel2); border:1px solid var(--edge);
+    border-radius:12px; padding:18px;
+  }
+  .verdict{font-size:18px; font-weight:700; margin:0 0 6px}
+  .verdict.api{color:var(--acc)}
+  .verdict.self{color:var(--acc2)}
+  .rows{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px}
+  @media(max-width:560px){.rows{grid-template-columns:1fr}}
+  .stat{background:#0e1420; border:1px solid var(--edge); border-radius:10px; padding:12px}
+  .stat .k{font-size:12px; color:var(--mut)}
+  .stat .v{font-size:20px; font-weight:700; margin-top:3px}
+  .bar{height:12px; border-radius:6px; background:#0e1420; overflow:hidden; margin-top:16px; display:flex}
+  .bar i{display:block; height:100%}
+  .bar .self{background:var(--acc2)}
+  .bar .api{background:var(--acc)}
+  .note{font-size:13px; color:var(--mut); margin-top:12px}
+  p{margin:12px 0}
+  code{background:#0e1420; border:1px solid var(--edge); border-radius:6px; padding:1px 6px; font-size:13px; color:var(--warn)}
+  .formula{background:#0e1420; border:1px solid var(--edge); border-radius:10px; padding:14px; font-size:14px; overflow-x:auto}
+  .related a{color:var(--acc); text-decoration:none}
+  .related a:hover{text-decoration:underline}
+  .related li{margin:6px 0}
+  footer{border-top:1px solid var(--edge); padding:22px 18px; text-align:center; color:var(--mut); font-size:14px}
+  footer a{color:var(--acc); text-decoration:none; margin:0 8px}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">kickllm.com</a>
+  <a href="/tools/">All Tools</a>
+</nav>
+<main>
+  <h1>When Does Renting a GPU Beat Paying Per Token?</h1>
+  <p class="lead">Enter your monthly token volume and the unit economics of both paths. The calculator finds the exact crossover where a self-hosted LLM endpoint costs less than a managed API.</p>
+
+  <section id="tool">
+    <div class="grid">
+      <div class="field">
+        <label>Input tokens / month <span class="u">(millions)</span></label>
+        <input id="inTok" type="number" min="0" step="1" value="120">
+      </div>
+      <div class="field">
+        <label>Output tokens / month <span class="u">(millions)</span></label>
+        <input id="outTok" type="number" min="0" step="1" value="40">
+      </div>
+      <div class="field">
+        <label>API input price <span class="u">($ / 1M tok)</span></label>
+        <input id="apiIn" type="number" min="0" step="0.01" value="0.50">
+      </div>
+      <div class="field">
+        <label>API output price <span class="u">($ / 1M tok)</span></label>
+        <input id="apiOut" type="number" min="0" step="0.01" value="1.50">
+      </div>
+      <div class="field">
+        <label>GPU hourly rate <span class="u">($ / hr)</span></label>
+        <input id="gpuRate" type="number" min="0" step="0.01" value="1.20">
+      </div>
+      <div class="field">
+        <label>GPUs needed</label>
+        <input id="gpuCount" type="number" min="1" step="1" value="1">
+      </div>
+      <div class="field">
+        <label>Utilization <span class="u">(% of month live)</span></label>
+        <input id="util" type="number" min="1" max="100" step="1" value="100">
+      </div>
+      <div class="field">
+        <label>Engineer overhead <span class="u">($ / month)</span></label>
+        <input id="ops" type="number" min="0" step="10" value="400">
+      </div>
+    </div>
+
+    <div class="out">
+      <p id="verdict" class="verdict">—</p>
+      <p id="summary" class="note">—</p>
+      <div class="bar"><i class="self" id="barSelf"></i><i class="api" id="barApi"></i></div>
+      <div class="rows">
+        <div class="stat"><div class="k">API monthly cost</div><div class="v" id="vApi">$0</div></div>
+        <div class="stat"><div class="k">Self-host monthly cost</div><div class="v" id="vSelf">$0</div></div>
+        <div class="stat"><div class="k">Monthly saving (best path)</div><div class="v" id="vSave">$0</div></div>
+      </div>
+      <p class="note" id="breakeven">—</p>
+    </div>
+  </section>
+
+  <h2>How the break-even is computed</h2>
+  <p>The API path scales linearly with traffic, while the self-host path is dominated by a fixed monthly compute floor that barely moves as volume grows. The crossover is where those two lines meet.</p>
+  <div class="formula">
+    api_cost = (in_M × api_in) + (out_M × api_out)<br>
+    self_cost = gpu_rate × gpus × 730 × utilization + ops_overhead<br>
+    blended_api_rate = api_cost / (in_M + out_M)<br>
+    break_even_tokens (M) = self_cost / blended_api_rate
+  </div>
+  <p>Here <code>in_M</code> and <code>out_M</code> are millions of input and output tokens, and <code>730</code> is the average number of hours in a calendar month. Utilization scales the GPU hours: a node that only serves traffic 40% of the day at <code>util = 40%</code> still bills for the rest unless you tear it down, so leaving it at 100% reflects an always-on reserved instance.</p>
+  <p>Because the API blends two prices (cheap input, expensive output), the calculator derives a single <em>blended rate</em> from your actual input-to-output mix rather than assuming a symmetric workload. That matters: a RAG pipeline that stuffs long retrieved contexts into the prompt is input-heavy and breaks even much later than a generation-heavy chatbot, even at identical total token counts. The break-even line therefore shifts with your prompt shape, not just your volume.</p>
+  <p>The self-host floor also captures the hidden cost most spreadsheets miss — the engineer-hours to patch, monitor, and keep an inference server (vLLM, TGI, or similar) healthy. Folding that into <code>ops_overhead</code> raises the floor and pushes break-even higher, which is why a single hobby GPU rarely beats an API until you are comfortably into hundreds of millions of tokens per month. Below the crossover, the API wins on pure economics and on operational simplicity; above it, owning throughput compounds in your favor, and any spare GPU capacity can be reused for embeddings or fine-tuning at near-zero marginal cost.</p>
+
+  <section class="related">
+    <h2>Related Tools</h2>
+    <ul>
+      <li><a href="/tools/llm-api-cost-comparison">LLM API Cost Comparison</a> — line up provider token prices side by side.</li>
+      <li><a href="/tools/llm-memory-usage-estimator">LLM Memory Usage Estimator</a> — check whether your model fits the GPU you are pricing.</li>
+      <li><a href="/tools/fine-tuning-cost-calculator">Fine-Tuning Cost Calculator</a> — estimate the cost of training on that spare capacity.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <a href="/">Home</a> · <a href="/tools/">All Tools</a><br>
+  © 2026 kickllm.com
+</footer>
+
+<script>
+(function(){
+  var ids=['inTok','outTok','apiIn','apiOut','gpuRate','gpuCount','util','ops'];
+  var el={};
+  ids.forEach(function(id){ el[id]=document.getElementById(id); });
+
+  function num(id){ var v=parseFloat(el[id].value); return isFinite(v)&&v>=0?v:0; }
+  function money(x){
+    if(!isFinite(x)) return '$0';
+    return '$'+x.toLocaleString('en-US',{maximumFractionDigits:0});
+  }
+
+  function compute(){
+    var inM=num('inTok'), outM=num('outTok');
+    var apiIn=num('apiIn'), apiOut=num('apiOut');
+    var rate=num('gpuRate'), count=num('gpuCount')||1;
+    var util=Math.min(100,Math.max(0,num('util')))/100;
+    var ops=num('ops');
+
+    var totalM=inM+outM;
+    var apiCost=inM*apiIn+outM*apiOut;
+    var selfCost=rate*count*730*util+ops;
+
+    document.getElementById('vApi').textContent=money(apiCost);
+    document.getElementById('vSelf').textContent=money(selfCost);
+
+    var verdict=document.getElementById('verdict');
+    var summary=document.getElementById('summary');
+    var save=Math.abs(apiCost-selfCost);
+    document.getElementById('vSave').textContent=money(save);
+
+    if(totalM<=0){
+      verdict.textContent='Enter a token volume to compare';
+      verdict.className='verdict';
+      summary.textContent='—';
+    } else if(apiCost<selfCost){
+      verdict.textContent='Stay on the API';
+      verdict.className='verdict api';
+      summary.textContent='At '+totalM.toLocaleString()+'M tokens/mo the managed API is cheaper by '+money(save)+' — plus you skip the ops burden.';
+    } else {
+      verdict.textContent='Self-hosting wins';
+      verdict.className='verdict self';
+      summary.textContent='At '+totalM.toLocaleString()+'M tokens/mo your GPU floor is cheaper by '+money(save)+'. Spare capacity is free for embeddings or fine-tuning.';
+    }
+
+    // bar split (share of the larger total cost)
+    var maxC=Math.max(apiCost,selfCost,1);
+    var pSelf=Math.round(selfCost/maxC*100);
+    var pApi=Math.round(apiCost/maxC*100);
+    document.getElementById('barSelf').style.width=(pSelf/2)+'%';
+    document.getElementById('barApi').style.width=(pApi/2)+'%';
+
+    // break-even token volume at current price mix
+    var be=document.getElementById('breakeven');
+    if(totalM>0 && apiCost>0){
+      var blended=apiCost/totalM;            // $ per 1M tokens, blended
+      var beM=selfCost/blended;               // millions of tokens to match self_cost
+      be.textContent='Break-even is about '+beM.toLocaleString('en-US',{maximumFractionDigits:1})+
+        'M tokens/mo at this input/output mix (blended '+('$'+blended.toFixed(3))+' per 1M tok). '+
+        'Above that, self-hosting pulls ahead.';
+    } else {
+      be.textContent='Set API prices above zero to find the break-even volume.';
+    }
+  }
+
+  ids.forEach(function(id){ el[id].addEventListener('input',compute); });
+  compute();
+})();
+</script>
+</body>
+</html>
