@@ -1,0 +1,11 @@
+/* page-scoped, uses the site design tokens */
+.page-content .byline { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.page-content .note, .page-content .snap { color: var(--text-muted); font-size: 0.9rem; }
+.calc { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin: 1rem 0 1.5rem; }
+.calc label { display: inline-block; font-size: 0.85rem; color: var(--text-muted); margin: 0 1.25rem 0.75rem 0; }
+.calc input, .calc select { display: block; margin-top: 0.35rem; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.45rem 0.6rem; width: 11ch; }
+.calc input:focus { outline: none; border-color: var(--accent); }
+.page-content .scroll { overflow-x: auto; }
+.page-content table.results-table { margin: 1rem 0; width: 100%; }
+.page-content h2 { margin-top: 2.5rem; }
+.page-content ol li, .page-content ul li { margin-bottom: 0.6rem; }
