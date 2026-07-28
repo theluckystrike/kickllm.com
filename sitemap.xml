@@ -169,4 +169,8 @@
 <url><loc>https://kickllm.com/tools/self-host-vs-api-break-even-calculator</loc><lastmod>2026-06-30</lastmod></url>
 <url><loc>https://kickllm.com/tools/tokens-per-second-to-words-per-minute-converter</loc><lastmod>2026-06-30</lastmod></url>
 <url><loc>https://kickllm.com/tools/vector-database-storage-cost-calculator</loc><lastmod>2026-06-30</lastmod></url>
+  <url>
+    <loc>https://kickllm.com/tools/openai-batch-api.html</loc>
+    <lastmod>2026-07-28</lastmod>
+  </url>
 </urlset>
