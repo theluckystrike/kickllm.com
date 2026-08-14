@@ -49,9 +49,18 @@
     load: function() {
       var params = new URLSearchParams(window.location.search);
       if (params.toString()) {
+        /* Only treat a query string as shared state when a parameter actually names a
+           field on this page. Campaign and click-id parameters (utm_source, gclid,
+           fbclid, a cache buster) match nothing, so they no longer restore state or
+           raise the "You're viewing a shared result" banner on an ordinary visit. */
         var state = {};
-        params.forEach(function(val, key) { state[key] = val; });
-        return state;
+        var matched = 0;
+        params.forEach(function(val, key) {
+          var el = document.getElementById(key) || document.querySelector('[name="' + key + '"]');
+          if (el) { state[key] = val; matched++; }
+        });
+        if (matched > 0) return state;
+        return null;
       }
       var hash = window.location.hash;
       if (hash && hash.indexOf('#s=') === 0) {
