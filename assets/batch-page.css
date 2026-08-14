@@ -1,11 +1,110 @@
-/* page-scoped, uses the site design tokens */
-.page-content .byline { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
-.page-content .note, .page-content .snap { color: var(--text-muted); font-size: 0.9rem; }
-.calc { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin: 1rem 0 1.5rem; }
-.calc label { display: inline-block; font-size: 0.85rem; color: var(--text-muted); margin: 0 1.25rem 0.75rem 0; }
-.calc input, .calc select { display: block; margin-top: 0.35rem; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 0.45rem 0.6rem; width: 11ch; }
+/* page-scoped, uses the site design tokens. Scoped to .batch-doc so nothing leaks site-wide. */
+
+/* Byline sits under the hero, quiet and centred with it. The hero's own bottom padding
+   plus the first section's top margin left a visible void, so both are pulled in. */
+.batch-doc .hero { padding-bottom: 0.5rem; }
+.batch-doc .byline { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.75rem; }
+.batch-doc > section:first-of-type { margin-top: 1.5rem; }
+.batch-doc .note, .batch-doc .snap { color: var(--text-muted); font-size: 0.88rem; line-height: 1.65; }
+
+/* Inline source citations.
+   Before this, 96 doc links rendered in the accent colour, which turned whole
+   sentences and entire table cells red and made the page read as broken. They stay
+   links, they just stop shouting. */
+.batch-doc .cite {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted #3d3d3d;
+}
+.batch-doc .cite:hover,
+.batch-doc .cite:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+.batch-doc .cite:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Calculator */
+.calc {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.calc .calc-inputs { display: flex; flex-wrap: wrap; gap: 0 1.75rem; margin-bottom: 0.5rem; }
+.calc label {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 1.25rem 1rem 0;
+}
+.calc input, .calc select {
+  display: block;
+  margin-top: 0.4rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem 0.65rem;
+  width: 11ch;
+}
 .calc input:focus { outline: none; border-color: var(--accent); }
-.page-content .scroll { overflow-x: auto; }
-.page-content table.results-table { margin: 1rem 0; width: 100%; }
-.page-content h2 { margin-top: 2.5rem; }
-.page-content ol li, .page-content ul li { margin-bottom: 0.6rem; }
+.calc input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* Tables need room to breathe. The default padding packed long sentences together. */
+.batch-doc .scroll { overflow-x: auto; }
+.batch-doc table.results-table { margin: 1.25rem 0; width: 100%; }
+.batch-doc table.results-table th,
+.batch-doc table.results-table td {
+  padding: 0.8rem 1rem;
+  vertical-align: top;
+  line-height: 1.6;
+}
+.batch-doc table.results-table td:first-child { color: var(--text); }
+
+/* The two calculator result tables carry 6-7 numeric columns inside a 720px card,
+   so they get tighter cells and no wrapping. Prose tables keep the roomy padding above. */
+.calc table.results-table { font-size: 0.875rem; }
+.calc table.results-table th,
+.calc table.results-table td {
+  padding: 0.55rem 0.5rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.calc table.results-table th { font-size: 0.68rem; letter-spacing: 0.02em; }
+.calc table.results-table td { font-variant-numeric: tabular-nums; }
+.calc table.results-table th:first-child,
+.calc table.results-table td:first-child { padding-left: 0.25rem; }
+
+/* Rhythm */
+.batch-doc h2 { margin: 0 0 0.9rem; font-size: 1.35rem; line-height: 1.3; }
+.batch-doc h3 { margin: 2rem 0 0.6rem; font-size: 1.05rem; }
+.batch-doc p { margin-bottom: 1.05rem; line-height: 1.75; }
+.batch-doc ol li, .batch-doc ul li { margin-bottom: 0.85rem; line-height: 1.7; }
+.batch-doc pre { margin: 1.25rem 0; }
+
+/* A short lead line under a heading, used to set up a dense table. */
+.batch-doc .lede { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem; }
+
+/* Prose tables with three or more columns. Without a floor they squeeze to one word
+   per line on a phone, which is unreadable. Give them a real minimum and let the
+   wrapper scroll instead, with a hairline edge so the scroll is discoverable. */
+.batch-doc .scroll { position: relative; }
+.batch-doc table.results-table.wide { min-width: 620px; }
+@media (max-width: 700px) {
+  .batch-doc .scroll:has(table.wide),
+  .batch-doc .calc .scroll {
+    border-right: 1px solid var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .calc { padding: 1.1rem; }
+  .batch-doc table.results-table th,
+  .batch-doc table.results-table td { padding: 0.65rem 0.7rem; }
+}

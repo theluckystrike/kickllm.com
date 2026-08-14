@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="The OpenAI Batch API at a 50% discount. Live-rate calculator across seven models, the five call lifecycle, and the queue limits that stall a batch.">
   <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
   <link rel="stylesheet" href="/assets/style.css">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "OpenAI Batch API, half price inside a 24h window", "description": "The request lifecycle in five calls, the size and queue limits, a client side cost calculator across seven OpenAI models, a cache break-even calculator, and the operational differences from Anthropic Message Batches.", "datePublished": "2026-07-27", "dateModified": "2026-07-27", "author": {"@id": "https://zovo.one#michael-lip"}, "publisher": {"@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com/"}, "isAccessibleForFree": true, "citation": ["https://developers.openai.com/api/docs/guides/batch", "https://developers.openai.com/api/docs/guides/rate-limits", "https://developers.openai.com/api/docs/guides/prompt-caching", "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing", "https://platform.claude.com/docs/en/api/rate-limits"]}, {"@type": "Person", "@id": "https://zovo.one#michael-lip", "name": "Michael Lip", "url": "https://zovo.one", "description": "Solo developer with 10+ years experience; 140+ PRs merged into open source projects including Google Chrome and Axios; creator of 20+ Chrome extensions. Builds and operates kickllm.com and the Zovo tools network.", "knowsAbout": ["LLM API pricing (per-token input/output/cache rates)", "Prompt caching economics (cache write vs cache read break-even)", "LLM cost estimation for chatbots and RAG pipelines", "Chrome extension development against paid LLM APIs"]}, {"@type": "WebPage", "name": "OpenAI Batch API, half price inside a 24h window", "url": "https://kickllm.com/openai-batch-api", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com/"}, "breadcrumb": {"@id": "https://kickllm.com/openai-batch-api#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://kickllm.com/openai-batch-api#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "KickLLM", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "OpenAI Batch API"}]}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "OpenAI Batch API, half price inside a 24h window", "description": "The request lifecycle in five calls, the size and queue limits, a client side cost calculator across seven OpenAI models, a cache break-even calculator, and the operational differences from Anthropic Message Batches.", "datePublished": "2026-07-27", "dateModified": "2026-08-14", "author": {"@id": "https://zovo.one#michael-lip"}, "publisher": {"@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com/"}, "isAccessibleForFree": true, "citation": ["https://developers.openai.com/api/docs/guides/batch", "https://developers.openai.com/api/docs/guides/rate-limits", "https://developers.openai.com/api/docs/guides/prompt-caching", "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing", "https://platform.claude.com/docs/en/api/rate-limits"]}, {"@type": "Person", "@id": "https://zovo.one#michael-lip", "name": "Michael Lip", "url": "https://zovo.one", "description": "Solo developer with 10+ years experience; 140+ PRs merged into open source projects including Google Chrome and Axios; creator of 20+ Chrome extensions. Builds and operates kickllm.com and the Zovo tools network.", "knowsAbout": ["LLM API pricing (per-token input/output/cache rates)", "Prompt caching economics (cache write vs cache read break-even)", "LLM cost estimation for chatbots and RAG pipelines", "Chrome extension development against paid LLM APIs"]}, {"@type": "WebPage", "name": "OpenAI Batch API, half price inside a 24h window", "url": "https://kickllm.com/tools/openai-batch-api.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com/"}, "breadcrumb": {"@id": "https://kickllm.com/tools/openai-batch-api.html#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://kickllm.com/tools/openai-batch-api.html#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "KickLLM", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "OpenAI Batch API"}]}]}</script>
   <link rel="stylesheet" href="/assets/batch-page.css">
 </head>
 <body>
@@ -38,33 +38,42 @@
     </div>
   </nav>
 
-  <main>
-    <div class="page-content">
+  <main class="batch-doc">
+    <div class="hero">
       <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>OpenAI Batch API</span></nav>
-      <article>
-<h1>OpenAI Batch API, half price if the job can wait a day</h1>
-<p class='byline'>By <a href='https://zovo.one'>Michael Lip</a> &middot; Updated 2026-07-27</p>
-<p>OpenAI's Batch API takes a file of requests, runs them asynchronously, and bills at a <a href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount compared with the synchronous APIs</a>. One file carries <a href='https://developers.openai.com/api/docs/guides/batch'>up to 50,000 requests, and a batch input file can be up to 200 MB</a>, while <a href='https://developers.openai.com/api/docs/guides/batch'>the completion window can currently only be set to 24h</a>. </p>
+      <h1>OpenAI Batch API, half price if the job can wait a day</h1>
+      <p>Price a batch across seven OpenAI models from live rates, copy the five calls that run it, and check the queue limits that stall a job before it starts.</p>
+      <p class="byline">By <a href='https://zovo.one'>Michael Lip</a> &middot; Updated 2026-08-14</p>
+    </div>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<p>OpenAI's Batch API takes a file of requests, runs them asynchronously, and bills at a <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount compared with the synchronous APIs</a>. One file carries <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>up to 50,000 requests, and a batch input file can be up to 200 MB</a>, while <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the completion window can currently only be set to 24h</a>. </p>
 <p>So the trade is blunt. You give up latency, keep half the money, and accept that anything unfinished when the day runs out gets cancelled. Below you get the price of your job across every OpenAI model KickLLM holds a validated live rate for, the lifecycle in five calls you can paste, and the queue limits that stall a batch before it starts.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>The rules in one table</h2>
 <div class='scroll'>
 <table class="results-table">
 <tbody>
-<tr><th scope='row'>Discount</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount compared with the synchronous APIs</a></td></tr>
-<tr><th scope='row'>Job size</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Up to 50,000 requests per batch, input file up to 200 MB</a></td></tr>
-<tr><th scope='row'>Completion window</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>24h, the only value the completion window can currently be set to</a></td></tr>
-<tr><th scope='row'>Input format</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>One JSONL line per request, carrying custom_id, method, url and body</a></td></tr>
-<tr><th scope='row'>Status values</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>validating, failed, in_progress, finalizing, completed, expired, cancelling, cancelled</a></td></tr>
-<tr><th scope='row'>Results</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Downloaded through the Files API using the batch's output_file_id</a>, with failed requests written to <a href='https://developers.openai.com/api/docs/guides/batch'>the file referenced by error_file_id</a></td></tr>
-<tr><th scope='row'>Retention</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>The output file is automatically deleted 30 days after the batch is complete</a></td></tr>
-<tr><th scope='row'>Organization ceiling</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Up to 2,000 batches per hour</a></td></tr>
-<tr><th scope='row'>Rate limit pool</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Batch work does not consume tokens from your standard per-model rate limits</a></td></tr>
-<tr><th scope='row'>If the window closes first</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests are cancelled, responses to completed requests stay in the output file, and you are charged for tokens consumed by the completed requests</a></td></tr>
+<tr><th scope='row'>Discount</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount compared with the synchronous APIs</a></td></tr>
+<tr><th scope='row'>Job size</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Up to 50,000 requests per batch, input file up to 200 MB</a></td></tr>
+<tr><th scope='row'>Completion window</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>24h, the only value the completion window can currently be set to</a></td></tr>
+<tr><th scope='row'>Input format</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>One JSONL line per request, carrying custom_id, method, url and body</a></td></tr>
+<tr><th scope='row'>Status values</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>validating, failed, in_progress, finalizing, completed, expired, cancelling, cancelled</a></td></tr>
+<tr><th scope='row'>Results</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Downloaded through the Files API using the batch's output_file_id</a>, with failed requests written to <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the file referenced by error_file_id</a></td></tr>
+<tr><th scope='row'>Retention</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>The output file is automatically deleted 30 days after the batch is complete</a></td></tr>
+<tr><th scope='row'>Organization ceiling</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Up to 2,000 batches per hour</a></td></tr>
+<tr><th scope='row'>Rate limit pool</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Batch work does not consume tokens from your standard per-model rate limits</a></td></tr>
+<tr><th scope='row'>If the window closes first</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests are cancelled, responses to completed requests stay in the output file, and you are charged for tokens consumed by the completed requests</a></td></tr>
 </tbody>
 </table>
 </div>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>Price a batch across seven OpenAI models</h2>
-<p>Type the shape of your job once and read every OpenAI model with a validated live rate. The batch column applies the documented <a href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount</a> to the synchronous total, and rows sort by batch cost, cheapest first. Calculations run client side, and no data leaves the browser. The boxes open on a placeholder job, so replace the three figures with yours.</p>
+<p>Type the shape of your job once and read every OpenAI model with a validated live rate. The batch column applies the documented <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>50% cost discount</a> to the synchronous total, and rows sort by batch cost, cheapest first. Calculations run client side, and no data leaves the browser. The boxes open on a placeholder job, so replace the three figures with yours.</p>
 <div class='calc'>
 <label>Requests <input id='kx-reqs' type='number' min='0' value='10000'></label>
 <label>Input tokens per request <input id='kx-tin' type='number' min='0' value='2000'></label>
@@ -81,7 +90,10 @@
 <p class='note' id='kx-risk'></p>
 </div>
 <p class='snap'>Rates come from the validated field table further down, snapshot 2026-07-27. Per million figures are computed in the browser from those per-token rates.</p>
-<p>Expiry is where the two big providers stop agreeing on who pays. On OpenAI, <a href='https://developers.openai.com/api/docs/guides/batch'>unfinished requests in an expired batch are cancelled, responses to completed requests remain available, and you are charged for tokens consumed by the completed requests</a>. On Anthropic, <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>requests that end as errored or expired are not billed</a>. Same failure, different invoice, which is why the calculator prints the money at stake per slice of the job.</p>
+<p>Expiry is where the two big providers stop agreeing on who pays. On OpenAI, <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>unfinished requests in an expired batch are cancelled, responses to completed requests remain available, and you are charged for tokens consumed by the completed requests</a>. On Anthropic, <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>requests that end as errored or expired are not billed</a>. Same failure, different invoice, which is why the calculator prints the money at stake per slice of the job.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>The lifecycle in five calls</h2>
 <p>Field names, endpoint paths and status values below are the ones OpenAI's batch guide states. Swap the model, the prompt and the file id for yours.</p>
 <pre><code># 1. requests.jsonl, one line per request
@@ -106,36 +118,42 @@ client.files.content(output_file_id)     # results
 client.files.content(error_file_id)      # failures
 </code></pre>
 <ol>
-<li>Build the input file. <a href='https://developers.openai.com/api/docs/guides/batch'>Each line is a JSON object with custom_id (a unique identifier for the request), method (POST), url (the endpoint path) and body (the parameters for that endpoint)</a>. Pick custom_id values you can trace back to your own records.</li>
-<li>Upload it. <a href='https://developers.openai.com/api/docs/guides/batch'>You must first upload your input file through the Files API</a> so the batch can reference it.</li>
-<li>Create the batch. <a href='https://developers.openai.com/api/docs/guides/batch'>A batch is created from the uploaded file's id plus the endpoint and completion window, and the completion window can currently only be set to 24h</a>.</li>
-<li>Poll it. <a href='https://developers.openai.com/api/docs/guides/batch'>A batch object moves through validating, failed, in_progress, finalizing, completed, expired, cancelling and cancelled</a>.</li>
-<li>Download both files. <a href='https://developers.openai.com/api/docs/guides/batch'>Completed results come through the Files API using the batch's output_file_id</a>, and <a href='https://developers.openai.com/api/docs/guides/batch'>errors for failed requests are written to the file referenced by error_file_id</a>. Copy them somewhere durable, because <a href='https://developers.openai.com/api/docs/guides/batch'>the output file is automatically deleted 30 days after the batch is complete</a>.</li>
+<li>Build the input file. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Each line is a JSON object with custom_id (a unique identifier for the request), method (POST), url (the endpoint path) and body (the parameters for that endpoint)</a>. Pick custom_id values you can trace back to your own records.</li>
+<li>Upload it. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>You must first upload your input file through the Files API</a> so the batch can reference it.</li>
+<li>Create the batch. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>A batch is created from the uploaded file's id plus the endpoint and completion window, and the completion window can currently only be set to 24h</a>.</li>
+<li>Poll it. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>A batch object moves through validating, failed, in_progress, finalizing, completed, expired, cancelling and cancelled</a>.</li>
+<li>Download both files. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Completed results come through the Files API using the batch's output_file_id</a>, and <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>errors for failed requests are written to the file referenced by error_file_id</a>. Copy them somewhere durable, because <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the output file is automatically deleted 30 days after the batch is complete</a>.</li>
 </ol>
 <h3>Which endpoints take batch requests</h3>
-<p>The guide lists the supported paths, and a url your account can call synchronously is not automatically one of them. <a href='https://developers.openai.com/api/docs/guides/batch'>Batch accepts /v1/responses, /v1/chat/completions, /v1/embeddings, /v1/completions, /v1/moderations, /v1/images/generations, /v1/images/edits and /v1/videos</a>.</p>
+<p>The guide lists the supported paths, and a url your account can call synchronously is not automatically one of them. <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Batch accepts /v1/responses, /v1/chat/completions, /v1/embeddings, /v1/completions, /v1/moderations, /v1/images/generations, /v1/images/edits and /v1/videos</a>.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>When a batch fails, expires, or never starts</h2>
 <p>Most of the pain with batch is not pricing. Something rejects the file, the queue refuses more work, or half the job comes back and you cannot tell what you owe. Each row below names the symptom, the documented cause, and the move.</p>
 <div class='scroll'>
-<table class="results-table">
+<table class="results-table wide">
 <thead>
 <tr><th>What you see</th><th>Why</th><th>What to do</th></tr>
 </thead>
 <tbody>
-<tr><td>Status goes to failed within seconds of creation</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>A batch enters the failed status when its input file has failed the validation process</a></td><td>Check every line parses on its own and names all four fields, since <a href='https://developers.openai.com/api/docs/guides/batch'>each line must carry custom_id, method, url and body</a>, and confirm the url is one of <a href='https://developers.openai.com/api/docs/guides/batch'>the endpoints batch accepts</a></td></tr>
-<tr><td>Results carry the message "This request could not be executed before the completion window expired."</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests in an expired batch return that exact error message</a></td><td>The finished work is still yours to keep, and <a href='https://developers.openai.com/api/docs/guides/batch'>you are charged for tokens consumed by the completed requests</a>, so resubmit only the missing custom_id values</td></tr>
-<tr><td>A large job will not accept any more queued work</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>Each model has a maximum number of prompt tokens that can be queued for batch processing</a>, and <a href='https://developers.openai.com/api/docs/guides/rate-limits'>batch queue limits are calculated based on the total number of input tokens queued for a given model</a></td><td>Those per-model caps live on the Platform Settings page rather than in the guide, so read yours there and compare it with the enqueued token figure the calculator above prints. <a href='https://developers.openai.com/api/docs/guides/rate-limits'>Tokens from a pending batch stop counting against the queue limit once that batch job completes</a>, so draining one job frees headroom for the next</td></tr>
-<tr><td>Batch creation starts getting rejected while each file is small</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>An organization can create up to 2,000 batches per hour</a></td><td>Pack more requests per file rather than firing more files, up to <a href='https://developers.openai.com/api/docs/guides/batch'>the 50,000 request and 200 MB ceiling</a></td></tr>
-<tr><td>Fewer result lines than you submitted</td><td>Failures are written separately, to <a href='https://developers.openai.com/api/docs/guides/batch'>the file referenced by error_file_id</a></td><td>Download the error file too and reconcile both against your custom_id list before you call the job done</td></tr>
-<tr><td>An output file id that used to work now returns nothing</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>The output file is automatically deleted 30 days after the batch is complete</a></td><td>Persist results into your own storage as part of the download step, not as a later chore</td></tr>
-<tr><td>Worry that a big batch will throttle your production traffic</td><td><a href='https://developers.openai.com/api/docs/guides/batch'>Using the Batch API does not consume tokens from your standard per-model rate limits</a></td><td>Keep the synchronous budget for latency-sensitive paths and push bulk work into batch, since the two draw on separate pools</td></tr>
+<tr><td>Status goes to failed within seconds of creation</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>A batch enters the failed status when its input file has failed the validation process</a></td><td>Check every line parses on its own and names all four fields, since <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>each line must carry custom_id, method, url and body</a>, and confirm the url is one of <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the endpoints batch accepts</a></td></tr>
+<tr><td>Results carry the message "This request could not be executed before the completion window expired."</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests in an expired batch return that exact error message</a></td><td>The finished work is still yours to keep, and <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>you are charged for tokens consumed by the completed requests</a>, so resubmit only the missing custom_id values</td></tr>
+<tr><td>A large job will not accept any more queued work</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Each model has a maximum number of prompt tokens that can be queued for batch processing</a>, and <a class="cite" href='https://developers.openai.com/api/docs/guides/rate-limits'>batch queue limits are calculated based on the total number of input tokens queued for a given model</a></td><td>Those per-model caps live on the Platform Settings page rather than in the guide, so read yours there and compare it with the enqueued token figure the calculator above prints. <a class="cite" href='https://developers.openai.com/api/docs/guides/rate-limits'>Tokens from a pending batch stop counting against the queue limit once that batch job completes</a>, so draining one job frees headroom for the next</td></tr>
+<tr><td>Batch creation starts getting rejected while each file is small</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>An organization can create up to 2,000 batches per hour</a></td><td>Pack more requests per file rather than firing more files, up to <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the 50,000 request and 200 MB ceiling</a></td></tr>
+<tr><td>Fewer result lines than you submitted</td><td>Failures are written separately, to <a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>the file referenced by error_file_id</a></td><td>Download the error file too and reconcile both against your custom_id list before you call the job done</td></tr>
+<tr><td>An output file id that used to work now returns nothing</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>The output file is automatically deleted 30 days after the batch is complete</a></td><td>Persist results into your own storage as part of the download step, not as a later chore</td></tr>
+<tr><td>Worry that a big batch will throttle your production traffic</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Using the Batch API does not consume tokens from your standard per-model rate limits</a></td><td>Keep the synchronous budget for latency-sensitive paths and push bulk work into batch, since the two draw on separate pools</td></tr>
 </tbody>
 </table>
 </div>
 <h3>Rate limits and queue limits are two different pools</h3>
-<p>Worth separating, because the dashboards look similar. Your synchronous ceilings are measured as <a href='https://developers.openai.com/api/docs/guides/rate-limits'>requests per minute, requests per day, tokens per minute, tokens per day and images per minute</a>. Batch does not draw on those, and instead has its own queue measured in <a href='https://developers.openai.com/api/docs/guides/rate-limits'>total input tokens queued for a given model</a>. Both sets grow the same way, since <a href='https://developers.openai.com/api/docs/guides/rate-limits'>OpenAI automatically graduates an organization to the next usage tier as its cumulative API spend goes up</a>.</p>
+<p>Worth separating, because the dashboards look similar. Your synchronous ceilings are measured as <a class="cite" href='https://developers.openai.com/api/docs/guides/rate-limits'>requests per minute, requests per day, tokens per minute, tokens per day and images per minute</a>. Batch does not draw on those, and instead has its own queue measured in <a class="cite" href='https://developers.openai.com/api/docs/guides/rate-limits'>total input tokens queued for a given model</a>. Both sets grow the same way, since <a class="cite" href='https://developers.openai.com/api/docs/guides/rate-limits'>OpenAI automatically graduates an organization to the next usage tier as its cumulative API spend goes up</a>.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>The same job on Anthropic Message Batches</h2>
-<p>Anthropic skips the file upload. <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>A Message Batch is created by POSTing a requests array to https://api.anthropic.com/v1/messages/batches, where each entry has a custom_id and a params object holding standard Messages API parameters</a>. The discount matches, because <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>all Message Batches API usage is charged at 50% of the standard API prices</a>.</p>
+<p>Anthropic skips the file upload. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>A Message Batch is created by POSTing a requests array to https://api.anthropic.com/v1/messages/batches, where each entry has a custom_id and a params object holding standard Messages API parameters</a>. The discount matches, because <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>all Message Batches API usage is charged at 50% of the standard API prices</a>.</p>
 <pre><code># create, one call, no file upload
 POST https://api.anthropic.com/v1/messages/batches
 {"requests": [
@@ -148,46 +166,62 @@ POST https://api.anthropic.com/v1/messages/batches
 # poll until processing_status is "ended", then stream results_url
 # one JSON object per line, matched back by custom_id
 </code></pre>
-<p>Two shapes to watch when you port a working OpenAI job across. <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Anthropic custom_id values must be 1 to 64 characters of alphanumerics, hyphens and the underscore character, matching ^[a-zA-Z0-9_-]{1,64}$</a>, which is stricter than anything the OpenAI guide states. And <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>batch requests reject stream: true, speed (Fast mode), store and previous_thread_event_id, cache_hint and context_hint, and max_tokens: 0 with a validation error</a>, so a request body that works synchronously can still bounce.</p>
+<p>Two shapes to watch when you port a working OpenAI job across. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Anthropic custom_id values must be 1 to 64 characters of alphanumerics, hyphens and the underscore character, matching ^[a-zA-Z0-9_-]{1,64}$</a>, which is stricter than anything the OpenAI guide states. And <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>batch requests reject stream: true, speed (Fast mode), store and previous_thread_event_id, cache_hint and context_hint, and max_tokens: 0 with a validation error</a>, so a request body that works synchronously can still bounce.</p>
 <div class='scroll'>
-<table class="results-table">
+<table class="results-table wide">
 <thead>
 <tr><th>Operational detail</th><th>OpenAI Batch</th><th>Anthropic Message Batches</th></tr>
 </thead>
 <tbody>
-<tr><th scope='row'>Job size</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Up to 50,000 requests, input file up to 200 MB</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>100,000 Message requests or 256 MB, whichever is reached first</a></td></tr>
-<tr><th scope='row'>Submission</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>A JSONL file uploaded through the Files API, then referenced by id</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>A requests array POSTed straight to the batches endpoint</a></td></tr>
-<tr><th scope='row'>Status model</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Eight values, validating through cancelled</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>processing_status in_progress, then ended</a></td></tr>
-<tr><th scope='row'>Deadline</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>A 24h completion window, the only value available</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Batches expire if processing does not complete within 24 hours, and results arrive when all messages complete or after 24 hours, whichever comes first</a></td></tr>
-<tr><th scope='row'>Per-request outcome</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>An output file plus a separate error file</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>succeeded, errored, canceled or expired per request</a></td></tr>
-<tr><th scope='row'>Expired work</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests cancelled, completed requests billed</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Requests that errored or expired are not billed</a></td></tr>
-<tr><th scope='row'>Result retention</th><td><a href='https://developers.openai.com/api/docs/guides/batch'>Output file deleted 30 days after completion</a></td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Results available for 29 days after creation, after which the batch is still viewable but results can no longer be downloaded</a></td></tr>
-<tr><th scope='row'>Cleanup</th><td>Not covered in the guide cited here</td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>DELETE /v1/messages/batches/{batch_id}, and an in-progress batch must be canceled first</a></td></tr>
+<tr><th scope='row'>Job size</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Up to 50,000 requests, input file up to 200 MB</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>100,000 Message requests or 256 MB, whichever is reached first</a></td></tr>
+<tr><th scope='row'>Submission</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>A JSONL file uploaded through the Files API, then referenced by id</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>A requests array POSTed straight to the batches endpoint</a></td></tr>
+<tr><th scope='row'>Status model</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Eight values, validating through cancelled</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>processing_status in_progress, then ended</a></td></tr>
+<tr><th scope='row'>Deadline</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>A 24h completion window, the only value available</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Batches expire if processing does not complete within 24 hours, and results arrive when all messages complete or after 24 hours, whichever comes first</a></td></tr>
+<tr><th scope='row'>Per-request outcome</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>An output file plus a separate error file</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>succeeded, errored, canceled or expired per request</a></td></tr>
+<tr><th scope='row'>Expired work</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Unfinished requests cancelled, completed requests billed</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Requests that errored or expired are not billed</a></td></tr>
+<tr><th scope='row'>Result retention</th><td><a class="cite" href='https://developers.openai.com/api/docs/guides/batch'>Output file deleted 30 days after completion</a></td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Results available for 29 days after creation, after which the batch is still viewable but results can no longer be downloaded</a></td></tr>
+<tr><th scope='row'>Cleanup</th><td>Not covered in the guide cited here</td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>DELETE /v1/messages/batches/{batch_id}, and an in-progress batch must be canceled first</a></td></tr>
 </tbody>
 </table>
 </div>
-<p>Cancelling behaves differently too. <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>An Anthropic batch reads canceling immediately after cancellation, and canceled batches end with status ended and may contain partial results for requests processed before cancellation</a>. Download those partials from <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>the results_url property, streaming the .jsonl rather than pulling it all at once</a>.</p>
+<p>Cancelling behaves differently too. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>An Anthropic batch reads canceling immediately after cancellation, and canceled batches end with status ended and may contain partial results for requests processed before cancellation</a>. Download those partials from <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>the results_url property, streaming the .jsonl rather than pulling it all at once</a>.</p>
 <h3>Anthropic queue and spend ceilings</h3>
-<p>The Anthropic side publishes its batch queue numbers directly, where OpenAI puts yours behind the Platform Settings page. <a href='https://platform.claude.com/docs/en/api/rate-limits'>The Message Batches API has its own limits shared across models, allowing 200,000 batch requests in the processing queue on Start, 300,000 on Build and 500,000 on Scale, with a maximum of 100,000 batch requests per batch at every tier</a>. Spend has a ceiling as well, since <a href='https://platform.claude.com/docs/en/api/rate-limits'>monthly spend caps run $500 on Start, $1,000 on Build and $200,000 on Scale, with no cap on Custom</a>. When you cross a limit, <a href='https://platform.claude.com/docs/en/api/rate-limits'>the API returns a 429 describing which rate limit was exceeded along with a retry-after header saying how long to wait</a>.</p>
+<p>The Anthropic side publishes its batch queue numbers directly, where OpenAI puts yours behind the Platform Settings page. <a class="cite" href='https://platform.claude.com/docs/en/api/rate-limits'>The Message Batches API has its own limits shared across models, allowing 200,000 batch requests in the processing queue on Start, 300,000 on Build and 500,000 on Scale, with a maximum of 100,000 batch requests per batch at every tier</a>. Spend has a ceiling as well, since <a class="cite" href='https://platform.claude.com/docs/en/api/rate-limits'>monthly spend caps run $500 on Start, $1,000 on Build and $200,000 on Scale, with no cap on Custom</a>. When you cross a limit, <a class="cite" href='https://platform.claude.com/docs/en/api/rate-limits'>the API returns a 429 describing which rate limit was exceeded along with a retry-after header saying how long to wait</a>.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>Caching on top of the batch discount</h2>
-<p>Anthropic is explicit that the two discounts combine, because <a href='https://platform.claude.com/docs/en/about-claude/pricing'>prompt caching multipliers stack with other pricing modifiers, including the Batch API discount and data residency</a>. One wrinkle comes with that. <a href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Anthropic recommends the 1-hour cache duration with prompt caching for better cache hit rates when batching requests that share context, because batches can take longer than 5 minutes to process</a>, which follows from the default, since <a href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>the default cache entry is ephemeral with a 5-minute lifetime and the extended 1-hour cache is requested by setting ttl to 1h on the cache_control block</a>. Wiring it up is a request-body change, as <a href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>caching is enabled by adding a cache_control field, either once at the top level for automatic caching or on individual content blocks for explicit breakpoints</a>.</p>
-<p>OpenAI needs no wiring at all. <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>Prompt Caching works automatically for eligible requests, with no code changes required</a>, and <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>caching is available for prompts containing 1024 tokens or more</a>. Lifetime depends on the model generation. <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>Under the in-memory cache policy, cached prefixes generally remain active for 5 to 10 minutes of inactivity, up to a maximum of one hour</a>, while <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>for GPT-5.6 and later a cached prefix remains eligible for reuse for at least 30 minutes</a>. Put the stable part of the prompt first, since <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>the service reads from the longest matching prefix when several breakpoints match cached content</a>. Two more facts worth knowing before you plan around a shared prefix. <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>Caches are not shared between organizations, and only members of the same organization can access caches of identical prompts</a>, and <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>cache writes on GPT-5.6 and later are billed at 1.25x the uncached input token rate</a>.</p>
-<p>Log the usage fields from day one, because a cache that quietly stops hitting looks exactly like a price rise. OpenAI reports the read side, where <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>tokens served from cache appear as cached_tokens, inside usage.input_tokens_details for the Responses API and usage.prompt_tokens_details for Chat Completions</a>. Anthropic reports both sides, since <a href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>the usage object carries cache_creation_input_tokens for tokens written to cache and cache_read_input_tokens for tokens read from it, with input_tokens covering only the tokens after the last cache breakpoint</a>. That split matters for throughput as well as cost, because <a href='https://platform.claude.com/docs/en/api/rate-limits'>on most Claude models only uncached input tokens count toward the ITPM rate limit, so input_tokens and cache_creation_input_tokens count while cache_read_input_tokens do not</a>.</p>
+<p>The two discounts combine. Anthropic says it plainly, that <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>prompt caching multipliers stack with other pricing modifiers, including the Batch API discount and data residency</a>.</p>
+
+<h3>Turning it on</h3>
+<p>On Anthropic, reach for the longer cache. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing'>Anthropic recommends the 1-hour cache duration with prompt caching for better cache hit rates when batching requests that share context, because batches can take longer than 5 minutes to process</a>. The default is shorter than most batches run, since <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>the default cache entry is ephemeral with a 5-minute lifetime and the extended 1-hour cache is requested by setting ttl to 1h on the cache_control block</a>.</p>
+<p>Wiring it up is a request-body change. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>Caching is enabled by adding a cache_control field, either once at the top level for automatic caching or on individual content blocks for explicit breakpoints</a>.</p>
+<p>OpenAI needs no wiring at all. <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>Prompt Caching works automatically for eligible requests, with no code changes required</a>, and <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>caching is available for prompts containing 1024 tokens or more</a>.</p>
+
+<h3>How long a cached prefix lives</h3>
+<p>Lifetime depends on the model generation. <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>Under the in-memory cache policy, cached prefixes generally remain active for 5 to 10 minutes of inactivity, up to a maximum of one hour</a>. For newer models it holds longer, since <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>for GPT-5.6 and later a cached prefix remains eligible for reuse for at least 30 minutes</a>.</p>
+<p>Put the stable part of the prompt first. <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>The service reads from the longest matching prefix when several breakpoints match cached content</a>.</p>
+<p>Two more things before you plan around a shared prefix. <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>Caches are not shared between organizations, and only members of the same organization can access caches of identical prompts</a>. And <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>cache writes on GPT-5.6 and later are billed at 1.25x the uncached input token rate</a>.</p>
+
+<h3>What the usage fields tell you</h3>
+<p>Log them from day one. A cache that quietly stops hitting looks exactly like a price rise.</p>
+<p>OpenAI reports the read side. <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>Tokens served from cache appear as cached_tokens, inside usage.input_tokens_details for the Responses API and usage.prompt_tokens_details for Chat Completions</a>.</p>
+<p>Anthropic reports both sides. <a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>The usage object carries cache_creation_input_tokens for tokens written to cache and cache_read_input_tokens for tokens read from it, with input_tokens covering only the tokens after the last cache breakpoint</a>. That split matters for throughput as well as cost, because <a class="cite" href='https://platform.claude.com/docs/en/api/rate-limits'>on most Claude models only uncached input tokens count toward the ITPM rate limit, so input_tokens and cache_creation_input_tokens count while cache_read_input_tokens do not</a>.</p>
 <h3>How long a prompt has to be before caching applies</h3>
 <div class='scroll'>
 <table class="results-table">
 <thead><tr><th>Provider and models</th><th>Minimum before caching applies</th></tr></thead>
 <tbody>
-<tr><td>OpenAI, eligible requests</td><td><a href='https://developers.openai.com/api/docs/guides/prompt-caching'>1024 tokens or more</a></td></tr>
-<tr><td>Claude Opus 4.8, Sonnet 5, Sonnet 4.6, Sonnet 4.5</td><td><a href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>1,024 tokens, and shorter prompts are simply not cached with no error returned</a></td></tr>
-<tr><td>Gemini 2.5 Flash and 2.5 Pro</td><td><a href='https://ai.google.dev/gemini-api/docs/caching'>2048 tokens</a></td></tr>
-<tr><td>Gemini 3.5 Flash and 3.1 Pro Preview</td><td><a href='https://ai.google.dev/gemini-api/docs/caching'>4096 tokens</a></td></tr>
+<tr><td>OpenAI, eligible requests</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>1024 tokens or more</a></td></tr>
+<tr><td>Claude Opus 4.8, Sonnet 5, Sonnet 4.6, Sonnet 4.5</td><td><a class="cite" href='https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching'>1,024 tokens, and shorter prompts are simply not cached with no error returned</a></td></tr>
+<tr><td>Gemini 2.5 Flash and 2.5 Pro</td><td><a class="cite" href='https://ai.google.dev/gemini-api/docs/caching'>2048 tokens</a></td></tr>
+<tr><td>Gemini 3.5 Flash and 3.1 Pro Preview</td><td><a class="cite" href='https://ai.google.dev/gemini-api/docs/caching'>4096 tokens</a></td></tr>
 </tbody>
 </table>
 </div>
-<p class='note'>Gemini needs no opt-in for the implicit path, since <a href='https://ai.google.dev/gemini-api/docs/caching'>implicit caching is enabled by default for all Gemini 2.5 and newer models</a> and <a href='https://ai.google.dev/gemini-api/docs/caching'>Google automatically passes on cost savings when a request hits caches</a>. Google's own advice for hit rate matches the OpenAI prefix rule, namely <a href='https://ai.google.dev/gemini-api/docs/caching'>put large and common contents at the beginning of the prompt and send requests with a similar prefix within a short amount of time</a>. Budget for one extra line item there, because <a href='https://ai.google.dev/gemini-api/docs/pricing'>Gemini 2.5 Pro context caching adds a cache storage charge billed per million tokens per hour on top of the cached-token rate</a>, and <a href='https://ai.google.dev/gemini-api/docs/pricing'>Gemini 2.5 Flash and Flash-Lite carry a storage charge per million tokens per hour as well</a>.</p>
+<p class='note'>Gemini needs no opt-in for the implicit path, since <a class="cite" href='https://ai.google.dev/gemini-api/docs/caching'>implicit caching is enabled by default for all Gemini 2.5 and newer models</a> and <a class="cite" href='https://ai.google.dev/gemini-api/docs/caching'>Google automatically passes on cost savings when a request hits caches</a>. Google's own advice for hit rate matches the OpenAI prefix rule, namely <a class="cite" href='https://ai.google.dev/gemini-api/docs/caching'>put large and common contents at the beginning of the prompt and send requests with a similar prefix within a short amount of time</a>. Budget for one extra line item there, because <a class="cite" href='https://ai.google.dev/gemini-api/docs/pricing'>Gemini 2.5 Pro context caching adds a cache storage charge billed per million tokens per hour on top of the cached-token rate</a>, and <a class="cite" href='https://ai.google.dev/gemini-api/docs/pricing'>Gemini 2.5 Flash and Flash-Lite carry a storage charge per million tokens per hour as well</a>.</p>
 <h3>How many reads before a cached prefix pays for itself</h3>
-<p>Cache writes cost more than a plain input token and reads cost far less, so a prefix earns its keep only if you read it enough times. <a href='https://platform.claude.com/docs/en/about-claude/pricing'>Anthropic's multipliers relative to the base input rate are 1.25x for a 5-minute cache write, 2x for a 1-hour cache write and 0.1x for a cache read</a>, and the company states the outcome plainly, that <a href='https://platform.claude.com/docs/en/about-claude/pricing'>caching pays off after just one cache read for the 5-minute duration and after two cache reads for the 1-hour duration</a>. The table recomputes that break-even from the live per-token rates instead of quoting it, and prices your actual prefix. The gpt-5.6-sol row applies <a href='https://developers.openai.com/api/docs/guides/prompt-caching'>the documented 1.25x cache write rate for GPT-5.6 and later</a> to its validated input rate, and leaves the 1-hour column empty because OpenAI's cache lifetime is automatic rather than a tier you buy.</p>
+<p>Cache writes cost more than a plain input token and reads cost far less, so a prefix earns its keep only if you read it enough times. <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>Anthropic's multipliers relative to the base input rate are 1.25x for a 5-minute cache write, 2x for a 1-hour cache write and 0.1x for a cache read</a>, and the company states the outcome plainly, that <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>caching pays off after just one cache read for the 5-minute duration and after two cache reads for the 1-hour duration</a>. The table recomputes that break-even from the live per-token rates instead of quoting it, and prices your actual prefix. The gpt-5.6-sol row applies <a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>the documented 1.25x cache write rate for GPT-5.6 and later</a> to its validated input rate, and leaves the 1-hour column empty because OpenAI's cache lifetime is automatic rather than a tier you buy.</p>
 <div class='calc'>
 <label>Reused prefix, tokens <input id='kx-prefix' type='number' min='0' value='1024'></label>
 <label>Reads per cache entry <input id='kx-reads' type='number' min='0' value='4'></label>
@@ -201,10 +235,13 @@ POST https://api.anthropic.com/v1/messages/batches
 </div>
 </div>
 <p class='note'>The 5 minute column uses each Claude model's validated cache write rate from the feed. The 1 hour column applies the documented 2x multiplier to that model's validated base input rate. OpenRouter also lists a separate 1 hour write price for each Claude model, and it matches that 2x figure exactly. The prefix box opens at the 1,024 token minimum several Claude models share.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>The per-token rates behind both calculators</h2>
 <p class='snap'>Snapshot 2026-07-27. Every rate is fetched in code from the OpenRouter models API, cross-checked against a second price registry, range checked, and rendered from the validated value. None of it is typed by hand. Units are USD per token because that is what the feeds publish, and the calculators convert to per million.</p>
 <div class='scroll'>
-<table class="results-table">
+<table class="results-table wide">
 <thead>
 <tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Cache write</th></tr>
 </thead>
@@ -215,16 +252,29 @@ POST https://api.anthropic.com/v1/messages/batches
 <tr><td>gpt-5.4-mini</td><td>7.5e-7</td><td>0.0000045</td><td>7.5e-8</td><td>Not published as a separate rate by the feed</td></tr>
 <tr><td>gpt-5.4-nano</td><td>2e-7</td><td>0.00000125</td><td>2e-8</td><td>Not published as a separate rate by the feed</td></tr>
 <tr><td>gpt-5.5</td><td>0.000005</td><td>0.00003</td><td>5e-7</td><td>Not published as a separate rate by the feed</td></tr>
-<tr><td>gpt-5.6-sol</td><td>0.000005</td><td>0.00003</td><td>5e-7</td><td><a href='https://developers.openai.com/api/docs/guides/prompt-caching'>1.25x the uncached input token rate on GPT-5.6 and later</a></td></tr>
+<tr><td>gpt-5.6-sol</td><td>0.000005</td><td>0.00003</td><td>5e-7</td><td><a class="cite" href='https://developers.openai.com/api/docs/guides/prompt-caching'>1.25x the uncached input token rate on GPT-5.6 and later</a></td></tr>
 <tr><td>claude-opus-4.8</td><td>0.000005</td><td>0.000025</td><td>5e-7</td><td>0.00000625</td></tr>
 <tr><td>claude-sonnet-4.5</td><td>0.000003</td><td>0.000015</td><td>3e-7</td><td>0.00000375</td></tr>
 <tr><td>claude-haiku-4.5</td><td>0.000001</td><td>0.000005</td><td>1e-7</td><td>0.00000125</td></tr>
 </tbody>
 </table>
 </div>
-<p>Four pricing facts sit outside that table and still move a batch budget. <a href='https://developers.openai.com/api/docs/pricing'>OpenAI's pricing page publishes batch rates for gpt-5.4-mini in their own column alongside the standard rates</a>, so you can check the discount against the invoice rather than trusting the guide's headline. <a href='https://platform.claude.com/docs/en/about-claude/pricing'>Claude Sonnet 5 carries introductory pricing through August 31, 2026, after which standard pricing takes effect</a>, which is a dated cliff worth putting in a calendar. <a href='https://platform.claude.com/docs/en/about-claude/pricing'>Claude 4.7 and later models use a newer tokenizer that produces approximately 30% more tokens for the same text than the tokenizer used by Sonnet 4.6 and earlier, with the exact increase depending on content and workload</a>, so an unchanged prompt can bill as more tokens after a model upgrade. And <a href='https://platform.claude.com/docs/en/about-claude/pricing'>for Claude 4.6 and later the full 1M token context window is included at standard pricing, with prompt caching and batch discounts applying at standard rates across the full context window</a>.</p>
+<p>Some pricing facts sit outside that table and still move a batch budget.</p>
+<p>You can check the discount against the invoice rather than trusting the guide's headline, because <a class="cite" href='https://developers.openai.com/api/docs/pricing'>OpenAI's pricing page publishes batch rates for gpt-5.4-mini in their own column alongside the standard rates</a>.</p>
+<p>Claude Sonnet 5 no longer has a price rise waiting for it. <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>The $2/$10 per million input/output token pricing for Claude Sonnet 5, announced at launch as introductory pricing through August 31, 2026, is now the standard price. The previously scheduled increase to $3/$15 per million input/output tokens on September 1, 2026 will not occur</a>. If you budgeted for that jump, take it back out.</p>
+<p>A model upgrade can raise the bill without a single prompt changing, since <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>Claude 4.7 and later models use a newer tokenizer that produces approximately 30% more tokens for the same text than the tokenizer used by Sonnet 4.6 and earlier, with the exact increase depending on content and workload</a>.</p>
+<p>Long context costs nothing extra on the newer Claude models. <a class="cite" href='https://platform.claude.com/docs/en/about-claude/pricing'>For Claude 4.6 and later the full 1M token context window is included at standard pricing, with prompt caching and batch discounts applying at standard rates across the full context window</a>.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>Where these numbers come from</h2>
-<p>Every per-token rate on this page arrives as a validated live field. The build fetches it from the OpenRouter models API, cross-checks it against the community maintained LiteLLM price registry, and holds any value that disagrees across sources or falls outside a sane range for that model. Nothing is typed by hand, and both calculators multiply those rates in your browser, so you can reproduce any figure here from the per-token numbers in the rate table. I'm Michael Lip. I build and operate the KickLLM cost calculators and run 20 plus published Chrome extensions under the Zovo network, several of which call paid LLM APIs in production, which is where the interest in batch discounts and cache multipliers started. No batch run of my own is reported anywhere on this page. Every operational number here is the provider's own, linked beside the sentence that uses it.</p>
+<p>Every per-token rate here arrives as a validated live field. The build fetches it from the OpenRouter models API and cross-checks it against the community maintained LiteLLM price registry. Any value that disagrees across the two, or that falls outside a sane range for that model, is held rather than published.</p>
+<p>Nothing is typed by hand. Both calculators multiply those rates in your browser, so you can reproduce any figure on this page from the per-token numbers in the rate table.</p>
+<p>I'm Michael Lip. I build and operate the KickLLM cost calculators, and I run 20 plus published Chrome extensions under the Zovo network. Several of them call paid LLM APIs in production. That is where the interest in batch discounts and cache multipliers started.</p>
+<p>No batch run of my own is reported anywhere on this page. Every operational number is the provider's own, linked beside the sentence that uses it.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
 <h2>Sources</h2>
 <ul>
 <li><a href='https://developers.openai.com/api/docs/guides/batch'>OpenAI, Batch API guide</a>, fetched 2026-07-28</li>
@@ -238,9 +288,20 @@ POST https://api.anthropic.com/v1/messages/batches
 <li><a href='https://ai.google.dev/gemini-api/docs/caching'>Google, Gemini context caching</a>, fetched 2026-07-28</li>
 <li><a href='https://ai.google.dev/gemini-api/docs/pricing'>Google, Gemini API pricing</a>, fetched 2026-07-28</li>
 </ul>
+</section>
 
-      </article>
-    </div>
+<section style="max-width:720px;margin:2.5rem auto;">
+  <h2>Related calculators</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem;">
+    <a href="/tools/batch-api-savings-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">Batch API savings calculator</a>
+    <a href="/tools/prompt-caching-break-even-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">Prompt caching break even calculator</a>
+    <a href="/tools/claude-api-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">Claude API pricing</a>
+    <a href="/tools/gpt-4-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">GPT-4o API pricing</a>
+    <a href="/tools/llm-cost-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">LLM cost calculator</a>
+    <a href="/tools/self-host-vs-api-break-even-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">Self host vs API break even</a>
+  </div>
+</section>
+
   </main>
 
 <script src="/kit/cta.js" data-mt-cta data-tool="toolsthatrank" data-href="https://toolsthatrank.com/" data-text="You watch cost per million tokens all day, then hand a content tool a monthly bill anyway. ToolsThatRank builds a working tool site from a niche, checks every figure against a primary source before it ships, and runs on your machine with your own API keys. 99 dollars once, nothing recurring." data-action="See the pipeline" data-placement="inline" data-source="kickllm" data-medium="cta" data-campaign="toolsthatrank"></script>
@@ -253,6 +314,51 @@ POST https://api.anthropic.com/v1/messages/batches
         <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=tools-openai-batch-api">Zovo</a> · lifetime access, one payment</div>
     </div>
   </footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &middot; A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP &middot; Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality &middot; Security</a>
+            <a href="https://claudflow.com">ClaudFlow &middot; Workflows</a>
+            <a href="https://claudkit.com">ClaudKit &middot; API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket &middot; Support</a>
+            <a href="https://enhio.com">Enhio &middot; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &middot; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &middot; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &middot; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &middot; ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc &middot; Recipes</a>
+            <a href="https://invokebot.com">InvokeBot &middot; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &middot; JSON</a>
+            <a href="https://kappakit.com">KappaKit &middot; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &middot; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &middot; Security</a>
+            <a href="https://lockml.com">LockML &middot; ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=tools-openai-batch-api">ML0X &middot; ML Basics</a>
+            <a href="https://ml3x.com">ML3X &middot; Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor &middot; Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool &middot; Cooking</a>
+            <a href="https://viryd.com">Viryd &middot; Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub &middot; theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative &middot; Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder &middot; Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=tools-openai-batch-api" rel="nofollow">Zovo &middot; AI Dev Tools</a>
+  </div>
+</div>
+
+  <script src="/assets/js/share.js"></script>
+<script src="/assets/js/pro-nudge.js"></script>
 
 <script>
 (function () {
@@ -278,6 +384,10 @@ POST https://api.anthropic.com/v1/messages/batches
   function el(id) { return document.getElementById(id); }
   var MAX_INPUT = 1e9; /* NASA bound: clamp all user inputs; beyond this float math degrades and no real batch job exists */
   function val(id) { var e = el(id); if (!e) { return 0; } var v = parseFloat(e.value); if (!isFinite(v) || v < 0) { return 0; } return v > MAX_INPUT ? MAX_INPUT : v; }
+  /* Guarded DOM writes. Every render target is checked before use, so a missing or renamed
+     element degrades to a no-op instead of throwing and killing the whole calculator. */
+  function setHTML(id, s) { var e = el(id); if (!e) { return false; } e.innerHTML = s; return true; }
+  function setText(id, s) { var e = el(id); if (!e) { return false; } e.textContent = s; return true; }
   function money(n) {
     if (!isFinite(n)) { return ''; }
     if (n > 0 && n < 0.01) { return '$' + n.toFixed(6); }
@@ -300,17 +410,17 @@ POST https://api.anthropic.com/v1/messages/batches
     rows.forEach(function (r, i) {
       out += '<tr><td>' + (i + 1) + '</td><td>' + r.m.label + '</td><td>' + per1m(r.m.input) + '</td><td>' + per1m(r.m.output) + '</td><td>' + money(r.sync) + '</td><td>' + money(r.batch) + '</td><td>' + money(r.sync - r.batch) + '</td></tr>';
     });
-    el('kx-rows').innerHTML = out;
+    if (!setHTML('kx-rows', out)) { return; }
     if (reqs <= 0) {
-      el('kx-shape').textContent = 'Type a request count to price the job.';
-      el('kx-risk').textContent = '';
+      setText('kx-shape', 'Type a request count to price the job.');
+      setText('kx-risk', '');
       return;
     }
     var files = Math.ceil(reqs / MAX_PER_BATCH);
     var enqueued = reqs * tin;
-    el('kx-shape').textContent = 'That job needs at least ' + files + ' input file' + (files === 1 ? '' : 's') + ' to stay under the documented 50,000 request ceiling, and it puts ' + grouped(enqueued) + ' input tokens into the batch queue for whichever model you pick. Compare that against your per-model enqueued token limit on the Platform Settings page before you upload.';
+    setText('kx-shape', 'That job needs at least ' + files + ' input file' + (files === 1 ? '' : 's') + ' to stay under the documented 50,000 request ceiling, and it puts ' + grouped(enqueued) + ' input tokens into the batch queue for whichever model you pick. Compare that against your per-model enqueued token limit on the Platform Settings page before you upload.');
     var best = rows[0];
-    el('kx-risk').textContent = 'The lowest batch total here is ' + money(best.batch) + ' on ' + best.m.label + '. Every 10% of the job that finishes before the window closes is about ' + money(best.batch * 0.1) + ' of billable work on OpenAI, even if the rest expires.';
+    setText('kx-risk', 'The lowest batch total here is ' + money(best.batch) + ' on ' + best.m.label + '. Every 10% of the job that finishes before the window closes is about ' + money(best.batch * 0.1) + ' of billable work on OpenAI, even if the rest expires.');
   }
   function renderCache() {
     var prefix = val('kx-prefix'), reads = val('kx-reads');
@@ -328,10 +438,10 @@ POST https://api.anthropic.com/v1/messages/batches
       }
       out += '<tr><td>' + m.label + '</td><td>' + money(plain) + '</td><td>' + money(t5) + '</td><td>' + cell60 + '</td><td>' + be5 + '</td><td>' + be60 + '</td></tr>';
     });
-    el('kx-cache-rows').innerHTML = out;
+    setHTML('kx-cache-rows', out);
   }
   function wire(ids, fn) {
-    ids.forEach(function (id) { el(id).addEventListener('input', fn); });
+    ids.forEach(function (id) { var e = el(id); if (e) { e.addEventListener('input', fn); } });
     fn();
   }
   wire(['kx-reqs', 'kx-tin', 'kx-tout'], renderBatch);
