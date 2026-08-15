@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token cost calculator | KickLLM</title>
+  <meta name="description" content="Price any token count across 13 models from OpenAI, Anthropic and Google, including cached reads and cache writes. Paste text to estimate tokens first. Rates are cross-checked against two sources.">
+  <link rel="canonical" href="https://kickllm.com/tools/token-cost-calculator.html">
+  <link rel="alternate" hreflang="en" href="https://kickllm.com/tools/token-cost-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/token-cost-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Token cost calculator | KickLLM">
+  <meta property="og:description" content="Price any token count across 13 models from OpenAI, Anthropic and Google, including cached reads and cache writes. Paste text to estimate tokens first. Rates are cross-checked against two sources.">
+  <meta property="og:url" content="https://kickllm.com/tools/token-cost-calculator.html">
+  <meta property="og:site_name" content="KickLLM">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Token cost calculator">
+  <meta name="twitter:description" content="Price any token count across 13 models from OpenAI, Anthropic and Google, including cached reads and cache writes. Paste text to estimate tokens first. Rates are cross-checked against two sources.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Token cost calculator","description":"Price a token count across 13 models from three vendors, including cached reads and cache writes. Rates are fetched live and cross-checked against a second registry.","datePublished":"2026-08-15","dateModified":"2026-08-15","author":{"@id":"https://zovo.one#michael-lip"},"publisher":{"@type":"Organization","name":"KickLLM","url":"https://kickllm.com/"},"isAccessibleForFree":true,"citation":["https://developers.openai.com/api/docs/pricing","https://platform.claude.com/docs/en/about-claude/pricing","https://ai.google.dev/gemini-api/docs/pricing","https://ai.google.dev/gemini-api/docs/tokens","https://platform.claude.com/docs/en/about-claude/glossary"]},{"@type":"Person","@id":"https://zovo.one#michael-lip","name":"Michael Lip","url":"https://zovo.one","description":"Solo developer with 10+ years experience; 140+ PRs merged into open source projects including Google Chrome and Axios; creator of 20+ Chrome extensions. Builds and operates kickllm.com and the Zovo tools network.","knowsAbout":["LLM API pricing (per-token input/output/cache rates)","Prompt caching economics (cache write vs cache read break-even)","LLM cost estimation for chatbots and RAG pipelines","Chrome extension development against paid LLM APIs"]},{"@type":"WebPage","name":"Token cost calculator","url":"https://kickllm.com/tools/token-cost-calculator.html","isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com/"},"breadcrumb":{"@id":"https://kickllm.com/tools/token-cost-calculator.html#crumbs"}},{"@type":"BreadcrumbList","@id":"https://kickllm.com/tools/token-cost-calculator.html#crumbs","itemListElement":[{"@type":"ListItem","position":1,"name":"KickLLM","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},{"@type":"ListItem","position":3,"name":"Token cost calculator"}]},{"@type":"Dataset","name":"Per-token API prices for 13 language models","description":"Input, cached read, cache write and output prices in USD per token for 13 models across OpenAI, Anthropic and Google. Each value is fetched from the OpenRouter models API and cross-checked against the LiteLLM price registry; a value the two sources disagree on is held rather than published.","url":"https://kickllm.com/tools/token-cost-calculator.html","isAccessibleForFree":true,"dateModified":"2026-08-15","creator":{"@type":"Person","name":"Michael Lip","url":"https://zovo.one"},"variableMeasured":[{"@type":"PropertyValue","name":"gemini-2.5-flash-lite input price","value":1e-7,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-4o-mini input price","value":1.5e-7,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-5.4-nano input price","value":2e-7,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gemini-2.5-flash input price","value":3e-7,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-5.4-mini input price","value":7.5e-7,"unitText":"USD per token"},{"@type":"PropertyValue","name":"claude-haiku-4.5 input price","value":0.000001,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gemini-2.5-pro input price","value":0.00000125,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-4o input price","value":0.0000025,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-5.4 input price","value":0.0000025,"unitText":"USD per token"},{"@type":"PropertyValue","name":"claude-sonnet-4.5 input price","value":0.000003,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-5.5 input price","value":0.000005,"unitText":"USD per token"},{"@type":"PropertyValue","name":"gpt-5.6-sol input price","value":0.000005,"unitText":"USD per token"},{"@type":"PropertyValue","name":"claude-opus-4.8 input price","value":0.000005,"unitText":"USD per token"}]}]}</script>
+  <link rel="stylesheet" href="/assets/batch-page.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=tools-token-cost-calculator" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main class="batch-doc">
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>Token cost calculator</span></nav>
+      <h1>Token cost calculator</h1>
+      <p>Turn a token count into money across 13 models from three vendors, with cached reads and cache writes priced separately.</p>
+      <p class="byline">By <a href="https://zovo.one">Michael Lip</a> &middot; Updated 2026-08-15</p>
+    </div>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<p>Most price tables give you two numbers per model, input and output. A real bill has four. A long shared prefix is billed as a cache write the first time and a cache read every time after, and those two rates differ from the input rate by a wide margin. This prices all four.</p>
+<p>Paste text to estimate a token count, or type the counts straight in. Every rate below is fetched live and cross-checked against a second registry before it renders. Nothing is typed by hand.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Price your tokens</h2>
+<div class="calc">
+  <label for="tc-text">Paste text to estimate tokens (optional)</label>
+  <textarea id="tc-text" rows="3" placeholder="Paste a prompt here and the token boxes fill in." style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.6rem;margin:0.35rem 0 1rem;"></textarea>
+  <p class="note" id="tc-est" style="margin:-0.5rem 0 1rem;"></p>
+  <div class="calc-inputs">
+    <label>Uncached input tokens <input id="tc-in" type="number" min="0" value="10000"></label>
+    <label>Cached read tokens <input id="tc-cr" type="number" min="0" value="0"></label>
+    <label>Cache write tokens <input id="tc-cw" type="number" min="0" value="0"></label>
+    <label>Output tokens <input id="tc-out" type="number" min="0" value="2000"></label>
+    <label>Requests <input id="tc-req" type="number" min="1" value="1"></label>
+  </div>
+  <div class="scroll">
+  <table class="results-table">
+    <thead><tr><th>Rank</th><th>Model</th><th>Vendor</th><th>Input</th><th>Cached</th><th>Write</th><th>Output</th><th>Total</th></tr></thead>
+    <tbody id="tc-rows"></tbody>
+  </table>
+  </div>
+  <p class="note" id="tc-summary"></p>
+</div>
+<p class="snap">Rates snapshot 2026-08-15, shown per token in the table further down and converted to your token counts in the browser. Cells marked not published are held because the two price sources do not both carry that rate.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Cached reads cost a tenth on almost every model, and half on two</h2>
+<p>This is the part a two-column price table hides. Dividing each model's cached read rate by its own input rate gives a clean split, and it does not follow vendor lines.</p>
+<p>11 of the 13 models that publish a cached read rate charge 0.10x the input rate for it, across 3 vendors (Google, OpenAI, Anthropic). The exceptions are gpt-4o-mini and gpt-4o, which charge 0.50x. Both are the older 4o generation, so the line falls between model generations rather than between vendors.</p>
+<p>It matters because a ratio learned on one model misprices another by five times. A prefix worth caching on gemini-2.5-flash-lite is worth far less on gpt-4o, and nothing in either vendor's headline pricing makes that obvious.</p>
+<div class="scroll">
+<table class="results-table wide">
+<thead><tr><th>Model</th><th>Input per 1M</th><th>Cached read per 1M</th><th>Cached read as a share of input</th></tr></thead>
+<tbody>
+<tr>
+<th scope="row">gemini-2.5-flash</th><td>$0.300</td><td>$0.030</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-5.4-mini</th><td>$0.750</td><td>$0.075</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gemini-2.5-pro</th><td>$1.25</td><td>$0.125</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-5.4</th><td>$2.50</td><td>$0.250</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">claude-sonnet-4.5</th><td>$3.00</td><td>$0.300</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-5.5</th><td>$5.00</td><td>$0.500</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-5.6-sol</th><td>$5.00</td><td>$0.500</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">claude-opus-4.8</th><td>$5.00</td><td>$0.500</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gemini-2.5-flash-lite</th><td>$0.100</td><td>$0.010</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-5.4-nano</th><td>$0.200</td><td>$0.020</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">claude-haiku-4.5</th><td>$1.00</td><td>$0.100</td>
+<td><strong>0.10x</strong></td></tr>
+<tr>
+<th scope="row">gpt-4o-mini</th><td>$0.150</td><td>$0.075</td>
+<td><strong>0.50x</strong></td></tr>
+<tr>
+<th scope="row">gpt-4o</th><td>$2.50</td><td>$1.25</td>
+<td><strong>0.50x</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>The rates behind the calculator</h2>
+<p>Per million tokens, 13 models, sorted cheapest input first. Each figure links the vendor pricing page that publishes it.</p>
+<div class="scroll">
+<table class="results-table wide">
+<thead><tr><th>Model</th><th>Vendor</th><th>Input</th><th>Cached read</th><th>Cache write</th><th>Output</th></tr></thead>
+<tbody>
+<tr>
+<th scope="row">gemini-2.5-flash-lite <sup class="fn">*</sup></th><td>Google</td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.100</a></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.010</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.400</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-4o-mini</th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.150</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.075</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.600</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-5.4-nano</th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.200</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.020</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$1.25</a></td>
+</tr>
+<tr>
+<th scope="row">gemini-2.5-flash <sup class="fn">*</sup></th><td>Google</td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.300</a></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.030</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$2.50</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-5.4-mini</th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.750</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.075</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$4.50</a></td>
+</tr>
+<tr>
+<th scope="row">claude-haiku-4.5</th><td>Anthropic</td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$1.00</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$0.100</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$1.25</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$5.00</a></td>
+</tr>
+<tr>
+<th scope="row">gemini-2.5-pro <sup class="fn">*</sup></th><td>Google</td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$1.25</a></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$0.125</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">$10.00</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-4o</th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$2.50</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$1.25</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$10.00</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-5.4 <sup class="fn">*</sup></th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$2.50</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.250</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$15.00</a></td>
+</tr>
+<tr>
+<th scope="row">claude-sonnet-4.5</th><td>Anthropic</td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$3.00</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$0.300</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$3.75</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$15.00</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-5.5 <sup class="fn">*</sup></th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$5.00</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.500</a></td>
+<td><span class="held">not published</span></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$30.00</a></td>
+</tr>
+<tr>
+<th scope="row">gpt-5.6-sol <sup class="fn">*</sup></th><td>OpenAI</td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$5.00</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$0.500</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$6.25</a></td>
+<td><a class="cite" href="https://developers.openai.com/api/docs/pricing">$30.00</a></td>
+</tr>
+<tr>
+<th scope="row">claude-opus-4.8</th><td>Anthropic</td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$5.00</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$0.500</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$6.25</a></td>
+<td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">$25.00</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note">A cache write rate appears only where both price sources carry one. Google publishes context caching as a storage charge per million tokens per hour rather than a per-token write, so those cells are held.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>How the token estimate works</h2>
+<p>The paste box counts characters and divides. It is an estimate, not a tokenizer, and the two vendors who publish a figure do not agree on the divisor.</p>
+<p>Google states that <a class="cite" href="https://ai.google.dev/gemini-api/docs/tokens">for Gemini models, a token is equivalent to about 4 characters</a>. Anthropic states that <a class="cite" href="https://platform.claude.com/docs/en/about-claude/glossary">for Claude, a token approximately represents 3.5 English characters, though the exact number can vary depending on the language used</a>. So the box shows a range rather than pretending to one number, dividing by 4 at the low end and 3.5 at the high end.</p>
+<p>Two things push the real count higher than either figure. Code, non-English text and long runs of digits all tokenize worse than prose. And newer Claude models changed tokenizer, producing <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">approximately 30% more tokens for the same text</a> than Sonnet 4.6 and earlier.</p>
+<p>For an exact count, use the <a href="/tools/token-counter.html">token counter</a>.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Where a single rate stops applying</h2>
+<p>Six of the 13 models change price under conditions a one-rate-per-model table cannot show. Each is quoted from the vendor page that states it.</p>
+<ul>
+<li><strong>gemini-2.5-flash-lite</strong> <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">The input rate shown is text, image and video. Audio input is $0.30 per 1M. Context caching carries a storage charge of $1.00 per 1M tokens per hour.</a></li>
+<li><strong>gemini-2.5-flash</strong> <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">The input rate shown is text, image and video. Audio input is $1.00 per 1M. Context caching carries a storage charge of $1.00 per 1M tokens per hour.</a></li>
+<li><strong>gemini-2.5-pro</strong> <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">Above 200K tokens in the prompt the rate becomes $2.50 input and $15.00 output per 1M, with cached reads at $0.25. Context caching also carries a storage charge of $4.50 per 1M tokens per hour.</a></li>
+<li><strong>gpt-5.4</strong> <a class="cite" href="https://developers.openai.com/api/docs/pricing">Above 272K context the rate becomes $5.00 input, $0.50 cached read and $22.50 output per 1M.</a></li>
+<li><strong>gpt-5.5</strong> <a class="cite" href="https://developers.openai.com/api/docs/pricing">Above 272K context the rate becomes $10.00 input, $1.00 cached read and $45.00 output per 1M.</a></li>
+<li><strong>gpt-5.6-sol</strong> <a class="cite" href="https://developers.openai.com/api/docs/pricing">Long context is priced separately at $10.00 input, $1.00 cached read, $12.50 cache write and $45.00 output per 1M.</a></li>
+</ul>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Where these numbers come from</h2>
+<p>Each rate is fetched from the OpenRouter models API and cross-checked against the community maintained LiteLLM price registry. A value the two disagree on, or one that falls outside a sane range for that model, is held rather than published. That is why some cells read not published instead of showing a zero.</p>
+<p>The calculator multiplies those rates in your browser, so you can reproduce any figure here from the per-token numbers in the rate table. Nothing runs on a server and nothing you paste leaves the page.</p>
+<p>I'm Michael Lip. I build and operate the KickLLM cost calculators, and I run 20 plus published Chrome extensions under the Zovo network. Several of them call paid LLM APIs in production, which is where the interest in cache rates started.</p>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Related calculators</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0.75rem;">
+  <a href="/tools/token-counter.html" class="input-card" style="text-decoration:none;padding:1rem;">Token counter</a>
+  <a href="/tools/openai-batch-api.html" class="input-card" style="text-decoration:none;padding:1rem;">OpenAI Batch API</a>
+  <a href="/tools/prompt-caching-break-even-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">Prompt caching break even</a>
+  <a href="/tools/batch-api-savings-calculator.html" class="input-card" style="text-decoration:none;padding:1rem;">Batch API savings</a>
+  <a href="/tools/claude-api-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">Claude API pricing</a>
+  <a href="/tools/gpt-4-pricing.html" class="input-card" style="text-decoration:none;padding:1rem;">GPT-4o API pricing</a>
+</div>
+</section>
+
+<section style="max-width:720px;margin:2.5rem auto;">
+<h2>Sources</h2>
+<ul>
+<li><a href="https://developers.openai.com/api/docs/pricing">OpenAI, API pricing</a>, fetched 2026-08-15</li>
+<li><a href="https://platform.claude.com/docs/en/about-claude/pricing">Anthropic, pricing</a>, fetched 2026-08-15</li>
+<li><a href="https://ai.google.dev/gemini-api/docs/pricing">Google, Gemini API pricing</a>, fetched 2026-08-15</li>
+</ul>
+</section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=tools-token-cost-calculator">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+  </footer>
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &middot; A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP &middot; Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality &middot; Security</a>
+            <a href="https://claudflow.com">ClaudFlow &middot; Workflows</a>
+            <a href="https://claudkit.com">ClaudKit &middot; API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket &middot; Support</a>
+            <a href="https://enhio.com">Enhio &middot; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &middot; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &middot; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &middot; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &middot; ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc &middot; Recipes</a>
+            <a href="https://invokebot.com">InvokeBot &middot; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &middot; JSON</a>
+            <a href="https://kappakit.com">KappaKit &middot; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &middot; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &middot; Security</a>
+            <a href="https://lockml.com">LockML &middot; ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=tools-token-cost-calculator">ML0X &middot; ML Basics</a>
+            <a href="https://ml3x.com">ML3X &middot; Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor &middot; Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool &middot; Cooking</a>
+            <a href="https://viryd.com">Viryd &middot; Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub &middot; theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative &middot; Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder &middot; Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=tools-token-cost-calculator" rel="nofollow">Zovo &middot; AI Dev Tools</a>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  /* Rates are written at build time from dual-source-validated live fields. Not typed by hand. */
+  var MODELS = [
+    { label: "gemini-2.5-flash-lite", vendor: "Google", input: 1e-7, output: 4e-7, cacheRead: 1e-8, cacheWrite: null },
+    { label: "gpt-4o-mini", vendor: "OpenAI", input: 1.5e-7, output: 6e-7, cacheRead: 7.5e-8, cacheWrite: null },
+    { label: "gpt-5.4-nano", vendor: "OpenAI", input: 2e-7, output: 0.00000125, cacheRead: 2e-8, cacheWrite: null },
+    { label: "gemini-2.5-flash", vendor: "Google", input: 3e-7, output: 0.0000025, cacheRead: 3e-8, cacheWrite: null },
+    { label: "gpt-5.4-mini", vendor: "OpenAI", input: 7.5e-7, output: 0.0000045, cacheRead: 7.5e-8, cacheWrite: null },
+    { label: "claude-haiku-4.5", vendor: "Anthropic", input: 0.000001, output: 0.000005, cacheRead: 1e-7, cacheWrite: 0.00000125 },
+    { label: "gemini-2.5-pro", vendor: "Google", input: 0.00000125, output: 0.00001, cacheRead: 1.25e-7, cacheWrite: null },
+    { label: "gpt-4o", vendor: "OpenAI", input: 0.0000025, output: 0.00001, cacheRead: 0.00000125, cacheWrite: null },
+    { label: "gpt-5.4", vendor: "OpenAI", input: 0.0000025, output: 0.000015, cacheRead: 2.5e-7, cacheWrite: null },
+    { label: "claude-sonnet-4.5", vendor: "Anthropic", input: 0.000003, output: 0.000015, cacheRead: 3e-7, cacheWrite: 0.00000375 },
+    { label: "gpt-5.5", vendor: "OpenAI", input: 0.000005, output: 0.00003, cacheRead: 5e-7, cacheWrite: null },
+    { label: "gpt-5.6-sol", vendor: "OpenAI", input: 0.000005, output: 0.00003, cacheRead: 5e-7, cacheWrite: 0.00000625 },
+    { label: "claude-opus-4.8", vendor: "Anthropic", input: 0.000005, output: 0.000025, cacheRead: 5e-7, cacheWrite: 0.00000625 }
+  ];
+  var CHARS_LOW = 3.5;          /* Anthropic's published figure for Claude, cited on the page */
+  var CHARS_HIGH = 4;           /* Google's published figure for Gemini, cited on the page */
+  var MAX_INPUT = 1e9;          /* NASA bound: clamp every user input */
+  var MAX_TEXT = 200000;        /* bound the paste box so a huge paste cannot stall the page */
+  function el(id) { return document.getElementById(id); }
+  function val(id) {
+    var e = el(id); if (!e) { return 0; }
+    var v = parseFloat(e.value);
+    if (!isFinite(v) || v < 0) { return 0; }
+    return v > MAX_INPUT ? MAX_INPUT : v;
+  }
+  function setHTML(id, s) { var e = el(id); if (!e) { return false; } e.innerHTML = s; return true; }
+  function setText(id, s) { var e = el(id); if (!e) { return false; } e.textContent = s; return true; }
+  function money(n) {
+    if (!isFinite(n)) { return ''; }
+    if (n === 0) { return '$0.00'; }
+    /* Sub-cent sums are the normal case on a token calculator, so keep real precision
+       instead of rounding $0.025 up to $0.03. Larger sums stay in plain currency. */
+    if (n < 0.01) { return '$' + n.toFixed(6); }
+    if (n < 1) { return '$' + n.toFixed(4); }
+    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function cell(rate, tokens) { return rate == null ? '<span class="held">n/a</span>' : money(rate * tokens); }
+  function render() {
+    var tin = val('tc-in'), tcr = val('tc-cr'), tcw = val('tc-cw'), tout = val('tc-out');
+    var reqs = Math.max(1, val('tc-req'));
+    var rows = MODELS.map(function (m) {
+      var miss = (tcr > 0 && m.cacheRead == null) || (tcw > 0 && m.cacheWrite == null);
+      var total = reqs * (tin * m.input + tout * m.output
+        + (m.cacheRead == null ? 0 : tcr * m.cacheRead)
+        + (m.cacheWrite == null ? 0 : tcw * m.cacheWrite));
+      return { m: m, total: total, miss: miss };
+    }).sort(function (a, b) { return a.total - b.total; });
+    var out = '';
+    rows.forEach(function (r, i) {
+      out += '<tr><td>' + (i + 1) + '</td><td>' + r.m.label + '</td><td>' + r.m.vendor + '</td>'
+        + '<td>' + money(reqs * tin * r.m.input) + '</td>'
+        + '<td>' + cell(r.m.cacheRead, reqs * tcr) + '</td>'
+        + '<td>' + cell(r.m.cacheWrite, reqs * tcw) + '</td>'
+        + '<td>' + money(reqs * tout * r.m.output) + '</td>'
+        + '<td><strong>' + money(r.total) + '</strong>' + (r.miss ? ' <span class="held">partial</span>' : '') + '</td></tr>';
+    });
+    if (!setHTML('tc-rows', out)) { return; }
+    var lo = rows[0], hi = rows[rows.length - 1];
+    if (!lo || lo.total <= 0) { setText('tc-summary', 'Enter a token count to price it.'); return; }
+    var mult = lo.total > 0 ? (hi.total / lo.total) : 0;
+    setText('tc-summary', 'Cheapest is ' + lo.m.label + ' at ' + money(lo.total)
+      + '. Dearest is ' + hi.m.label + ' at ' + money(hi.total)
+      + ', which is ' + mult.toFixed(1) + ' times the cost for the same tokens.'
+      + ' A total marked partial means that model does not publish one of the cache rates you entered.');
+  }
+  function estimate() {
+    var e = el('tc-text'); if (!e) { return; }
+    var s = e.value || '';
+    if (s.length > MAX_TEXT) { s = s.slice(0, MAX_TEXT); }
+    var chars = s.length;
+    if (chars === 0) { setText('tc-est', ''); return; }
+    var lo = Math.max(1, Math.round(chars / CHARS_HIGH));
+    var hi = Math.max(1, Math.round(chars / CHARS_LOW));
+    var box = el('tc-in'); if (box) { box.value = String(hi); }
+    setText('tc-est', chars.toLocaleString('en-US') + ' characters, roughly '
+      + lo.toLocaleString('en-US') + ' to ' + hi.toLocaleString('en-US')
+      + ' tokens depending on the model. The box is filled with the higher figure so the price is not understated.'
+      + ' Estimate only, and it drifts on code and non-English text.');
+    render();
+  }
+  var ids = ['tc-in', 'tc-cr', 'tc-cw', 'tc-out', 'tc-req'];
+  ids.forEach(function (id) { var e = el(id); if (e) { e.addEventListener('input', render); } });
+  var ta = el('tc-text'); if (ta) { ta.addEventListener('input', estimate); }
+  render();
+})();
+</script>
+<script src="/assets/js/share.js"></script>
+</body>
+</html>
