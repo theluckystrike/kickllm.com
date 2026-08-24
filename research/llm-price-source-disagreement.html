@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM price per token comparison, and the prices two sources could not agree on | KickLLM</title>
+<meta name="description" content='Input, cached read, cache write and output prices per 1M tokens for 19 models confirmed by two independent public sources, plus the models the sources priced differently.'>
+<link rel="canonical" href="https://kickllm.com/research/llm-price-source-disagreement.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/llm-price-source-disagreement.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/llm-price-source-disagreement.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LLM price per token comparison, and the prices two sources could not agree on">
+<meta property="og:description" content="Input, cached read, cache write and output prices per 1M tokens for 19 models confirmed by two independent public sources, plus the models the sources priced differently.">
+<meta property="og:url" content="https://kickllm.com/research/llm-price-source-disagreement.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LLM price per token comparison, and the prices two sources could not agree on">
+<meta name="twitter:description" content="Input, cached read, cache write and output prices per 1M tokens for 19 models confirmed by two independent public sources, plus the models the sources priced differently.">
+<meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  .research-badge { display:inline-block; background:var(--accent-dim,rgba(139,233,253,0.1)); color:var(--accent,#8be9fd); padding:4px 12px; border-radius:var(--radius,8px); font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem; }
+  .methodology-box { background:var(--bg-card,#161b22); border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); padding:1.25rem; margin:1.5rem 0; }
+  .methodology-box h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent,#8be9fd); margin-bottom:0.75rem; }
+  .data-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--border,#30363d); border-radius:var(--radius,8px); }
+  .data-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  .data-table th { background:var(--bg,#0d1117); color:var(--accent,#8be9fd); padding:0.6rem 0.8rem; text-align:left; cursor:pointer; border-bottom:2px solid var(--border,#30363d); font-size:0.75rem; text-transform:uppercase; }
+  .data-table td { padding:0.5rem 0.8rem; border-bottom:1px solid var(--border,#30363d); color:var(--text,#c9d1d9); }
+  .data-table tr:hover td { background:rgba(139,233,253,0.03); }
+  .download-btns { display:flex; gap:0.5rem; margin:1rem 0; }
+  .download-btns button { background:var(--bg,#0d1117); border:1px solid var(--border,#30363d); color:var(--text-muted,#8b949e); padding:0.4rem 1rem; border-radius:var(--radius,8px); cursor:pointer; font-size:0.8rem; }
+  .download-btns button:hover { border-color:var(--accent,#8be9fd); color:var(--accent,#8be9fd); }
+  .price-drop { color:#7ee787; font-weight:600; }
+  .price-launch { color:#ffa657; }
+  .milestone { background:rgba(139,233,253,0.05); }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-llm-pricing-history" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+
+<main class="container">
+<title>LLM price per token comparison, 19 models confirmed by two sources</title>
+<meta name="description" content="Input, cached read, cache write and output prices per 1M tokens for 19 models, each confirmed by two independent public sources on 24 August 2026, plus the three models the two sources priced differently.">
+<article class="page">
+<h1>LLM price per token comparison, and the prices two sources could not agree on</h1>
+<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="https://zovo.one">More about the author</a>.</p>
+<p class="stamp">Rates read 24 August 2026. The snapshot date applies to every figure on this page.</p>
+<p>Nineteen models cleared a two source price check on 24 August 2026, and their input, cached read, cache write and output rates sit in the comparison table below. Three models did not clear it, because two independent public price sources published different input prices for the same first party model, and the widest of those gaps was 2x on GPT-5.6 Sol. Two more differed only because the two sources price different hosting routes. Four were carried by one source and not the other.</p>
+<p>A single sourced rate table cannot tell you which of its numbers nobody checked. Every model checked here appears somewhere on this page with a price and a status, so you can see which figures are corroborated and which are one source talking.</p>
+<h2 id="disagree">Where published prices disagree</h2>
+<p>Each figure below is what that source published for that key at the moment it was read. Neither figure is asserted to be the price of the model. Where the two keys point at different routes, OpenRouter is pricing a reseller or host route while the registry prices the first party API, so the gap is a routing difference rather than a contradiction. Where both keys name the same first party model, a promotional window can reach one source before the other. OpenAI states that <a href="https://developers.openai.com/api/docs/pricing">GPT-5.6 Sol's pricing is promotional and available at least through November 21, 2026</a>.</p>
+<p>A row counts as a disagreement only when both keys name the same first party model from the same vendor. The rule carried in the measurement file reads as follows.</p>
+<blockquote id="dis-rule">A row counts as a disagreement ONLY when both keys name the same first party model from the same vendor. Where the two keys name different hosting routes, a price gap is a routing difference and is labelled as such, not counted as a disagreement. Where only one source carries a model, that is a coverage gap, not a disagreement.</blockquote>
+<p id="dis-stamp">Readings taken 24 August 2026 from the OpenRouter models API and the LiteLLM price registry, input price per 1M tokens.</p>
+<script id="disagreement-data" type="application/json">{"measuredAt":"2026-08-24","sources":{"openrouter":"https://openrouter.ai/api/v1/models","litellm":"https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json"},"tolerancePct":1,"rule":"A row counts as a disagreement ONLY when both keys name the same first party model from the same vendor. Where the two keys name different hosting routes, a price gap is a routing difference and is labelled as such, not counted as a disagreement. Where only one source carries a model, that is a coverage gap, not a disagreement.","counts":{"sameModelDisagreements":3,"differentRoute":2,"oneSourceOnly":4},"widestSameModelGap":{"model":"GPT-5.6 Sol","ratio":2},"rows":[{"model":"GPT-5.6 Sol","kind":"same-model","openrouterKey":"openai/gpt-5.6-sol","litellmKey":"gpt-5.6-sol","openrouterInputPer1M":2,"litellmInputPer1M":4,"ratio":2,"status":"sources disagree on the same model","why":"both keys name OpenAI first party gpt-5.6-sol"},{"model":"Gemini 3.7 Flash","kind":"same-model","openrouterKey":"google/gemini-3.7-flash","litellmKey":"gemini/gemini-3.7-flash","openrouterInputPer1M":0.375,"litellmInputPer1M":0.75,"ratio":2,"status":"sources disagree on the same model","why":"both keys name Google first party gemini-3.7-flash"},{"model":"DeepSeek Chat","kind":"same-model","openrouterKey":"deepseek/deepseek-chat","litellmKey":"deepseek/deepseek-chat","openrouterInputPer1M":0.2574,"litellmInputPer1M":0.28,"ratio":1.09,"status":"sources disagree on the same model","why":"identical key string on both sides"},{"model":"Llama 3.3 70B Instruct","kind":"diff-route","openrouterKey":"meta-llama/llama-3.3-70b-instruct","litellmKey":"groq/llama-3.3-70b-versatile","openrouterInputPer1M":0.1,"litellmInputPer1M":0.59,"ratio":5.9,"status":"different route, not a like for like comparison","why":"the registry key prices Groq hosting, the OpenRouter key prices a different route, so these are different products"},{"model":"Mistral Large","kind":"diff-route","openrouterKey":"mistralai/mistral-large","litellmKey":"mistral/mistral-large-latest","openrouterInputPer1M":2,"litellmInputPer1M":0.5,"ratio":4,"status":"different route, not a like for like comparison","why":"the registry key is a floating latest alias, the OpenRouter key is a pinned route"},{"model":"Grok 3","kind":"one-source","openrouterKey":"x-ai/grok-3","litellmKey":"xai/grok-3","openrouterInputPer1M":null,"litellmInputPer1M":3,"ratio":null,"status":"carried by one source only","why":"not carried by OpenRouter at read time"},{"model":"Grok 4","kind":"one-source","openrouterKey":"x-ai/grok-4","litellmKey":"xai/grok-4","openrouterInputPer1M":null,"litellmInputPer1M":3,"ratio":null,"status":"carried by one source only","why":"not carried by OpenRouter at read time"},{"model":"GPT-5.6 Luna Pro","kind":"one-source","openrouterKey":"openai/gpt-5.6-luna-pro","litellmKey":"gpt-5.6-luna-pro","openrouterInputPer1M":0.2,"litellmInputPer1M":null,"ratio":null,"status":"carried by one source only","why":"not carried by the registry at read time"},{"model":"GPT-5.6 Terra Pro","kind":"one-source","openrouterKey":"openai/gpt-5.6-terra-pro","litellmKey":"gpt-5.6-terra-pro","openrouterInputPer1M":2,"litellmInputPer1M":null,"ratio":null,"status":"carried by one source only","why":"not carried by the registry at read time"}]}</script>
+<div id="dis-tables"></div>
+<noscript><p>The raw readings for every model named here are embedded in this page as JSON, in the block directly above.</p></noscript>
+<h2>Prices both sources agree on</h2>
+<p>Rates cover OpenAI, Anthropic and Google models in USD per 1M tokens, current generation first, read 24 August 2026. Each row links the vendor pricing page that lists the same model.</p>
+<table class="rate"><thead><tr><th>Model</th><th>Input / 1M</th><th>Cached read / 1M</th><th>Cache write / 1M</th><th>Output / 1M</th><th>Vendor page</th></tr></thead><tbody>
+<tr><td>Claude Opus 5</td><td>$5</td><td>$0.5</td><td>$6.25</td><td>$25</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>Claude Sonnet 5</td><td>$2</td><td>$0.2</td><td>$2.5</td><td>$10</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>Claude Fable 5</td><td>$10</td><td>$1</td><td>$12.5</td><td>$50</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>Gemini 3.6 Flash</td><td>$0.75</td><td>$0.075</td><td>not published</td><td>$3.75</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+<tr><td>Gemini 3.5 Flash-Lite</td><td>$0.3</td><td>$0.03</td><td>not published</td><td>$2.5</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+<tr><td>GPT-5.6 Terra &dagger;</td><td>$2</td><td>$0.2</td><td>$2.5</td><td>$12</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-5.6 Luna &dagger;</td><td>$0.2</td><td>$0.02</td><td>$0.25</td><td>$1.2</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>Claude Opus 4.8</td><td>$5</td><td>$0.5</td><td>$6.25</td><td>$25</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>Claude Sonnet 4.5</td><td>$3</td><td>$0.3</td><td>$3.75</td><td>$15</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>Claude Haiku 4.5</td><td>$1</td><td>$0.1</td><td>$1.25</td><td>$5</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>GPT-5.5 &dagger;</td><td>$5</td><td>$0.5</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$30</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-5.4 &dagger;</td><td>$2.5</td><td>$0.25</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$15</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-5.4 mini</td><td>$0.75</td><td>$0.075</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$4.5</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-5.4 nano</td><td>$0.2</td><td>$0.02</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$1.25</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-4o</td><td>$2.5</td><td>$1.25</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$10</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>GPT-4o mini</td><td>$0.15</td><td>$0.075</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">no additional fee</a></td><td>$0.6</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>Gemini 2.5 Pro &dagger;</td><td>$1.25</td><td>$0.125</td><td>not published</td><td>$10</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+<tr><td>Gemini 2.5 Flash</td><td>$0.3</td><td>$0.03</td><td>not published</td><td>$2.5</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+<tr><td>Gemini 2.5 Flash-Lite</td><td>$0.1</td><td>$0.01</td><td>not published</td><td>$0.4</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+</tbody></table>
+<p class="fn">&dagger; The vendor publishes a second, higher tier above a context threshold for this row. OpenAI's pricing page publishes <a href="https://developers.openai.com/api/docs/pricing">a separate set of long context input, cached input, cache write and output figures alongside the short context figures</a>, and the OpenAI rows here show the short context tier. Google's pricing page <a href="https://ai.google.dev/gemini-api/docs/pricing">splits Gemini 2.5 Pro input and output pricing at a 200k token prompt threshold</a>, and the Gemini 2.5 Pro row shows the rate below that threshold. Anthropic goes the other way and includes <a href="https://platform.claude.com/en/docs/about-claude/pricing">the full 1M token context window at standard pricing for Claude 4.6 and later models, so a 900k-token request is billed at the same per-token rate as a 9k-token request</a>.</p>
+<p>Read the cached read column against the input column. Across the current generation rows a cached read is priced at a tenth of that model's own input rate, on all three vendors, and the two GPT-4o rows are the exception at half. A ratio learned on GPT-4o misprices the rest of the table by five times, so check the row you are actually calling.</p>
+<p>Every model this page checked appears on the page. The ones missing from the table above are priced in <a href="#disagree">the disagreement section</a>, each with the reason it could not be corroborated. Two families get a deeper page of their own, <a href="/tools/gpt-4-pricing.html">GPT-4o pricing per million tokens</a> and <a href="/tools/claude-api-pricing.html">Claude API pricing</a>.</p>
+<h2>Price your own workload</h2>
+<div class="calc">
+<p><label for="calcModel">Model</label> <select id="calcModel"></select></p>
+<p><label for="pasteText">Paste a prompt to estimate its token count</label><br><textarea id="pasteText" rows="4" placeholder="Paste prompt text here"></textarea><br><button type="button" id="estimateBtn">Estimate tokens from this text</button></p>
+<p class="hint">The estimator divides characters by four, following Anthropic's rule of thumb that <a href="https://platform.claude.com/en/docs/about-claude/pricing">1 token is approximately 4 characters or 0.75 words in English, and that the exact count varies by language and content type</a>. Treat the result as an estimate rather than a tokenizer exact count, and remember that Claude 4.7 and later changed tokenizer. For an exact count, run the text through the <a href="/tools/token-counter.html">KickLLM token counter</a>.</p>
+<p><label for="inTok">Input tokens</label> <input id="inTok" type="number" min="0" step="1" value="1000000"></p>
+<p><label for="cachedTok">Of those, cached read tokens</label> <input id="cachedTok" type="number" min="0" step="1" value="0"></p>
+<p><label for="writeTok">Cache write tokens</label> <input id="writeTok" type="number" min="0" step="1" value="0"></p>
+<p><label for="outTok">Output tokens</label> <input id="outTok" type="number" min="0" step="1" value="1000000"></p>
+<p><label><input type="checkbox" id="batchChk"> Batch API pricing</label></p>
+<p class="hint">OpenAI's Batch API <a href="https://developers.openai.com/api/docs/guides/batch">applies a 50% cost discount compared to the synchronous APIs</a>. Anthropic's <a href="https://platform.claude.com/en/docs/about-claude/pricing">Batch API allows asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens</a>. The <a href="https://ai.google.dev/gemini-api/docs/pricing">Gemini API paid tier includes the Batch API at a 50% cost reduction</a>. To size a queued job in detail, use the <a href="/tools/batch-api-savings-calculator.html">batch API savings calculator</a>.</p>
+<p><label><input type="checkbox" id="geoChk"> US-only inference, Claude 4.6 and later</label></p>
+<p class="hint">For Claude 4.6 and later models, Anthropic applies <a href="https://platform.claude.com/en/docs/about-claude/pricing">a 1.1x multiplier on all token pricing categories, including input tokens, output tokens, cache writes and cache reads, when US-only inference is specified through the inference_geo parameter</a>. The toggle stays off for rows where no such rule is published.</p>
+<div id="calcOut"></div>
+<p class="hint">Results are computed in your browser from the per token rates in the table above. No data leaves the page.</p>
+</div>
+<h2>A worked example at one million tokens each way</h2>
+<p>One million input tokens and one million output tokens keep the arithmetic checkable, because the bill for each side lands on the per 1M rate itself. Add the two cells for the run total.</p>
+<table class="rate"><thead><tr><th>Model</th><th>1M input tokens</th><th>1M output tokens</th><th>Vendor page</th></tr></thead><tbody>
+<tr><td>Claude Sonnet 5</td><td>$2</td><td>$10</td><td><a href="https://platform.claude.com/en/docs/about-claude/pricing">Anthropic</a></td></tr>
+<tr><td>GPT-5.6 Luna</td><td>$0.2</td><td>$1.2</td><td><a href="https://developers.openai.com/api/docs/pricing">OpenAI</a></td></tr>
+<tr><td>Gemini 2.5 Flash-Lite</td><td>$0.1</td><td>$0.4</td><td><a href="https://ai.google.dev/gemini-api/docs/pricing">Google</a></td></tr>
+</tbody></table>
+<h2>Cache activation minimums, the floor under every cached rate</h2>
+<p>A cached read rate only exists once the prompt clears the model's published minimum. Under it, the discount you planned for is not there.</p>
+<table class="rate"><thead><tr><th>Models</th><th>Minimum cacheable prompt</th><th>Source</th></tr></thead><tbody>
+<tr><td>Claude Opus 5, Claude Fable 5</td><td>Anthropic's minimum cacheable prompt length is 512 tokens for Claude Opus 5 and Claude Fable 5</td><td><a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">Anthropic</a></td></tr>
+<tr><td>Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.5</td><td>Anthropic's minimum cacheable prompt length is 1,024 tokens for Claude Opus 4.8, Claude Sonnet 5, Claude Sonnet 4.6 and Claude Sonnet 4.5</td><td><a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">Anthropic</a></td></tr>
+<tr><td>Claude Haiku 4.5</td><td>Anthropic's minimum cacheable prompt length is 4,096 tokens for Claude Haiku 4.5</td><td><a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">Anthropic</a></td></tr>
+<tr><td>OpenAI models</td><td>OpenAI enables prompt caching automatically for prompts that are 1,024 tokens or longer, and states that the minimum cacheable prefix length varies by model and can range from 1,024 to 2,048 tokens, and that prompts just above 1,024 tokens may not be cached consistently</td><td><a href="https://developers.openai.com/api/docs/guides/prompt-caching">OpenAI</a></td></tr>
+<tr><td>Gemini 3.6 Flash, Gemini 2.5 Flash, Gemini 2.5 Pro</td><td>Google states that the minimum input token count for context caching is 4,096 tokens for Gemini 3.7 Flash, Gemini 3.6 Flash and Gemini 3.5 Flash, and 2,048 tokens for Gemini 2.5 Flash and Gemini 2.5 Pro</td><td><a href="https://ai.google.dev/gemini-api/docs/caching">Google</a></td></tr>
+</tbody></table>
+<p>Anthropic states that <a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">prompts shorter than the per-model minimum cannot be cached even if marked with cache_control, and that no error is returned</a>. So a prefix that caches on Sonnet 4.5 can sit under the Haiku 4.5 floor and bill at full input rate with nothing in the response to tell you. The calculator above refuses to apply a cached discount when the prompt sits under the published floor, which is why the number it shows sometimes goes up when you switch to a smaller model.</p>
+<p>Getting a hit is a structural problem before it is a money problem. OpenAI states that <a href="https://developers.openai.com/api/docs/guides/prompt-caching">cache hits are only possible for exact prefix matches within a prompt, and advises placing static content such as instructions and examples at the beginning of the prompt and variable content at the end</a>, and that <a href="https://developers.openai.com/api/docs/guides/prompt-caching">cache hits occur in increments of 128 tokens, so the number of cached tokens can be smaller than the full length of the shared prompt content</a>. On lifetime, <a href="https://developers.openai.com/api/docs/guides/prompt-caching">OpenAI's prompt_cache_options.ttl parameter sets the lifetime of all breakpoints written by a request, and its only supported value is 30m, which is also the default</a>. Anthropic runs a different clock, where <a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">the cache has a 5-minute lifetime by default and is refreshed for no additional cost each time the cached content is used</a>, and <a href="https://platform.claude.com/en/docs/build-with-claude/prompt-caching">automatic caching uses a 5-minute TTL by default while a 1-hour TTL can be specified at 2x the base input token price</a>. Google keeps it passive, stating that <a href="https://ai.google.dev/gemini-api/docs/caching">cost savings from context caching are passed on automatically when a request hits the cache, with nothing required to enable it</a>.</p>
+<p>On whether the write pays for itself, Anthropic <a href="https://platform.claude.com/en/docs/about-claude/pricing">prices a 5-minute cache write at 1.25x the base input price, a 1-hour cache write at 2x the base input price, and a cache read at 0.1x the base input price</a>, and states that <a href="https://platform.claude.com/en/docs/about-claude/pricing">a cache hit costs 10% of the standard input price, which means caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write)</a>. For a workload with an uneven hit rate, the <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break even calculator</a> takes the reuse count as an input rather than assuming one.</p>
+<h2>Modifiers that move the bill</h2>
+<p>The rates in the comparison table are the plain, uncached, synchronous ones. Published rules move them, and each rule is per model rather than per vendor.</p>
+<ul>
+<li>Cache writes on newer OpenAI models cost extra. OpenAI states that <a href="https://developers.openai.com/api/docs/guides/prompt-caching">on GPT-5.6 models and later model families, cache writes are billed at 1.25x the uncached input token rate and reported in cache_write_tokens, while cache reads continue to be reported in cached_tokens</a>. On the older families, OpenAI states that <a href="https://developers.openai.com/api/docs/guides/prompt-caching">cache writes have no additional fee on models before the GPT-5.6 family</a>, which is what the table cells say rather than a zero we invented.</li>
+<li>Data residency carries a surcharge. OpenAI <a href="https://developers.openai.com/api/docs/pricing">charges a 10% uplift on regional processing (data residency) endpoints for models released on or after March 5, 2026, that are eligible for data residency</a>.</li>
+<li>Modifiers combine. Anthropic states that <a href="https://platform.claude.com/en/docs/about-claude/pricing">its prompt-caching multipliers stack with other pricing modifiers, including the Batch API discount and data residency</a>, so a cached, batched, US-only call is a chain of multipliers rather than a single discount.</li>
+<li>Token counts themselves moved. Anthropic states that <a href="https://platform.claude.com/en/docs/about-claude/pricing">Claude 4.7 and later models use a newer tokenizer that produces approximately 30% more tokens for the same text, and that Claude Sonnet 4.6 and earlier models use the previous tokenizer</a>. A per token rate comparison and a per request bill comparison are not the same exercise, and this is the reason.</li>
+<li>Queued work halves. The batch discount is published by all three vendors on this page, linked at the toggle above, and the <a href="/tools/openai-batch-api.html">OpenAI batch API walkthrough</a> covers the request lifecycle rather than the price.</li>
+</ul>
+<h2>How we measured this</h2>
+<p>Two public price sources are read in the same run, seconds apart. One is the OpenRouter models API at <a href="https://openrouter.ai/api/v1/models">openrouter.ai/api/v1/models</a>. The other is the LiteLLM price registry, the community maintained JSON at <a href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">model_prices_and_context_window.json</a>.</p>
+<p>A model reaches the comparison table only when every price kind declared for it matches across both sources within one percent. A kind that only one source publishes is not declared, so it is neither compared nor printed. Each value also has to fall inside a sane range for its kind; anything outside is held rather than shown. Prices arrive as USD per token and are converted for reading by multiplying by one million, which is the only arithmetic between the source and the cell.</p>
+<p>Whatever fails that check is not deleted, it is published in the disagreement section with both readings, the exact key compared on each side, and the gap. The build date stamp sits at the top of the page. Fetch the same two URLs and you should land on the same answer, or on a newer one if a vendor has moved since.</p>
+<h2>Two questions readers send in</h2>
+<h3>Which model here costs least per token?</h3>
+<p>On the corroborated table, Gemini 2.5 Flash-Lite carries the lowest published input rate at $0.1 per 1M tokens and the lowest output rate at $0.4 per 1M, with GPT-5.6 Luna next on both at $0.2 and $1.2. Both figures are visible in the rows above and both link the vendor page. Bear in mind that the same text does not turn into the same number of tokens on every model, per the tokenizer note above.</p>
+<h3>Why is the model I use missing from the comparison table?</h3>
+<p>Because it did not clear the two source check on the build date. Look in the disagreement section, where it is priced with both readings side by side, the keys named, and the reason. Grok 3 and Grok 4 sit there as single source readings, Llama 3.3 70B and Mistral Large as route mismatches, and GPT-5.6 Sol, Gemini 3.7 Flash and DeepSeek Chat as genuine same model disagreements. Planning a move off hosted APIs entirely instead, the <a href="/tools/self-host-vs-api-break-even-calculator">self host versus API break even calculator</a> works the other side of that decision.</p>
+<h2>Before you commit spend</h2>
+<p>Prices are snapshots and change without notice. Verify on the provider official pricing page before committing spend.</p>
+<p>All calculator outputs are estimates. Real bills depend on usage mix, caching, batching, and rate limits.</p>
+<p>KickLLM is not affiliated with OpenAI, Anthropic, Google, Meta, Mistral, or any model provider.</p>
+</article>
+<script>
+(function(){
+var el=document.getElementById('disagreement-data');
+if(!el){return;}
+var d;
+try{d=JSON.parse(el.textContent);}catch(e){return;}
+var rule=document.getElementById('dis-rule');
+if(rule&&d.rule){rule.textContent=d.rule;}
+var stamp=document.getElementById('dis-stamp');
+if(stamp&&d.measuredAt&&d.sources){stamp.textContent='Readings taken '+d.measuredAt+' from '+d.sources.openrouter+' and '+d.sources.litellm+', input price per 1M tokens, tolerance '+d.tolerancePct+' percent.';}
+function money(v){return (v===null||v===undefined)?'absent at read time':'$'+v+' / 1M';}
+var groups=[{kind:'same-model',title:'Sources disagree on the same model'},{kind:'diff-route',title:'Different route, not a like for like comparison'},{kind:'one-source',title:'Carried by one source only'}];
+var host=document.getElementById('dis-tables');
+if(!host){return;}
+var html='';
+groups.forEach(function(g){
+var rows=(d.rows||[]).filter(function(r){return r.kind===g.kind;});
+if(!rows.length){return;}
+html+='<h3>'+g.title+'</h3><table class="rate"><thead><tr><th>Model</th><th>OpenRouter published</th><th>Registry published</th><th>Gap</th><th>Status</th><th>Keys compared</th></tr></thead><tbody>';
+rows.forEach(function(r){
+html+='<tr><td>'+r.model+'</td><td>'+money(r.openrouterInputPer1M)+'</td><td>'+money(r.litellmInputPer1M)+'</td><td>'+(r.ratio?r.ratio+'x':'n/a')+'</td><td>'+r.status+'. '+r.why+'</td><td><code>'+r.openrouterKey+'</code> against <code>'+r.litellmKey+'</code></td></tr>';
+});
+html+='</tbody></table>';
+});
+host.innerHTML=html;
+})();
+(function(){
+var A='https://platform.claude.com/en/docs/about-claude/pricing';
+var M=[
+{label:'Claude Opus 5',input:0.000005,output:0.000025,cacheRead:5e-7,cacheWrite:0.00000625,minCache:512,geo:true},
+{label:'Claude Sonnet 5',input:0.000002,output:0.00001,cacheRead:2e-7,cacheWrite:0.0000025,minCache:1024,geo:true},
+{label:'Claude Fable 5',input:0.00001,output:0.00005,cacheRead:0.000001,cacheWrite:0.0000125,minCache:512,geo:true},
+{label:'Gemini 3.6 Flash',input:7.5e-7,output:0.00000375,cacheRead:7.5e-8,cacheWrite:null,minCache:4096,geo:false},
+{label:'Gemini 3.5 Flash-Lite',input:3e-7,output:0.0000025,cacheRead:3e-8,cacheWrite:null,minCache:null,geo:false},
+{label:'GPT-5.6 Terra',input:0.000002,output:0.000012,cacheRead:2e-7,cacheWrite:0.0000025,minCache:1024,geo:false},
+{label:'GPT-5.6 Luna',input:2e-7,output:0.0000012,cacheRead:2e-8,cacheWrite:2.5e-7,minCache:1024,geo:false},
+{label:'Claude Opus 4.8',input:0.000005,output:0.000025,cacheRead:5e-7,cacheWrite:0.00000625,minCache:1024,geo:true},
+{label:'Claude Sonnet 4.5',input:0.000003,output:0.000015,cacheRead:3e-7,cacheWrite:0.00000375,minCache:1024,geo:false},
+{label:'Claude Haiku 4.5',input:0.000001,output:0.000005,cacheRead:1e-7,cacheWrite:0.00000125,minCache:4096,geo:false},
+{label:'GPT-5.5',input:0.000005,output:0.00003,cacheRead:5e-7,cacheWrite:null,minCache:1024,geo:false},
+{label:'GPT-5.4',input:0.0000025,output:0.000015,cacheRead:2.5e-7,cacheWrite:null,minCache:1024,geo:false},
+{label:'GPT-5.4 mini',input:7.5e-7,output:0.0000045,cacheRead:7.5e-8,cacheWrite:null,minCache:1024,geo:false},
+{label:'GPT-5.4 nano',input:2e-7,output:0.00000125,cacheRead:2e-8,cacheWrite:null,minCache:1024,geo:false},
+{label:'GPT-4o',input:0.0000025,output:0.00001,cacheRead:0.00000125,cacheWrite:null,minCache:1024,geo:false},
+{label:'GPT-4o mini',input:1.5e-7,output:6e-7,cacheRead:7.5e-8,cacheWrite:null,minCache:1024,geo:false},
+{label:'Gemini 2.5 Pro',input:0.00000125,output:0.00001,cacheRead:1.25e-7,cacheWrite:null,minCache:2048,geo:false},
+{label:'Gemini 2.5 Flash',input:3e-7,output:0.0000025,cacheRead:3e-8,cacheWrite:null,minCache:2048,geo:false},
+{label:'Gemini 2.5 Flash-Lite',input:1e-7,output:4e-7,cacheRead:1e-8,cacheWrite:null,minCache:null,geo:false}
+];
+var sel=document.getElementById('calcModel');
+var out=document.getElementById('calcOut');
+if(!sel||!out){return;}
+M.forEach(function(m,i){var o=document.createElement('option');o.value=String(i);o.textContent=m.label;sel.appendChild(o);});
+function n(id){var e=document.getElementById(id);var v=parseFloat(e.value);return (isFinite(v)&&v>0)?v:0;}
+function usd(v){return '$'+v.toFixed(4);}
+function run(){
+var m=M[parseInt(sel.value,10)||0];
+var inTok=n('inTok'),outTok=n('outTok'),cached=n('cachedTok'),writes=n('writeTok');
+if(cached>inTok){cached=inTok;}
+var wEl=document.getElementById('writeTok');
+var gEl=document.getElementById('geoChk');
+wEl.disabled=(m.cacheWrite===null);
+gEl.disabled=!m.geo;
+if(wEl.disabled){writes=0;}
+if(gEl.disabled){gEl.checked=false;}
+var notes=[];
+var cachedRate=m.cacheRead;
+if(cached>0&&m.minCache!==null&&inTok<m.minCache){cachedRate=m.input;notes.push('A prompt of '+inTok.toLocaleString()+' tokens sits under the published cache minimum of '+m.minCache.toLocaleString()+' tokens for '+m.label+', so the cached tokens are priced at the full input rate here.');}
+if(cached>0&&m.minCache===null){notes.push('No cache minimum is published for '+m.label+' in the vendor caching table, so no floor is applied.');}
+if(m.cacheWrite===null){notes.push('No cache write charge is published for '+m.label+', so the write field is off for this row.');}
+var uncached=Math.max(0,inTok-cached);
+var cost=uncached*m.input+cached*cachedRate+writes*(m.cacheWrite||0)+outTok*m.output;
+if(document.getElementById('batchChk').checked){cost=cost*0.5;notes.push('Batch pricing applied at half the synchronous rate.');}
+if(m.geo&&gEl.checked){cost=cost*1.1;notes.push('US-only inference applied as a 1.1x multiplier across every token category.');}
+var rows='<li>Uncached input, '+uncached.toLocaleString()+' tokens</li><li>Cached read, '+cached.toLocaleString()+' tokens</li>';
+rows+=(m.cacheWrite===null)?'<li>Cache write, not priced for this model</li>':'<li>Cache write, '+writes.toLocaleString()+' tokens</li>';
+rows+='<li>Output, '+outTok.toLocaleString()+' tokens</li>';
+var html='<p class="total">'+usd(cost)+' for this call on '+m.label+'</p><ul>'+rows+'</ul>';
+if(notes.length){html+='<ul class="notes"><li>'+notes.join('</li><li>')+'</li></ul>';}
+out.innerHTML=html;
+}
+['calcModel','inTok','outTok','cachedTok','writeTok','batchChk','geoChk'].forEach(function(id){var e=document.getElementById(id);if(!e){return;}e.addEventListener('change',run);e.addEventListener('input',run);});
+var btn=document.getElementById('estimateBtn');
+if(btn){btn.addEventListener('click',function(){var t=document.getElementById('pasteText').value||'';document.getElementById('inTok').value=Math.ceil(t.length/4);run();});}
+run();
+})();
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"LLM price per token comparison, and the prices two sources could not agree on","description":"Input, cached read, cache write and output prices per 1M tokens for 19 models confirmed by two independent public sources, plus the models the sources priced differently.","datePublished":"2026-08-24","dateModified":"2026-08-24","author":{"@id":"https://zovo.one#michael-lip"},"publisher":{"@type":"Organization","name":"KickLLM","url":"https://kickllm.com/"},"isPartOf":{"@type":"WebPage","url":"https://kickllm.com/research/llm-price-source-disagreement.html","name":"LLM price per token comparison"}},{"@type":"Person","@id":"https://zovo.one#michael-lip","name":"Michael Lip","url":"https://zovo.one","description":"Solo developer who builds and operates KickLLM and the Zovo tools network.","knowsAbout":["LLM API pricing","Prompt caching economics","LLM cost estimation"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"KickLLM","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://kickllm.com/research/"},{"@type":"ListItem","position":3,"name":"LLM price per token comparison","item":"https://kickllm.com/research/llm-price-source-disagreement.html"}]}]}</script>
+</main>
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=research-llm-pricing-history">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex · A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP · Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality · Security</a>
+            <a href="https://claudflow.com">ClaudFlow · Workflows</a>
+            <a href="https://claudkit.com">ClaudKit · API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket · Support</a>
+            <a href="https://enhio.com">Enhio · Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot · Timestamps</a>
+            <a href="https://gen8x.com">Gen8X · Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X · AI Models</a>
+            <a href="https://heytensor.com">HeyTensor · ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc · Recipes</a>
+            <a href="https://invokebot.com">InvokeBot · Webhooks</a>
+            <a href="https://kappafy.com">Kappafy · JSON</a>
+            <a href="https://kappakit.com">KappaKit · Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen · Image Tools</a>
+            <a href="https://lochbot.com">LochBot · Security</a>
+            <a href="https://lockml.com">LockML · ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-llm-pricing-history">ML0X · ML Basics</a>
+            <a href="https://ml3x.com">ML3X · Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor · Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool · Cooking</a>
+            <a href="https://viryd.com">Viryd · Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub · theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative · Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder · Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=research-llm-pricing-history" rel="nofollow">Zovo · AI Dev Tools</a>
+  </div>
+</div>
+
+<script src="/assets/js/share.js"></script>
+</body>
+</html>
