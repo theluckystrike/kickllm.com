@@ -87,10 +87,39 @@
       </table>
       <p>These prices apply to the standard real-time API. Opus 4.7 and Sonnet 4.6 now support 1M token context at flat rates with no surcharge. Anthropic also offers prompt caching, which reduces the cost of repeated prefixes in your prompts. Cached input tokens cost 90% less than standard input tokens, making it particularly effective for system prompts and few-shot examples that remain constant across requests.</p>
 
+
+    <section style="max-width:720px;margin:2rem auto;">
+      <h2>Price your own workload</h2>
+      <p>Enter your token counts. Costs are computed in your browser from the same published rates
+      shown in the table below, so the calculator and the page can never disagree.</p>
+      <div class="calc" style="border:1px solid var(--border);border-radius:6px;padding:1rem;margin:1rem 0;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.75rem;">
+          <label style="display:block;font-size:0.9rem;">Input tokens per request
+            <input id="cl-in" type="number" min="0" step="1" value="1000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Cached input tokens
+            <input id="cl-cache" type="number" min="0" step="1" value="0" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Output tokens per request
+            <input id="cl-out" type="number" min="0" step="1" value="1000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Requests per month
+            <input id="cl-req" type="number" min="1" step="1" value="300000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+        </div>
+        <div style="overflow-x:auto;">
+        <table class="results-table" style="margin:1rem 0;">
+          <thead><tr><th>Model</th><th>Input</th><th>Cached</th><th>Output</th><th>Per request</th><th>Per month</th></tr></thead>
+          <tbody id="cl-rows"></tbody>
+        </table>
+        </div>
+        <p id="cl-summary" style="font-size:0.9rem;margin:0.5rem 0 0;"></p>
+      </div>
+      <p style="font-size:0.85rem;opacity:0.75;">Cached input is charged at 10% of the standard input
+      rate, the 90% reduction stated below. The default figures are the 10,000-conversations-a-day
+      example used further down this page, at 1,000 input and 1,000 output tokens per conversation.</p>
+    </section>
+
       <h2>When to Use Each Claude Tier</h2>
       <p>Choosing the right Claude model is the single most impactful cost decision you will make. Running Opus when Haiku would suffice can inflate your bill by 60x. Here is a practical breakdown of when each tier makes sense.</p>
       <p><strong>Claude Haiku 4.5</strong> is ideal for high-volume, low-complexity tasks: content classification, entity extraction, simple question answering, data validation, and routing queries to more expensive models. At $1.00 per million input tokens, you can process roughly 1 million requests per dollar with short prompts. Haiku responds in under 500 milliseconds for most requests, making it suitable for latency-sensitive applications.</p>
-      <p><strong>Claude Sonnet 4.6</strong> is the workhorse for production applications. It handles multi-step reasoning, code generation, summarization, and conversational AI with quality that approaches Opus at a fraction of the cost. Most teams should default to Sonnet and only escalate to Opus for tasks where Sonnet measurably underperforms. At $3/$15 per million tokens, a chatbot handling 10,000 conversations per day with 2,000 tokens each costs roughly $960/month.</p>
+      <p><strong>Claude Sonnet 4.6</strong> is the workhorse for production applications. It handles multi-step reasoning, code generation, summarization, and conversational AI with quality that approaches Opus at a fraction of the cost. Most teams should default to Sonnet and only escalate to Opus for tasks where Sonnet measurably underperforms. At $3/$15 per million tokens, a chatbot handling 10,000 conversations per day at 1,000 input and 1,000 output tokens each runs about $5,400/month: 300,000 requests, 300M input tokens at $3 per million is $900, and 300M output tokens at $15 per million is $4,500. Output tokens dominate the bill on every Claude tier, which is why trimming response length saves more than trimming prompts. Put your own numbers into the calculator above.</p>
       <p><strong>Claude Opus 4.7</strong> is reserved for tasks requiring the highest level of reasoning: complex code architecture decisions, nuanced legal or medical text analysis, multi-document synthesis, and advanced mathematical proofs. At $5/$25 pricing (significantly reduced from earlier generations), Opus is now more accessible for production use cases that demand frontier-class quality. Note that Opus 4.7 uses a new tokenizer that can generate up to 35% more tokens for the same input text, so effective cost per request may be higher than per-token pricing suggests.</p>
 
       <h2>Cost Optimization Tips</h2>
@@ -193,5 +222,64 @@
 
   <script src="/assets/js/share.js"></script>
 <script src="/assets/js/pro-nudge.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  /* Rates are USD per 1M tokens, taken verbatim from the pricing table published on
+     this same page, so the calculator cannot contradict the prose. Cached input is
+     10% of the input rate, which is the 90% reduction this page states. */
+  var MODELS = [
+    { name: 'Claude Haiku 4.5',  inp: 1.00, out: 5.00  },
+    { name: 'Claude Sonnet 4.6', inp: 3.00, out: 15.00 },
+    { name: 'Claude Opus 4.7',   inp: 5.00, out: 25.00 }
+  ];
+  var M = 1000000, CACHE_MULT = 0.10;
+  function num(id, min) {
+    var el = document.getElementById(id);
+    if (!el) return min;
+    var v = parseFloat(el.value);
+    if (!isFinite(v) || v < min) return min;
+    return Math.floor(v);
+  }
+  function usd(v) {
+    if (v === 0) return '$0.00';
+    if (v < 0.01) return '$' + v.toFixed(6);
+    if (v < 1) return '$' + v.toFixed(4);
+    return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function render() {
+    var tin = num('cl-in', 0), tcache = num('cl-cache', 0),
+        tout = num('cl-out', 0), req = num('cl-req', 1);
+    var rows = MODELS.map(function (m) {
+      var cRate = m.inp * CACHE_MULT;
+      var per = (tin / M) * m.inp + (tcache / M) * cRate + (tout / M) * m.out;
+      return { m: m, cRate: cRate, per: per, month: per * req };
+    }).sort(function (a, b) { return a.per - b.per; });
+    var tb = document.getElementById('cl-rows');
+    if (!tb) return;
+    tb.innerHTML = rows.map(function (r) {
+      return '<tr><td>' + r.m.name + '</td>' +
+             '<td>$' + r.m.inp.toFixed(2) + '</td>' +
+             '<td>$' + r.cRate.toFixed(2) + '</td>' +
+             '<td>$' + r.m.out.toFixed(2) + '</td>' +
+             '<td>' + usd(r.per) + '</td>' +
+             '<td>' + usd(r.month) + '</td></tr>';
+    }).join('');
+    var s = document.getElementById('cl-summary');
+    if (s && rows.length > 1) {
+      var lo = rows[0], hi = rows[rows.length - 1];
+      s.textContent = lo.m.name + ' is cheapest at ' + usd(lo.month) + ' per month for ' +
+        req.toLocaleString() + (req === 1 ? ' request' : ' requests') + ', against ' + usd(hi.month) + ' on ' + hi.m.name +
+        (lo.month > 0 ? ' — ' + (hi.month / lo.month).toFixed(1) + 'x more.' : '.');
+    }
+  }
+  ['cl-in','cl-cache','cl-out','cl-req'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('input', render); el.addEventListener('change', render); }
+  });
+  render();
+})();
+</script>
 </body>
 </html>

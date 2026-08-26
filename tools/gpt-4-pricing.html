@@ -72,6 +72,35 @@
       <p>GPT-4o at $2.50/$10 per 1M tokens. Compare GPT-4o, GPT-4o mini, and legacy GPT-4 Turbo costs. Calculate monthly API spend for any workload.</p>
     </div>
 
+
+    <section style="max-width:720px;margin:2rem auto;">
+      <h2>Price your own workload</h2>
+      <p>Enter your token counts. Costs are computed in your browser from the same published rates
+      shown in the table below, so the calculator and the page can never disagree.</p>
+      <div class="calc" style="border:1px solid var(--border);border-radius:6px;padding:1rem;margin:1rem 0;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.75rem;">
+          <label style="display:block;font-size:0.9rem;">Input tokens per request
+            <input id="g4-in" type="number" min="0" step="1" value="10000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Cached input tokens
+            <input id="g4-cache" type="number" min="0" step="1" value="0" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Output tokens per request
+            <input id="g4-out" type="number" min="0" step="1" value="2000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+          <label style="display:block;font-size:0.9rem;">Requests per month
+            <input id="g4-req" type="number" min="1" step="1" value="1000" style="width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.45rem;margin-top:0.25rem;"></label>
+        </div>
+        <div style="overflow-x:auto;">
+        <table class="results-table" style="margin:1rem 0;">
+          <thead><tr><th>Model</th><th>Input</th><th>Cached</th><th>Output</th><th>Per request</th><th>Per month</th></tr></thead>
+          <tbody id="g4-rows"></tbody>
+        </table>
+        </div>
+        <p id="g4-summary" style="font-size:0.9rem;color:var(--text-dim,inherit);margin:0.5rem 0 0;"></p>
+      </div>
+      <p style="font-size:0.85rem;opacity:0.75;">Cached input is billed at $1.25 per 1M on GPT-4o only.
+      GPT-4o mini and GPT-4 Turbo are priced here at their standard input rate for cached tokens,
+      because this page does not publish a separate cached rate for them.</p>
+    </section>
+
     <section style="max-width:720px;margin:2rem auto;">
       <h2>Current GPT-4o API Pricing (May 2026)</h2>
       <p>OpenAI offers several GPT-4 variants at different price points. Pricing is billed per token, with separate rates for input (prompt) tokens and output (completion) tokens. Understanding these tiers is essential for budgeting your AI infrastructure costs.</p>
@@ -192,5 +221,67 @@
 
   <script src="/assets/js/share.js"></script>
 <script src="/assets/js/pro-nudge.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  /* Rates are USD per 1M tokens, taken verbatim from the pricing table published
+     on this same page so the calculator can never contradict the prose.
+     cachedIn === null means this page publishes no separate cached rate for that
+     model, so the standard input rate is used and the cell is marked. */
+  var MODELS = [
+    { name: 'GPT-4o',              inp: 2.50,  cachedIn: 1.25, out: 10.00 },
+    { name: 'GPT-4o mini',         inp: 0.15,  cachedIn: null, out: 0.60  },
+    { name: 'GPT-4 Turbo (legacy)',inp: 10.00, cachedIn: null, out: 30.00 }
+  ];
+  var M = 1000000;
+  function num(id, min) {
+    var el = document.getElementById(id);
+    if (!el) return 0;
+    var v = parseFloat(el.value);
+    if (!isFinite(v) || v < min) return min;
+    return Math.floor(v);
+  }
+  function usd(v) {
+    if (v === 0) return '$0.00';
+    if (v < 0.01) return '$' + v.toFixed(6);
+    if (v < 1) return '$' + v.toFixed(4);
+    return '$' + v.toFixed(2);
+  }
+  function render() {
+    var tin = num('g4-in', 0), tcache = num('g4-cache', 0),
+        tout = num('g4-out', 0), req = num('g4-req', 1);
+    var rows = MODELS.map(function (m) {
+      var cRate = m.cachedIn === null ? m.inp : m.cachedIn;
+      var per = (tin / M) * m.inp + (tcache / M) * cRate + (tout / M) * m.out;
+      return { m: m, per: per, month: per * req, cRate: cRate };
+    }).sort(function (a, b) { return a.per - b.per; });
+    var tb = document.getElementById('g4-rows');
+    if (!tb) return;
+    tb.innerHTML = rows.map(function (r) {
+      var mark = r.m.cachedIn === null ? ' *' : '';
+      return '<tr><td>' + r.m.name + '</td>' +
+             '<td>$' + r.m.inp.toFixed(2) + '</td>' +
+             '<td>$' + r.cRate.toFixed(2) + mark + '</td>' +
+             '<td>$' + r.m.out.toFixed(2) + '</td>' +
+             '<td>' + usd(r.per) + '</td>' +
+             '<td>' + usd(r.month) + '</td></tr>';
+    }).join('');
+    var s = document.getElementById('g4-summary');
+    if (s && rows.length > 1) {
+      var lo = rows[0], hi = rows[rows.length - 1];
+      var save = hi.month - lo.month;
+      s.textContent = lo.m.name + ' is cheapest at ' + usd(lo.month) + ' per month for ' +
+        req.toLocaleString() + (req === 1 ? ' request' : ' requests') + '. That is ' + usd(save) + ' less than ' + hi.m.name +
+        (hi.month > 0 ? ' (' + (save / hi.month * 100).toFixed(1) + '% lower).' : '.');
+    }
+  }
+  ['g4-in','g4-cache','g4-out','g4-req'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('input', render); el.addEventListener('change', render); }
+  });
+  render();
+})();
+</script>
 </body>
 </html>
