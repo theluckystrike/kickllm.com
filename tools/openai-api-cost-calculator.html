@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI API cost calculator with caching, batch and long-context tiers</title>
+<meta name="description" content="Compute a monthly OpenAI API bill for gpt-5.6-terra, gpt-5.6-luna, gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.4-nano, gpt-4o and gpt-4o-mini with cached reads, cache writes, the batch discount and the long-context tier applied, prices dated 2026-08-29.">
+<link rel="canonical" href="https://kickllm.com/tools/openai-api-cost-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/openai-api-cost-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/openai-api-cost-calculator.html">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.byline{color:var(--text-muted);font-size:.95rem;margin:0 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.92rem;margin:1rem 0}
+th,td{border:1px solid var(--border);padding:.45rem .55rem;text-align:left;vertical-align:top}
+th{background:var(--bg-card);font-weight:600}
+caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.9rem;padding:.25rem 0}
+.tablewrap{overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem 1rem;margin:1rem 0}
+label{display:flex;flex-direction:column;font-size:.92rem;gap:.25rem}
+label.check{flex-direction:row;align-items:center;gap:.5rem}
+input[type=number],textarea{font:inherit;padding:.4rem .5rem;border:1px solid #b9c0c8;border-radius:4px;width:100%;box-sizing:border-box}
+button{font:inherit;padding:.45rem .8rem;border:1px solid var(--text);background:var(--text);color:var(--bg);border-radius:4px;cursor:pointer;margin-top:.5rem}
+details{margin:1rem 0;padding:.5rem .75rem;border:1px dashed #b9c0c8;border-radius:4px}
+#notes{font-size:.9rem;color:#7a3b00;margin:.5rem 0}
+#notes p{margin:.25rem 0}
+dl dt{margin-top:1rem;color:#0b4f8a}
+dl dd{margin:.25rem 0 0 0}
+.disclaimer{border-top:1px solid var(--border);padding-top:1rem;font-size:.9rem;color:var(--text-muted)}
+.muted{color:var(--text-muted);font-size:.9rem}
+article>section{max-width:720px;margin:2.5rem auto;padding:0}
+#calculator,#rates,#longcontext{max-width:1000px}
+article .byline{max-width:720px;margin:0 auto 1.5rem}
+article table{border-collapse:collapse}
+article a{color:var(--accent)}
+article a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
+article a.cite:hover,article a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
+article input[type=number],article textarea,article select{background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--radius)}
+article button{background:var(--accent);color:#fff;border:0;border-radius:var(--radius);padding:.5rem 1rem;cursor:pointer}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://kickllm.com/tools/openai-api-cost-calculator.html#article","headline":"OpenAI API cost calculator with caching, batch and long-context tiers","description":"A client-side calculator that turns a month of OpenAI API traffic into a per-model bill and itemizes cached reads, cache writes, the batch discount and the long-context tier, with every rate dated 2026-08-29.","datePublished":"2026-08-29","dateModified":"2026-08-29","inLanguage":"en","author":{"@id":"https://zovo.one/#person"},"publisher":{"@type":"Organization","name":"KickLLM","url":"https://kickllm.com/"},"mainEntityOfPage":{"@id":"https://kickllm.com/tools/openai-api-cost-calculator.html"},"about":[{"@type":"Thing","name":"OpenAI API pricing"},{"@type":"Thing","name":"gpt-5.6-terra"},{"@type":"Thing","name":"gpt-5.6-luna"},{"@type":"Thing","name":"gpt-4o"}]},{"@type":"Person","@id":"https://zovo.one/#person","name":"Michael Lip","url":"https://zovo.one","description":"Solo developer who builds and operates KickLLM and the Zovo tools network.","sameAs":["https://kickllm.com/about.html"]},{"@type":"WebPage","@id":"https://kickllm.com/tools/openai-api-cost-calculator.html","url":"https://kickllm.com/tools/openai-api-cost-calculator.html","name":"OpenAI API cost calculator","datePublished":"2026-08-29","dateModified":"2026-08-29","isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com/"},"breadcrumb":{"@id":"https://kickllm.com/tools/openai-api-cost-calculator.html#breadcrumb"}},{"@type":"BreadcrumbList","@id":"https://kickllm.com/tools/openai-api-cost-calculator.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"KickLLM","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},{"@type":"ListItem","position":3,"name":"OpenAI API cost calculator","item":"https://kickllm.com/tools/openai-api-cost-calculator.html"}]}]}
+</script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=tools-openai-api-cost-calculator" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>OpenAI API Cost Calculator</span></nav>
+      <h1>OpenAI API cost calculator</h1>
+      <p>Compute a monthly OpenAI bill across eight models, with cached reads, cache writes, the batch discount and the long context tier applied from dual-verified rates.</p>
+    </div>
+
+<article>
+<p class="byline">By <a href="/about.html">Michael Lip</a>, who builds and operates the KickLLM calculators. Prices snapshot 2026-08-29. Calculations run client side and no data leaves the browser.</p>
+
+<section id="answer">
+<p>gpt-5.6-terra lists input at USD 2 per 1M tokens and output at USD 12 per 1M tokens (snapshot 2026-08-29). So a month of one million input tokens and one million output tokens on that model costs the sum of those two figures before any modifier. Your bill is input tokens times the input rate, plus output tokens times the output rate, and then the adjustments an OpenAI invoice actually carries. The calculator below does that arithmetic for each model in the rate table and itemizes every adjustment you switch on.</p>
+<p>Cached reads get priced at the cached-input rate. Cache writes on the gpt-5.6 models get their own rate. The batch toggle halves the total. And once a prompt crosses 272000 input tokens, the long-context rates take over on the models that publish one. The flat rate is the number you pay only if you never cache, never batch and never send a long prompt, and a calculator that stops there answers a narrower question than your invoice does.</p>
+</section>
+
+<section id="calculator" aria-labelledby="calc-h">
+<h2 id="calc-h">Estimate your monthly OpenAI bill</h2>
+<p>Enter a month of traffic. The cache, write and batch controls all start off, so the first figure you see is the plain uncached, synchronous, short-context rate, and each modifier you switch on shows up in its own column.</p>
+<form id="calc" onsubmit="return false">
+<div class="grid">
+<label>Requests per month <input id="reqs" type="number" min="0" step="1" value="1000"></label>
+<label>Input tokens per request <input id="prompt" type="number" min="0" step="1" value="1000"></label>
+<label>Output tokens per request <input id="out" type="number" min="0" step="1" value="1000"></label>
+<label>Share of input tokens served from cache, in percent <input id="share" type="number" min="0" max="100" step="1" value="0"></label>
+<label>Cache-write tokens per month (priced on gpt-5.6-terra and gpt-5.6-luna, the rows with a write rate) <input id="writes" type="number" min="0" step="1" value="0"></label>
+<label class="check"><input id="batch" type="checkbox"> Apply Batch API pricing</label>
+</div>
+<details>
+<summary>Paste text to estimate its token count</summary>
+<textarea id="paste" rows="5" placeholder="Paste a prompt or a document here"></textarea>
+<p id="pasteOut" class="muted">Paste text to see an estimate.</p>
+<button type="button" id="usePaste">Use as input tokens per request</button>
+<p class="muted">The estimate divides the character count by four. <a href="https://ai.google.dev/gemini-api/docs/tokens" class="cite">For Gemini models, a token is equivalent to about 4 characters.</a> OpenAI tokenizers differ, so treat the figure as a rough guide and use the <a href="/tools/token-counter.html">token counter</a> when you need an exact count.</p>
+</details>
+</form>
+<div id="notes" aria-live="polite"></div>
+<div class="tablewrap">
+<table id="results">
+<caption>Monthly bill per model in USD, sorted from lowest computed total. Rates snapshot 2026-08-29.</caption>
+<thead><tr><th>Model</th><th>Tier applied</th><th>Uncached input</th><th>Cached reads</th><th>Cache writes</th><th>Output</th><th>Batch adjustment</th><th>Monthly total</th></tr></thead>
+<tbody><tr><td colspan="8">Turn on JavaScript to run the calculator, or read the worked example and the rate table below, which carry the same figures.</td></tr></tbody>
+</table>
+</div>
+
+<h3>What each control applies</h3>
+<ul>
+<li>Cached share. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI bills reused cached-input tokens at the model's reduced cached-input rate, discounted up to 90%.</a> The calculator prices that share of your input tokens at the model's cached-input cell and the rest at the input cell. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">The minimum cacheable prompt length is 1,024 tokens for GPT-5.6 and later and 2,048 tokens for OpenAI models older than GPT-5.6.</a> When your input tokens per request sit under a model's floor, the cached share is ignored for that model and a note says so, because no cache read can happen there.</li>
+<li>Cache writes. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">For GPT-5.6 and later, OpenAI cache writes cost 1.25× the standard uncached input-token rate and subsequent cache reads cost 0.1× that rate.</a> The write field prices tokens on gpt-5.6-terra and gpt-5.6-luna only, the rows that carry a write rate in the table below. Other models leave the write column unpriced rather than silently treating it as zero.</li>
+<li>Batch. <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI's Batch API gives a 50% cost discount compared to synchronous APIs.</a> The toggle halves the subtotal. If you turn on both the cached share and the batch toggle, the halving is applied after the cache pricing, and this page makes no claim about how the two combine on an actual invoice.</li>
+<li>Long context. When input tokens per request exceed 272000, the calculator switches to the long-context rates for the whole request on gpt-5.6-terra, gpt-5.6-luna, gpt-5.5 and gpt-5.4, and names the tier in the second column. Models without a long-context row keep their standard rates and get flagged.</li>
+</ul>
+
+<h3>Worked example with the default inputs</h3>
+<p>The defaults are one thousand requests a month, one thousand input tokens and one thousand output tokens each, so a million of each, uncached, not batched, short context. At those inputs the monthly bill per model is the input cell plus the output cell of the rate table, and the totals column below shows the sum.</p>
+<div class="tablewrap">
+<table id="worked">
+<caption>Default workload, one million input and one million output tokens in a month. USD, snapshot 2026-08-29.</caption>
+<thead><tr><th>Model</th><th>Input cost</th><th>Output cost</th><th>Monthly total</th></tr></thead>
+<tbody>
+<tr><td>gpt-5.6-terra</td><td>$2</td><td>$12</td><td data-sum="gpt-5.6-terra">$2 + $12</td></tr>
+<tr><td>gpt-5.6-luna</td><td>$0.2</td><td>$1.2</td><td data-sum="gpt-5.6-luna">$0.2 + $1.2</td></tr>
+<tr><td>gpt-5.5</td><td>$5</td><td>$30</td><td data-sum="gpt-5.5">$5 + $30</td></tr>
+<tr><td>gpt-5.4</td><td>$2.5</td><td>$15</td><td data-sum="gpt-5.4">$2.5 + $15</td></tr>
+<tr><td>gpt-5.4-mini</td><td>$0.75</td><td>$4.5</td><td data-sum="gpt-5.4-mini">$0.75 + $4.5</td></tr>
+<tr><td>gpt-5.4-nano</td><td>$0.2</td><td>$1.25</td><td data-sum="gpt-5.4-nano">$0.2 + $1.25</td></tr>
+<tr><td>gpt-4o</td><td>$2.5</td><td>$10</td><td data-sum="gpt-4o">$2.5 + $10</td></tr>
+<tr><td>gpt-4o-mini</td><td>$0.15</td><td>$0.6</td><td data-sum="gpt-4o-mini">$0.15 + $0.6</td></tr>
+</tbody>
+</table>
+</div>
+<p>Need a given token count priced across vendors rather than a monthly OpenAI workload? The <a href="/tools/token-cost-calculator.html">token cost calculator</a> does that, and the <a href="/tools/llm-cost-calculator.html">LLM cost calculator</a> projects generic monthly spend across providers. For Anthropic rates the <a href="/tools/claude-api-pricing.html">Claude API pricing page</a> carries the equivalent table.</p>
+</section>
+
+<section id="rates">
+<h2>OpenAI rates by model, short and long context</h2>
+<p>Rates below cover the OpenAI models this calculator prices, in USD per 1M tokens, snapshot 2026-08-29. gpt-5.6-sol and the pro tier variants are not in the table. The two public sources this page prices from disagreed on their rates at the snapshot, so those rates are withheld rather than guessed; the split readings are documented on the <a href="/research/llm-price-source-disagreement.html">price source disagreement page</a>.</p>
+<p>Embedding, audio, realtime and image models are outside this calculator's scope. For a rate lookup without the calculator, the <a href="/tools/gpt-4-pricing.html">GPT-4 and GPT-4o pricing page</a> states the same list prices per million tokens.</p>
+<div class="tablewrap">
+<table id="ratetable">
+<caption>USD per 1M tokens, snapshot 2026-08-29. Short context on the left, long context on the right for the models that publish one.</caption>
+<thead><tr><th>Model</th><th>Input</th><th>Cached input</th><th>Cache write</th><th>Output</th><th>Long input</th><th>Long cached input</th><th>Long cache write</th><th>Long output</th></tr></thead>
+<tbody>
+<tr><td>gpt-5.6-terra</td><td>2</td><td>0.2</td><td>2.5</td><td>12</td><td>4</td><td>0.4</td><td>5</td><td>18</td></tr>
+<tr><td>gpt-5.6-luna</td><td>0.2</td><td>0.02</td><td>0.25</td><td>1.2</td><td>0.4</td><td>0.04</td><td>0.5</td><td>1.8</td></tr>
+<tr><td>gpt-5.5</td><td>5</td><td>0.5</td><td>not listed here</td><td>30</td><td>10</td><td>1</td><td>not listed here</td><td>45</td></tr>
+<tr><td>gpt-5.4</td><td>2.5</td><td>0.25</td><td>not listed here</td><td>15</td><td>5</td><td>0.5</td><td>not listed here</td><td>22.5</td></tr>
+<tr><td>gpt-5.4-mini</td><td>0.75</td><td>0.075</td><td>not listed here</td><td>4.5</td><td colspan="4">no long-context row</td></tr>
+<tr><td>gpt-5.4-nano</td><td>0.2</td><td>0.02</td><td>not listed here</td><td>1.25</td><td colspan="4">no long-context row</td></tr>
+<tr><td>gpt-4o</td><td>2.5</td><td>1.25</td><td>not listed here</td><td>10</td><td colspan="4">no long-context row</td></tr>
+<tr><td>gpt-4o-mini</td><td>0.15</td><td>0.075</td><td>not listed here</td><td>0.6</td><td colspan="4">no long-context row</td></tr>
+</tbody>
+</table>
+<p>OpenAI publishes its own price table at <a href="https://platform.openai.com/docs/pricing">platform.openai.com/docs/pricing</a> if you want to check these snapshot values against the current list.</p>
+</div>
+<p class="muted">A cache-write cell reading "not listed here" means no write rate for that model appears on this page, and the calculator leaves that column unpriced for it. Output rates sit above input rates in every row of the table, so trimming output tokens moves the bill more than trimming the prompt by the same count.</p>
+</section>
+
+<section id="caching">
+<h2>How cached reads change the bill</h2>
+<p><a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI prompt caching is enabled by default for supported OpenAI models.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI prompt caching reuses work when requests share the same prompt prefix.</a> The discount is only half of the story. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI prompt caching also reduces the time spent processing input before the response starts.</a></p>
+<p>The economics on the current generation are simple to state. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">On GPT-5.6 and later, writing a prefix once and fully reusing it once costs 1.35× its ordinary input cost versus 2× uncached, and across ten requests one write plus nine full reads costs 2.15× versus 10× without caching.</a> On this page that plays out in the gpt-5.6-terra row, where a cached read is priced at USD 0.2 against USD 2 uncached and a write at USD 2.5 per 1M tokens (snapshot 2026-08-29).</p>
+<p>To see how many reuses pay back a write on your own prompt size, the <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a> plots that curve.</p>
+<p>The cached-read ratio splits by model generation. Dividing the cached-input cell by the input cell in the rate table shows the gpt-5.6, gpt-5.5 and gpt-5.4 rows sitting at a tenth, and the gpt-4o and gpt-4o-mini rows at a different, higher share. A discount learned on gpt-4o misprices the newer rows badly, so the table below computes the ratio per row from the rates above.</p>
+<div class="tablewrap">
+<table id="ratio">
+<caption>Cached input rate divided by input rate, computed in the browser from the rate table, snapshot 2026-08-29.</caption>
+<thead><tr><th>Model</th><th>Cached read as a share of input</th></tr></thead>
+<tbody><tr><td colspan="2">Turn on JavaScript to compute the ratios, or divide the two cells in the rate table above.</td></tr></tbody>
+</table>
+</div>
+<h3>Getting a hit in the first place</h3>
+<p><a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI advises putting stable developer instructions and shared reference material first, and placing timestamps, user-specific content or other dynamic content at the end or in later conversation messages.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI advises appending new messages rather than rewriting earlier turns, because summarization, compaction, or context truncation can change the prefix and reset cache reuse.</a> Chat products should notice the next one. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">In multi-turn applications, reusing the growing conversation history can save more input tokens than caching only the initial instructions.</a></p>
+<p>A prompt under the floor is one reason a cached share never materializes. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">If a shared OpenAI prefix falls below the model's minimum cacheable length, OpenAI suggests shortening it or expanding it with useful, stable instructions, examples, or reference material.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI states that short prefix lengths can cost more uncached than expanding to the minimum cacheable token length.</a> The guide even works the crossover.</p>
+<p><a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">With a 1,024-token minimum, 0.1 read multiplier and 1.25 write multiplier, OpenAI's worked example shows that across 10 requests expanding an original prefix of at least 221 tokens to 1,024 tokens is cheaper, and the crossover approaches 102.4 tokens as reuse grows.</a></p>
+<p>Lifetime and routing decide whether the second request finds the first one's cache.</p>
+<p><a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI's prompt_cache_options.ttl has only one supported value, 30m, which is also the default, and a cached prefix remains eligible for reuse for 30 minutes after its most recent write or reuse.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">Reusing a cached OpenAI prefix refreshes its lifetime without another cache-write charge.</a></p>
+<p><a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI's prompt_cache_retention value 24h typically keeps entries available for around 30 minutes and can retain them for up to 24 hours.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI cached states live on individual machines, and traffic above 15 requests per minute can lead to overflow routing.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">Setting prompt_cache_key helps OpenAI requests with the same prefix reach the same cache; keys influence routing but do not guarantee a cache read hit.</a></p>
+<p>Whatever share you type into the calculator, check it against the real counters after a week. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI advises tracking usage.input_tokens_details.cached_tokens and usage.input_tokens_details.cache_write_tokens to measure actual cache performance.</a> <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">OpenAI defines the token cache-hit rate as total cached tokens divided by total input tokens.</a> That measured rate is the number to put back into the cached-share field. One more detail worth knowing on the models that charge for writes. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">In OpenAI explicit-only caching mode, content after the last selected breakpoint is processed at the uncached input-token rate without a cache-write charge.</a></p>
+</section>
+
+<section id="longcontext">
+<h2>The long-context tier</h2>
+<p>The rate table carries a second set of rates for gpt-5.6-terra, gpt-5.6-luna, gpt-5.5 and gpt-5.4 that applies above 272000 input tokens (snapshot 2026-08-29). On gpt-5.6-terra, input moves from USD 2 to USD 4 per 1M tokens and output from USD 12 to USD 18. Cached reads and cache writes move too, which the long cached input and long cache write columns show. A flat calculator prices a document-heavy workload at the short rate and understates the bill by the gap between those columns.</p>
+<p>The calculator applies the switch for you. Type the real input tokens per request, and once that figure is above the threshold every model with a long-context row is priced on it and the tier column says long context. The other models keep their standard rates and are flagged in the notes, so you can't mistake a flat figure for a priced tier. Pasting the actual document into the estimator is the quickest way to find out which side of the line a request lands on.</p>
+</section>
+
+<section id="batch">
+<h2>Batch, half price for work that can wait</h2>
+<p><a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI's Batch API gives a 50% cost discount compared to synchronous APIs.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">Each OpenAI batch completes within 24 hours and often more quickly.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI's Batch API has substantially more rate-limit headroom than the synchronous APIs.</a> Those facts are why the toggle exists. Flip it on with your real monthly volume and the batch adjustment column shows what the discount is worth to you in dollars, per model, before you write a line of code.</p>
+<p>The mechanics in brief. <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI batches start with a .jsonl file where each line contains the details of an individual request.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">Each OpenAI batch request must include a unique custom_id used to reference results after completion.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">An OpenAI batch input file can only include requests to a single model.</a></p>
+<p><a href="https://developers.openai.com/api/docs/guides/batch" class="cite">A single OpenAI batch may include up to 50,000 requests and a batch input file can be up to 200 MB.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI's batch completion window can currently only be set to 24h.</a> The full lifecycle, from upload through polling to the output and error files, lives on the <a href="/tools/openai-batch-api.html">OpenAI Batch API page</a>, and the <a href="/tools/batch-api-savings-calculator.html">batch API savings calculator</a> compares the discount against sync pricing across vendors.</p>
+<p>A couple of billing details matter for planning. <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">When an OpenAI batch expires, unfinished requests are cancelled, completed responses are made available in the output file, and tokens consumed by completed requests are charged.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">Using OpenAI's Batch API does not consume tokens from standard per-model rate limits.</a> <a href="https://developers.openai.com/api/docs/guides/rate-limits" class="cite">OpenAI Batch API queue limits are calculated from the total input tokens queued for a model, and a completed batch's tokens no longer count against that limit.</a> And a scope note before you assume every row qualifies.</p>
+<p><a href="https://developers.openai.com/api/docs/guides/batch" class="cite">OpenAI's Batch API is widely available across most but not all of its models.</a></p>
+</section>
+
+<section id="flex">
+<h2>Flex processing</h2>
+<p><a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">OpenAI Flex processing provides lower costs for Responses or Chat Completions requests in exchange for slower response times and occasional resource unavailability.</a> <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">Under OpenAI Flex processing, tokens are priced at Batch API rates with additional discounts from prompt caching.</a> <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">OpenAI Flex processing is enabled by setting the service_tier parameter to flex.</a> <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">OpenAI Flex processing is in beta with limited model availability.</a> <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">When OpenAI Flex processing lacks resources it returns a 429 Resource Unavailable error and the request is not charged.</a></p>
+<p>No flex rate is printed on this page. Only one of the public price sources our method reads carries flex prices, so under the agreement rule described below none are shown, and the calculator has no flex toggle. The <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">official flex processing guide</a> is the reference for that tier.</p>
+</section>
+
+<section id="output">
+<h2>Output tokens and reasoning effort</h2>
+<p>Every row of the rate table prices an output token above an input token, so the output column is where the bill is most sensitive. <a href="https://developers.openai.com/api/docs/guides/latency-optimization" class="cite">OpenAI states that generating tokens is almost always the highest latency step and, as a general heuristic, cutting 50% of output tokens may cut about 50% of latency.</a> <a href="https://developers.openai.com/api/docs/guides/cost-optimization" class="cite">OpenAI states that cost and latency are typically interconnected and that reducing tokens and requests generally leads to faster processing.</a></p>
+<p>Reasoning tokens count against the output bound on the Responses API, so plan for them in the output field of the calculator.</p>
+<p><a href="https://developers.openai.com/api/reference/resources/responses/methods/create" class="cite">In the OpenAI Responses API, max_output_tokens is an upper bound on tokens generated for a response, including visible output tokens and reasoning tokens.</a> <a href="https://developers.openai.com/api/reference/resources/responses/methods/create" class="cite">The OpenAI Responses API reasoning effort parameter supports the values none, minimal, low, medium, high, xhigh, and max.</a> <a href="https://developers.openai.com/api/reference/resources/responses/methods/create" class="cite">Reducing OpenAI reasoning effort can result in faster responses and fewer tokens used on reasoning.</a> <a href="https://developers.openai.com/api/reference/resources/responses/methods/create" class="cite">The OpenAI Responses API verbosity parameter supports the values low, medium, and high.</a></p>
+<p>The rest of OpenAI's own cost guidance maps onto the calculator's fields directly. <a href="https://developers.openai.com/api/docs/guides/cost-optimization" class="cite">OpenAI's cost guidance is to lower the number of input tokens and aim for shorter model outputs.</a> <a href="https://developers.openai.com/api/docs/guides/cost-optimization" class="cite">OpenAI's cost guidance is to limit the number of necessary requests to complete tasks.</a> <a href="https://developers.openai.com/api/docs/guides/latency-optimization" class="cite">OpenAI notes max_tokens or stop_tokens can be used to end generation early.</a> <a href="https://developers.openai.com/api/docs/guides/latency-optimization" class="cite">For structured output, OpenAI advises minimizing output syntax by shortening function names, omitting named arguments and coalescing parameters.</a> Then there's the model row itself.</p>
+<p><a href="https://developers.openai.com/api/docs/guides/cost-optimization" class="cite">OpenAI's cost guidance is to select a smaller model that balances reduced costs and latency with maintained accuracy.</a> <a href="https://developers.openai.com/api/docs/guides/model-selection" class="cite">OpenAI suggests swapping to a smaller, cheaper model and testing whether it maintains accuracy at the lower cost and latency point.</a> <a href="https://developers.openai.com/api/docs/guides/latency-optimization" class="cite">OpenAI states that smaller models usually run faster and cheaper and, when used correctly, can even outperform larger models.</a> Since the results table sorts by total, moving your workload from one row to the next is one glance.</p>
+</section>
+
+<section id="faq">
+<h2>Common questions</h2>
+<dl>
+<dt>How much does the OpenAI API cost per month?</dt>
+<dd>Multiply monthly input tokens by the input rate and monthly output tokens by the output rate, then apply the modifiers. On gpt-5.6-luna, one million input tokens cost USD 0.2 and one million output tokens USD 1.2 (snapshot 2026-08-29). The calculator above does this for each model at once.</dd>
+<dt>Does prompt caching cost extra on OpenAI?</dt>
+<dd>On the current generation, a write is charged and a read is discounted. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">For GPT-5.6 and later, OpenAI cache writes cost 1.25× the standard uncached input-token rate and subsequent cache reads cost 0.1× that rate.</a> The rate table prints both figures for gpt-5.6-terra and gpt-5.6-luna, and the calculator's write field prices them.</dd>
+<dt>Why did the calculator ignore my cached share?</dt>
+<dd>Because the input tokens per request you entered sit under that model's floor. <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">The minimum cacheable prompt length is 1,024 tokens for GPT-5.6 and later and 2,048 tokens for OpenAI models older than GPT-5.6.</a> Raise the prompt size above the floor, or expand a stable prefix as OpenAI's guide suggests, and the cached column fills in.</dd>
+<dt>How long does a batch job take, and what if it doesn't finish?</dt>
+<dd><a href="https://developers.openai.com/api/docs/guides/batch" class="cite">Each OpenAI batch completes within 24 hours and often more quickly.</a> <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">When an OpenAI batch expires, unfinished requests are cancelled, completed responses are made available in the output file, and tokens consumed by completed requests are charged.</a> So you pay for the work that finished, at the batch rate, and resubmit the rest.</dd>
+<dt>Does long context change the output price or only the input price?</dt>
+<dd>Both. On gpt-5.6-terra the output rate moves from USD 12 to USD 18 per 1M tokens in the long tier, alongside the input change (snapshot 2026-08-29). The calculator prices all four kinds on the long row once a request crosses the threshold.</dd>
+<dt>How accurate is the paste estimator?</dt>
+<dd>Rough. <a href="https://ai.google.dev/gemini-api/docs/tokens" class="cite">For Gemini models, 100 tokens is equal to about 60-80 English words.</a> That rule of thumb is Google's and OpenAI's tokenizers aren't the same, so the estimate exists to get you in range. The <a href="/tools/token-counter.html">token counter</a> gives an exact count when the request is close to a cache floor or the long-context threshold.</dd>
+<dt>Can I cut the bill without switching models?</dt>
+<dd>Yes, and the guidance is OpenAI's own. <a href="https://developers.openai.com/api/docs/guides/cost-optimization" class="cite">OpenAI names its Batch API and flex processing as additional ways to lower costs.</a> <a href="https://developers.openai.com/api/docs/guides/model-selection" class="cite">OpenAI's model-selection guidance is to get accuracy right first, then maintain accuracy with the cheapest, fastest model possible.</a> On this page that means turning on the batch toggle, entering a measured cached share, and trimming the output tokens per request, and the results table shows which one moves your total most.</dd>
+</dl>
+</section>
+
+<section id="method">
+<h2>How we measured this</h2>
+<p>Our method reads both of these public price sources in the same run, seconds apart: the OpenRouter models API at <a href="https://openrouter.ai/api/v1/models">openrouter.ai/api/v1/models</a> and the LiteLLM price registry at <a href="https://github.com/BerriAI/litellm/blob/main/model_prices_and_context_window.json">github.com/BerriAI/litellm</a>.</p>
+<p>A rate is printed only when both sources agree within 1 percent on every kind declared for the model, and a kind that only one source publishes is not declared at all, which is why some cache-write and long-context cells read as not listed.</p>
+<p>Each value is also checked against a sane range for its kind, and anything outside that range is held rather than printed. Per-token rates are converted to USD per 1M tokens by multiplying by 1,000,000. The build date stamped on this page is 2026-08-29, and re-running the same two fetches on that date returns the same figures.</p>
+<p>Every dollar figure above is computed in code from those rates at build time, and the calculator recomputes in your browser from the same constants. I run Chrome extensions under the Zovo network that call paid LLM APIs in production, and that operating experience is why this calculator itemizes each modifier instead of stopping at the flat rate. The <a href="https://developers.openai.com/api/docs/guides/prompt-caching" class="cite">prompt caching guide</a>, the <a href="https://developers.openai.com/api/docs/guides/batch" class="cite">batch guide</a>, the <a href="https://developers.openai.com/api/docs/guides/flex-processing" class="cite">flex processing guide</a> and the <a href="https://developers.openai.com/api/reference/resources/responses/methods/create" class="cite">Responses API reference</a> are the sources for every rule the prose states.</p>
+</section>
+
+<section class="disclaimer">
+<p>Prices are snapshots and change without notice. Verify on the provider official pricing page before committing spend.</p>
+<p>All calculator outputs are estimates. Real bills depend on usage mix, caching, batching, and rate limits.</p>
+<p>KickLLM is not affiliated with OpenAI, Anthropic, Google, Meta, Mistral, or any model provider.</p>
+<p>KickLLM is a free client side calculator for comparing LLM API costs across providers, built by Michael Lip as part of the Zovo tool network. Every price is dated and traced to the official provider pricing page.</p>
+</section>
+</article>
+
+<script>
+(function(){
+'use strict';
+var PER_M = 1000000;
+var BATCH_KEEP = 0.5; /* OpenAI batch guide: 50% cost discount compared to synchronous APIs */
+var CHARS_PER_TOKEN = 4; /* rough rule of thumb, see the estimator note */
+var LONG_AT = 272000;
+var CACHE_MIN_NEW = 1024; /* OpenAI prompt caching guide: minimum cacheable prompt length, GPT-5.6 and later */
+var CACHE_MIN_OLD = 2048; /* OpenAI prompt caching guide: minimum cacheable prompt length, models older than GPT-5.6 */
+var MODELS = [
+ { id: 'gpt-5.6-terra', minCache: CACHE_MIN_NEW,
+   rates: { input: 0.000002, output: 0.000012, cacheRead: 2e-7, cacheWrite: 0.0000025 },
+   long: { input: 0.000004, output: 0.000018, cacheRead: 4e-7, cacheWrite: 0.000005 } },
+ { id: 'gpt-5.6-luna', minCache: CACHE_MIN_NEW,
+   rates: { input: 2e-7, output: 0.0000012, cacheRead: 2e-8, cacheWrite: 2.5e-7 },
+   long: { input: 4e-7, output: 0.0000018, cacheRead: 4e-8, cacheWrite: 5e-7 } },
+ { id: 'gpt-5.5', minCache: CACHE_MIN_OLD,
+   rates: { input: 0.000005, output: 0.00003, cacheRead: 5e-7, cacheWrite: null },
+   long: { input: 0.00001, output: 0.000045, cacheRead: 0.000001, cacheWrite: null } },
+ { id: 'gpt-5.4', minCache: CACHE_MIN_OLD,
+   rates: { input: 0.0000025, output: 0.000015, cacheRead: 2.5e-7, cacheWrite: null },
+   long: { input: 0.000005, output: 0.0000225, cacheRead: 5e-7, cacheWrite: null } },
+ { id: 'gpt-5.4-mini', minCache: CACHE_MIN_OLD,
+   rates: { input: 7.5e-7, output: 0.0000045, cacheRead: 7.5e-8, cacheWrite: null }, long: null },
+ { id: 'gpt-5.4-nano', minCache: CACHE_MIN_OLD,
+   rates: { input: 2e-7, output: 0.00000125, cacheRead: 2e-8, cacheWrite: null }, long: null },
+ { id: 'gpt-4o', minCache: CACHE_MIN_OLD,
+   rates: { input: 0.0000025, output: 0.00001, cacheRead: 0.00000125, cacheWrite: null }, long: null },
+ { id: 'gpt-4o-mini', minCache: CACHE_MIN_OLD,
+   rates: { input: 1.5e-7, output: 6e-7, cacheRead: 7.5e-8, cacheWrite: null }, long: null }
+];
+function el(id){ return document.getElementById(id); }
+function num(id){ var v = parseFloat(el(id).value); return (isFinite(v) && v > 0) ? v : 0; }
+function fmtInt(n){ return Math.round(n).toLocaleString('en-US'); }
+function usd(v){
+  if (v === null || !isFinite(v)) return 'not priced';
+  var d = Math.abs(v) >= 100 ? 0 : (Math.abs(v) >= 1 ? 2 : 4);
+  return (v < 0 ? '-$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+function cell(text){ var td = document.createElement('td'); td.textContent = text; return td; }
+function calc(){
+  var reqs = num('reqs'), prompt = num('prompt'), out = num('out');
+  var share = Math.min(100, num('share')) / 100, writes = num('writes');
+  var batch = el('batch').checked;
+  var rows = [], notes = [];
+  MODELS.forEach(function(m){
+    var longTier = !!(m.long && prompt > LONG_AT);
+    var r = longTier ? m.long : m.rates;
+    var tier = longTier ? 'long context' : 'short context';
+    if (!m.long && prompt > LONG_AT) {
+      tier = 'short context, no long-context row';
+      notes.push(m.id + ' has no long-context row on this page, so its short-context rates are applied to a prompt above ' + fmtInt(LONG_AT) + ' tokens and the figure may understate the bill.');
+    }
+    var cacheable = prompt >= m.minCache;
+    var effShare = cacheable ? share : 0;
+    if (share > 0 && !cacheable) {
+      notes.push(m.id + ': input tokens per request are under its minimum cacheable length of ' + fmtInt(m.minCache) + ' tokens, so the cached share is ignored for this row.');
+    }
+    var inTok = reqs * prompt, outTok = reqs * out;
+    var cachedTok = inTok * effShare, plainTok = inTok - cachedTok;
+    var cIn = plainTok * r.input, cCached = cachedTok * r.cacheRead, cOut = outTok * r.output;
+    var cWrite = null;
+    if (r.cacheWrite !== null && r.cacheWrite !== undefined) { cWrite = writes * r.cacheWrite; }
+    else if (writes > 0) { notes.push(m.id + ' has no cache-write rate on this page, so the cache-write tokens are left unpriced for this row.'); }
+    var sub = cIn + cCached + (cWrite || 0) + cOut;
+    var adj = batch ? -(sub * (1 - BATCH_KEEP)) : 0;
+    rows.push({ id: m.id, tier: tier, cIn: cIn, cCached: cCached, cWrite: cWrite, cOut: cOut, adj: adj, total: sub + adj });
+  });
+  rows.sort(function(a, b){ return a.total - b.total; });
+  var tbody = el('results').tBodies[0];
+  tbody.innerHTML = '';
+  rows.forEach(function(x){
+    var tr = document.createElement('tr');
+    tr.appendChild(cell(x.id));
+    tr.appendChild(cell(x.tier));
+    tr.appendChild(cell(usd(x.cIn)));
+    tr.appendChild(cell(usd(x.cCached)));
+    tr.appendChild(cell(x.cWrite === null ? 'not priced' : usd(x.cWrite)));
+    tr.appendChild(cell(usd(x.cOut)));
+    tr.appendChild(cell(batch ? usd(x.adj) : 'off'));
+    tr.appendChild(cell(usd(x.total)));
+    tbody.appendChild(tr);
+  });
+  var n = el('notes');
+  n.innerHTML = '';
+  notes.forEach(function(t){ var p = document.createElement('p'); p.textContent = t; n.appendChild(p); });
+}
+function fillWorked(){
+  MODELS.forEach(function(m){
+    var td = document.querySelector('[data-sum="' + m.id + '"]');
+    if (td) td.textContent = usd((m.rates.input + m.rates.output) * PER_M);
+  });
+}
+function fillRatio(){
+  var tbody = el('ratio').tBodies[0];
+  tbody.innerHTML = '';
+  MODELS.forEach(function(m){
+    var tr = document.createElement('tr');
+    tr.appendChild(cell(m.id));
+    tr.appendChild(cell((m.rates.cacheRead / m.rates.input).toFixed(2) + ' of the input rate'));
+    tbody.appendChild(tr);
+  });
+}
+var paste = el('paste'), pasteOut = el('pasteOut');
+function est(){
+  var chars = paste.value.length;
+  var t = Math.ceil(chars / CHARS_PER_TOKEN);
+  pasteOut.textContent = chars ? ('About ' + fmtInt(t) + ' tokens from ' + fmtInt(chars) + ' characters. An estimate, not a tokenizer count.') : 'Paste text to see an estimate.';
+  return t;
+}
+paste.addEventListener('input', est);
+el('usePaste').addEventListener('click', function(){ var t = est(); if (t > 0) { el('prompt').value = t; calc(); } });
+['reqs', 'prompt', 'out', 'share', 'writes'].forEach(function(id){ el(id).addEventListener('input', calc); });
+el('batch').addEventListener('change', calc);
+fillWorked();
+fillRatio();
+calc();
+})();
+</script>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime &middot; $99 once, free forever</a>
+        <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=tools-gpt-4-pricing">Zovo</a> · lifetime access, one payment</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &middot; A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP &middot; Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality &middot; Security</a>
+            <a href="https://claudflow.com">ClaudFlow &middot; Workflows</a>
+            <a href="https://claudkit.com">ClaudKit &middot; API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket &middot; Support</a>
+            <a href="https://enhio.com">Enhio &middot; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &middot; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &middot; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &middot; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &middot; ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc &middot; Recipes</a>
+            <a href="https://invokebot.com">InvokeBot &middot; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &middot; JSON</a>
+            <a href="https://kappakit.com">KappaKit &middot; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &middot; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &middot; Security</a>
+            <a href="https://lockml.com">LockML &middot; ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=tools-gpt-4-pricing">ML0X &middot; ML Basics</a>
+            <a href="https://ml3x.com">ML3X &middot; Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor &middot; Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool &middot; Cooking</a>
+            <a href="https://viryd.com">Viryd &middot; Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub &middot; theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative &middot; Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder &middot; Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=tools-gpt-4-pricing" rel="nofollow">Zovo &middot; AI Dev Tools</a>
+  </div>
+
+</body>
+</html>
