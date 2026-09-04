@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What a 21-bot Telegram fleet costs on Cloudflare Workers</title>
+<meta name="description" content="A real cost sheet for running a Telegram bot fleet on Cloudflare Workers: free-tier request and CPU limits, Telegram Stars payout math, and where an LLM API bill would compare.">
+<link rel="canonical" href="https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+main.container{max-width:800px;margin:0 auto;padding:0 1rem}
+article.page{padding:2rem 0 3rem}
+.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
+.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
+.data-table-wrap{overflow-x:auto;margin:1rem 0}
+.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
+.data-table th{background:var(--bg-card)}
+.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
+.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
+article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
+article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
+article.page h2{margin-top:2.25rem}
+article.page h3{margin-top:1.75rem}
+.tablewrap{overflow-x:auto}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html#article","headline":"What a 21-bot Telegram fleet costs on Cloudflare Workers","datePublished":"2026-09-04","dateModified":"2026-09-04","author":{"@id":"https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html#author"},"mainEntityOfPage":"https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html"},{"@type":"Person","@id":"https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html#author","name":"Michael Lip","url":"https://zovo.one"},{"@type":"WebPage","@id":"https://kickllm.com/research/telegram-bot-fleet-cloudflare-cost.html","isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://kickllm.com/research/"},{"@type":"ListItem","position":3,"name":"Telegram bot fleet Cloudflare cost"}]}]}</script>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=research-telegram-bot-fleet-cloudflare-cost" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-telegram-bot-fleet-cloudflare-cost" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main class="container">
+<article class="page">
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/research/">Research</a> <span>/</span> <span>Telegram bot fleet Cloudflare cost</span></nav>
+<h1>What a 21-bot Telegram fleet costs on Cloudflare Workers</h1>
+<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
+<p class="stamp">Figures captured 4 September 2026 from the fleet's own status endpoint, Cloudflare's published pricing page, and the fleet's payment log. Cloudflare's limits can change; treat this as a dated snapshot.</p>
+
+<section id="answer">
+<p>A person can run a small fleet of chat bots on Cloudflare's free tier and pay nothing until traffic grows past the free allowance. Cloudflare's Workers Free plan includes 100,000 requests a day and 10 milliseconds of CPU time per invocation, with Durable Objects (the per-bot database each of these bots uses) adding another 100,000 requests a day and 13,000 GB-seconds a day, also free. A fleet of 21 Cloudflare Workers, running the code behind a set of Telegram bots at <a href="https://tg.zovo.one/">tg.zovo.one</a>, reads on its own status endpoint as 21 Workers up, 5 users, and 8 recorded value events on the day this was captured. That is nowhere near the free-tier ceiling. It also has not sold a single Pro upgrade yet: the same read shows 0 Pro purchases and 0 Stars earned, so on the revenue side there is nothing to report but a plan, not a result.</p>
+<p>The plan is Telegram Stars. A one-time Pro unlock costs a user 150 Stars, about $3 paid in-app, and the developer receives that batch at 100% (Telegram takes no cut on the Stars themselves). Cashed out through Fragment, the withdrawal value is $0.0133 per Star, so 150 Stars nets about $2 after a 21-day hold and a roughly 5% conversion fee. Compare that fixed, near-zero hosting bill to an LLM API bill, where cost rises with every token a model reads and writes. This fleet runs on rule-based command handlers, cron jobs, and a SQLite-backed Durable Object per bot. It calls no LLM API at all, so its marginal cost per user stays near zero long after a model-backed product would start showing up as a real line item.</p>
+</section>
+
+<section id="method" class="methodology-box">
+<h2>How we measured this</h2>
+<p>Fleet size, per-bot request health, and daily activity counts come from a live curl of <a class="cite" href="https://fleet-intel.lipmichal.workers.dev/fleet">fleet-intel.lipmichal.workers.dev/fleet</a>, a status Worker with service bindings into each bot, read 4 September 2026. Cloudflare's free-tier request, CPU, and Durable Object limits are quoted from the current <a class="cite" href="https://developers.cloudflare.com/workers/platform/pricing/">Workers platform pricing page</a>. Stars economics, the 21-day hold, the $0.0133 withdrawal value, and the Fragment fee are read from the fleet's own operating dashboard, which cites <a class="cite" href="https://core.telegram.org/bots/payments-stars">core.telegram.org/bots/payments-stars</a> and third-party Stars-value trackers as its sources. We report the Pro-purchase and Stars-earned counts as measured, both zero at capture, rather than projecting a revenue figure that has not happened yet.</p>
+</section>
+
+<section id="limits">
+<h2>Cloudflare Workers free tier, as published</h2>
+<div class="tablewrap data-table-wrap"><table class="data-table"><caption>Workers Free plan limits, from developers.cloudflare.com, read 2026-09-04</caption><thead><tr><th>Resource</th><th>Free allowance</th></tr></thead><tbody><tr><td>Worker requests</td><td>100,000 per day</td></tr><tr><td>CPU time</td><td>10 milliseconds per invocation</td></tr><tr><td>Durable Object requests</td><td>100,000 per day</td></tr><tr><td>Durable Object duration</td><td>13,000 GB-seconds per day</td></tr></tbody></table></div>
+<p>Each bot in this fleet is one Worker plus one Durable Object holding its SQLite tables (users, and whatever the bot itself needs, such as whispers, reminders, or expense rows). Telegram delivers one webhook call per user action, so the request count above is also roughly the daily action count a single free-tier bot could absorb before it would need a paid Workers plan. At 21 Workers and single-digit daily users each, this fleet is using a small fraction of one bot's free allowance, let alone 21 bots' worth.</p>
+</section>
+
+<section id="stars">
+<h2>Telegram Stars: the revenue side, as designed</h2>
+<div class="tablewrap data-table-wrap"><table class="data-table"><caption>Stars economics for a 150-Star one-time Pro unlock, per the fleet's dashboard</caption><thead><tr><th>Step</th><th>Figure</th></tr></thead><tbody><tr><td>Buyer pays, in-app</td><td>≈ $3.00 (buys Stars at roughly $0.02 each)</td></tr><tr><td>Stars credited to the bot</td><td>150, no Telegram cut at this step</td></tr><tr><td>Hold before withdrawal</td><td>21 days per batch received</td></tr><tr><td>Withdrawal value per Star</td><td>$0.0133 (creator withdrawal rate)</td></tr><tr><td>Net to developer per sale</td><td>≈ $2.00, after a further ~5% Fragment conversion fee</td></tr><tr><td>Minimum withdrawal</td><td>1,000 Stars (about 7 Pro sales)</td></tr></tbody></table></div>
+<p>This is a designed payout structure, not a measured one. The fleet's status endpoint shows 0 Pro purchases and 0 Stars earned at capture, so every figure here is what the mechanism is built to pay out once a sale happens, not a reported result.</p>
+</section>
+
+<section id="bots">
+<h2>Three bots, as an example of what the free tier is running</h2>
+<p>Three of the fleet's live bots show what a single Worker plus Durable Object supports without an LLM in the loop. <a href="https://tg.zovo.one/bots/whisper/">WhisperLockBot</a> posts a locked message into any chat that only the addressed recipient can open; it works without ever being added to a group, because a user can type <code>@WhisperLockBot @friend your text</code> as an inline query in a chat the bot has never joined. <a href="https://tg.zovo.one/bots/nudge/">NudgeRemindBot</a> stores reminders in its Durable Object and delivers them through a 1-minute cron check, reading times against a per-user timezone offset. <a href="https://tg.zovo.one/bots/split/">SplitTabsBot</a> keeps a group's shared-expense ledger and computes the minimal settlement, the fewest transfers that clear every balance, entirely from rows in its own Durable Object.</p>
+<p>All three, and the fleet's other live bots, answer an @-mention in any Telegram group without being added to that group first. This is Telegram's Guest Mode, shipped in Bot API 10.0, and it is also why the inline-query examples above work in a chat the bot has never joined. The <a href="https://t.me/TinyTelegramToolsBot">hub bot, TinyTelegramToolsBot</a>, links out to each live bot's own chat with Telegram's Direct Link Mini App format, so a user can reach any bot in the fleet from one entry point.</p>
+</section>
+
+<section id="what-to-do">
+<h2>What this means for a cost comparison</h2>
+<p>If the question is "what would this cost on an LLM API instead," the honest answer is that it is not a fair comparison yet, because this fleet calls no LLM API for its command handling. Its cost driver is Cloudflare's free tier, which charges nothing until a single bot passes 100,000 requests a day. A chatbot fleet built the same way but routing every message through a hosted model would instead pay per input and output token, a cost that scales with usage from the first request. For that side of the comparison, see the <a href="/tools/llm-cost-calculator.html">LLM cost calculator</a> and the corroborated per-model rates on the <a href="/tools/claude-api-pricing.html">Claude API pricing page</a>: model a monthly request volume there, then compare it against the $0 Cloudflare bill this fleet runs on today.</p>
+</section>
+
+<section id="related">
+<h2>Related pages on this site</h2>
+<p>To price an LLM-backed product against this Cloudflare baseline, use the <a href="/tools/llm-cost-calculator.html">LLM cost calculator</a>. For a published-price audit rather than a hosting-cost sheet, see <a href="/research/claude-calculator-price-accuracy.html">Claude calculator price accuracy</a> and <a href="/research/openai-calculator-price-accuracy.html">OpenAI calculator price accuracy</a>. For the full bot fleet this article measures, see <a href="https://tg.zovo.one/">tg.zovo.one</a>.</p>
+</section>
+
+</article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=research-telegram-bot-fleet-cloudflare-cost">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+            <a href="https://abwex.com">ABWex &middot; A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP &middot; Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality &middot; Security</a>
+            <a href="https://claudflow.com">ClaudFlow &middot; Workflows</a>
+            <a href="https://claudkit.com">ClaudKit &middot; API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket &middot; Support</a>
+            <a href="https://enhio.com">Enhio &middot; Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot &middot; Timestamps</a>
+            <a href="https://gen8x.com">Gen8X &middot; Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X &middot; AI Models</a>
+            <a href="https://heytensor.com">HeyTensor &middot; ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc &middot; Recipes</a>
+            <a href="https://invokebot.com">InvokeBot &middot; Webhooks</a>
+            <a href="https://kappafy.com">Kappafy &middot; JSON</a>
+            <a href="https://kappakit.com">KappaKit &middot; Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen &middot; Image Tools</a>
+            <a href="https://lochbot.com">LochBot &middot; Security</a>
+            <a href="https://lockml.com">LockML &middot; ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-telegram-bot-fleet-cloudflare-cost">ML0X &middot; ML Basics</a>
+            <a href="https://ml3x.com">ML3X &middot; Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor &middot; Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool &middot; Cooking</a>
+            <a href="https://viryd.com">Viryd &middot; Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub &middot; theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative &middot; Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder &middot; Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=research-telegram-bot-fleet-cloudflare-cost" rel="nofollow">Zovo &middot; AI Dev Tools</a>
+  </div>
+</div>
+
+  <script src="/assets/js/share.js"></script>
+</body>
+</html>
