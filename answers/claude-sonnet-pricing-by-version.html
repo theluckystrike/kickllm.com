@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Sonnet pricing by version, 4, 4.5, 4.6 and 5 (2026)</title>
+<meta name="description" content="Sonnet 5 costs $2 input and $10 output per 1M tokens, one third below Sonnet 4.6, 4.5 and 4 at $3 and $15. Cache, batch and context for every version.">
+<link rel="canonical" href="https://kickllm.com/answers/claude-sonnet-pricing-by-version.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/answers/claude-sonnet-pricing-by-version.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/claude-sonnet-pricing-by-version.html">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+main.container{max-width:800px;margin:0 auto;padding:0 1rem}
+article.page{padding:2rem 0 3rem}
+.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
+.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
+.data-table-wrap{overflow-x:auto;margin:1rem 0}
+.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
+.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
+.data-table th{background:var(--bg-card)}
+.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
+.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
+article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
+article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
+article.page h2{margin-top:2.25rem}
+article.page h3{margin-top:1.75rem}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html#article","headline":"Claude Sonnet pricing by version, from Sonnet 4 to Sonnet 5","datePublished":"2026-09-06","dateModified":"2026-09-06","author":{"@id":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html#author"},"mainEntityOfPage":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html"},{"@type":"Person","@id":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html#author","name":"Michael Lip","url":"https://zovo.one"},{"@type":"WebPage","@id":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html","isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"Claude Sonnet pricing by version"}]},{"@type":"FAQPage","@id":"https://kickllm.com/answers/claude-sonnet-pricing-by-version.html#faq","mainEntity":[{"@type":"Question","name":"How much does Claude Sonnet 5 cost per million tokens?","acceptedAnswer":{"@type":"Answer","text":"Sonnet 5 costs $2 per million input tokens and $10 per million output tokens on the official Anthropic pricing page read on 6 September 2026. Cache hits are $0.20, cache writes $2.50 for 5 minutes or $4 for 1 hour, and batch is $1 and $5."}},{"@type":"Question","name":"Is there a Claude Sonnet 4.7?","acceptedAnswer":{"@type":"Answer","text":"No. As of 6 September 2026 no Sonnet 4.7 row appears on the official Anthropic pricing page, in the OpenRouter models feed, or in the LiteLLM price registry. The 4.7 generation exists only as Claude Opus 4.7. The Sonnet versions that exist are 4, 4.5, 4.6 and 5."}},{"@type":"Question","name":"Did Sonnet 5 pricing go up on September 1, 2026?","acceptedAnswer":{"@type":"Answer","text":"No. The official page states that the $2 and $10 pricing, announced at launch as introductory through August 31, 2026, is now the standard price, and that the previously scheduled increase to $3 and $15 on September 1, 2026 will not occur."}},{"@type":"Question","name":"Is Sonnet 4.6 priced the same as Sonnet 4.5 and Sonnet 4?","acceptedAnswer":{"@type":"Answer","text":"Yes. All three carry $3 input, $3.75 for a 5 minute cache write, $6 for a 1 hour cache write, $0.30 per cache hit and $15 output, with batch rates of $1.50 and $7.50. Sonnet 4 is marked retired except on Bedrock and Google Cloud."}},{"@type":"Question","name":"Why can the same prompt cost a different amount on Sonnet 5 and Sonnet 4.6?","acceptedAnswer":{"@type":"Answer","text":"Because they count tokens differently. The official page says Claude 4.7 and later models use a newer tokenizer that produces approximately 30 percent more tokens for the same text, while Sonnet 4.6 and earlier use the previous tokenizer."}}]}]}</script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=answers-claude-sonnet-pricing-by-version" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=answers-claude-sonnet-pricing-by-version" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main class="container">
+<article class="page">
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Sonnet pricing by version</span></nav>
+<h1>Claude Sonnet pricing by version, from Sonnet 4 to Sonnet 5</h1>
+<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
+<p class="stamp">Every figure captured 6 September 2026 from the official Anthropic pricing page, cross-checked the same day against OpenRouter and LiteLLM. Prices change, so treat this as a dated snapshot.</p>
+
+<section id="answer">
+<p>$2 per million input tokens and $10 per million output tokens is the Sonnet 5 price, and every older Sonnet still listed (4.6, 4.5 and the retired Sonnet 4) costs $3 and $15. That makes the newest Sonnet one third cheaper than the three before it on standard, cache and batch rates alike. The full ladder is below, quoted per million tokens in USD from the official Anthropic pricing page as read on 6 September 2026.</p>
+<p>Searchers keep asking for a Sonnet 4.7. It does not exist on any of the three sources checked, so the table holds every version you can buy today. Two further sentences on the official page matter more than the headline rates, the cancelled September 1 price rise and the tokenizer change that separates Sonnet 5 from Sonnet 4.6.</p>
+</section>
+
+<section id="ladder">
+<h2>Every Sonnet version, one table</h2>
+<div class="data-table-wrap"><table class="data-table"><caption>Claude Sonnet prices per 1M tokens, USD, docs.anthropic.com pricing page captured 6 September 2026. Context window from LiteLLM and OpenRouter the same day.</caption>
+<thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th><th>Batch input</th><th>Batch output</th><th>Context window</th><th>Max output</th></tr></thead>
+<tbody>
+<tr><td>Claude Sonnet 5</td><td>$2</td><td>$2.50</td><td>$4</td><td>$0.20</td><td>$10</td><td>$1</td><td>$5</td><td>1,000,000</td><td>128,000</td></tr>
+<tr><td>Claude Sonnet 4.6</td><td>$3</td><td>$3.75</td><td>$6</td><td>$0.30</td><td>$15</td><td>$1.50</td><td>$7.50</td><td>1,000,000</td><td>128,000</td></tr>
+<tr><td>Claude Sonnet 4.5</td><td>$3</td><td>$3.75</td><td>$6</td><td>$0.30</td><td>$15</td><td>$1.50</td><td>$7.50</td><td>200,000 (LiteLLM), 1,000,000 (OpenRouter)</td><td>64,000</td></tr>
+<tr><td>Claude Sonnet 4 (retired, except on Bedrock and Google Cloud)</td><td>$3</td><td>$3.75</td><td>$6</td><td>$0.30</td><td>$15</td><td>$1.50</td><td>$7.50</td><td>1,000,000 (LiteLLM and OpenRouter model row), 200,000 (OpenRouter top provider)</td><td>64,000</td></tr>
+</tbody></table></div>
+<p>The official page lists no Sonnet 3.7 or Sonnet 3.5 row, so they are not in the table. The cache columns follow the page's multipliers, 1.25x base input for a 5 minute write, 2x for a 1 hour write and 0.1x for a hit. The batch columns are the 50 percent Batch API discount.</p>
+<p>Base input, output, cache hit and 5 minute cache write agreed with both cross-checks on all four models. The 1 hour write could only be checked against LiteLLM, and the batch rates only against OpenRouter, which has no batch entry for Sonnet 4. OpenRouter carries Sonnet 5 at 0.000002 and 0.00001 per token with a cache read of 0.0000002, and LiteLLM matches with a 1 hour write of 0.000004. The context column is where the sources part ways. LiteLLM gives Sonnet 4.5 a 200,000 token input limit while OpenRouter lists it at 1,000,000, and for Sonnet 4 the OpenRouter model row says 1,000,000 but its top provider entry says 200,000. Both are printed, because the official long context sentence only covers Claude 4.6 and later.</p>
+</section>
+
+<section id="missing">
+<h2>There is no Sonnet 4.7</h2>
+<p>A grep for "Sonnet 4.7" across the official pricing page text, the OpenRouter models feed and the LiteLLM registry returned zero rows on 6 September 2026. The 4.7 generation exists only as Claude Opus 4.7, at $5 and $25. OpenRouter's Sonnet ids are anthropic/claude-sonnet-4, 4.5, 4.6 and 5, and LiteLLM's first party keys are claude-sonnet-4-20250514, claude-sonnet-4-5, claude-sonnet-4-6 and claude-sonnet-5. A page quoting a Sonnet 4.7 price is quoting a model that none of these three sources lists.</p>
+</section>
+
+<section id="fine-print">
+<h2>Two sentences on the official page that change the bill</h2>
+<p>The first settles the "sonnet 5 api pricing" question. Quoted in full, "The $2/$10 per million input/output token pricing for Claude Sonnet 5, announced at launch as introductory pricing through August 31, 2026, is now the standard price. The previously scheduled increase to $3/$15 per million input/output tokens on September 1, 2026 will not occur." Any calculator that raised Sonnet 5 to $3 and $15 for September is wrong by 50 percent on input.</p>
+<p>The second one means a per token comparison between versions is not a per prompt comparison. Again quoted in full, "Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that contributes to their improved performance on a wide range of tasks. This tokenizer produces approximately 30% more tokens for the same text. The exact increase depends on the content and workload shape. Claude Sonnet 4.6 and earlier models use the previous tokenizer." OpenRouter's created timestamps place anthropic/claude-sonnet-5 on 30 June 2026 and anthropic/claude-opus-4.7 on 16 April 2026, so Sonnet 5 falls on the newer tokenizer side and the same text can bill more tokens on it than on Sonnet 4.6. The worked examples below hold token counts fixed. If you are estimating from raw text, count it with the new tokenizer first.</p>
+<p>A third sentence covers long prompts, "Claude 4.6 and later models and Claude Mythos Preview include the full 1M token context window at standard pricing. (A 900k-token request is billed at the same per-token rate as a 9k-token request.) Prompt caching and batch processing discounts apply at standard rates across the full context window." That covers Sonnet 4.6 and 5. The page says nothing equivalent for Sonnet 4.5 or 4, and LiteLLM lists above 200k rates for both, $6 input and $22.50 output per million.</p>
+</section>
+
+<section id="examples">
+<h2>Worked examples, Sonnet 4.6 against Sonnet 5</h2>
+<p>All three use the rows above, computed in a Python script whose output is saved as evidence. Money is rounded to cents.</p>
+<h3>A 30 day workload, 3 million input and 600,000 output tokens a day</h3>
+<p>That is 90 million input and 18 million output tokens a month. On Sonnet 4.6 at standard rates the bill is $270 of input plus $270 of output, $540 in total. On Sonnet 5 it is $180 plus $180, $360. Moving saves $180 a month, 33.33 percent. Through the Batch API the same job costs $270 on Sonnet 4.6 ($135 and $135) and $180 on Sonnet 5 ($90 and $90), so the move saves $90 and the same 33.33 percent. Batch on its own halves either bill, $540 to $270 or $360 to $180.</p>
+<h3>The same job with a 1 hour cache on 2 million of the daily input tokens at a 95 percent hit rate</h3>
+<p>Per month that is 30 million uncached input tokens, 3 million 1 hour cache writes, 57 million cache hits and 18 million output tokens. Sonnet 4.6 comes to $90 uncached, $18 of writes, $17.10 of hits and $270 of output, $395.10, which is 26.83 percent under the uncached $540. Sonnet 5 comes to $60, $12, $11.40 and $180, $263.40, the same 26.83 percent under its $360. The version move on top of caching saves $131.70 a month, still 33.33 percent, since every Sonnet 5 rate is exactly two thirds of the Sonnet 4.6 rate. Output dominates both bills, so the cache only works on the smaller half.</p>
+<h3>One long context request, 900,000 input and 4,000 output tokens</h3>
+<p>Under the standard pricing rule for 4.6 and later, Sonnet 5 bills $1.80 of input and $0.04 of output, $1.84 per request. Sonnet 4.6 bills $2.70 and $0.06, $2.76. There is no long context surcharge on either row according to the official page.</p>
+</section>
+
+<section id="changed">
+<h2>What changed from version to version</h2>
+<p>Nothing moved between Sonnet 4, 4.5 and 4.6 on price. All three sit on identical rows for input, output, both cache writes, cache hits and batch. What changed is capacity. LiteLLM lists a 64,000 token maximum output for Sonnet 4 and 4.5 and 128,000 for Sonnet 4.6 and 5, and OpenRouter matches. Sonnet 4.6 is also the first Sonnet the official page includes in its 1M context at standard pricing rule.</p>
+<p>Sonnet 5 is the first price cut among the Sonnet versions on the page, every rate two thirds of the Sonnet 4.6 rate, and the page now calls it the standard price. The trade is the tokenizer. If a prompt really does grow by about 30 percent in tokens, two thirds of the price times 1.3 times the tokens lands near 0.87 of the Sonnet 4.6 bill, not 0.67. Measure your own prompts before promising a budget.</p>
+</section>
+
+<section id="method" class="methodology-box">
+<h2>How these numbers were gathered</h2>
+<p>Primary source is the Anthropic pricing page at docs.anthropic.com/en/docs/about-claude/pricing, captured as HTML on 6 September 2026 and reduced to text with a script. Every rate is quoted from its model pricing table and batch table. Cross-checks are the OpenRouter models API and the LiteLLM price registry, fetched the same day and read from disk, with per token figures multiplied by one million. Base input, output, cache hit and 5 minute cache write agreed with both cross-checks on all four models. The 1 hour write could only be checked against LiteLLM, and the batch rates only against OpenRouter, which has no batch entry for Sonnet 4. Context windows disagreed for Sonnet 4.5 and 4, so both values are printed. The three quoted sentences are verbatim from the page text. The worked examples were computed with Python, and a claims file lists every figure with its source quote.</p>
+</section>
+
+<section id="faq">
+<h2>Questions people search for</h2>
+<h3>How much does Claude Sonnet 5 cost per million tokens?</h3>
+<p>Sonnet 5 costs $2 per million input tokens and $10 per million output tokens on the official Anthropic pricing page read on 6 September 2026. Cache hits are $0.20, cache writes $2.50 for 5 minutes or $4 for 1 hour, and batch is $1 and $5.</p>
+<h3>Is there a Claude Sonnet 4.7?</h3>
+<p>No. As of 6 September 2026 no Sonnet 4.7 row appears on the official Anthropic pricing page, in the OpenRouter models feed, or in the LiteLLM price registry. The 4.7 generation exists only as Claude Opus 4.7. The Sonnet versions that exist are 4, 4.5, 4.6 and 5.</p>
+<h3>Did Sonnet 5 pricing go up on September 1, 2026?</h3>
+<p>No. The official page states that the $2 and $10 pricing, announced at launch as introductory through August 31, 2026, is now the standard price, and that the previously scheduled increase to $3 and $15 on September 1, 2026 will not occur.</p>
+<h3>Is Sonnet 4.6 priced the same as Sonnet 4.5 and Sonnet 4?</h3>
+<p>Yes. All three carry $3 input, $3.75 for a 5 minute cache write, $6 for a 1 hour cache write, $0.30 per cache hit and $15 output, with batch rates of $1.50 and $7.50. Sonnet 4 is marked retired except on Bedrock and Google Cloud.</p>
+<h3>Why can the same prompt cost a different amount on Sonnet 5 and Sonnet 4.6?</h3>
+<p>Because they count tokens differently. The official page says Claude 4.7 and later models use a newer tokenizer that produces approximately 30 percent more tokens for the same text, while Sonnet 4.6 and earlier use the previous tokenizer.</p>
+</section>
+
+<section id="related">
+<h2>Related pages on this site</h2>
+<p>The older <a href="/answers/claude-sonnet-4-pricing.html">Claude Sonnet 4 pricing</a> page covers the retired model. To price a workload with cache and batch applied, use the <a href="/tools/claude-api-pricing.html">Claude API pricing calculator</a>, and to find the hit rate where caching pays back its write premium, the <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break even calculator</a>. For cross vendor comparisons see <a href="/answers/gpt4o-vs-claude-sonnet-price.html">GPT-4o versus Claude Sonnet price</a> and <a href="/answers/claude-sonnet-vs-gemini-pro.html">Claude Sonnet versus Gemini Pro</a>. The <a href="/research/llm-pricing-history.html">LLM pricing history</a> page tracks how these rates moved.</p>
+</section>
+
+</article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=research-llm-pricing-history">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+            <a href="https://abwex.com">ABWex · A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP · Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality · Security</a>
+            <a href="https://claudflow.com">ClaudFlow · Workflows</a>
+            <a href="https://claudkit.com">ClaudKit · API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket · Support</a>
+            <a href="https://enhio.com">Enhio · Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot · Timestamps</a>
+            <a href="https://gen8x.com">Gen8X · Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X · AI Models</a>
+            <a href="https://heytensor.com">HeyTensor · ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc · Recipes</a>
+            <a href="https://invokebot.com">InvokeBot · Webhooks</a>
+            <a href="https://kappafy.com">Kappafy · JSON</a>
+            <a href="https://kappakit.com">KappaKit · Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen · Image Tools</a>
+            <a href="https://lochbot.com">LochBot · Security</a>
+            <a href="https://lockml.com">LockML · ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-llm-pricing-history">ML0X · ML Basics</a>
+            <a href="https://ml3x.com">ML3X · Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor · Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool · Cooking</a>
+            <a href="https://viryd.com">Viryd · Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub · theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative · Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder · Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=research-llm-pricing-history" rel="nofollow">Zovo · AI Dev Tools</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Fable 5.1 pricing, $10 in, $50 out, $0.25 cache hit</title>
+<meta name="description" content="Claude Fable 5.1 costs $10 per 1M input, $50 output and $0.25 per cached read, 0.025x base instead of 0.1x. Tables, batch rates and three worked examples.">
+<link rel="canonical" href="https://kickllm.com/answers/claude-fable-5-1-pricing.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/answers/claude-fable-5-1-pricing.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/claude-fable-5-1-pricing.html">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+main.container{max-width:800px;margin:0 auto;padding:0 1rem}
+article.page{padding:2rem 0 3rem}
+.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
+.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
+.data-table-wrap{overflow-x:auto;margin:1rem 0}
+.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
+.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
+.data-table th{background:var(--bg-card)}
+.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
+.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
+article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
+article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
+article.page h2{margin-top:2.25rem}
+article.page h3{margin-top:1.75rem}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://kickllm.com/answers/claude-fable-5-1-pricing.html#article","headline":"Claude Fable 5.1 pricing, $10 in, $50 out, $0.25 cache hit","datePublished":"2026-09-06","dateModified":"2026-09-06","author":{"@id":"https://kickllm.com/answers/claude-fable-5-1-pricing.html#author"},"mainEntityOfPage":"https://kickllm.com/answers/claude-fable-5-1-pricing.html"},{"@type":"Person","@id":"https://kickllm.com/answers/claude-fable-5-1-pricing.html#author","name":"Michael Lip","url":"https://zovo.one"},{"@type":"WebPage","@id":"https://kickllm.com/answers/claude-fable-5-1-pricing.html","isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Answers","item":"https://kickllm.com/answers/"},{"@type":"ListItem","position":3,"name":"Claude Fable 5.1 pricing"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Claude Fable 5.1 cost per million tokens?","acceptedAnswer":{"@type":"Answer","text":"$10 base input, $12.50 for a 5 minute cache write, $20 for a 1 hour cache write, $0.25 for cache hits and refreshes, and $50 output, per Anthropic's page on 6 September 2026."}},{"@type":"Question","name":"Why is the cache hit $0.25 on Fable 5.1 but $1 on Fable 5?","acceptedAnswer":{"@type":"Answer","text":"Anthropic's footnote prices Fable 5.1 and Mythos 5.1 cache hits at 0.025x base input, while every other model uses 0.1x. Same $10 base, different multiplier."}},{"@type":"Question","name":"What does Fable 5.1 cost on batch?","acceptedAnswer":{"@type":"Answer","text":"$5 input and $25 output per million, a 50 percent discount that stacks with caching. OpenRouter lists the batch cache read at $0.125 per million."}},{"@type":"Question","name":"Is Fable 5.1 cheaper than Opus 5?","acceptedAnswer":{"@type":"Answer","text":"Only on cache hits ($0.25 against $0.50). Base input and output are double. The input side breaks even at a 95.24 percent cache hit share, and output never does."}},{"@type":"Question","name":"What is Mythos 5.1 pricing?","acceptedAnswer":{"@type":"Answer","text":"Listed as limited availability at the same rates as Fable 5.1 on every column, standard and batch."}}]}]}</script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=answers-claude-fable-5-1-pricing" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=answers-claude-fable-5-1-pricing" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main class="container">
+<article class="page">
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Fable 5.1 pricing</span></nav>
+<h1>Claude Fable 5.1 pricing per million tokens</h1>
+<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
+<p class="stamp">Every figure captured 6 September 2026 from Anthropic's pricing page and two public price registries. Prices change, so treat this as a dated snapshot.</p>
+
+<section id="answer">
+<p>$10 per million input tokens, $50 per million output tokens, and $0.25 per million cache hit tokens. That is the Claude Fable 5.1 row on Anthropic's pricing page as of 6 September 2026, and the cache hit is the number that matters. It is 0.025x the base input price, where every other Claude model except Mythos 5.1 charges 0.1x, so Fable 5.1 reads cached context at a quarter of Fable 5's $1 and half of Opus 5's $0.50 while keeping the same $10 and $50 headline rates as Fable 5.</p>
+<p>OpenRouter first listed anthropic/claude-fable-5.1 at timestamp 1788285838, which is 1 September 2026 at 18:03 UTC. OpenRouter and the LiteLLM registry both carry the same numbers as Anthropic on every column, so there is no disagreement to report.</p>
+</section>
+
+<section id="table">
+<h2>Standard API prices</h2>
+<div class="data-table-wrap"><table class="data-table"><caption>Anthropic pricing page, docs.anthropic.com, read 6 September 2026. USD per 1M tokens.</caption><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th></tr></thead><tbody>
+<tr><td>Claude Fable 5.1</td><td>$10</td><td>$12.50</td><td>$20</td><td>$0.25</td><td>$50</td></tr>
+<tr><td>Claude Mythos 5.1 (limited availability)</td><td>$10</td><td>$12.50</td><td>$20</td><td>$0.25</td><td>$50</td></tr>
+<tr><td>Claude Fable 5</td><td>$10</td><td>$12.50</td><td>$20</td><td>$1</td><td>$50</td></tr>
+<tr><td>Claude Opus 5</td><td>$5</td><td>$6.25</td><td>$10</td><td>$0.50</td><td>$25</td></tr>
+<tr><td>Claude Sonnet 5</td><td>$2</td><td>$2.50</td><td>$4</td><td>$0.20</td><td>$10</td></tr>
+</tbody></table></div>
+<p>The footnote under that table reads, in full, "Cache hits and refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at 0.025x the base input price. All other models use the standard 0.1x multiplier." The prompt caching section repeats it in plainer money, "On Claude Fable 5.1 and Claude Mythos 5.1, a cache hit costs 2.5% of the standard input price ($0.25 USD per million tokens)."</p>
+<p>The write multipliers did not move. A 5 minute cache write is still 1.25x base ($12.50) and a 1 hour write is 2x base ($20). What changed is the payback. On Fable 5, a 1 hour write at $20 needed two $1 reads before it beat re-sending the same tokens at $10. On Fable 5.1 every read after the write is 40 times cheaper than base input instead of 10 times, so an agent that re-reads a large context all day pays mostly for writes.</p>
+</section>
+
+<section id="batch">
+<h2>Batch API prices</h2>
+<div class="data-table-wrap"><table class="data-table"><caption>Anthropic batch processing table, read 6 September 2026. USD per 1M tokens, 50 percent off the standard rates.</caption><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th><th>Batch cache hit (OpenRouter)</th></tr></thead><tbody>
+<tr><td>Claude Fable 5.1</td><td>$5</td><td>$25</td><td>$0.125</td></tr>
+<tr><td>Claude Fable 5</td><td>$5</td><td>$25</td><td>$0.50</td></tr>
+<tr><td>Claude Opus 5</td><td>$2.50</td><td>$12.50</td><td>$0.25</td></tr>
+<tr><td>Claude Sonnet 5</td><td>$1</td><td>$5</td><td>$0.10</td></tr>
+</tbody></table></div>
+<p>Anthropic's page describes batch as "a 50% discount on both input and output tokens" and says the caching multipliers "stack with other pricing modifiers, including the Batch API discount and data residency." The batch cache hit column is not printed by Anthropic; it comes from OpenRouter's anthropic/claude-fable-5.1:batch entry (input_cache_read 0.000000125 per token), which is exactly half of $0.25.</p>
+<p>Long context carries no surcharge. The page states that "Claude 4.6 and later models and Claude Mythos Preview include the full 1M token context window at standard pricing. (A 900k-token request is billed at the same per-token rate as a 9k-token request.)" LiteLLM lists max_input_tokens 1,000,000 and max_output_tokens 128,000 for claude-fable-5-1.</p>
+</section>
+
+<section id="examples">
+<h2>Three worked examples</h2>
+<p>All three were computed with a short Python script and the numbers below are its output, unrounded except to cents. Rates are the ones in the tables above.</p>
+<h3>An agent that re-reads 300,000 cached tokens 500 times a day</h3>
+<p>Take a long-running agent with a 300,000 token working context. It reads that context on every call, 500 calls a day, and the operator deliberately re-writes it to the 1 hour cache eight times a day, once per hour of an 8 hour shift. That is 150,000,000 cache hit tokens and 2,400,000 write tokens a day, output not counted.</p>
+<div class="data-table-wrap"><table class="data-table"><caption>Example 1, cache hits plus eight 1h cache writes per day, output excluded. 30 day month.</caption><thead><tr><th>Model</th><th>Cache hits per day</th><th>1h writes per day</th><th>Per day</th><th>Per 30 days</th></tr></thead><tbody>
+<tr><td>Fable 5.1</td><td>$37.50</td><td>$48.00</td><td>$85.50</td><td>$2,565.00</td></tr>
+<tr><td>Fable 5</td><td>$150.00</td><td>$48.00</td><td>$198.00</td><td>$5,940.00</td></tr>
+<tr><td>Opus 5</td><td>$75.00</td><td>$24.00</td><td>$99.00</td><td>$2,970.00</td></tr>
+</tbody></table></div>
+<p>Fable 5.1 comes in 56.8 percent under Fable 5 and 13.6 percent under Opus 5 for this shape of work. Without caching, the same 500 reads on Fable 5.1 would cost $1,500 a day in base input alone, so caching is not optional at this price. Notice that on Fable 5.1 the writes ($48) now cost more than the 500 reads ($37.50). Anyone tuning this workload should look at the write count first.</p>
+<h3>One request with 100,000 input and 10,000 output tokens</h3>
+<p>A single uncached request, say a large document plus a long answer, costs $1.50 on Fable 5.1 ($1.00 input, $0.50 output). Opus 5 does the same request for $0.75 and Sonnet 5 for $0.30. Fable 5.1 is exactly 2.00x Opus 5 and 5.00x Sonnet 5 here, because nothing is cached and every column is a clean multiple. A thousand such requests run $1,500, $750 and $300.</p>
+<h3>The same work on the Batch API</h3>
+<p>Batch halves every line. The agent month drops to $1,282.50 on Fable 5.1 ($42.75 a day, with cache hits at $0.125 and 1 hour writes at $10 per million), $2,970.00 on Fable 5 and $1,485.00 on Opus 5. The single request becomes $0.75 on Fable 5.1, $0.375 on Opus 5 and $0.15 on Sonnet 5. The relative gaps between models do not change, only the absolute bill.</p>
+<h3>Where the cheaper cache hit beats Opus 5</h3>
+<p>Let h be the share of input tokens that are cache hits. Fable 5.1 input then costs 10(1 minus h) + 0.25h per million and Opus 5 costs 5(1 minus h) + 0.50h. Setting them equal gives h = 5 / 5.25 = 0.9524. At a 90 percent hit share Fable 5.1 input is $1.23 per million against $0.95 on Opus 5. At 95.24 percent both are $0.71. At 99 percent Fable 5.1 is $0.35 against $0.55. So the input side of a Fable 5.1 workload only undercuts Opus 5 when more than 95.24 percent of input tokens come from cache, and output stays at $50 against $25 no matter what. Against Fable 5 there is no break-even to find, since every column is equal except the cache hit, which is four times cheaper.</p>
+</section>
+
+<section id="changes">
+<h2>What changed from Fable 5, and how the siblings compare</h2>
+<p>Fable 5.1 keeps Fable 5's $10 base input, $12.50 and $20 cache writes and $50 output. The only price that moved is the cache hit, from $1 to $0.25. The batch rows are also identical at $5 and $25. Both models list a 1,000,000 token input window and a 128,000 token output cap in LiteLLM.</p>
+<p>Opus 5 sits at half of every Fable 5.1 column except the cache hit, where Opus 5 is $0.50, twice Fable 5.1. Sonnet 5 is $2 and $10 with a $0.20 cache hit; Anthropic's page adds that the $2/$10 introductory price "is now the standard price" and the increase to $3/$15 scheduled for 1 September 2026 "will not occur." Fast mode, which the page prices at $10 and $50, is listed for Opus 5 and Opus 4.8 only, not for Fable.</p>
+<p>On Mythos 5.1 the pricing page says exactly this much. It appears as "Claude Mythos 5.1 (limited availability)" with the same five figures as Fable 5.1 and the same batch rates, and it shares the 0.025x cache hit footnote. The page says nothing else about it, and neither does this one.</p>
+</section>
+
+<section id="method" class="methodology-box">
+<h2>How this page was checked</h2>
+<p>Primary source is the Anthropic pricing page at docs.anthropic.com/en/docs/about-claude/pricing, saved as HTML on 6 September 2026 and converted to text; the exact rows, footnote and sentences quoted above are in that extract. The two cross-checks are the OpenRouter models API (ids anthropic/claude-fable-5.1, anthropic/claude-fable-5.1:batch and anthropic/claude-fable-5 for the standard rows, and anthropic/claude-fable-5:batch, anthropic/claude-opus-5:batch and anthropic/claude-sonnet-5:batch for the batch cache hit column, prices per token multiplied by one million) and the LiteLLM price registry (keys claude-fable-5-1 and claude-fable-5), both fetched the same day. OpenRouter gives input_cache_read 0.00000025 for Fable 5.1 and 0.000001 for Fable 5; LiteLLM gives cache_read_input_token_cost 2.5e-07 and 1e-06. Both match Anthropic's $0.25 and $1 exactly, and every other cell also agrees, so no figure on this page rests on one source. The worked examples were computed in Python and the script output is saved alongside the claims file. Nothing here is a benchmark or a quality judgement; only the pricing page was used for anything about Mythos.</p>
+</section>
+
+<section id="faq">
+<h2>Frequently asked questions</h2>
+<h3>How much does Claude Fable 5.1 cost per million tokens?</h3>
+<p>$10 base input, $12.50 for a 5 minute cache write, $20 for a 1 hour cache write, $0.25 for cache hits and refreshes, and $50 output, per Anthropic's page on 6 September 2026.</p>
+<h3>Why is the cache hit $0.25 on Fable 5.1 but $1 on Fable 5?</h3>
+<p>Anthropic's footnote prices Fable 5.1 and Mythos 5.1 cache hits at 0.025x base input, while every other model uses 0.1x. Same $10 base, different multiplier.</p>
+<h3>What does Fable 5.1 cost on batch?</h3>
+<p>$5 input and $25 output per million, a 50 percent discount that stacks with caching. OpenRouter lists the batch cache read at $0.125 per million.</p>
+<h3>Is Fable 5.1 cheaper than Opus 5?</h3>
+<p>Only on cache hits ($0.25 against $0.50). Base input and output are double. The input side breaks even at a 95.24 percent cache hit share, and output never does.</p>
+<h3>What is Mythos 5.1 pricing?</h3>
+<p>Listed as limited availability at the same rates as Fable 5.1 on every column, standard and batch.</p>
+</section>
+
+<section id="related">
+<h2>Related pages</h2>
+<p>Every current Claude model on one page, with the same cache and batch columns, is on the <a href="/tools/claude-api-pricing.html">Claude API pricing table</a>. The previous flagship generation is covered in <a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 pricing</a>. To test your own hit share against the 95.24 percent figure above, use the <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a>. For how these rates fit the longer trend, see the <a href="/research/llm-pricing-history.html">LLM pricing history</a>, and for the other vendor's half-price tier, the <a href="/tools/openai-batch-api.html">OpenAI Batch API page</a>.</p>
+</section>
+</article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=research-llm-pricing-history">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+            <a href="https://abwex.com">ABWex · A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP · Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality · Security</a>
+            <a href="https://claudflow.com">ClaudFlow · Workflows</a>
+            <a href="https://claudkit.com">ClaudKit · API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket · Support</a>
+            <a href="https://enhio.com">Enhio · Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot · Timestamps</a>
+            <a href="https://gen8x.com">Gen8X · Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X · AI Models</a>
+            <a href="https://heytensor.com">HeyTensor · ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc · Recipes</a>
+            <a href="https://invokebot.com">InvokeBot · Webhooks</a>
+            <a href="https://kappafy.com">Kappafy · JSON</a>
+            <a href="https://kappakit.com">KappaKit · Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen · Image Tools</a>
+            <a href="https://lochbot.com">LochBot · Security</a>
+            <a href="https://lockml.com">LockML · ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-llm-pricing-history">ML0X · ML Basics</a>
+            <a href="https://ml3x.com">ML3X · Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor · Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool · Cooking</a>
+            <a href="https://viryd.com">Viryd · Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub · theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative · Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder · Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=research-llm-pricing-history" rel="nofollow">Zovo · AI Dev Tools</a>
+  </div>
+</div>
+
+</body>
+</html>
