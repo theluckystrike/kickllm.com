@@ -10,22 +10,8 @@
 <link rel="alternate" hreflang="en" href="https://kickllm.com/answers/gemini-3-8-flash-pricing.html">
 <link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/gemini-3-8-flash-pricing.html">
 <link rel="stylesheet" href="/assets/style.css">
-<style>
-main.container{max-width:800px;margin:0 auto;padding:0 1rem}
-article.page{padding:2rem 0 3rem}
-.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
-.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
-.data-table-wrap{overflow-x:auto;margin:1rem 0}
-.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
-.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
-.data-table th{background:var(--bg-card)}
-.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
-.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
-article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
-article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
-article.page h2{margin-top:2.25rem}
-article.page h3{margin-top:1.75rem}
-</style>
+<link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/sprint-page.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://kickllm.com/answers/gemini-3-8-flash-pricing.html#article", "headline": "Gemini 3.8 Flash pricing, $0.75 in and $3.75 out per 1M", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@id": "https://kickllm.com/answers/gemini-3-8-flash-pricing.html#author"}, "mainEntityOfPage": "https://kickllm.com/answers/gemini-3-8-flash-pricing.html"}, {"@type": "Person", "@id": "https://kickllm.com/answers/gemini-3-8-flash-pricing.html#author", "name": "Michael Lip", "url": "https://zovo.one"}, {"@type": "WebPage", "@id": "https://kickllm.com/answers/gemini-3-8-flash-pricing.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "Answers", "item": "https://kickllm.com/answers/"}, {"@type": "ListItem", "position": 3, "name": "Gemini 3.8 Flash pricing"}]}]}</script>
 </head>
 <body>
@@ -43,21 +29,27 @@ article.page h3{margin-top:1.75rem}
     </div>
   </nav>
 
-  <main class="container">
-<article class="page">
-<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Gemini 3.8 Flash pricing</span></nav>
-<h1>Gemini 3.8 Flash pricing, per 1M tokens, in 2026 and from 2027</h1>
-<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
-<p class="stamp">Every figure captured 6 September 2026 from the official Google pricing page. Prices change, so treat this as a dated snapshot.</p>
+  <main class="batch-doc sprint-doc">
+<div class="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Gemini 3.8 Flash pricing</span></nav>
+  <h1>Gemini 3.8 Flash pricing, per 1M tokens, in 2026 and from 2027</h1>
+  <p>Gemini 3.8 Flash costs $0.75 in and $3.75 out per million tokens until the end of 2026, then exactly double. The full table, the cache and batch rates, and three priced workloads.</p>
+  <p class="byline">By <a href="/about.html">Michael Lip</a> &middot; Updated 2026-09-06</p>
+</div>
 
-<section id="answer">
+<section id="answer" class="sec">
+<p class="snap">Every figure captured 6 September 2026 from the official Google pricing page. Prices change, so treat this as a dated snapshot.</p>
 <p>$0.75 per 1M input tokens and $3.75 per 1M output tokens is the paid Standard price for Gemini 3.8 Flash through 31 December 2026, and the same page already lists $1.50 and $7.50 from 1 January 2027. Thinking tokens bill as output. Batch is half of Standard on every line, so $0.375 in and $1.875 out this year. Context cache reads cost $0.075 per 1M plus $0.50 per 1M tokens per hour of storage, and both figures also double in 2027.</p>
+<div class="kpis"><div class="kpi"><b>$0.75 / $3.75</b><span>per 1M tokens through 31 Dec 2026</span></div><div class="kpi"><b>$1.50 / $7.50</b><span>from 1 January 2027, exactly 2x</span></div><div class="kpi"><b>$0.375 / $1.875</b><span>Batch tier, 2026</span></div><div class="kpi"><b>$0.075</b><span>cache read per 1M, 2026</span></div></div>
+
 <p>Google published the model on <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">ai.google.dev</a> with every price stated twice, one figure "through December 31, 2026" and a second "starting January 1, 2027". Every 2027 figure is exactly 2.0 times its 2026 figure. A workload priced today doubles on the calendar with no change in usage at all. OpenRouter listed google/gemini-3.8-flash with a created timestamp of 1788362056, which is 2 September 2026 at 15:14 UTC. Neither source states a release date.</p>
 </section>
 
-<section id="prices">
+<section id="prices" class="sec">
 <h2>Standard and Batch prices, with the 2027 step</h2>
-<div class="data-table-wrap"><table class="data-table"><caption>Gemini 3.8 Flash paid tier, USD per 1M tokens, from ai.google.dev captured 6 September 2026</caption><thead><tr><th>Tier and line</th><th>Through 31 Dec 2026</th><th>From 1 Jan 2027</th><th>Ratio</th></tr></thead><tbody>
+<p class="lede">Gemini 3.8 Flash paid tier, USD per 1M tokens, from ai.google.dev captured 6 September 2026</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Tier and line</th><th>Through 31 Dec 2026</th><th>From 1 Jan 2027</th><th>Ratio</th></tr></thead><tbody>
 <tr><td>Standard input</td><td>$0.75</td><td>$1.50</td><td>2.0x</td></tr>
 <tr><td>Standard output, including thinking tokens</td><td>$3.75</td><td>$7.50</td><td>2.0x</td></tr>
 <tr><td>Standard context cache read</td><td>$0.075</td><td>$0.15</td><td>2.0x</td></tr>
@@ -71,20 +63,23 @@ article.page h3{margin-top:1.75rem}
 <p>The free tier lists input, output and context caching as free of charge on Standard. Grounding with Google Search is not available on the free tier. On the paid tier it includes 5,000 free search requests per month, shared across all Gemini 3.x models, then $14 per 1,000 requests, and Google warns that one request to Gemini "may result in one or more queries to Google Search" with each query billed. The Used to improve our products row reads Yes for the free tier and No for the paid tier. Batch and Flex show no free tier at all.</p>
 </section>
 
-<section id="examples">
+<section id="examples" class="sec">
 <h2>Three worked cost examples</h2>
-<p>All three use the prices above, computed in a script. Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/gemini-3-8-flash-pricing-claims.json">gemini-3-8-flash-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/gemini-3-8-flash-pricing-calc.txt">gemini-3-8-flash-pricing-calc.txt</a> (the script output for the worked examples). Money is rounded to cents, or to four decimals under one cent.</p>
+<p>All three use the prices above, computed in a script. Money is rounded to cents, or to four decimals under one cent.</p>
 <h3>A chat or classification API at 50,000 requests a day</h3>
 <p>Take 50,000 requests a day, each with 1,200 input tokens and 300 output tokens, for 30 days. That is 1,800M input tokens and 450M output tokens a month. At the 2026 price the input side is 1,800 x $0.75 = $1,350.00 and the output side is 450 x $3.75 = $1,687.50, so the month costs $3,037.50, or $0.0020 per request. At the 2027 price the same month is 1,800 x $1.50 = $2,700.00 plus 450 x $3.75 doubled to $3,375.00, total $6,075.00, or $0.0041 per request. Output is 56 percent of the bill on 20 percent of the tokens, so reply length moves the number more than prompt length does.</p>
 <h3>The same workload on Batch</h3>
 <p>If the 50,000 requests can wait for asynchronous processing, Batch halves every line. Input is 1,800 x $0.375 = $675.00 and output is 450 x $1.875 = $843.75, so the month is $1,518.75 at the 2026 price, or $0.0010 per request. At the 2027 Batch price the month is $3,037.50, the same as 2026 Standard. Moving to Batch cancels the price step for one year, and nothing more.</p>
 <h3>A RAG pipeline with a 200,000 token cached context</h3>
-<p>Say a retrieval system holds a 200,000 token corpus in the context cache and reads it 2,000 times a day. Cached reads are 2,000 x 200,000 = 400M tokens a day, billed at $0.075 per 1M, so $30.00 a day. Storage is 0.2M tokens x $0.50 x 24 hours = $2.40 a day. The cached total is $32.40 a day, or $972.00 over 30 days. Sending the same 400M tokens uncached at $0.75 per 1M costs $300.00 a day, or $9,000.00 over 30 days. Caching saves $267.60 a day, an 89.2 percent cut on the context portion. The question tokens and answers cost the same either way and are left out. At the 2027 prices the cached day is $64.80 against $600.00 uncached, the same 89.2 percent saving. Storage for this corpus is $0.10 an hour and one uncached pass over it costs $0.15, so the cache pays for itself in any hour with a single query. See <a href="/answers/cost-of-rag-pipeline.html">the cost of a RAG pipeline</a> for the rest of the bill.</p>
+<p>Say a retrieval system holds a 200,000 token corpus in the context cache and reads it 2,000 times a day. Cached reads are 2,000 x 200,000 = 400M tokens a day, billed at $0.075 per 1M, so $30.00 a day. Storage is 0.2M tokens x $0.50 x 24 hours = $2.40 a day. The cached total is $32.40 a day, or $972.00 over 30 days. Sending the same 400M tokens uncached at $0.75 per 1M costs $300.00 a day, or $9,000.00 over 30 days. Caching saves $267.60 a day, an 89.2 percent cut on the context portion.</p>
+<p>The question tokens and answers cost the same either way and are left out. At the 2027 prices the cached day is $64.80 against $600.00 uncached, the same 89.2 percent saving. Storage for this corpus is $0.10 an hour and one uncached pass over it costs $0.15, so the cache pays for itself in any hour with a single query. See <a href="/answers/cost-of-rag-pipeline.html">the cost of a RAG pipeline</a> for the rest of the bill.</p>
 </section>
 
-<section id="siblings">
+<section id="siblings" class="sec">
 <h2>How 3.8 Flash compares with 3.5 Flash, Flash-Lite and 3.1 Pro</h2>
-<div class="data-table-wrap"><table class="data-table"><caption>Gemini paid Standard tier, USD per 1M tokens, ai.google.dev captured 6 September 2026</caption><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Storage per 1M per hour</th></tr></thead><tbody>
+<p class="lede">Gemini paid Standard tier, USD per 1M tokens, ai.google.dev captured 6 September 2026</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Input</th><th>Output</th><th>Cache read</th><th>Storage per 1M per hour</th></tr></thead><tbody>
 <tr><td>Gemini 3.8 Flash (2026 price)</td><td>$0.75</td><td>$3.75</td><td>$0.075</td><td>$0.50</td></tr>
 <tr><td>Gemini 3.8 Flash (from 1 Jan 2027)</td><td>$1.50</td><td>$7.50</td><td>$0.15</td><td>$1.00</td></tr>
 <tr><td>Gemini 3.5 Flash</td><td>$1.50</td><td>$9.00</td><td>$0.15</td><td>$1.00</td></tr>
@@ -95,12 +90,14 @@ article.page h3{margin-top:1.75rem}
 <p>The page lists 3.7 Flash and 3.6 Flash at the same numbers as 3.8 Flash, with the same 2027 step, so price does not separate the 3.x Flash generations. All five models report a context length of 1,048,576 tokens on OpenRouter. The older <a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash pricing</a> page and the <a href="/answers/gemini-flash-vs-gpt-4o-mini.html">Gemini Flash versus GPT-4o mini</a> comparison cover the earlier generations.</p>
 </section>
 
-<section id="method" class="methodology-box">
+<section id="method" class="sec method">
 <h2>Sources and how they were cross-checked</h2>
-<p>The primary source is the official <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">Gemini API pricing page</a> at ai.google.dev, fetched as text on 6 September 2026. Every Gemini 3.8 Flash tier block, the free tier, grounding and data use rows, and the 3.5 Flash, 3.5 Flash-Lite and 3.1 Pro Preview blocks are quoted verbatim in the claims file for this page. Two cross-checks were read the same day, the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models feed</a> (ids google/gemini-3.8-flash, google/gemini-3.8-flash:batch, google/gemini-3.5-flash, google/gemini-3.5-flash-lite and google/gemini-3.1-pro-preview) and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM price registry</a> (keys gemini-3.8-flash, gemini-3.5-flash and gemini-3.5-flash-lite). Both match the official 2026 input, output and cache read figures on every model to the cent. Only OpenRouter carries batch rates (its :batch ids), and those match too; the LiteLLM registry has no batch fields for any Gemini 3.x model. Neither carries the 1 January 2027 figures, so the 2027 column rests on the Google page alone. No paid API was called, and no benchmark or speed number appears here because none of the sources carries one.</p>
+<p>The primary source is the official <a class="cite" href="https://ai.google.dev/gemini-api/docs/pricing">Gemini API pricing page</a> at ai.google.dev, fetched as text on 6 September 2026. Every Gemini 3.8 Flash tier block, the free tier, grounding and data use rows, and the 3.5 Flash, 3.5 Flash-Lite and 3.1 Pro Preview blocks are quoted verbatim in the claims file for this page. Two cross-checks were read the same day, the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models feed</a> (ids google/gemini-3.8-flash, google/gemini-3.8-flash:batch, google/gemini-3.5-flash, google/gemini-3.5-flash-lite and google/gemini-3.1-pro-preview) and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM price registry</a> (keys gemini-3.8-flash, gemini-3.5-flash and gemini-3.5-flash-lite).</p>
+<p>Both match the official 2026 input, output and cache read figures on every model to the cent. Only OpenRouter carries batch rates (its :batch ids), and those match too; the LiteLLM registry has no batch fields for any Gemini 3.x model. Neither carries the 1 January 2027 figures, so the 2027 column rests on the Google page alone. No paid API was called, and no benchmark or speed number appears here because none of the sources carries one.</p>
+<p>Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/gemini-3-8-flash-pricing-claims.json">gemini-3-8-flash-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/gemini-3-8-flash-pricing-calc.txt">gemini-3-8-flash-pricing-calc.txt</a> (the script output for the worked examples).</p>
 </section>
 
-<section id="faq">
+<section id="faq" class="sec faq">
 <h2>Frequently asked questions</h2>
 <h3>How much does Gemini 3.8 Flash cost per million tokens?</h3>
 <p>On the paid Standard tier it is $0.75 per 1M input tokens and $3.75 per 1M output tokens, thinking tokens billed as output, through 31 December 2026, then $1.50 and $7.50 from 1 January 2027. Cache reads are $0.075 per 1M in 2026 and $0.15 in 2027, plus storage at $0.50 per 1M tokens per hour in 2026 and $1.00 in 2027.</p>
@@ -114,19 +111,13 @@ article.page h3{margin-top:1.75rem}
 <p>The paid tier includes 5,000 free search requests per month, shared across all Gemini 3.x models, then $14 per 1,000 requests. One request to Gemini may trigger more than one billed search query. At 20,000 searches in a month that is 15,000 billable queries, or $210.</p>
 </section>
 
-<section id="related">
+<section id="related" class="sec">
 <h2>Related pages</h2>
-<ul>
-<li><a href="/tools/llm-api-cost-calculator.html">LLM API cost calculator</a>, to price your own token mix across providers.</li>
-<li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a>, where Flash-Lite and the other low-cost tiers sit.</li>
-<li><a href="/answers/cost-of-rag-pipeline.html">Cost of a RAG pipeline</a>, the full retrieval bill beyond the cached context.</li>
-<li><a href="/answers/claude-sonnet-vs-gemini-pro.html">Claude Sonnet versus Gemini Pro</a>, for the Pro tier rather than Flash.</li>
-<li><a href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash pricing</a>, the earlier Flash generation.</li>
-</ul>
+<div class="related-grid"><a class="rel-card" href="/tools/llm-api-cost-calculator.html">LLM API cost calculator</a><a class="rel-card" href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a><a class="rel-card" href="/answers/cost-of-rag-pipeline.html">Cost of a RAG pipeline</a><a class="rel-card" href="/answers/claude-sonnet-vs-gemini-pro.html">Claude Sonnet versus Gemini Pro</a><a class="rel-card" href="/answers/gemini-2-flash-pricing.html">Gemini 2.0 Flash pricing</a></div>
 </section>
 
-</article>
-  </main>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">

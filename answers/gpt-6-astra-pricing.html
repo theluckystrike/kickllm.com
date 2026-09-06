@@ -10,22 +10,8 @@
 <link rel="alternate" hreflang="en" href="https://kickllm.com/answers/gpt-6-astra-pricing.html">
 <link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/gpt-6-astra-pricing.html">
 <link rel="stylesheet" href="/assets/style.css">
-<style>
-main.container{max-width:800px;margin:0 auto;padding:0 1rem}
-article.page{padding:2rem 0 3rem}
-.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
-.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
-.data-table-wrap{overflow-x:auto;margin:1rem 0}
-.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
-.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
-.data-table th{background:var(--bg-card)}
-.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
-.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
-article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
-article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
-article.page h2{margin-top:2.25rem}
-article.page h3{margin-top:1.75rem}
-</style>
+<link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/sprint-page.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://kickllm.com/answers/gpt-6-astra-pricing.html#article", "headline": "GPT-6 Astra pricing, $10 input and $50 output per 1M tokens", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@id": "https://kickllm.com/answers/gpt-6-astra-pricing.html#author"}, "mainEntityOfPage": "https://kickllm.com/answers/gpt-6-astra-pricing.html"}, {"@type": "Person", "@id": "https://kickllm.com/answers/gpt-6-astra-pricing.html#author", "name": "Michael Lip", "url": "https://zovo.one"}, {"@type": "WebPage", "@id": "https://kickllm.com/answers/gpt-6-astra-pricing.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "Answers", "item": "https://kickllm.com/answers/"}, {"@type": "ListItem", "position": 3, "name": "GPT-6 Astra pricing"}]}]}</script>
 </head>
 <body>
@@ -43,22 +29,28 @@ article.page h3{margin-top:1.75rem}
     </div>
   </nav>
 
-  <main class="container">
-<article class="page">
-<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>GPT-6 Astra pricing</span></nav>
-<h1>GPT-6 Astra pricing, $10 input and $50 output per 1M tokens</h1>
-<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
-<p class="stamp">Every price read from the official OpenAI pricing page and model card on 6 September 2026, cross-checked the same day against OpenRouter and LiteLLM, which supply the listing timestamp and registry figures quoted in the methodology. Prices change, so treat this as a dated snapshot.</p>
+  <main class="batch-doc sprint-doc">
+<div class="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>GPT-6 Astra pricing</span></nav>
+  <h1>GPT-6 Astra pricing, $10 input and $50 output per 1M tokens</h1>
+  <p>Every GPT-6 Astra rate from the official OpenAI pricing page and model card, the long context surcharge over 272K tokens, and three worked jobs priced on Standard, Batch and Fast mode.</p>
+  <p class="byline">By <a href="/about.html">Michael Lip</a> &middot; Updated 2026-09-06</p>
+</div>
 
-<section id="answer">
+<section id="answer" class="sec">
+<p class="snap">Every price read from the official OpenAI pricing page and model card on 6 September 2026, cross-checked the same day against OpenRouter and LiteLLM, which supply the listing timestamp and registry figures quoted in the methodology. Prices change, so treat this as a dated snapshot.</p>
 <p>GPT-6 Astra costs $10.00 per 1M input tokens and $50.00 per 1M output tokens on the Standard tier, with cached input at $1.00 and cache writes at $12.50. Batch and Flex halve every one of those rates to $5.00, $0.50, $6.25 and $25.00, and Fast mode doubles them to $20.00, $2.00, $25.00 and $100.00.</p>
+<div class="kpis"><div class="kpi"><b>$10 / $50</b><span>input and output per 1M, Standard</span></div><div class="kpi"><b>$5 / $25</b><span>Batch and Flex, half price</span></div><div class="kpi"><b>2x in, 1.5x out</b><span>over 272K input tokens</span></div><div class="kpi"><b>1,050,000</b><span>token context window</span></div></div>
+
 <p>There is a second price column that most quick comparisons miss. Once a prompt goes past 272K input tokens, the official model card says the whole request is billed at 2x the input and cache rates and 1.5x the output rate, so Standard becomes $20.00 in and $75.00 out. That makes GPT-6 Astra 2.5x the price of GPT-5.6 Sol on both input and output, and the long context surcharge stacks on top of that.</p>
 </section>
 
-<section id="tables">
+<section id="tables" class="sec">
 <h2>GPT-6 Astra price tables, all four tiers</h2>
 <p>All four rows come from the developers.openai.com pricing page, which groups each tier into a short context block (up to 272K input tokens) and a long context block (over 272K). USD per 1M tokens.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>gpt-6-astra by service tier, USD per 1M tokens, official OpenAI pricing page read 6 September 2026</caption><thead><tr><th>Tier</th><th>Context</th><th>Input</th><th>Cached input</th><th>Cache writes</th><th>Output</th></tr></thead><tbody>
+<p class="lede">gpt-6-astra by service tier, USD per 1M tokens, official OpenAI pricing page read 6 September 2026</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="6"><thead><tr><th>Tier</th><th>Context</th><th>Input</th><th>Cached input</th><th>Cache writes</th><th>Output</th></tr></thead><tbody>
 <tr><td>Standard</td><td>Up to 272K</td><td>$10.00</td><td>$1.00</td><td>$12.50</td><td>$50.00</td></tr>
 <tr><td>Standard</td><td>Over 272K</td><td>$20.00</td><td>$2.00</td><td>$25.00</td><td>$75.00</td></tr>
 <tr><td>Batch</td><td>Up to 272K</td><td>$5.00</td><td>$0.50</td><td>$6.25</td><td>$25.00</td></tr>
@@ -72,28 +64,35 @@ article.page h3{margin-top:1.75rem}
 <p>The model card itself lists a 1,050,000 token context window, 128,000 max output tokens, an Apr 30, 2026 knowledge cutoff, text and image input with text output, reasoning token support, and a reasoning.effort parameter with levels low, medium, high, xhigh and max. The card describes the model in one sentence, "our most capable model, built for the hardest end-to-end work", and this page repeats nothing beyond that about capability.</p>
 </section>
 
-<section id="examples">
+<section id="examples" class="sec">
 <h2>Three worked cost examples</h2>
-<p>Each figure below was computed in Python from the table above. Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/gpt-6-astra-pricing-claims.json">gpt-6-astra-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/gpt-6-astra-pricing-calc.txt">gpt-6-astra-pricing-calc.txt</a> (the script output for the worked examples). Example one is a single agentic task that reads 60,000 tokens of code and tool output and writes 8,000 tokens back.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>One task, 60,000 input and 8,000 output tokens, no cache hits, USD</caption><thead><tr><th>Tier</th><th>Input cost</th><th>Output cost</th><th>Total</th></tr></thead><tbody>
+<p>Each figure below was computed in Python from the table above. Example one is a single agentic task that reads 60,000 tokens of code and tool output and writes 8,000 tokens back.</p>
+<p class="lede">One task, 60,000 input and 8,000 output tokens, no cache hits, USD</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Tier</th><th>Input cost</th><th>Output cost</th><th>Total</th></tr></thead><tbody>
 <tr><td>Standard</td><td>$0.60</td><td>$0.40</td><td>$1.00</td></tr>
 <tr><td>Batch or Flex</td><td>$0.30</td><td>$0.20</td><td>$0.50</td></tr>
 <tr><td>Fast mode</td><td>$1.20</td><td>$0.80</td><td>$2.00</td></tr>
 </tbody></table></div>
 <p>Example two is the same task after the context has grown to 400,000 input tokens, which is where the long context block takes over. The model card wording matters here. Prompts with more than 272K input tokens are priced at the higher rates "for the full request", not just for the tokens beyond the threshold, so all 400,000 input tokens bill at $20.00 and the 8,000 output tokens bill at $75.00.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>One task, 400,000 input and 8,000 output tokens, long context rates on the full request, USD</caption><thead><tr><th>Tier</th><th>Input cost</th><th>Output cost</th><th>Total</th></tr></thead><tbody>
+<p class="lede">One task, 400,000 input and 8,000 output tokens, long context rates on the full request, USD</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Tier</th><th>Input cost</th><th>Output cost</th><th>Total</th></tr></thead><tbody>
 <tr><td>Standard</td><td>$8.00</td><td>$0.60</td><td>$8.60</td></tr>
 <tr><td>Batch or Flex</td><td>$4.00</td><td>$0.30</td><td>$4.30</td></tr>
 <tr><td>Fast mode</td><td>$16.00</td><td>$1.20</td><td>$17.20</td></tr>
 </tbody></table></div>
 <p>Had the short context rates applied, the Standard request would have been $4.40, so crossing the line costs 1.955x on this shape of task. Put another way, 272,000 input tokens at the short rate cost $2.72 while 400,000 at the long rate cost $8.00, a 47 percent bigger prompt for a 2.94x bigger input bill.</p>
-<p>Example three is a month of production use. Take 5,000 of the short tasks from example one on Standard. With no caching the month costs $5,000.00. If 80 percent of each prompt is a shared system prompt and toolset served from the cache, then 48,000 tokens bill at $1.00 and 12,000 at $10.00, output is unchanged at $0.40, and each task drops to $0.568. The month becomes $2,840.00, a saving of $2,160.00 or 43.2 percent. Writing those 48,000 shared tokens into the cache once costs $0.60 at the $12.50 cache write rate, against $0.48 as plain input. The same month on Batch is $2,500.00 without caching and $1,420.00 with it. Our <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a> runs this arithmetic for any hit rate.</p>
+<p>Example three is a month of production use. Take 5,000 of the short tasks from example one on Standard. With no caching the month costs $5,000.00. If 80 percent of each prompt is a shared system prompt and toolset served from the cache, then 48,000 tokens bill at $1.00 and 12,000 at $10.00, output is unchanged at $0.40, and each task drops to $0.568.</p>
+<p>The month becomes $2,840.00, a saving of $2,160.00 or 43.2 percent. Writing those 48,000 shared tokens into the cache once costs $0.60 at the $12.50 cache write rate, against $0.48 as plain input. The same month on Batch is $2,500.00 without caching and $1,420.00 with it. Our <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a> runs this arithmetic for any hit rate.</p>
 </section>
 
-<section id="ladder">
+<section id="ladder" class="sec wide">
 <h2>GPT-6 Astra against the GPT-5.6 models</h2>
 <p>The pricing page lists Astra on the same Standard table as the three GPT-5.6 general models (a separate Cyber table lists gpt-5.6-cyber), which makes the ladder easy to read. The ratios below are input and output rate divided by the sibling's rate.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Standard tier, up to 272K input tokens, USD per 1M tokens, official OpenAI pricing page read 6 September 2026</caption><thead><tr><th>Model</th><th>Input</th><th>Cached input</th><th>Cache writes</th><th>Output</th><th>Astra multiple</th><th>60k in, 8k out task</th></tr></thead><tbody>
+<p class="lede">Standard tier, up to 272K input tokens, USD per 1M tokens, official OpenAI pricing page read 6 September 2026</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="7"><thead><tr><th>Model</th><th>Input</th><th>Cached input</th><th>Cache writes</th><th>Output</th><th>Astra multiple</th><th>60k in, 8k out task</th></tr></thead><tbody>
 <tr><td>gpt-6-astra</td><td>$10.00</td><td>$1.00</td><td>$12.50</td><td>$50.00</td><td>1x</td><td>$1.00</td></tr>
 <tr><td>gpt-5.6-sol</td><td>$4.00</td><td>$0.40</td><td>$5.00</td><td>$20.00</td><td>2.5x in, 2.5x out</td><td>$0.40</td></tr>
 <tr><td>gpt-5.6-terra</td><td>$2.00</td><td>$0.20</td><td>$2.50</td><td>$12.00</td><td>5x in, 4.17x out</td><td>$0.22</td></tr>
@@ -102,13 +101,15 @@ article.page h3{margin-top:1.75rem}
 <p>Two things on that table are not obvious from the numbers alone. The pricing page notes that GPT-5.6 Sol's promotional pricing is available at least through November 21, 2026, so the 2.5x gap is measured against a promotional rate. And every GPT-5.6 row uses the same 272K threshold and the same long context rule, so the ladder holds at both context sizes. Sol's long context Standard rate is $8.00 in and $30.00 out against Astra's $20.00 and $75.00.</p>
 </section>
 
-<section id="method" class="methodology-box">
+<section id="method" class="sec method">
 <h2>Sources and cross-checks</h2>
-<p>Primary source is the <a class="cite" href="https://developers.openai.com/api/docs/pricing">OpenAI developer pricing page</a> and the <a class="cite" href="https://developers.openai.com/api/docs/models/gpt-6-astra">gpt-6-astra model card</a>, both saved as text on 6 September 2026. Every rate in the tables above is quoted from the four tier tables on that page. Two secondary sources were read the same day. The <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a> lists openai/gpt-6-astra and openai/gpt-6-astra:batch, both with a created timestamp of 1788552838, which is 4 September 2026 20:13 UTC, the OpenRouter listing date. Its per token prices, multiplied by one million, match the official Standard and Batch short context rows exactly, and its override block at 272,000 minimum prompt tokens matches the long context row. The <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM registry</a> key gpt-6-astra matches every Standard, Batch, Flex and Fast mode (which it calls priority) rate it carries (it has no batch cache or batch long context fields), though it records max_input_tokens as 922,000 rather than the 1,050,000 context window on the card, which is consistent with 1,050,000 minus 128,000 max output.</p>
+<p>Primary source is the <a class="cite" href="https://developers.openai.com/api/docs/pricing">OpenAI developer pricing page</a> and the <a class="cite" href="https://developers.openai.com/api/docs/models/gpt-6-astra">gpt-6-astra model card</a>, both saved as text on 6 September 2026. Every rate in the tables above is quoted from the four tier tables on that page. Two secondary sources were read the same day. The <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a> lists openai/gpt-6-astra and openai/gpt-6-astra:batch, both with a created timestamp of 1788552838, which is 4 September 2026 20:13 UTC, the OpenRouter listing date.</p>
+<p>Its per token prices, multiplied by one million, match the official Standard and Batch short context rows exactly, and its override block at 272,000 minimum prompt tokens matches the long context row. The <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM registry</a> key gpt-6-astra matches every Standard, Batch, Flex and Fast mode (which it calls priority) rate it carries (it has no batch cache or batch long context fields), though it records max_input_tokens as 922,000 rather than the 1,050,000 context window on the card, which is consistent with 1,050,000 minus 128,000 max output.</p>
 <p>One disagreement. OpenRouter lists openai/gpt-5.6-sol at $2.00 input and $10.00 output, while the official Standard table and LiteLLM both list $4.00 and $20.00. The OpenRouter figure is exactly the official Batch and Flex rate for Sol, so a calculator that reads OpenRouter alone understates Standard tier Sol by 2x and reports the Astra to Sol gap as 5x instead of 2.5x. The tables on this page use the official figure. We track this class of error on the <a href="/research/openai-calculator-price-accuracy.html">OpenAI calculator price accuracy</a> page.</p>
+<p>Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/gpt-6-astra-pricing-claims.json">gpt-6-astra-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/gpt-6-astra-pricing-calc.txt">gpt-6-astra-pricing-calc.txt</a> (the script output for the worked examples).</p>
 </section>
 
-<section id="faq">
+<section id="faq" class="sec faq">
 <h2>Frequently asked questions</h2>
 <h3>How much does GPT-6 Astra cost per million tokens?</h3>
 <p>Standard tier, up to 272K input tokens, is $10.00 input, $1.00 cached input, $12.50 cache writes and $50.00 output per 1M. Over 272K the full request bills at $20.00, $2.00, $25.00 and $75.00.</p>
@@ -122,18 +123,12 @@ article.page h3{margin-top:1.75rem}
 <p>On 6 September 2026 OpenRouter listed gpt-5.6-sol at $2.00 and $10.00, which equals the official Batch and Flex rate rather than the $4.00 and $20.00 Standard rate that OpenAI and LiteLLM both publish. We don't know why. Budget from the official figure.</p>
 </section>
 
-<section id="related">
+<section id="related" class="sec">
 <h2>Related pages</h2>
-<ul>
-<li><a href="/tools/openai-api-cost-calculator.html">OpenAI API cost calculator</a>, cached reads, cache writes, batch and the long context tier in one estimate.</li>
-<li><a href="/tools/openai-batch-api.html">OpenAI Batch API</a>, how the 50 percent tier works and when it pays off.</li>
-<li><a href="/tools/prompt-caching-break-even-calculator.html">Prompt caching break-even calculator</a>, the hit rate at which the 1.25x write cost pays back.</li>
-<li><a href="/research/openai-calculator-price-accuracy.html">OpenAI calculator price accuracy</a>, six calculators measured against two sources.</li>
-<li><a href="/answers/gpt-4o-pricing-2026.html">GPT-4o pricing in 2026</a>, the older generation for a cost floor comparison.</li>
-</ul>
+<div class="related-grid"><a class="rel-card" href="/tools/openai-api-cost-calculator.html">OpenAI API cost calculator</a><a class="rel-card" href="/tools/openai-batch-api.html">OpenAI Batch API</a><a class="rel-card" href="/tools/prompt-caching-break-even-calculator.html">Prompt caching break-even calculator</a><a class="rel-card" href="/research/openai-calculator-price-accuracy.html">OpenAI calculator price accuracy</a><a class="rel-card" href="/answers/gpt-4o-pricing-2026.html">GPT-4o pricing in 2026</a></div>
 </section>
-</article>
-  </main>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">

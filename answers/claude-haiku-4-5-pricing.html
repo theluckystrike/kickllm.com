@@ -10,22 +10,8 @@
 <link rel="alternate" hreflang="en" href="https://kickllm.com/answers/claude-haiku-4-5-pricing.html">
 <link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/claude-haiku-4-5-pricing.html">
 <link rel="stylesheet" href="/assets/style.css">
-<style>
-main.container{max-width:800px;margin:0 auto;padding:0 1rem}
-article.page{padding:2rem 0 3rem}
-.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
-.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
-.data-table-wrap{overflow-x:auto;margin:1rem 0}
-.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
-.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
-.data-table th{background:var(--bg-card)}
-.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
-.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
-article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
-article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
-article.page h2{margin-top:2.25rem}
-article.page h3{margin-top:1.75rem}
-</style>
+<link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/sprint-page.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://kickllm.com/answers/claude-haiku-4-5-pricing.html#article", "headline": "Claude Haiku 4.5 pricing, $1 in and $5 out per 1M tokens", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@id": "https://kickllm.com/answers/claude-haiku-4-5-pricing.html#author"}, "mainEntityOfPage": "https://kickllm.com/answers/claude-haiku-4-5-pricing.html"}, {"@type": "Person", "@id": "https://kickllm.com/answers/claude-haiku-4-5-pricing.html#author", "name": "Michael Lip", "url": "https://zovo.one"}, {"@type": "WebPage", "@id": "https://kickllm.com/answers/claude-haiku-4-5-pricing.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "Answers", "item": "https://kickllm.com/answers/"}, {"@type": "ListItem", "position": 3, "name": "Claude Haiku 4.5 pricing"}]}]}</script>
 </head>
 <body>
@@ -43,50 +29,61 @@ article.page h3{margin-top:1.75rem}
     </div>
   </nav>
 
-  <main class="container">
-<article class="page">
-<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Haiku 4.5 pricing</span></nav>
-<h1>Claude Haiku 4.5 pricing, $1 in and $5 out per 1M tokens</h1>
-<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
-<p class="stamp">Every figure captured 6 September 2026 from the Anthropic pricing page and cross checked the same morning. Treat it as a dated snapshot.</p>
+  <main class="batch-doc sprint-doc">
+<div class="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Haiku 4.5 pricing</span></nav>
+  <h1>Claude Haiku 4.5 pricing, $1 in and $5 out per 1M tokens</h1>
+  <p>Claude Haiku 4.5 costs $1 in and $5 out per million tokens, half of Sonnet 5. The cache and batch rates, three priced workloads, and when the cheap tier still makes sense.</p>
+  <p class="byline">By <a href="/about.html">Michael Lip</a> &middot; Updated 2026-09-06</p>
+</div>
 
-<section id="answer">
+<section id="answer" class="sec">
+<p class="snap">Every figure captured 6 September 2026 from the Anthropic pricing page and cross checked the same morning. Treat it as a dated snapshot.</p>
 <p>$1 per million input tokens and $5 per million output tokens is the Claude Haiku 4.5 API price on 6 September 2026. Cache hits cost $0.10 per million, a 5 minute cache write $1.25, a 1 hour cache write $2, and the Batch API halves the base rate to $0.50 in and $2.50 out.</p>
+<div class="kpis"><div class="kpi"><b>$1 / $5</b><span>input and output per 1M</span></div><div class="kpi"><b>$0.10</b><span>cache hit per 1M</span></div><div class="kpi"><b>$0.50 / $2.50</b><span>Batch API rates</span></div><div class="kpi"><b>200K</b><span>token context window</span></div></div>
+
 <p>The question behind most of these searches is whether Haiku is still the cheap tier now that Sonnet 5 sells for $2 and $10. It is. Haiku 4.5 costs 2x less than Sonnet 5 and 3x less than Sonnet 4.6 on both input and output, and it costs 1.25x the price of the retired Haiku 3.5.</p>
 </section>
 
-<section id="prices">
+<section id="prices" class="sec">
 <h2>Claude Haiku 4.5 price table</h2>
-<div class="data-table-wrap"><table class="data-table"><caption>Claude Haiku 4.5 and its neighbours, USD per 1M tokens, from the Anthropic pricing page read on 6 September 2026</caption><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th></tr></thead><tbody><tr><td>Claude Haiku 4.5</td><td>$1.00</td><td>$1.25</td><td>$2.00</td><td>$0.10</td><td>$5.00</td></tr><tr><td>Claude Sonnet 5</td><td>$2.00</td><td>$2.50</td><td>$4.00</td><td>$0.20</td><td>$10.00</td></tr><tr><td>Claude Sonnet 4.6</td><td>$3.00</td><td>$3.75</td><td>$6.00</td><td>$0.30</td><td>$15.00</td></tr><tr><td>Claude Haiku 3.5 (retired, except on Bedrock and Google Cloud)</td><td>$0.80</td><td>$1.00</td><td>$1.60</td><td>$0.08</td><td>$4.00</td></tr></tbody></table></div>
+<p class="lede">Claude Haiku 4.5 and its neighbours, USD per 1M tokens, from the Anthropic pricing page read on 6 September 2026</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="6"><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th></tr></thead><tbody><tr><td>Claude Haiku 4.5</td><td>$1.00</td><td>$1.25</td><td>$2.00</td><td>$0.10</td><td>$5.00</td></tr><tr><td>Claude Sonnet 5</td><td>$2.00</td><td>$2.50</td><td>$4.00</td><td>$0.20</td><td>$10.00</td></tr><tr><td>Claude Sonnet 4.6</td><td>$3.00</td><td>$3.75</td><td>$6.00</td><td>$0.30</td><td>$15.00</td></tr><tr><td>Claude Haiku 3.5 (retired, except on Bedrock and Google Cloud)</td><td>$0.80</td><td>$1.00</td><td>$1.60</td><td>$0.08</td><td>$4.00</td></tr></tbody></table></div>
 <p>The cache columns follow the multipliers the same page publishes, 1.25x base input for a 5 minute write, 2x for a 1 hour write, 0.1x for a hit. The page states that caching pays off after one read for the 5 minute duration and after two reads for the 1 hour duration. The <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break even calculator</a> runs that arithmetic for any prefix size.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Batch API rates, USD per 1M tokens, same source and date</caption><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th><th>Batch cache hit (0.1x batch input)</th></tr></thead><tbody><tr><td>Claude Haiku 4.5</td><td>$0.50</td><td>$2.50</td><td>$0.05</td></tr><tr><td>Claude Sonnet 5</td><td>$1.00</td><td>$5.00</td><td>$0.10</td></tr><tr><td>Claude Sonnet 4.6</td><td>$1.50</td><td>$7.50</td><td>$0.15</td></tr><tr><td>Claude Haiku 3.5 (retired, except on Bedrock and Google Cloud)</td><td>$0.40</td><td>$2.00</td><td>$0.04</td></tr></tbody></table></div>
+<p class="lede">Batch API rates, USD per 1M tokens, same source and date</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th><th>Batch cache hit (0.1x batch input)</th></tr></thead><tbody><tr><td>Claude Haiku 4.5</td><td>$0.50</td><td>$2.50</td><td>$0.05</td></tr><tr><td>Claude Sonnet 5</td><td>$1.00</td><td>$5.00</td><td>$0.10</td></tr><tr><td>Claude Sonnet 4.6</td><td>$1.50</td><td>$7.50</td><td>$0.15</td></tr><tr><td>Claude Haiku 3.5 (retired, except on Bedrock and Google Cloud)</td><td>$0.40</td><td>$2.00</td><td>$0.04</td></tr></tbody></table></div>
 <p>The batch cache hit column is derived, not printed. The official page says the caching multipliers stack with the Batch API discount, and the OpenRouter record for the batch variant carries a cache read price of $0.05 per million tokens, the same number.</p>
 </section>
 
-<section id="examples">
+<section id="examples" class="sec">
 <h2>Three worked examples</h2>
 <h3>Classification, 10,000 requests</h3>
 <p>Take 10,000 requests at 400 input tokens and 20 output tokens each. That's 4,000,000 input tokens and 200,000 output tokens. Input costs 4 x $1.00, which is $4.00, and output costs 0.2 x $5.00, which is $1.00. The job costs $5.00, or $0.0005 per request. On the Batch API the same job is 4 x $0.50 plus 0.2 x $2.50, which is $2.50. The same job costs $10.00 on Sonnet 5 and $15.00 on Sonnet 4.6.</p>
 <h3>Chat product, 30 days, with and without caching</h3>
 <p>A chat product sends 2,000,000 input tokens and 500,000 output tokens per day. Without caching, input is $2.00 a day and output is $2.50 a day, so 30 days costs $135.00.</p>
-<p>Now suppose 1,500,000 of the daily input tokens sit in a shared prefix (system prompt, tool definitions, retrieved documents) and 90 percent of requests hit the cache. Per day that's 1,350,000 hit tokens at $0.10, which is $0.14 (exactly $0.135), plus 150,000 miss tokens at $1.00, which is $0.15, plus the 500,000 never cached tokens at $1.00, which is $0.50, plus output at $2.50. The daily total is $3.29 (exactly $3.285) and 30 days costs $98.55, a saving of $36.45 or 27 percent. That figure bills the misses at base input. If every miss is instead re-written as a 5 minute cache write at $1.25, add $0.04 a day, $1.12 over 30 days, for a total of $99.68. A single 5 minute write of the whole 1,500,000 token prefix would cost $1.88. The same uncached workload costs $270.00 on Sonnet 5 and $405.00 on Sonnet 4.6.</p>
+<p>Now suppose 1,500,000 of the daily input tokens sit in a shared prefix (system prompt, tool definitions, retrieved documents) and 90 percent of requests hit the cache. Per day that's 1,350,000 hit tokens at $0.10, which is $0.14 (exactly $0.135), plus 150,000 miss tokens at $1.00, which is $0.15, plus the 500,000 never cached tokens at $1.00, which is $0.50, plus output at $2.50.</p>
+<p>The daily total is $3.29 (exactly $3.285) and 30 days costs $98.55, a saving of $36.45 or 27 percent. That figure bills the misses at base input. If every miss is instead re-written as a 5 minute cache write at $1.25, add $0.04 a day, $1.12 over 30 days, for a total of $99.68. A single 5 minute write of the whole 1,500,000 token prefix would cost $1.88. The same uncached workload costs $270.00 on Sonnet 5 and $405.00 on Sonnet 4.6.</p>
 <h3>The same 30 days on the Batch API</h3>
 <p>Move the chat workload to batch rates. Without caching, a day is 2 x $0.50 plus 0.5 x $2.50, which is $2.25, so 30 days costs $67.50. With the same 90 percent hit pattern and the batch cache hit at $0.05, a day is $0.25 plus $0.075 plus $0.0675 plus $1.25, which is $1.64 (exactly $1.6425), and 30 days costs $49.28. That's 63.5 percent below the $135.00 standard uncached figure. Batch only fits work that can wait for asynchronous results, so nightly summarisation rather than live chat. The <a href="/tools/batch-api-savings-calculator.html">batch API savings calculator</a> applies the discount to any token mix.</p>
 </section>
 
-<section id="changes">
+<section id="changes" class="sec">
 <h2>What changed around Haiku 4.5</h2>
 <p>None of the three sources shows a Haiku 4.5 figure that differs from the table. What moved is the tier above it. The official page says the $2/$10 per million input/output token pricing for Claude Sonnet 5, announced at launch as introductory pricing through August 31, 2026, is now the standard price, and that the previously scheduled increase to $3/$15 per million input/output tokens on September 1, 2026 will not occur. So the gap between Haiku 4.5 and the current Sonnet is 2x, not the 3x that Sonnet 4.6 still shows.</p>
 <p>Against its predecessor, Haiku 4.5 is 1.25x the price of Haiku 3.5 on every column, $1 against $0.80 on input and $5 against $4 on output. Haiku 3.5 is marked retired except on Bedrock and Google Cloud. The LiteLLM registry lists a deprecation date of 2026-10-15 for the claude-haiku-4-5 key. That is a registry field the official pricing page does not repeat, so treat it as unconfirmed.</p>
 <p>Two notes on context. The official page says Claude 4.6 and later models include the full 1M token context window at standard pricing. Haiku 4.5 predates that, and both cross-check sources list it at 200,000 tokens of context with 64,000 max output tokens. The page also notes that Claude 4.7 and later models use a newer tokenizer that produces approximately 30 percent more tokens for the same text, so a per-token comparison against a later model that bills approximately 30 percent more tokens for the same text understates the gap in Haiku's favour. Our <a href="/tools/claude-api-pricing.html">Claude API pricing page</a> covers the whole line, including Opus.</p>
 </section>
 
-<section id="method" class="methodology-box">
+<section id="method" class="sec method">
 <h2>How these numbers were checked</h2>
-<p>The primary source is the Anthropic pricing page at docs.anthropic.com, saved at 08:29 on 6 September 2026. Its Haiku 4.5 row reads $1 base input, $1.25 for 5m cache writes, $2 for 1h cache writes, $0.10 for cache hits and refreshes, and $5 output, per MTok, and the batch row reads $0.50 and $2.50. The Haiku 3.5, Sonnet 5 and Sonnet 4.6 rows come from the same two tables. The cross-checks were the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a>, saved at 08:27, which lists anthropic/claude-haiku-4.5 at 0.000001 prompt and 0.000005 completion per token, and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM registry</a>, saved at 08:28, whose claude-haiku-4-5 key carries the same per-token figures with a cache write of 0.00000125 and a cache read of 0.0000001. Multiplying by one million reproduces every cell in the Haiku 4.5 row, and the OpenRouter batch variant reproduces the batch row. No source disagreed on any Haiku 4.5 price. The context window is the only figure not on the official page. Worked examples were computed in Python. Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/claude-haiku-4-5-pricing-claims.json">claude-haiku-4-5-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/claude-haiku-4-5-pricing-calc.txt">claude-haiku-4-5-pricing-calc.txt</a> (the script output for the worked examples).</p>
+<p>The primary source is the Anthropic pricing page at docs.anthropic.com, saved at 08:29 on 6 September 2026. Its Haiku 4.5 row reads $1 base input, $1.25 for 5m cache writes, $2 for 1h cache writes, $0.10 for cache hits and refreshes, and $5 output, per MTok, and the batch row reads $0.50 and $2.50. The Haiku 3.5, Sonnet 5 and Sonnet 4.6 rows come from the same two tables.</p>
+<p>The cross-checks were the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a>, saved at 08:27, which lists anthropic/claude-haiku-4.5 at 0.000001 prompt and 0.000005 completion per token, and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM registry</a>, saved at 08:28, whose claude-haiku-4-5 key carries the same per-token figures with a cache write of 0.00000125 and a cache read of 0.0000001. Multiplying by one million reproduces every cell in the Haiku 4.5 row, and the OpenRouter batch variant reproduces the batch row. No source disagreed on any Haiku 4.5 price. The context window is the only figure not on the official page. Worked examples were computed in Python.</p>
+<p>Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/claude-haiku-4-5-pricing-claims.json">claude-haiku-4-5-pricing-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/claude-haiku-4-5-pricing-calc.txt">claude-haiku-4-5-pricing-calc.txt</a> (the script output for the worked examples).</p>
 </section>
 
-<section id="faq">
+<section id="faq" class="sec faq">
 <h2>Frequently asked questions</h2>
 <h3>How much does the Claude Haiku 4.5 API cost per million tokens?</h3>
 <p>On 6 September 2026 the Anthropic pricing page lists Claude Haiku 4.5 at $1 per million input tokens and $5 per million output tokens. Cache hits cost $0.10, a 5 minute cache write $1.25 and a 1 hour cache write $2 per million tokens.</p>
@@ -98,18 +95,12 @@ article.page h3{margin-top:1.75rem}
 <p>The OpenRouter record and the LiteLLM registry both list 200,000 tokens of context and 64,000 max output tokens for Claude Haiku 4.5. The official pricing page prints no context figure for Haiku 4.5, and its 1M context note covers Claude 4.6 and later models only.</p>
 </section>
 
-<section id="related">
+<section id="related" class="sec">
 <h2>Related pages</h2>
-<ul>
-<li><a href="/tools/claude-api-pricing.html">Claude API pricing</a>, every current Claude model on one table.</li>
-<li><a href="/answers/claude-haiku-vs-gpt-4o-mini.html">Claude Haiku vs GPT-4o Mini</a>, the budget tier compared across vendors.</li>
-<li><a href="/tools/prompt-caching-break-even-calculator.html">Prompt caching break even calculator</a>, when a cache write pays for itself.</li>
-<li><a href="/tools/batch-api-savings-calculator.html">Batch API savings calculator</a>, the 50 percent discount applied to your token mix.</li>
-<li><a href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a>, where Haiku 4.5 sits against the other low cost models.</li>
-</ul>
+<div class="related-grid"><a class="rel-card" href="/tools/claude-api-pricing.html">Claude API pricing</a><a class="rel-card" href="/answers/claude-haiku-vs-gpt-4o-mini.html">Claude Haiku vs GPT-4o Mini</a><a class="rel-card" href="/tools/prompt-caching-break-even-calculator.html">Prompt caching break even calculator</a><a class="rel-card" href="/tools/batch-api-savings-calculator.html">Batch API savings calculator</a><a class="rel-card" href="/answers/cheapest-llm-api-2026.html">Cheapest LLM API in 2026</a></div>
 </section>
-</article>
-  </main>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">

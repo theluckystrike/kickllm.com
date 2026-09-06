@@ -10,22 +10,8 @@
 <link rel="alternate" hreflang="en" href="https://kickllm.com/answers/claude-opus-pricing-by-version.html">
 <link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/claude-opus-pricing-by-version.html">
 <link rel="stylesheet" href="/assets/style.css">
-<style>
-main.container{max-width:800px;margin:0 auto;padding:0 1rem}
-article.page{padding:2rem 0 3rem}
-.byline{color:var(--text-muted);font-size:.95rem;margin:.25rem 0 .25rem}
-.stamp{color:var(--text-muted);font-size:.9rem;margin:0 0 1.5rem}
-.data-table-wrap{overflow-x:auto;margin:1rem 0}
-.data-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:620px}
-.data-table th,.data-table td{border:1px solid var(--border);padding:.45rem .6rem;text-align:left}
-.data-table th{background:var(--bg-card)}
-.data-table caption{caption-side:top;text-align:left;color:var(--text-muted);font-size:.85rem;padding:.25rem 0}
-.methodology-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0}
-article.page a.cite{color:inherit;text-decoration:none;border-bottom:1px dotted var(--text-muted)}
-article.page a.cite:hover,article.page a.cite:focus{color:var(--accent);border-bottom-color:var(--accent)}
-article.page h2{margin-top:2.25rem}
-article.page h3{margin-top:1.75rem}
-</style>
+<link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/sprint-page.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "@id": "https://kickllm.com/answers/claude-opus-pricing-by-version.html#article", "headline": "Claude Opus API pricing by version, 4 to 5 and Fable", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@id": "https://kickllm.com/answers/claude-opus-pricing-by-version.html#author"}, "mainEntityOfPage": "https://kickllm.com/answers/claude-opus-pricing-by-version.html"}, {"@type": "Person", "@id": "https://kickllm.com/answers/claude-opus-pricing-by-version.html#author", "name": "Michael Lip", "url": "https://zovo.one"}, {"@type": "WebPage", "@id": "https://kickllm.com/answers/claude-opus-pricing-by-version.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "Answers", "item": "https://kickllm.com/answers/"}, {"@type": "ListItem", "position": 3, "name": "Claude Opus pricing by version"}]}]}</script>
 </head>
 <body>
@@ -43,21 +29,27 @@ article.page h3{margin-top:1.75rem}
     </div>
   </nav>
 
-  <main class="container">
-<article class="page">
-<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Opus pricing by version</span></nav>
-<h1>Claude Opus API pricing by version, from Opus 4 to Opus 5 and the Fable tier above it</h1>
-<p class="byline">By Michael Lip, who builds and operates KickLLM. <a href="/about.html">More about the author</a>.</p>
-<p class="stamp">Every figure captured 6 September 2026 from the official Anthropic pricing page and two public price registries. Prices change, so read this as a dated snapshot.</p>
+  <main class="batch-doc sprint-doc">
+<div class="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Opus pricing by version</span></nav>
+  <h1>Claude Opus API pricing by version, from Opus 4 to Opus 5 and the Fable tier above it</h1>
+  <p>Every Claude Opus version from 4 to 5 on one price ladder, with the Fable and Mythos tiers above it, batch and fast mode rates, and three agent sessions priced across the line.</p>
+  <p class="byline">By <a href="/about.html">Michael Lip</a> &middot; Updated 2026-09-06</p>
+</div>
 
-<section id="answer">
+<section id="answer" class="sec">
+<p class="snap">Every figure captured 6 September 2026 from the official Anthropic pricing page and two public price registries. Prices change, so read this as a dated snapshot.</p>
 <p>$5 per million input tokens and $25 per million output tokens. That is the Claude Opus API price for every Opus version from 4.5 onward (4.5, 4.6, 4.7, 4.8 and Opus 5) on the official Anthropic pricing page as of 6 September 2026. Opus 4 and Opus 4.1 are listed at $15 and $75, three times as much, and both carry a retired label. Above Opus, Claude Fable 5 and Fable 5.1 are listed at $10 input and $50 output, so the top of the ladder is priced at two thirds of what Opus 4.1 used to cost, not at the old $15/$75.</p>
+<div class="kpis"><div class="kpi"><b>$5 / $25</b><span>Opus 4.5 through Opus 5 per 1M</span></div><div class="kpi"><b>$15 / $75</b><span>Opus 4 and 4.1, retired</span></div><div class="kpi"><b>3x</b><span>the cut that arrived with Opus 4.5</span></div><div class="kpi"><b>$10 / $50</b><span>fast mode on Opus 5 and 4.8</span></div></div>
+
 <p>The cache columns scale with base input on every row except two. Cache hits are 0.1x base input on all Opus versions ($0.50 on Opus 5, $1.50 on Opus 4.1), and 0.025x on Fable 5.1 and Mythos 5.1 ($0.25), which the official footnote calls out separately.</p>
 </section>
 
-<section id="ladder">
+<section id="ladder" class="sec wide">
 <h2>Price ladder by version, USD per 1M tokens</h2>
-<div class="data-table-wrap"><table class="data-table"><caption>Source, docs.anthropic.com pricing page, model pricing table, captured 6 September 2026. Context window column from the LiteLLM registry, same day.</caption><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th><th>Context (LiteLLM)</th></tr></thead><tbody>
+<p class="lede">Source, docs.anthropic.com pricing page, model pricing table, captured 6 September 2026. Context window column from the LiteLLM registry, same day.</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="7"><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th><th>Context (LiteLLM)</th></tr></thead><tbody>
 <tr><td>Claude Fable 5.1</td><td>$10</td><td>$12.50</td><td>$20</td><td>$0.25</td><td>$50</td><td>1,000,000</td></tr>
 <tr><td>Claude Mythos 5.1 (limited availability)</td><td>$10</td><td>$12.50</td><td>$20</td><td>$0.25</td><td>$50</td><td>1,000,000</td></tr>
 <tr><td>Claude Fable 5</td><td>$10</td><td>$12.50</td><td>$20</td><td>$1</td><td>$50</td><td>1,000,000</td></tr>
@@ -75,10 +67,12 @@ article.page h3{margin-top:1.75rem}
 <p>One thing the per-token rate hides. The official page says Claude 4.7 and later models use a newer tokenizer that produces approximately 30% more tokens for the same text. A 4.7, 4.8 or Opus 5 request on identical text bills more tokens than the same request on 4.6 at the same rate. The worked examples below hold token counts fixed.</p>
 </section>
 
-<section id="batch">
+<section id="batch" class="sec">
 <h2>Batch API rates</h2>
 <p>The official page describes the Batch API as asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens. Every row below is exactly half the standard row above.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Source, docs.anthropic.com pricing page, batch processing table, captured 6 September 2026. USD per 1M tokens.</caption><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th></tr></thead><tbody>
+<p class="lede">Source, docs.anthropic.com pricing page, batch processing table, captured 6 September 2026. USD per 1M tokens.</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th></tr></thead><tbody>
 <tr><td>Claude Fable 5.1</td><td>$5</td><td>$25</td></tr>
 <tr><td>Claude Fable 5</td><td>$5</td><td>$25</td></tr>
 <tr><td>Claude Opus 5</td><td>$2.50</td><td>$12.50</td></tr>
@@ -93,18 +87,22 @@ article.page h3{margin-top:1.75rem}
 <p>The Mythos 5 and 5.1 batch rows are also $5 and $25. Batch API and prompt caching discounts can be combined, and fast mode is not available with the Batch API.</p>
 </section>
 
-<section id="fast">
+<section id="fast" class="sec">
 <h2>Fast mode, Opus 5 and Opus 4.8 only</h2>
 <p>The official page says that fast mode, in research preview, provides significantly faster output for Claude Opus 5 and Claude Opus 4.8 at premium pricing, that fast mode pricing applies across the full context window, including requests over 200k input tokens, and that fast mode is available on the Claude API (first-party) only. The premium is exactly 2x the standard rate.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Source, docs.anthropic.com pricing page, fast mode pricing table, captured 6 September 2026. USD per 1M tokens.</caption><thead><tr><th>Model</th><th>Input</th><th>Output</th></tr></thead><tbody>
+<p class="lede">Source, docs.anthropic.com pricing page, fast mode pricing table, captured 6 September 2026. USD per 1M tokens.</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Input</th><th>Output</th></tr></thead><tbody>
 <tr><td>Claude Opus 5 / Claude Opus 4.8</td><td>$10</td><td>$50</td></tr>
 </tbody></table></div>
 <p>For the two versions just below, the page is explicit. Fast mode is not available on Claude Opus 4.7 (requests with speed: "fast" return an error) or Claude Opus 4.6 (requests run at standard speed and are billed at standard rates). So a 4.7 caller gets an error and a 4.6 caller silently gets normal speed at the normal $5/$25. Prompt caching multipliers and data residency multipliers apply on top of fast mode pricing.</p>
 </section>
 
-<section id="sonnet">
+<section id="sonnet" class="sec">
 <h2>Opus versus Sonnet, the direct ratio</h2>
-<div class="data-table-wrap"><table class="data-table"><caption>Ratio of official rates, Opus 5 divided by Sonnet 5 and by Sonnet 4.6, computed from the 6 September 2026 table.</caption><thead><tr><th>Pair</th><th>Base input</th><th>Output</th><th>Cache hit</th><th>Batch input / output</th></tr></thead><tbody>
+<p class="lede">Ratio of official rates, Opus 5 divided by Sonnet 5 and by Sonnet 4.6, computed from the 6 September 2026 table.</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Pair</th><th>Base input</th><th>Output</th><th>Cache hit</th><th>Batch input / output</th></tr></thead><tbody>
 <tr><td>Opus 5 ($5/$25) vs Sonnet 5 ($2/$10)</td><td>2.5x</td><td>2.5x</td><td>2.5x ($0.50 vs $0.20)</td><td>2.5x ($2.50/$12.50 vs $1/$5)</td></tr>
 <tr><td>Opus 5 ($5/$25) vs Sonnet 4.6 ($3/$15)</td><td>1.67x</td><td>1.67x</td><td>1.67x ($0.50 vs $0.30)</td><td>1.67x ($2.50/$12.50 vs $1.50/$7.50)</td></tr>
 <tr><td>Opus 4.1 ($15/$75) vs Sonnet 5 ($2/$10)</td><td>7.5x</td><td>7.5x</td><td>7.5x ($1.50 vs $0.20)</td><td>7.5x ($7.50/$37.50 vs $1/$5)</td></tr>
@@ -112,24 +110,30 @@ article.page h3{margin-top:1.75rem}
 <p>The official page notes that the Sonnet 5 $2/$10 pricing, announced at launch as introductory through August 31, 2026, is now the standard price, and the scheduled increase to $3/$15 on September 1, 2026 will not occur. So the 2.5x gap is against Sonnet 5's standard price, not a promotional one.</p>
 </section>
 
-<section id="examples">
+<section id="examples" class="sec wide">
 <h2>Three worked examples</h2>
 <p>All three use one coding agent session of 150,000 input tokens and 12,000 output tokens, computed in Python from the rates above. Opus 4.1 is the old tier, Opus 5 the current one, Sonnet 5 the tier below and Fable 5.1 the tier above.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Example 1, one session at the standard rate with no caching. 150,000 input, 12,000 output.</caption><thead><tr><th>Model</th><th>Input cost</th><th>Output cost</th><th>Session total</th></tr></thead><tbody>
+<p class="lede">Example 1, one session at the standard rate with no caching. 150,000 input, 12,000 output.</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Input cost</th><th>Output cost</th><th>Session total</th></tr></thead><tbody>
 <tr><td>Opus 4.1</td><td>$2.25</td><td>$0.90</td><td>$3.15</td></tr>
 <tr><td>Opus 5</td><td>$0.75</td><td>$0.30</td><td>$1.05</td></tr>
 <tr><td>Sonnet 5</td><td>$0.30</td><td>$0.12</td><td>$0.42</td></tr>
 <tr><td>Fable 5.1</td><td>$1.50</td><td>$0.60</td><td>$2.10</td></tr>
 </tbody></table></div>
 <p>Example 2 is the same session with 120,000 of the input tokens served as cache hits and 30,000 at the base input rate, the shape of an agent loop where the system prompt, tools and repository context are stable and only the latest turn is new.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Example 2, 120,000 cache hit tokens, 30,000 fresh input, 12,000 output. The last column is the one-time 5 minute cache write for those 120,000 tokens.</caption><thead><tr><th>Model</th><th>Cache hits</th><th>Fresh input</th><th>Output</th><th>Session total</th><th>Saving vs example 1</th><th>5m cache write, once</th></tr></thead><tbody>
+<p class="lede">Example 2, 120,000 cache hit tokens, 30,000 fresh input, 12,000 output. The last column is the one-time 5 minute cache write for those 120,000 tokens.</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="7"><thead><tr><th>Model</th><th>Cache hits</th><th>Fresh input</th><th>Output</th><th>Session total</th><th>Saving vs example 1</th><th>5m cache write, once</th></tr></thead><tbody>
 <tr><td>Opus 4.1</td><td>$0.18</td><td>$0.45</td><td>$0.90</td><td>$1.53</td><td>$1.62 (51.4%)</td><td>$2.25</td></tr>
 <tr><td>Opus 5</td><td>$0.06</td><td>$0.15</td><td>$0.30</td><td>$0.51</td><td>$0.54 (51.4%)</td><td>$0.75</td></tr>
 <tr><td>Sonnet 5</td><td>$0.02</td><td>$0.06</td><td>$0.12</td><td>$0.20</td><td>$0.22 (51.4%)</td><td>$0.30</td></tr>
 <tr><td>Fable 5.1</td><td>$0.03</td><td>$0.30</td><td>$0.60</td><td>$0.93</td><td>$1.17 (55.7%)</td><td>$1.50</td></tr>
 </tbody></table></div>
 <p>Fable 5.1 saves a larger share because its cache hit rate is 0.025x rather than 0.1x. With that much of the prompt cached, a Fable 5.1 session ($0.93) costs 1.82x a cached Opus 5 session ($0.51), down from the 2x gap between the uncached sessions ($2.10 against $1.05). The official page says caching pays off after one cache read for the 5 minute duration, and after two reads for the 1 hour duration. The <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a> runs that arithmetic for any token count.</p>
-<div class="data-table-wrap"><table class="data-table"><caption>Example 3, 200 sessions in a month on the Batch API rate, no caching. 30,000,000 input and 2,400,000 output tokens in total.</caption><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th><th>Month total</th><th>Standard rate would be</th></tr></thead><tbody>
+<p class="lede">Example 3, 200 sessions in a month on the Batch API rate, no caching. 30,000,000 input and 2,400,000 output tokens in total.</p>
+<div class="scroll">
+<table class="results-table wide"><thead><tr><th>Model</th><th>Batch input</th><th>Batch output</th><th>Month total</th><th>Standard rate would be</th></tr></thead><tbody>
 <tr><td>Opus 4.1</td><td>$225.00</td><td>$90.00</td><td>$315.00</td><td>$630.00</td></tr>
 <tr><td>Opus 5</td><td>$75.00</td><td>$30.00</td><td>$105.00</td><td>$210.00</td></tr>
 <tr><td>Sonnet 5</td><td>$30.00</td><td>$12.00</td><td>$42.00</td><td>$84.00</td></tr>
@@ -138,19 +142,21 @@ article.page h3{margin-top:1.75rem}
 <p>An interactive agent cannot wait for a batch, so read example 3 as the cost of the same token volume done as offline work, nightly code review for instance. At batch rates a month of Opus 5 ($105) is a third of Opus 4.1 ($315) and half of Fable 5.1 ($210).</p>
 </section>
 
-<section id="changed">
+<section id="changed" class="sec">
 <h2>What changed across the versions</h2>
 <p>The table shows exactly one price break inside the Opus line. Opus 4 (LiteLLM key claude-opus-4-20250514) and Opus 4.1 are $15 input, $18.75 for a 5 minute cache write, $30 for a 1 hour write, $1.50 per cache hit and $75 output. Opus 4.5 dropped every one of those numbers to one third, $5, $6.25, $10, $0.50 and $25, and 4.6, 4.7, 4.8 and Opus 5 kept them unchanged. The batch rows moved in lockstep, from $7.50/$37.50 to $2.50/$12.50.</p>
 <p>There is still a tier above Opus, just not at the old number. Fable 5 and Fable 5.1 sit above Opus at $10/$50, which is 2x Opus 5 and two thirds of Opus 4.1. The one difference between the two Fable rows is the cache hit rate, $1 on Fable 5 and $0.25 on Fable 5.1. Mythos 5 and 5.1, both marked limited availability, mirror the Fable rows exactly.</p>
 <p>Two non-price changes matter for a bill. The context window went from 200K on Opus 4.5 and earlier to 1M on 4.6 and later with no surcharge, and the tokenizer changed at 4.7, adding roughly 30% more tokens for the same text. Fast mode is a 2x premium on Opus 4.8 and Opus 5 only. The <a href="/research/llm-pricing-history.html">LLM pricing history</a> page dates these moves across vendors.</p>
 </section>
 
-<section id="method" class="methodology-box">
+<section id="method" class="sec method">
 <h2>How this page was checked</h2>
-<p>Primary source is the Anthropic pricing page at docs.anthropic.com, fetched on 6 September 2026 and read as extracted text. Every rate above is quoted from its model pricing, batch processing and fast mode tables, and each quote is recorded in the claims file. Cross-checks are the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a> (ids anthropic/claude-opus-4 through anthropic/claude-opus-5, anthropic/claude-fable-5 and anthropic/claude-fable-5.1) and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM price registry</a> (keys claude-opus-4-20250514, claude-opus-4-1, claude-opus-4-5, claude-opus-4-6, claude-opus-4-7, claude-opus-4-8, claude-opus-5, claude-fable-5, claude-fable-5-1), both fetched the same day and multiplied from per-token to per-million. Both agreed with the official page on base input, output, cache read and 5 minute cache write for all nine models, including the $0.25 cache read on Fable 5.1. OpenRouter carries no Mythos row; LiteLLM carries claude-mythos-5 and claude-mythos-5-1, and both agree with the official Mythos prices including the $0.25 cache read on 5.1. The worked examples were computed in Python. Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/claude-opus-pricing-by-version-claims.json">claude-opus-pricing-by-version-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/claude-opus-pricing-by-version-calc.txt">claude-opus-pricing-by-version-calc.txt</a> (the script output for the worked examples).</p>
+<p>Primary source is the Anthropic pricing page at docs.anthropic.com, fetched on 6 September 2026 and read as extracted text. Every rate above is quoted from its model pricing, batch processing and fast mode tables, and each quote is recorded in the claims file. Cross-checks are the <a class="cite" href="https://openrouter.ai/api/v1/models">OpenRouter models API</a> (ids anthropic/claude-opus-4 through anthropic/claude-opus-5, anthropic/claude-fable-5 and anthropic/claude-fable-5.1) and the <a class="cite" href="https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json">LiteLLM price registry</a> (keys claude-opus-4-20250514, claude-opus-4-1, claude-opus-4-5, claude-opus-4-6, claude-opus-4-7, claude-opus-4-8, claude-opus-5, claude-fable-5, claude-fable-5-1), both fetched the same day and multiplied from per-token to per-million.</p>
+<p>Both agreed with the official page on base input, output, cache read and 5 minute cache write for all nine models, including the $0.25 cache read on Fable 5.1. OpenRouter carries no Mythos row; LiteLLM carries claude-mythos-5 and claude-mythos-5-1, and both agree with the official Mythos prices including the $0.25 cache read on 5.1. The worked examples were computed in Python.</p>
+<p>Evidence files for this page are published at <a class="cite" href="/data/2026-09-06/claude-opus-pricing-by-version-claims.json">claude-opus-pricing-by-version-claims.json</a> (every figure with its source quote) and <a class="cite" href="/data/2026-09-06/claude-opus-pricing-by-version-calc.txt">claude-opus-pricing-by-version-calc.txt</a> (the script output for the worked examples).</p>
 </section>
 
-<section id="faq">
+<section id="faq" class="sec faq">
 <h2>Questions people search for</h2>
 <h3>How much does the Claude Opus API cost per 1M tokens?</h3>
 <p>On 6 September 2026 the official Anthropic pricing page lists Claude Opus 5, Opus 4.8, Opus 4.7, Opus 4.6 and Opus 4.5 at $5 per million input tokens and $25 per million output tokens. Opus 4.1 and Opus 4 are listed at $15 input and $75 output and both carry a retired label (4.1 except on Bedrock and Google Cloud, 4 except on Google Cloud).</p>
@@ -164,12 +170,12 @@ article.page h3{margin-top:1.75rem}
 <p>Yes. Opus 4 and Opus 4.1 are listed at $15 input and $75 output. Opus 4.5 and every Opus after it are listed at $5 and $25, one third of the old price. The tier above Opus, Claude Fable 5 and Fable 5.1, is $10 input and $50 output.</p>
 </section>
 
-<section id="related">
+<section id="related" class="sec">
 <h2>Related pages</h2>
 <p>To price a specific workload across every current Claude model, use the <a href="/tools/claude-api-pricing.html">Claude API pricing tool</a>. For the old $15/$75 tier on its own, see <a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 pricing</a>. For the cross-vendor comparison, read <a href="/answers/claude-opus-vs-gpt-4o.html">Claude Opus versus GPT-4o</a>. To find how many cache reads pay back a cache write at these rates, use the <a href="/tools/prompt-caching-break-even-calculator.html">prompt caching break-even calculator</a>, and for the dated record of price moves, the <a href="/research/llm-pricing-history.html">LLM pricing history</a>.</p>
 </section>
-</article>
-  </main>
+
+</main>
 
   <footer class="site-footer">
     <div class="footer-inner">

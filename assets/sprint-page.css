@@ -1,0 +1,49 @@
+/* September 2026 research and pricing pages. Scoped to .sprint-doc, built on batch-page.css and the site tokens. */
+.sprint-doc .hero { padding-bottom: 0.5rem; }
+.sprint-doc .hero h1 { font-size: 2.1rem; }
+.sprint-doc .hero .breadcrumb { margin-bottom: 1rem; }
+.sprint-doc .sec { max-width: 720px; margin: 2.5rem auto; padding: 0 1.25rem; }
+.sprint-doc .sec:first-of-type { margin-top: 1.5rem; }
+.sprint-doc .snap { margin-bottom: 1.25rem; }
+.sprint-doc .lede { margin: 0 0 0.75rem; }
+.sprint-doc h2 { font-family: var(--font-body); }
+.sprint-doc .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin: 1.5rem 0 0.5rem; }
+.sprint-doc .kpi { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.sprint-doc .kpi b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--text); margin-bottom: 0.25rem; }
+.sprint-doc .kpi span { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); line-height: 1.4; }
+.sprint-doc .method { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
+.sprint-doc .method h2 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+.sprint-doc .method p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
+.sprint-doc .method p:last-child { margin-bottom: 0; }
+.sprint-doc .faq h3 { border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.5rem; font-size: 1rem; }
+.sprint-doc .faq h3:first-of-type { border-top: 0; padding-top: 0; margin-top: 1rem; }
+.sprint-doc .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; }
+.sprint-doc .rel-card { display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.9rem 1rem; color: var(--text); text-decoration: none; font-size: 0.92rem; line-height: 1.45; }
+.sprint-doc .rel-card:hover, .sprint-doc .rel-card:focus-visible { border-color: var(--accent); color: var(--accent); }
+.sprint-doc table.results-table td, .sprint-doc table.results-table th { font-variant-numeric: tabular-nums; }
+.sprint-doc table.results-table td:first-child { white-space: nowrap; }
+.sprint-doc pre { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; overflow-x: auto; font-size: 0.8rem; }
+@media (max-width: 640px) {
+  .sprint-doc .hero h1 { font-size: 1.55rem; }
+  .sprint-doc .hero { padding: 2.5rem 1rem 0.5rem; }
+  .sprint-doc table.results-table td:first-child { white-space: normal; }
+}
+
+/* The site sets table{display:block} globally, which clips wide tables inside a 720px column and hides the
+   scrollbar. Inside .scroll the wrapper scrolls and the table lays out as a table again. */
+.sprint-doc .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 0 1.25rem; }
+.sprint-doc .scroll table.results-table { display: table; width: 100%; margin: 0; }
+.sprint-doc table.results-table td:first-child { white-space: normal; }
+.sprint-doc table.results-table th, .sprint-doc table.results-table td { padding: 0.65rem 0.7rem; }
+.sprint-doc table.results-table.dense { font-size: 0.84rem; min-width: 760px; }
+.sprint-doc table.results-table.dense th { font-size: 0.66rem; }
+.sprint-doc table.results-table.dense th, .sprint-doc table.results-table.dense td { padding: 0.5rem 0.55rem; white-space: nowrap; }
+.sprint-doc table.results-table.dense td:first-child { white-space: normal; min-width: 9rem; }
+.sprint-doc .sec.wide { max-width: 1040px; }
+.sprint-doc .sec.wide > p, .sprint-doc .sec.wide > h2, .sprint-doc .sec.wide > h3 { max-width: 720px; margin-left: auto; margin-right: auto; }
+.sprint-doc .sec.wide > p.lede { margin-bottom: 0.75rem; }
+@media (max-width: 700px) { .sprint-doc .scroll { border-right: 1px solid var(--border); border-radius: 0 var(--radius) var(--radius) 0; } }
+.sprint-doc table.results-table.dense th { white-space: normal; }
+.sprint-doc table.results-table.dense td:nth-child(2) { white-space: normal; max-width: 13rem; }
+.sprint-doc table.results-table td:first-child { max-width: 11rem; }
+.sprint-doc table.results-table.dense td:first-child { max-width: 12rem; }
