@@ -1,0 +1,324 @@
+{
+ "generated": "2026-09-06T01:43:53Z",
+ "prompt": "Explain in about 200 words how TCP congestion control works. Plain prose, no lists.",
+ "settings": {
+  "max_tokens": 1500,
+  "temperature": 0,
+  "reasoning_effort": "low",
+  "stream": true,
+  "route": "OpenRouter default provider routing",
+  "client": "Python urllib, machine clock UTC+7, egress via Mullvad WireGuard VPN relay in Warsaw, Poland (AS212238 Datacamp Limited), verified with ipinfo.io after the run",
+  "window_utc": "2026-09-06 01:30 to 01:44 UTC"
+ },
+ "models": [
+  {
+   "model": "openai/gpt-5.4-nano",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.0,
+   "ttft_min": 1.67,
+   "ttft_max": 3.52,
+   "tps_median": 199.1,
+   "tps_min": 133.5,
+   "tps_max": 216.1,
+   "total_median": 3.48,
+   "reasoning_tokens_median": 0,
+   "content_tokens_median": 244,
+   "providers": {
+    "OpenAI": 6
+   },
+   "first_ts": 1788658244,
+   "last_ts": 1788658924
+  },
+  {
+   "model": "google/gemini-3.8-flash",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.03,
+   "ttft_min": 1.92,
+   "ttft_max": 2.44,
+   "tps_median": 133.1,
+   "tps_min": 91.5,
+   "tps_max": 170.0,
+   "total_median": 3.82,
+   "reasoning_tokens_median": 0,
+   "content_tokens_median": 227,
+   "providers": {
+    "Google": 6
+   },
+   "first_ts": 1788658248,
+   "last_ts": 1788658927
+  },
+  {
+   "model": "openai/gpt-5.4-mini",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.04,
+   "ttft_min": 1.92,
+   "ttft_max": 2.13,
+   "tps_median": 147.8,
+   "tps_min": 140.3,
+   "tps_max": 184.0,
+   "total_median": 3.8,
+   "reasoning_tokens_median": 13,
+   "content_tokens_median": 246,
+   "providers": {
+    "OpenAI": 6
+   },
+   "first_ts": 1788658240,
+   "last_ts": 1788658921
+  },
+  {
+   "model": "anthropic/claude-sonnet-5",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.34,
+   "ttft_min": 2.12,
+   "ttft_max": 2.71,
+   "tps_median": 88.3,
+   "tps_min": 86.3,
+   "tps_max": 96.0,
+   "total_median": 6.92,
+   "reasoning_tokens_median": 0,
+   "content_tokens_median": 403,
+   "providers": {
+    "Claude Platform on AWS": 6
+   },
+   "first_ts": 1788658296,
+   "last_ts": 1788658979
+  },
+  {
+   "model": "moonshotai/kimi-k3",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.38,
+   "ttft_min": 1.99,
+   "ttft_max": 2.96,
+   "tps_median": 82.3,
+   "tps_min": 71.5,
+   "tps_max": 118.4,
+   "total_median": 5.75,
+   "reasoning_tokens_median": 14,
+   "content_tokens_median": 281,
+   "providers": {
+    "Sail Research": 6
+   },
+   "first_ts": 1788658373,
+   "last_ts": 1788659024
+  },
+  {
+   "model": "openai/gpt-6-astra",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.41,
+   "ttft_min": 2.16,
+   "ttft_max": 2.89,
+   "tps_median": 53.2,
+   "tps_min": 41.0,
+   "tps_max": 61.3,
+   "total_median": 7.35,
+   "reasoning_tokens_median": 0,
+   "content_tokens_median": 251,
+   "providers": {
+    "OpenAI": 6
+   },
+   "first_ts": 1788658223,
+   "last_ts": 1788658904
+  },
+  {
+   "model": "anthropic/claude-haiku-4.5",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 2.83,
+   "ttft_min": 2.58,
+   "ttft_max": 3.11,
+   "tps_median": 97.5,
+   "tps_min": 91.2,
+   "tps_max": 101.9,
+   "total_median": 5.78,
+   "reasoning_tokens_median": 115,
+   "content_tokens_median": 281,
+   "providers": {
+    "Amazon Bedrock": 6
+   },
+   "first_ts": 1788658303,
+   "last_ts": 1788658987
+  },
+  {
+   "model": "google/gemini-3.5-flash-lite",
+   "n_ok": 5,
+   "n_bad": 1,
+   "ttft_median": 3.83,
+   "ttft_min": 3.58,
+   "ttft_max": 8.41,
+   "tps_median": 389.4,
+   "tps_min": 160.6,
+   "tps_max": 402.2,
+   "total_median": 4.64,
+   "reasoning_tokens_median": 476,
+   "content_tokens_median": 220,
+   "providers": {
+    "Google": 5
+   },
+   "first_ts": 1788658414,
+   "last_ts": 1788658941
+  },
+  {
+   "model": "anthropic/claude-fable-5.1",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 3.88,
+   "ttft_min": 3.56,
+   "ttft_max": 5.0,
+   "tps_median": 65.4,
+   "tps_min": 62.0,
+   "tps_max": 66.9,
+   "total_median": 10.49,
+   "reasoning_tokens_median": 0,
+   "content_tokens_median": 429,
+   "providers": {
+    "Anthropic": 6
+   },
+   "first_ts": 1788658275,
+   "last_ts": 1788658958
+  },
+  {
+   "model": "deepseek/deepseek-v4-flash",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 3.89,
+   "ttft_min": 2.32,
+   "ttft_max": 9.01,
+   "tps_median": 76.9,
+   "tps_min": 8.7,
+   "tps_max": 155.9,
+   "total_median": 6.5,
+   "reasoning_tokens_median": 74,
+   "content_tokens_median": 244,
+   "providers": {
+    "DigitalOcean": 2,
+    "GMICloud": 1,
+    "Novita": 1,
+    "Parasail": 1,
+    "Baidu": 1
+   },
+   "first_ts": 1788658309,
+   "last_ts": 1788658992
+  },
+  {
+   "model": "openai/gpt-5.6-sol",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 4.07,
+   "ttft_min": 3.18,
+   "ttft_max": 6.83,
+   "tps_median": 45.2,
+   "tps_min": 43.3,
+   "tps_max": 78.3,
+   "total_median": 10.26,
+   "reasoning_tokens_median": 43,
+   "content_tokens_median": 274,
+   "providers": {
+    "OpenAI": 6
+   },
+   "first_ts": 1788658230,
+   "last_ts": 1788658911
+  },
+  {
+   "model": "anthropic/claude-opus-5",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 4.66,
+   "ttft_min": 4.35,
+   "ttft_max": 4.88,
+   "tps_median": 89.0,
+   "tps_min": 87.4,
+   "tps_max": 108.6,
+   "total_median": 9.45,
+   "reasoning_tokens_median": 24,
+   "content_tokens_median": 441,
+   "providers": {
+    "Claude Platform on AWS": 6
+   },
+   "first_ts": 1788658286,
+   "last_ts": 1788658970
+  },
+  {
+   "model": "deepseek/deepseek-v4-pro",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 5.29,
+   "ttft_min": 4.44,
+   "ttft_max": 7.52,
+   "tps_median": 50.0,
+   "tps_min": 36.8,
+   "tps_max": 62.1,
+   "total_median": 11.08,
+   "reasoning_tokens_median": 125,
+   "content_tokens_median": 271,
+   "providers": {
+    "SiliconFlow": 1,
+    "StreamLake": 5
+   },
+   "first_ts": 1788658347,
+   "last_ts": 1788658996
+  },
+  {
+   "model": "google/gemini-3.5-flash",
+   "n_ok": 4,
+   "n_bad": 2,
+   "ttft_median": 6.75,
+   "ttft_min": 5.99,
+   "ttft_max": 8.95,
+   "tps_median": 267.9,
+   "tps_min": 248.3,
+   "tps_max": 292.6,
+   "total_median": 7.59,
+   "reasoning_tokens_median": 805,
+   "content_tokens_median": 218,
+   "providers": {
+    "Google": 4
+   },
+   "first_ts": 1788658251,
+   "last_ts": 1788658810
+  },
+  {
+   "model": "google/gemini-3.1-pro-preview",
+   "n_ok": 3,
+   "n_bad": 3,
+   "ttft_median": 7.92,
+   "ttft_min": 7.81,
+   "ttft_max": 7.92,
+   "tps_median": 186.3,
+   "tps_min": 183.8,
+   "tps_max": 197.2,
+   "total_median": 9.33,
+   "reasoning_tokens_median": 587,
+   "content_tokens_median": 242,
+   "providers": {
+    "Google": 3
+   },
+   "first_ts": 1788658265,
+   "last_ts": 1788658700
+  },
+  {
+   "model": "x-ai/grok-4.6",
+   "n_ok": 6,
+   "n_bad": 0,
+   "ttft_median": 12.02,
+   "ttft_min": 10.37,
+   "ttft_max": 14.37,
+   "tps_median": 52.7,
+   "tps_min": 46.6,
+   "tps_max": 92.5,
+   "total_median": 16.56,
+   "reasoning_tokens_median": 504,
+   "content_tokens_median": 234,
+   "providers": {
+    "xAI": 6
+   },
+   "first_ts": 1788658356,
+   "last_ts": 1788659008
+  }
+ ]
+}

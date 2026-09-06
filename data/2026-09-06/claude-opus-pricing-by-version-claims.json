@@ -1,0 +1,476 @@
+[
+ {
+  "claim": "Claude Fable 5.1 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok"
+ },
+ {
+  "claim": "Claude Mythos 5.1 (limited availability) standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Mythos 5.1 (limited availability) | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok"
+ },
+ {
+  "claim": "Claude Fable 5 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Fable 5 | $10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok"
+ },
+ {
+  "claim": "Claude Mythos 5 (limited availability) standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Mythos 5 (limited availability) | $10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 5 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 5 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.8 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.8 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.7 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.7 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.6 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.6 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.5 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.5 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.1 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.1 (retired, except on Bedrock and Google Cloud) | $15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4 (retired, except on Google Cloud) | $15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok"
+ },
+ {
+  "claim": "Claude Sonnet 5 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$2 / MTok | $2.50 / MTok | $4 / MTok | $0.20 / MTok | $10 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Sonnet 5 | $2 / MTok | $2.50 / MTok | $4 / MTok | $0.20 / MTok | $10 / MTok"
+ },
+ {
+  "claim": "Claude Sonnet 4.6 standard rates (base input, 5m cache write, 1h cache write, cache hit, output), USD per 1M tokens",
+  "value": "$3 / MTok | $3.75 / MTok | $6 / MTok | $0.30 / MTok | $15 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Sonnet 4.6 | $3 / MTok | $3.75 / MTok | $6 / MTok | $0.30 / MTok | $15 / MTok"
+ },
+ {
+  "claim": "Claude Fable 5.1 batch input / batch output, USD per 1M tokens",
+  "value": "$5 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Fable 5.1 | $5 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Mythos 5.1 batch input / batch output, USD per 1M tokens",
+  "value": "$5 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Mythos 5.1 (limited availability) | $5 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Fable 5 batch input / batch output, USD per 1M tokens",
+  "value": "$5 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Fable 5 | $5 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Mythos 5 batch input / batch output, USD per 1M tokens",
+  "value": "$5 / MTok | $25 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Mythos 5 (limited availability) | $5 / MTok | $25 / MTok"
+ },
+ {
+  "claim": "Claude Opus 5 batch input / batch output, USD per 1M tokens",
+  "value": "$2.50 / MTok | $12.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 5 | $2.50 / MTok | $12.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.8 batch input / batch output, USD per 1M tokens",
+  "value": "$2.50 / MTok | $12.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.8 | $2.50 / MTok | $12.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.7 batch input / batch output, USD per 1M tokens",
+  "value": "$2.50 / MTok | $12.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.7 | $2.50 / MTok | $12.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.6 batch input / batch output, USD per 1M tokens",
+  "value": "$2.50 / MTok | $12.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.6 | $2.50 / MTok | $12.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.5 batch input / batch output, USD per 1M tokens",
+  "value": "$2.50 / MTok | $12.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.5 | $2.50 / MTok | $12.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4.1 batch input / batch output, USD per 1M tokens",
+  "value": "$7.50 / MTok | $37.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4.1 (retired, except on Bedrock and Google Cloud) | $7.50 / MTok | $37.50 / MTok"
+ },
+ {
+  "claim": "Claude Opus 4 batch input / batch output, USD per 1M tokens",
+  "value": "$7.50 / MTok | $37.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 4 (retired, except on Google Cloud) | $7.50 / MTok | $37.50 / MTok"
+ },
+ {
+  "claim": "Claude Sonnet 5 batch input / batch output, USD per 1M tokens",
+  "value": "$1 / MTok | $5 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Sonnet 5 | $1 / MTok | $5 / MTok"
+ },
+ {
+  "claim": "Claude Sonnet 4.6 batch input / batch output, USD per 1M tokens",
+  "value": "$1.50 / MTok | $7.50 / MTok",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Sonnet 4.6 | $1.50 / MTok | $7.50 / MTok"
+ },
+ {
+  "claim": "Batch API discount is 50% on input and output",
+  "value": "50%",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "The Batch API allows asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens."
+ },
+ {
+  "claim": "Batch and prompt caching discounts combine",
+  "value": "combinable",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Batch API and prompt caching discounts can be combined."
+ },
+ {
+  "claim": "Fast mode not available with Batch API",
+  "value": "not available",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Fast mode is not available with the Batch API."
+ },
+ {
+  "claim": "Fast mode scope sentence (Opus 5 and Opus 4.8, premium, full context window, first-party only)",
+  "value": "Opus 5 / Opus 4.8 only",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Fast mode, in research preview, provides significantly faster output for Claude Opus 5 and Claude Opus 4.8 at premium pricing. Fast mode pricing applies across the full context window, including requests over 200k input tokens. Fast mode is available on the Claude API (first-party) only; it is not available on Claude Platform on AWS or partner-operated cloud platforms."
+ },
+ {
+  "claim": "Fast mode price row Opus 5 / Opus 4.8",
+  "value": "$10 input, $50 output per 1M tokens",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude Opus 5 / Claude Opus 4.8 | $10 / MTok | $50 / MTok"
+ },
+ {
+  "claim": "Fast mode on Opus 4.7 and 4.6",
+  "value": "4.7 returns an error; 4.6 runs at standard speed and standard rates",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Fast mode is not available on Claude Opus 4.7 (requests with speed: \"fast\" return an error) or Claude Opus 4.6 (requests run at standard speed and are billed at standard rates)."
+ },
+ {
+  "claim": "Fast mode stacks with caching and data residency multipliers",
+  "value": "stacks",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Fast mode pricing stacks with other pricing modifiers: Prompt caching multipliers apply on top of fast mode pricing Data residency multipliers apply on top of fast mode pricing"
+ },
+ {
+  "claim": "Cache hit multiplier footnote for Fable 5.1 and Mythos 5.1",
+  "value": "0.025x (others 0.1x)",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "1 Cache hits and refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at 0.025x the base input price. All other models use the standard 0.1x multiplier."
+ },
+ {
+  "claim": "Cache multipliers and break-even sentence",
+  "value": "5m write 1.25x, 1h write 2x, hit 0.1x; pays off after one read (5m) or two reads (1h)",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "A cache hit costs 10% of the standard input price, which means caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write). On Claude Fable 5.1 and Claude Mythos 5.1, a cache hit costs 2.5% of the standard input price ($0.25 USD per million tokens)."
+ },
+ {
+  "claim": "Long context: 4.6 and later include 1M context at standard pricing",
+  "value": "1M at standard rate",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude 4.6 and later models and Claude Mythos Preview include the full 1M token context window at standard pricing. (A 900k-token request is billed at the same per-token rate as a 9k-token request.) Prompt caching and batch processing discounts apply at standard rates across the full context window."
+ },
+ {
+  "claim": "Tokenizer change at 4.7, approximately 30% more tokens",
+  "value": "~30% more tokens",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that contributes to their improved performance on a wide range of tasks. This tokenizer produces approximately 30% more tokens for the same text. The exact increase depends on the content and workload shape. Claude Sonnet 4.6 and earlier models use the previous tokenizer."
+ },
+ {
+  "claim": "Sonnet 5 $2/$10 is now standard, the September 1 increase to $3/$15 will not occur",
+  "value": "$2/$10 standard",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "The $2/$10 per million input/output token pricing for Claude Sonnet 5, announced at launch as introductory pricing through August 31, 2026, is now the standard price. The previously scheduled increase to $3/$15 per million input/output tokens on September 1, 2026 will not occur."
+ },
+ {
+  "claim": "Prices are USD",
+  "value": "USD",
+  "source_file": "evidence/claude-opus-pricing-by-version-source-dump.txt (text extracted from data/docs_anthropic_com_en_docs_about-claude_pricing.html; data/official-anthropic-pricing.txt was 0 bytes)",
+  "quote": "All prices are in USD."
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000015 completion 0.000075 cache_read 0.0000015 cache_write 0.00001875 context_length 200000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4: pricing prompt 0.000015 completion 0.000075 cache_read 0.0000015 cache_write 0.00001875 context_length 200000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4.1 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000015 completion 0.000075 cache_read 0.0000015 cache_write 0.00001875 context_length 200000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4.1: pricing prompt 0.000015 completion 0.000075 cache_read 0.0000015 cache_write 0.00001875 context_length 200000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4.5 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 200000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4.5: pricing prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 200000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4.6 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4.6: pricing prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4.7 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4.7: pricing prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-4.8 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-4.8: pricing prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-opus-5 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-opus-5: pricing prompt 0.000005 completion 0.000025 cache_read 0.0000005 cache_write 0.00000625 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-fable-5 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.00001 completion 0.00005 cache_read 0.000001 cache_write 0.0000125 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-fable-5: pricing prompt 0.00001 completion 0.00005 cache_read 0.000001 cache_write 0.0000125 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-fable-5.1 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.00001 completion 0.00005 cache_read 0.00000025 cache_write 0.0000125 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-fable-5.1: pricing prompt 0.00001 completion 0.00005 cache_read 0.00000025 cache_write 0.0000125 context_length 1000000"
+ },
+ {
+  "claim": "OpenRouter cross-check anthropic/claude-sonnet-5 (per token, x1e6 = per 1M); agrees with official",
+  "value": "prompt 0.000002 completion 0.00001 cache_read 0.0000002 cache_write 0.0000025 context_length 1000000",
+  "source_file": "data/openrouter-models.json",
+  "quote": "id anthropic/claude-sonnet-5: pricing prompt 0.000002 completion 0.00001 cache_read 0.0000002 cache_write 0.0000025 context_length 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-20250514 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 1.5e-05 output_cost_per_token 7.5e-05 cache_read_input_token_cost 1.5e-06 cache_creation_input_token_cost 1.875e-05 cache_creation_input_token_cost_above_1hr 3e-05 max_input_tokens 200000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-20250514: input_cost_per_token 1.5e-05 output_cost_per_token 7.5e-05 cache_read_input_token_cost 1.5e-06 cache_creation_input_token_cost 1.875e-05 cache_creation_input_token_cost_above_1hr 3e-05 max_input_tokens 200000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-1 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 1.5e-05 output_cost_per_token 7.5e-05 cache_read_input_token_cost 1.5e-06 cache_creation_input_token_cost 1.875e-05 cache_creation_input_token_cost_above_1hr 3e-05 max_input_tokens 200000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-1: input_cost_per_token 1.5e-05 output_cost_per_token 7.5e-05 cache_read_input_token_cost 1.5e-06 cache_creation_input_token_cost 1.875e-05 cache_creation_input_token_cost_above_1hr 3e-05 max_input_tokens 200000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-5 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 200000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-5: input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 200000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-6 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-6: input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-7 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-7: input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-4-8 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-4-8: input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-opus-5 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-opus-5: input_cost_per_token 5e-06 output_cost_per_token 2.5e-05 cache_read_input_token_cost 5e-07 cache_creation_input_token_cost 6.25e-06 cache_creation_input_token_cost_above_1hr 1e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-fable-5 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 1e-06 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-fable-5: input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 1e-06 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-fable-5-1 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 2.5e-07 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-fable-5-1: input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 2.5e-07 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-sonnet-5 (per token; max_input_tokens is the context column on the page); agrees with official",
+  "value": "input_cost_per_token 2e-06 output_cost_per_token 1e-05 cache_read_input_token_cost 2e-07 cache_creation_input_token_cost 2.5e-06 cache_creation_input_token_cost_above_1hr 4e-06 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-sonnet-5: input_cost_per_token 2e-06 output_cost_per_token 1e-05 cache_read_input_token_cost 2e-07 cache_creation_input_token_cost 2.5e-06 cache_creation_input_token_cost_above_1hr 4e-06 max_input_tokens 1000000"
+ },
+ {
+  "claim": "OpenRouter has no Mythos row; LiteLLM has claude-mythos-5 and claude-mythos-5-1",
+  "value": "OpenRouter absent, LiteLLM present",
+  "source_file": "data/openrouter-models.json and data/litellm-prices.json",
+  "quote": "OpenRouter ids containing 'mythos': []. LiteLLM keys claude-mythos-5 and claude-mythos-5-1 present (see the two LiteLLM Mythos entries)."
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 4.1   input $2.25 + output $0.90 = $3.15",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 4.1   input $2.25 + output $0.90 = $3.15"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 5     input $0.75 + output $0.30 = $1.05",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 5     input $0.75 + output $0.30 = $1.05"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Sonnet 5   input $0.30 + output $0.12 = $0.42",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Sonnet 5   input $0.30 + output $0.12 = $0.42"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Fable 5.1  input $1.50 + output $0.60 = $2.10",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Fable 5.1  input $1.50 + output $0.60 = $2.10"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 4.1   cache hits $0.18 + fresh input $0.45 + output $0.90 = $1.53; saving vs example 1 $1.62 (51.4%); one-time 5m cache write of 120,000 tokens $2.25",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 4.1   cache hits $0.18 + fresh input $0.45 + output $0.90 = $1.53; saving vs example 1 $1.62 (51.4%); one-time 5m cache write of 120,000 tokens $2.25"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 5     cache hits $0.06 + fresh input $0.15 + output $0.30 = $0.51; saving vs example 1 $0.54 (51.4%); one-time 5m cache write of 120,000 tokens $0.75",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 5     cache hits $0.06 + fresh input $0.15 + output $0.30 = $0.51; saving vs example 1 $0.54 (51.4%); one-time 5m cache write of 120,000 tokens $0.75"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Sonnet 5   cache hits $0.02 + fresh input $0.06 + output $0.12 = $0.20; saving vs example 1 $0.22 (51.4%); one-time 5m cache write of 120,000 tokens $0.30",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Sonnet 5   cache hits $0.02 + fresh input $0.06 + output $0.12 = $0.20; saving vs example 1 $0.22 (51.4%); one-time 5m cache write of 120,000 tokens $0.30"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Fable 5.1  cache hits $0.03 + fresh input $0.30 + output $0.60 = $0.93; saving vs example 1 $1.17 (55.7%); one-time 5m cache write of 120,000 tokens $1.50",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Fable 5.1  cache hits $0.03 + fresh input $0.30 + output $0.60 = $0.93; saving vs example 1 $1.17 (55.7%); one-time 5m cache write of 120,000 tokens $1.50"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 4.1   batch input $225.00 + batch output $90.00 = $315.00; standard rate would be $630.00",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 4.1   batch input $225.00 + batch output $90.00 = $315.00; standard rate would be $630.00"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 5     batch input $75.00 + batch output $30.00 = $105.00; standard rate would be $210.00",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 5     batch input $75.00 + batch output $30.00 = $105.00; standard rate would be $210.00"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Sonnet 5   batch input $30.00 + batch output $12.00 = $42.00; standard rate would be $84.00",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Sonnet 5   batch input $30.00 + batch output $12.00 = $42.00; standard rate would be $84.00"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Fable 5.1  batch input $150.00 + batch output $60.00 = $210.00; standard rate would be $420.00",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Fable 5.1  batch input $150.00 + batch output $60.00 = $210.00; standard rate would be $420.00"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 4.1 / Opus 5 base input 3x, output 3x",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 4.1 / Opus 5 base input 3x, output 3x"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Opus 5 / Sonnet 5 base input 2.5x, output 2.5x, cache hit 2.5x",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Opus 5 / Sonnet 5 base input 2.5x, output 2.5x, cache hit 2.5x"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Fable 5.1 / Opus 5 base input 2x, output 2x",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Fable 5.1 / Opus 5 base input 2x, output 2x"
+ },
+ {
+  "claim": "Worked example / ratio line printed on the page",
+  "value": "Fast mode Opus 5 / standard Opus 5 input 2x, output 2x",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Fast mode Opus 5 / standard Opus 5 input 2x, output 2x"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-mythos-5 (per token); agrees with official Mythos 5 row; max_input_tokens is the context column",
+  "value": "input 1e-05 output 5e-05 cache_read 1e-06 cache_write 1.25e-05 cache_write_1hr 2e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-mythos-5: input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 1e-06 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "LiteLLM cross-check claude-mythos-5-1 (per token); agrees with official Mythos 5.1 row including $0.25 cache read",
+  "value": "input 1e-05 output 5e-05 cache_read 2.5e-07 cache_write 1.25e-05 cache_write_1hr 2e-05 max_input_tokens 1000000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "key claude-mythos-5-1: input_cost_per_token 1e-05 output_cost_per_token 5e-05 cache_read_input_token_cost 2.5e-07 cache_creation_input_token_cost 1.25e-05 cache_creation_input_token_cost_above_1hr 2e-05 max_input_tokens 1000000"
+ },
+ {
+  "claim": "Example 2 cached Fable 5.1 vs cached Opus 5 ratio",
+  "value": "1.82x (uncached 2x)",
+  "source_file": "evidence/claude-opus-pricing-by-version-calc.txt",
+  "quote": "Example 2 Fable 5.1 / Opus 5 cached session 1.82x (uncached example 1 ratio 2x)"
+ }
+]

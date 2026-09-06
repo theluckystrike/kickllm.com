@@ -1,0 +1,21 @@
+OpenRouter created 1788362056 = 2026-09-02 15:14:16 UTC
+Ratio 2027/2026 input 2.0 output 2.0 cache 2.0 storage 2.0 batch in 2.0 batch out 2.0
+Batch/Standard ratio 2026: 0.5 0.5
+
+Example 1: 50,000 req/day x 1,200 in + 300 out x 30 days = 1,800M input tokens, 450M output tokens
+  Standard 2026: input 1,800 x 0.75 = $1,350.00; output 450 x 3.75 = $1,687.50; total $3,037.50; per request $0.0020
+  Standard 2027: input 1,800 x 1.5 = $2,700.00; output 450 x 7.5 = $3,375.00; total $6,075.00; per request $0.0041
+Example 2: same workload on Batch
+  Batch 2026: input 1,800 x 0.375 = $675.00; output 450 x 1.875 = $843.75; total $1,518.75; per request $0.0010
+  Batch 2027: input 1,800 x 0.75 = $1,350.00; output 450 x 3.75 = $1,687.50; total $3,037.50; per request $0.0020
+
+Example 3: RAG, 200,000 token cached context reused 2,000 times/day = 400M cached tokens read per day; storage 0.2M tokens x 24 h
+  2026: cached reads 400 x 0.075 = $30.00/day; storage 0.2 x 0.5 x 24 = $2.40/day; cached total $32.40/day, $972.00/30 days
+  2026: uncached 400 x 0.75 = $300.00/day, $9,000.00/30 days; saving $267.60/day = 89.2%
+  2027: cached reads 400 x 0.15 = $60.00/day; storage 0.2 x 1.0 x 24 = $4.80/day; cached total $64.80/day, $1,944.00/30 days
+  2027: uncached 400 x 1.5 = $600.00/day, $18,000.00/30 days; saving $535.20/day = 89.2%
+  Storage per hour for the 200k context, 2026: $0.10; one uncached pass of it costs $0.15 vs cached read $0.02
+
+Sibling per 1M: 3.8 Flash 0.75/3.75 vs 3.5 Flash 1.50/9.00 -> ratios 0.5 0.4166666666666667 ; vs Flash-Lite 0.30/2.50 -> 2.5 1.5 ; 3.1 Pro 2.00/12.00 -> 2.6666666666666665 3.2
+Example 1 on 3.5 Flash 2026 list: $6,750.00 | Flash-Lite: $1,665.00 | 3.1 Pro: $9,000.00
+Grounding: 20,000 searches/month -> (20000-5000)/1000 x 14 = $210.00

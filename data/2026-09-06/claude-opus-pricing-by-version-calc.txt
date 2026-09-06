@@ -1,0 +1,26 @@
+Example 1: one coding agent session, 150,000 input + 12,000 output tokens, standard rate, no cache
+  Opus 4.1   input $2.25 + output $0.90 = $3.15
+  Opus 5     input $0.75 + output $0.30 = $1.05
+  Sonnet 5   input $0.30 + output $0.12 = $0.42
+  Fable 5.1  input $1.50 + output $0.60 = $2.10
+
+Example 2: same session, 120,000 of the input tokens served as cache hits, 30,000 at base input
+  Opus 4.1   cache hits $0.18 + fresh input $0.45 + output $0.90 = $1.53; saving vs example 1 $1.62 (51.4%); one-time 5m cache write of 120,000 tokens $2.25
+  Opus 5     cache hits $0.06 + fresh input $0.15 + output $0.30 = $0.51; saving vs example 1 $0.54 (51.4%); one-time 5m cache write of 120,000 tokens $0.75
+  Sonnet 5   cache hits $0.02 + fresh input $0.06 + output $0.12 = $0.20; saving vs example 1 $0.22 (51.4%); one-time 5m cache write of 120,000 tokens $0.30
+  Fable 5.1  cache hits $0.03 + fresh input $0.30 + output $0.60 = $0.93; saving vs example 1 $1.17 (55.7%); one-time 5m cache write of 120,000 tokens $1.50
+
+Example 3: 200 such sessions in a month on the Batch API rate (50% off input and output), no cache
+  Opus 4.1   batch input $225.00 + batch output $90.00 = $315.00; standard rate would be $630.00
+  Opus 5     batch input $75.00 + batch output $30.00 = $105.00; standard rate would be $210.00
+  Sonnet 5   batch input $30.00 + batch output $12.00 = $42.00; standard rate would be $84.00
+  Fable 5.1  batch input $150.00 + batch output $60.00 = $210.00; standard rate would be $420.00
+
+Ratios
+  Opus 4.1 / Opus 5 base input 3x, output 3x
+  Opus 5 / Sonnet 5 base input 2.5x, output 2.5x, cache hit 2.5x
+  Fable 5.1 / Opus 5 base input 2x, output 2x
+  Fable 5.1 / Opus 4.1 base input 0.6667, output 0.6667
+  Fast mode Opus 5 / standard Opus 5 input 2x, output 2x
+  Fable 5.1 cache hit / base input 0.025; Opus 5 cache hit / base input 0.1
+  Example 2 Fable 5.1 / Opus 5 cached session 1.82x (uncached example 1 ratio 2x)

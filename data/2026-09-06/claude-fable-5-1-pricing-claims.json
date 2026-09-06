@@ -1,0 +1,194 @@
+[
+ {
+  "claim": "Fable 5.1 base input",
+  "value": "$10 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html (text extract: evidence/claude-fable-5-1-pricing-anthropic-extract.txt line 27)",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Fable 5.1 5m cache write",
+  "value": "$12.50 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Fable 5.1 1h cache write",
+  "value": "$20 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Fable 5.1 cache hits and refreshes",
+  "value": "$0.25 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Fable 5.1 output",
+  "value": "$50 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Mythos 5.1 row (limited availability), all five columns",
+  "value": "$10 / $12.50 / $20 / $0.25 / $50",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Mythos 5.1 (limited availability) | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok1 | $50 / MTok |"
+ },
+ {
+  "claim": "Fable 5 row, all five columns",
+  "value": "$10 / $12.50 / $20 / $1 / $50",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5 | $10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok |"
+ },
+ {
+  "claim": "Opus 5 row, all five columns",
+  "value": "$5 / $6.25 / $10 / $0.50 / $25",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Opus 5 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |"
+ },
+ {
+  "claim": "Sonnet 5 row, all five columns",
+  "value": "$2 / $2.50 / $4 / $0.20 / $10",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Sonnet 5 | $2 / MTok | $2.50 / MTok | $4 / MTok | $0.20 / MTok | $10 / MTok |"
+ },
+ {
+  "claim": "Cache hit multiplier footnote",
+  "value": "0.025x on Fable 5.1 and Mythos 5.1, 0.1x elsewhere",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "1 Cache hits and refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at 0.025x the base input price. All other models use the standard 0.1x multiplier."
+ },
+ {
+  "claim": "Cache hit in money, prompt caching section",
+  "value": "2.5% of base = $0.25 / MTok",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "A cache hit costs 10% of the standard input price, which means caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write). On Claude Fable 5.1 and Claude Mythos 5.1, a cache hit costs 2.5% of the standard input price ($0.25 USD per million tokens)."
+ },
+ {
+  "claim": "Cache write multipliers",
+  "value": "5m write 1.25x, 1h write 2x, read 0.1x (0.025x Fable 5.1 and Mythos 5.1)",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "5-minute cache write | 1.25x base input price | Cache valid for 5 minutes | / 1-hour cache write | 2x base input price | Cache valid for 1 hour | / Cache read (hit) | 0.1x base input price (0.025x on Claude Fable 5.1 and Claude Mythos 5.1) | Same duration as the preceding write |"
+ },
+ {
+  "claim": "Multipliers stack with batch",
+  "value": "yes",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "These multipliers stack with other pricing modifiers, including the Batch API discount and data residency."
+ },
+ {
+  "claim": "Batch discount definition",
+  "value": "50% on input and output",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "The Batch API allows asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens."
+ },
+ {
+  "claim": "Fable 5.1 batch row",
+  "value": "$5 input / $25 output",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5.1 | $5 / MTok | $25 / MTok |"
+ },
+ {
+  "claim": "Mythos 5.1 batch row",
+  "value": "$5 / $25",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Mythos 5.1 (limited availability) | $5 / MTok | $25 / MTok |"
+ },
+ {
+  "claim": "Fable 5 batch row",
+  "value": "$5 / $25",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Fable 5 | $5 / MTok | $25 / MTok |"
+ },
+ {
+  "claim": "Opus 5 batch row",
+  "value": "$2.50 / $12.50",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Opus 5 | $2.50 / MTok | $12.50 / MTok |"
+ },
+ {
+  "claim": "Sonnet 5 batch row",
+  "value": "$1 / $5",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude Sonnet 5 | $1 / MTok | $5 / MTok |"
+ },
+ {
+  "claim": "Long context sentence",
+  "value": "full 1M window at standard pricing",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Claude 4.6 and later models and Claude Mythos Preview include the full 1M token context window at standard pricing. (A 900k-token request is billed at the same per-token rate as a 9k-token request.) Prompt caching and batch processing discounts apply at standard rates across the full context window."
+ },
+ {
+  "claim": "Sonnet 5 introductory price made permanent",
+  "value": "$2/$10 stays; $3/$15 on 1 Sep 2026 will not occur",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "The $2/$10 per million input/output token pricing for Claude Sonnet 5, announced at launch as introductory pricing through August 31, 2026, is now the standard price. The previously scheduled increase to $3/$15 per million input/output tokens on September 1, 2026 will not occur."
+ },
+ {
+  "claim": "Fast mode scope and price",
+  "value": "Opus 5 and Opus 4.8 only, $10 / $50",
+  "source_file": "data/docs_anthropic_com_en_docs_about-claude_pricing.html",
+  "quote": "Fast mode, in research preview, provides significantly faster output for Claude Opus 5 and Claude Opus 4.8 at premium pricing. [...] Claude Opus 5 / Claude Opus 4.8 | $10 / MTok | $50 / MTok |"
+ },
+ {
+  "claim": "OpenRouter Fable 5.1 prices and listing timestamp",
+  "value": "prompt 0.00001, completion 0.00005, input_cache_read 0.00000025, input_cache_write 0.0000125, input_cache_write_1h 0.00002; created 1788285838 = 2026-09-01 18:03:58 UTC",
+  "source_file": "data/openrouter-models.json",
+  "quote": "anthropic/claude-fable-5.1 1788285838 {\"prompt\": \"0.00001\", \"completion\": \"0.00005\", \"web_search\": \"0.01\", \"input_cache_read\": \"0.00000025\", \"input_cache_write\": \"0.0000125\", \"input_cache_write_1h\": \"0.00002\"} 1000000"
+ },
+ {
+  "claim": "OpenRouter Fable 5.1 batch prices",
+  "value": "prompt 0.000005, completion 0.000025, input_cache_read 0.000000125 = $0.125 / MTok",
+  "source_file": "data/openrouter-models.json",
+  "quote": "anthropic/claude-fable-5.1:batch 1788285838 {\"prompt\": \"0.000005\", \"completion\": \"0.000025\", \"web_search\": \"0.01\", \"input_cache_read\": \"0.000000125\", \"input_cache_write\": \"0.00000625\", \"input_cache_write_1h\": \"0.00001\"} 1000000"
+ },
+ {
+  "claim": "OpenRouter Fable 5 prices",
+  "value": "prompt 0.00001, completion 0.00005, input_cache_read 0.000001 = $1 / MTok; created 1781007515",
+  "source_file": "data/openrouter-models.json",
+  "quote": "anthropic/claude-fable-5 1781007515 {\"prompt\": \"0.00001\", \"completion\": \"0.00005\", \"web_search\": \"0.01\", \"input_cache_read\": \"0.000001\", \"input_cache_write\": \"0.0000125\", \"input_cache_write_1h\": \"0.00002\"} 1000000"
+ },
+ {
+  "claim": "OpenRouter batch cache reads for Fable 5, Opus 5, Sonnet 5",
+  "value": "0.0000005, 0.00000025, 0.0000001 per token = $0.50, $0.25, $0.10 / MTok",
+  "source_file": "data/openrouter-models.json",
+  "quote": "anthropic/claude-fable-5:batch 1781007515 0.0000005 0.000005 / anthropic/claude-opus-5:batch 1784912544 0.00000025 0.0000025 / anthropic/claude-sonnet-5:batch 1782843083 0.0000001 0.000001"
+ },
+ {
+  "claim": "LiteLLM claude-fable-5-1",
+  "value": "input 1e-05, output 5e-05, cache_read 2.5e-07, cache_creation 1.25e-05, above_1hr 2e-05, max_input_tokens 1000000, max_output_tokens 128000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"cache_creation_input_token_cost\": 1.25e-05, \"cache_creation_input_token_cost_above_1hr\": 2e-05, \"cache_read_input_token_cost\": 2.5e-07, \"input_cost_per_token\": 1e-05, \"litellm_provider\": \"anthropic\", \"max_input_tokens\": 1000000, \"max_output_tokens\": 128000, \"max_tokens\": 128000, \"mode\": \"chat\", \"output_cost_per_token\": 5e-05"
+ },
+ {
+  "claim": "LiteLLM claude-fable-5",
+  "value": "input 1e-05, output 5e-05, cache_read 1e-06, max_input_tokens 1000000, max_output_tokens 128000",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"cache_creation_input_token_cost\": 1.25e-05, \"cache_creation_input_token_cost_above_1hr\": 2e-05, \"cache_read_input_token_cost\": 1e-06, \"input_cost_per_token\": 1e-05, \"litellm_provider\": \"anthropic\", \"max_input_tokens\": 1000000, \"max_output_tokens\": 128000, \"max_tokens\": 128000, \"mode\": \"chat\", \"output_cost_per_token\": 5e-05"
+ },
+ {
+  "claim": "Example 1 per day and per 30 days, Fable 5.1 / Fable 5 / Opus 5",
+  "value": "$85.50 / $198.00 / $99.00 per day; $2,565.00 / $5,940.00 / $2,970.00 per 30 days; hits $37.50 / $150.00 / $75.00; writes $48.00 / $48.00 / $24.00; 56.8% and 13.6% lower; no-cache $1,500.00",
+  "source_file": "evidence/claude-fable-5-1-pricing-calc.txt",
+  "quote": "Fable 5.1  hits     $37.50 + 1h writes   $48.00 =     $85.50 per day ;    $2,565.00 per 30 days / Fable 5    hits    $150.00 + 1h writes   $48.00 =    $198.00 per day ;    $5,940.00 per 30 days / Opus 5     hits     $75.00 + 1h writes   $24.00 =     $99.00 per day ;    $2,970.00 per 30 days / saves $112.50 (56.8% lower) / saves $13.50 (13.6% lower) / Same day with NO caching on Fable 5.1 (500 x 300,000 base input): $1,500.00"
+ },
+ {
+  "claim": "Example 2, 100k in / 10k out",
+  "value": "Fable 5.1 $1.50 ($1.00 + $0.50), Opus 5 $0.75, Sonnet 5 $0.30; 2.00x and 5.00x; 1,000 requests $1,500 / $750 / $300",
+  "source_file": "evidence/claude-fable-5-1-pricing-calc.txt",
+  "quote": "Fable 5.1  input    $1.00 + output    $0.50 =    $1.50 / Opus 5     input    $0.50 + output    $0.25 =    $0.75 / Sonnet 5   input    $0.20 + output    $0.10 =    $0.30 / Fable 5.1 / Opus 5 = 2.00x ; Fable 5.1 / Sonnet 5 = 5.00x / 1,000 such requests: Fable 5.1 $1,500.00 ; Opus 5 $750.00 ; Sonnet 5 $300.00"
+ },
+ {
+  "claim": "Example 3, batch",
+  "value": "agent month $1,282.50 ($42.75/day) / $2,970.00 / $1,485.00; single request $0.75 / $0.375 / $0.15",
+  "source_file": "evidence/claude-fable-5-1-pricing-calc.txt",
+  "quote": "Ex1 agent month on batch, Fable 5.1  hit rate $0.125/MTok, 1h write $10/MTok:   $42.75/day ;    $1,282.50/30 days / Fable 5 ... $99.00/day ;    $2,970.00/30 days / Opus 5 ... $49.50/day ;    $1,485.00/30 days / Ex2 request on batch, Fable 5.1  $0.7500 / Opus 5     $0.3750 / Sonnet 5   $0.1500"
+ },
+ {
+  "claim": "Break-even cache hit share vs Opus 5",
+  "value": "h = 5 / 5.25 = 0.9524 (95.24%); at 90% $1.23 vs $0.95; at 95.24% $0.71 vs $0.71; at 99% $0.35 vs $0.55",
+  "source_file": "evidence/claude-fable-5-1-pricing-calc.txt",
+  "quote": "h = 5 / 5.25 = 0.9524 -> 95.24% of input tokens must be cache hits / hit share 90.00% : Fable 5.1    $1.23/MTok input vs Opus 5    $0.95/MTok input / hit share 95.24% : Fable 5.1    $0.71/MTok input vs Opus 5    $0.71/MTok input / hit share 99.00% : Fable 5.1    $0.35/MTok input vs Opus 5    $0.55/MTok input"
+ }
+]

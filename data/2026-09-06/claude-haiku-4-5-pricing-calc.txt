@@ -1,0 +1,41 @@
+Rates, Haiku 4.5: {'inp': 1.0, 'w5m': 1.25, 'w1h': 2.0, 'hit': 0.1, 'out': 5.0, 'b_in': 0.5, 'b_out': 2.5}
+
+Example 1. Classification, 10,000 requests x 400 input + 20 output tokens
+  input tokens  = 10,000 x 400 = 4,000,000
+  output tokens = 10,000 x 20  = 200,000
+  input cost  = 4,000,000 / 1M x $1.00 = $4.00
+  output cost = 200,000 / 1M x $5.00 = $1.00
+  total standard = $5.00
+  per request = $0.0005
+  total on Batch API = 4,000,000/1M x $0.50 + 200,000/1M x $2.50 = $2.50
+  same job on Sonnet 5   = 4,000,000/1M x $2.00 + 200,000/1M x $10.00 = $10.00
+  same job on Sonnet 4.6 = 4,000,000/1M x $3.00 + 200,000/1M x $15.00 = $15.00
+  same job on Haiku 3.5  = 4,000,000/1M x $0.80 + 200,000/1M x $4.00 = $4.00
+
+Example 2. Chat product, 2,000,000 input + 500,000 output tokens per day, 30 days
+  no cache: daily input  = 2,000,000/1M x $1.00 = $2.00
+  no cache: daily output = 500,000/1M x $5.00 = $2.50
+  no cache: daily total = $4.50; 30 days = $135.00
+  cache: cacheable 1,500,000/day at 90% hits -> hits 1,350,000, misses 150,000, never cached 500,000
+  cache hits   = 1,350,000/1M x $0.10 = $0.14
+  cache misses = 150,000/1M x $1.00 (base input) = $0.15
+  never cached = 500,000/1M x $1.00 = $0.50
+  output       = $2.50
+  cache: daily total = $3.29; 30 days = $98.55
+  saving vs no cache over 30 days = $36.45 (27.0%)
+  note: if every miss is re-written as a 5m cache write at $1.25 instead of $1.00, add $0.04/day = $1.12/30 days, total $99.68
+  note: a single one-time 5m write of a 1,500,000 token prefix = $1.88
+  same workload, no cache, Sonnet 5:   30 x (2.0 x $2.00 + 0.5 x $10.00) = $270.00
+  same workload, no cache, Sonnet 4.6: 30 x (2.0 x $3.00 + 0.5 x $15.00) = $405.00
+
+Example 3. Same 30 day chat workload on Batch API rates ($0.50 in, $2.50 out; cache hit 0.1x of batch input = $0.05)
+  batch, no cache: daily = 2.0 x $0.50 + 0.5 x $2.50 = $2.25; 30 days = $67.50
+  batch + cache: daily = 500,000/1M x $0.50 + 150,000/1M x $0.50 + 1,350,000/1M x $0.05 + 0.5 x $2.50 = $1.64; 30 days = $49.28
+  batch vs standard, no cache, 30 days: $135.00 -> $67.50
+  batch + cache vs standard no cache, 30 days: $135.00 -> $49.28 (63.5% lower)
+
+Cross-check ratios
+  Sonnet 5 / Haiku 4.5 input 2x, output 2x
+  Sonnet 4.6 / Haiku 4.5 input 3x, output 3x
+  Haiku 4.5 / Haiku 3.5 input 1.25x, output 1.25x
+  5m write break-even: write 1.25x, hit 0.1x; 1.25 + 0.1 = 1.35 < 2.0 so caching pays after one hit

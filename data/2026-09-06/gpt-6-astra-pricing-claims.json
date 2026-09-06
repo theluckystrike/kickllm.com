@@ -1,0 +1,224 @@
+[
+ {
+  "claim": "gpt-6-astra Standard short context input/cached/cache write/output per 1M",
+  "value": "$10.00 / $1.00 / $12.50 / $50.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Standard Short context Long context Model Input Cached input Cache writes Output Input Cached input Cache writes Output gpt-6-astra $10.00 $1.00 $12.50 $50.00 $20.00 $2.00 $25.00 $75.00"
+ },
+ {
+  "claim": "gpt-6-astra Standard long context (over 272K) input/cached/cache write/output per 1M",
+  "value": "$20.00 / $2.00 / $25.00 / $75.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "gpt-6-astra $10.00 $1.00 $12.50 $50.00 $20.00 $2.00 $25.00 $75.00"
+ },
+ {
+  "claim": "gpt-6-astra Batch short and long context",
+  "value": "$5.00 $0.50 $6.25 $25.00 / $10.00 $1.00 $12.50 $37.50",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Batch Short context Long context Model Input Cached input Cache writes Output Input Cached input Cache writes Output gpt-6-astra $5.00 $0.50 $6.25 $25.00 $10.00 $1.00 $12.50 $37.50"
+ },
+ {
+  "claim": "gpt-6-astra Flex short and long context",
+  "value": "$5.00 $0.50 $6.25 $25.00 / $10.00 $1.00 $12.50 $37.50",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Flex Short context Long context Model Input Cached input Cache writes Output Input Cached input Cache writes Output gpt-6-astra $5.00 $0.50 $6.25 $25.00 $10.00 $1.00 $12.50 $37.50"
+ },
+ {
+  "claim": "gpt-6-astra Fast mode short and long context",
+  "value": "$20.00 $2.00 $25.00 $100.00 / $40.00 $4.00 $50.00 $150.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Fast mode Short context Long context Model Input Cached input Cache writes Output Input Cached input Cache writes Output gpt-6-astra $20.00 $2.00 $25.00 $100.00 $40.00 $4.00 $50.00 $150.00"
+ },
+ {
+  "claim": "gpt-5.6-sol Standard short and long context",
+  "value": "$4.00 $0.40 $5.00 $20.00 / $8.00 $0.80 $10.00 $30.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "gpt-5.6-sol $4.00 $0.40 $5.00 $20.00 $8.00 $0.80 $10.00 $30.00"
+ },
+ {
+  "claim": "gpt-5.6-terra Standard short context",
+  "value": "$2.00 $0.20 $2.50 $12.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "gpt-5.6-terra $2.00 $0.20 $2.50 $12.00 $4.00 $0.40 $5.00 $18.00"
+ },
+ {
+  "claim": "gpt-5.6-luna Standard short context",
+  "value": "$0.20 $0.02 $0.25 $1.20",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "gpt-5.6-luna $0.20 $0.02 $0.25 $1.20 $0.40 $0.04 $0.50 $1.80"
+ },
+ {
+  "claim": "gpt-5.6-sol Batch and Flex short context (equals OpenRouter figure)",
+  "value": "$2.00 $0.20 $2.50 $10.00",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Batch ... gpt-5.6-sol $2.00 $0.20 $2.50 $10.00 $4.00 $0.40 $5.00 $15.00 ... Flex ... gpt-5.6-sol $2.00 $0.20 $2.50 $10.00 $4.00 $0.40 $5.00 $15.00"
+ },
+ {
+  "claim": "Short context threshold",
+  "value": "272K input tokens",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Short context Long context"
+ },
+ {
+  "claim": "Sol promotional pricing window",
+  "value": "at least through November 21, 2026",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "GPT-5.6 Sol’s promotional pricing is available at least through November 21, 2026."
+ },
+ {
+  "claim": "Fast mode EU data residency note",
+  "value": "unavailable",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Fast mode is unavailable for GPT-6 Astra with EU data residency. Use Standard processing for those requests."
+ },
+ {
+  "claim": "Regional processing uplift",
+  "value": "10% for models released on or after March 5, 2026",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Regional processing (data residency) endpoints are charged a 10% uplift for models released on or after March 5, 2026, that are eligible for data residency."
+ },
+ {
+  "claim": "Context window",
+  "value": "1,050,000",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "1,050,000 context window"
+ },
+ {
+  "claim": "Max output tokens",
+  "value": "128,000",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "128,000 max output tokens"
+ },
+ {
+  "claim": "Knowledge cutoff",
+  "value": "Apr 30, 2026",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Apr 30, 2026 knowledge cutoff"
+ },
+ {
+  "claim": "Long context rule",
+  "value": "2x input and cache, 1.5x output, full request, over 272K",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Prompts with more than 272K input tokens are priced at 2x input and cache rates and 1.5x output for the full request."
+ },
+ {
+  "claim": "Cache write multiplier",
+  "value": "1.25x",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Cache writes are billed at 1.25x the uncached input token rate."
+ },
+ {
+  "claim": "Batch and Flex multiplier",
+  "value": "50% of Standard",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Batch and Flex are priced at 50% of Standard rates."
+ },
+ {
+  "claim": "Fast mode multiplier",
+  "value": "2x",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Fast mode is priced at 2x the applicable rates."
+ },
+ {
+  "claim": "reasoning.effort levels",
+  "value": "low, medium, high, xhigh, max",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "reasoning.effort supports low , medium , high , xhigh , and max ."
+ },
+ {
+  "claim": "Model card one sentence description",
+  "value": "our most capable model, built for the hardest end-to-end work",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "GPT-6 Astra is our most capable model, built for the hardest end-to-end work."
+ },
+ {
+  "claim": "Modalities",
+  "value": "text and image input, text output",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Input Text, image Output Text"
+ },
+ {
+  "claim": "Reasoning token support",
+  "value": "listed",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Reasoning token support"
+ },
+ {
+  "claim": "Model card Standard text token prices",
+  "value": "$10.00 $1.00 $12.50 $50.00",
+  "source_file": "data/official-openai-gpt6-model.txt",
+  "quote": "Text tokens Per 1M tokens Input $10.00 Cached input $1.00 Cache writes $12.50 Output $50.00"
+ },
+ {
+  "claim": "OpenRouter gpt-6-astra created timestamp and listing date",
+  "value": "1788552838 = 2026-09-04 20:13 UTC",
+  "source_file": "data/openrouter-models.json",
+  "quote": "\"id\": \"openai/gpt-6-astra\" ... \"created\": 1788552838 (same value on openai/gpt-6-astra:batch); converted in evidence/gpt-6-astra-calc.txt"
+ },
+ {
+  "claim": "OpenRouter gpt-6-astra per token prices",
+  "value": "prompt 0.00001, completion 0.00005, cache read 0.000001, cache write 0.0000125; override min_prompt_tokens 272000 prompt 0.00002 completion 0.000075 cache read 0.000002 cache write 0.000025",
+  "source_file": "data/openrouter-models.json",
+  "quote": "\"pricing\": {\"prompt\": \"0.00001\", \"completion\": \"0.00005\", \"web_search\": \"0.01\", \"input_cache_read\": \"0.000001\", \"input_cache_write\": \"0.0000125\", \"overrides\": [{\"min_prompt_tokens\": 272000, \"prompt\": \"0.00002\", \"completion\": \"0.000075\", \"input_cache_read\": \"0.000002\", \"input_cache_write\": \"0.000025\"}]}"
+ },
+ {
+  "claim": "OpenRouter gpt-6-astra:batch per token prices",
+  "value": "prompt 0.000005, completion 0.000025",
+  "source_file": "data/openrouter-models.json",
+  "quote": "\"id\": \"openai/gpt-6-astra:batch\" ... \"prompt\": \"0.000005\", \"completion\": \"0.000025\", \"input_cache_read\": \"0.0000005\", \"input_cache_write\": \"0.00000625\""
+ },
+ {
+  "claim": "OpenRouter gpt-5.6-sol per token prices (disagreement)",
+  "value": "prompt 0.000002 = $2.00, completion 0.00001 = $10.00",
+  "source_file": "data/openrouter-models.json",
+  "quote": "\"id\": \"openai/gpt-5.6-sol\" ... \"prompt\": \"0.000002\", \"completion\": \"0.00001\""
+ },
+ {
+  "claim": "LiteLLM gpt-5.6-sol",
+  "value": "input 4e-06 = $4.00, output 2e-05 = $20.00",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"gpt-5.6-sol\": {... \"input_cost_per_token\": 4e-06, ... \"output_cost_per_token\": 2e-05 ...}"
+ },
+ {
+  "claim": "LiteLLM gpt-6-astra Standard",
+  "value": "input 1e-05, output 5e-05, cache read 1e-06, cache creation 1.25e-05",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"gpt-6-astra\": {\"cache_creation_input_token_cost\": 1.25e-05, ... \"cache_read_input_token_cost\": 1e-06, ... \"input_cost_per_token\": 1e-05, ... \"output_cost_per_token\": 5e-05"
+ },
+ {
+  "claim": "LiteLLM gpt-6-astra batch, flex, priority, above 272k",
+  "value": "batches in 5e-06 out 2.5e-05; flex in 5e-06 out 2.5e-05; priority in 2e-05 out 0.0001; above_272k in 2e-05 out 7.5e-05",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"input_cost_per_token_batches\": 5e-06, \"input_cost_per_token_flex\": 5e-06, \"input_cost_per_token_priority\": 2e-05, \"input_cost_per_token_above_272k_tokens\": 2e-05, \"output_cost_per_token_batches\": 2.5e-05, \"output_cost_per_token_flex\": 2.5e-05, \"output_cost_per_token_priority\": 0.0001, \"output_cost_per_token_above_272k_tokens\": 7.5e-05"
+ },
+ {
+  "claim": "LiteLLM gpt-6-astra max_input_tokens",
+  "value": "922,000 (= 1,050,000 - 128,000)",
+  "source_file": "data/litellm-prices.json",
+  "quote": "\"max_input_tokens\": 922000, \"max_output_tokens\": 128000"
+ },
+ {
+  "claim": "Example 1 totals, 60k in 8k out",
+  "value": "Standard $1.00, Batch/Flex $0.50, Fast $2.00",
+  "source_file": "evidence/gpt-6-astra-calc.txt",
+  "quote": "standard (short): input $0.60 + output $0.40 = $1.00 / batch (short): input $0.30 + output $0.20 = $0.50 / fast (short): input $1.20 + output $0.80 = $2.00"
+ },
+ {
+  "claim": "Example 2 totals, 400k in 8k out",
+  "value": "Standard $8.60, Batch/Flex $4.30, Fast $17.20; short-rate counterfactual $4.40, 1.955x; $2.72 vs $8.00, 47%, 2.94x",
+  "source_file": "evidence/gpt-6-astra-calc.txt",
+  "quote": "standard (long): input $8.00 + output $0.60 = $8.60 / batch (long): input $4.00 + output $0.30 = $4.30 / fast (long): input $16.00 + output $1.20 = $17.20 / standard if short-context rates had applied (they do not): $4.40; long-context uplift 1.955x / $8.00 vs $2.72 / 47% increase ... 2.94x"
+ },
+ {
+  "claim": "Example 3 month of 5,000 tasks",
+  "value": "no cache $5,000.00; 80% cached $0.568 per task, $2,840.00; saving $2,160.00 (43.2%); cache write $0.60 vs $0.48; Batch $2,500.00 / $1,420.00",
+  "source_file": "evidence/gpt-6-astra-calc.txt",
+  "quote": "no cache: per task $1.00, month $5,000.00 / per task $0.568, month $2,840.00 / monthly saving $2,160.00 (43.2%) / costs $0.60 (cache write rate $12.50) versus $0.48 as plain input / Batch, no cache: $2,500.00; Batch with 80% cached: $1,420.00"
+ },
+ {
+  "claim": "Ladder ratios",
+  "value": "sol 2.5x/2.5x $0.40; terra 5x/4.17x $0.22; luna 50x/41.67x $0.02",
+  "source_file": "evidence/gpt-6-astra-calc.txt",
+  "quote": "vs gpt-5.6-sol: input 2.50x, output 2.50x; the 60k/8k task costs $0.40 / vs gpt-5.6-terra: input 5.00x, output 4.17x; ... $0.22 / vs gpt-5.6-luna: input 50.00x, output 41.67x; ... $0.02"
+ }
+]

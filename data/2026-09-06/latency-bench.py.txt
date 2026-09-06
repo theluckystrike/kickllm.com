@@ -1,0 +1,43 @@
+import json, time, sys, urllib.request, os, statistics
+K=[l.split('=',1)[1].strip().strip('"') for l in open(os.path.expanduser('~/.hermes/modellock/upstream.env')) if l.startswith('MODELLOCK_OPENROUTER_KEY=')][0]
+MODELS=["openai/gpt-6-astra","openai/gpt-5.6-sol","openai/gpt-5.4-mini","openai/gpt-5.4-nano",
+"google/gemini-3.8-flash","google/gemini-3.5-flash","google/gemini-3.5-flash-lite","google/gemini-3.1-pro-preview",
+"anthropic/claude-fable-5.1","anthropic/claude-opus-5","anthropic/claude-sonnet-5","anthropic/claude-haiku-4.5",
+"deepseek/deepseek-v4-flash","deepseek/deepseek-v4-pro","x-ai/grok-4.6","moonshotai/kimi-k3"]
+PROMPT="Explain in about 200 words how TCP congestion control works. Plain prose, no lists."
+ROUNDS=int(sys.argv[1]) if len(sys.argv)>1 else 6
+out=open('/private/tmp/kickllm-sprint/bench/runs.jsonl','a')
+def one(model):
+    body=json.dumps({"model":model,"messages":[{"role":"user","content":PROMPT}],"max_tokens":1500,"temperature":0,"reasoning":{"effort":"low"},"stream":True,"stream_options":{"include_usage":True}}).encode()
+    req=urllib.request.Request("https://openrouter.ai/api/v1/chat/completions",data=body,headers={"Authorization":"Bearer "+K,"Content-Type":"application/json","HTTP-Referer":"https://kickllm.com","X-Title":"kickllm latency bench"})
+    t0=time.time(); tft=None; tlast=None; chunks=0; usage=None; provider=None; text=''; err=None
+    try:
+        with urllib.request.urlopen(req,timeout=120) as r:
+            for line in r:
+                line=line.decode('utf-8','replace').strip()
+                if not line.startswith('data:'): continue
+                d=line[5:].strip()
+                if d=='[DONE]': break
+                try: j=json.loads(d)
+                except: continue
+                if 'error' in j: err=str(j['error']); break
+                provider=j.get('provider',provider)
+                if j.get('usage'): usage=j['usage']
+                for c in j.get('choices',[]):
+                    dl=c.get('delta',{}).get('content')
+                    if dl:
+                        now=time.time()
+                        if tft is None: tft=now
+                        tlast=now; chunks+=1; text+=dl
+    except Exception as e: err=repr(e)
+    t1=time.time()
+    rec={"model":model,"provider":provider,"t_total":round(t1-t0,3),"ttft":round(tft-t0,3) if tft else None,
+         "gen_s":round(tlast-tft,3) if (tft and tlast) else None,"chunks":chunks,"usage":usage,"err":err,"chars":len(text),"ts":int(t0)}
+    if usage and rec["gen_s"] and rec["gen_s"]>0:
+        ct=usage.get('completion_tokens'); rt=(usage.get('completion_tokens_details') or {}).get('reasoning_tokens',0) or 0
+        rec["tps"]=round((ct-rt)/rec["gen_s"],1) if ct else None; rec["reasoning_tokens"]=rt; rec["content_tokens"]=(ct-rt) if ct else None
+    out.write(json.dumps(rec)+"\n"); out.flush()
+    print(f"{model:35s} ttft={rec['ttft']} gen={rec['gen_s']} tps={rec.get('tps')} rt={rec.get('reasoning_tokens')} prov={provider} err={err}",flush=True)
+for r in range(ROUNDS):
+    print(f"== round {r+1}/{ROUNDS} {time.strftime('%H:%M:%S')}",flush=True)
+    for m in MODELS: one(m)

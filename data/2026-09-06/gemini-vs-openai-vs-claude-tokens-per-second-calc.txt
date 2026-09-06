@@ -1,0 +1,144 @@
+== raw runs: 96 models: 16
+first ts 1788658223 2026-09-06 01:30:23 UTC; last ts 1788659024 2026-09-06 01:43:44 UTC
+errors: 0
+
+== recomputed per model (exclusion: content_tokens>=80 and gen_s>0.5)
+  NOTE half-up median differs from summary.json: deepseek/deepseek-v4-flash tps_median 77.0 vs 76.9
+  NOTE half-up median differs from summary.json: moonshotai/kimi-k3 tps_median 82.4 vs 82.3
+  NOTE half-up median differs from summary.json: anthropic/claude-sonnet-5 ttft_median 2.35 vs 2.34
+  NOTE half-up median differs from summary.json: openai/gpt-5.6-sol tps_median 45.3 vs 45.2
+  NOTE reasoning median half-up differs from summary.json int(): openai/gpt-5.6-sol 44 vs 43
+  NOTE half-up median differs from summary.json: anthropic/claude-haiku-4.5 tps_median 97.6 vs 97.5
+openai/gpt-5.4-nano              n=6/6 ttft=2.0 (1.668-3.524) tps=199.1 (133.5-216.1) reason_med=0 content_med=244 total=3.48 prov=['OpenAI'] OR $/1M in=0.2 out=1.25 reasoning per run=[0, 0, 0, 0, 0, 0]
+google/gemini-3.8-flash          n=6/6 ttft=2.03 (1.917-2.435) tps=133.1 (91.5-170.0) reason_med=0 content_med=228 total=3.82 prov=['Google'] OR $/1M in=0.75 out=3.75 reasoning per run=[0, 0, 0, 0, 0, 0]
+openai/gpt-5.4-mini              n=6/6 ttft=2.04 (1.923-2.127) tps=147.8 (140.3-184.0) reason_med=13 content_med=246 total=3.8 prov=['OpenAI'] OR $/1M in=0.75 out=4.5 reasoning per run=[12, 14, 14, 13, 11, 13]
+anthropic/claude-sonnet-5        n=6/6 ttft=2.35 (2.122-2.709) tps=88.3 (86.3-96.0) reason_med=0 content_med=404 total=6.92 prov=['Claude Platform on AWS'] OR $/1M in=2 out=10 reasoning per run=[0, 0, 0, 0, 0, 0]
+moonshotai/kimi-k3               n=6/6 ttft=2.38 (1.994-2.961) tps=82.4 (71.5-118.4) reason_med=14 content_med=282 total=5.75 prov=['Sail Research'] OR $/1M in=3 out=15 reasoning per run=[14, 14, 14, 14, 14, 14]
+openai/gpt-6-astra               n=6/6 ttft=2.41 (2.159-2.894) tps=53.2 (41.0-61.3) reason_med=0 content_med=252 total=7.35 prov=['OpenAI'] OR $/1M in=10 out=50 reasoning per run=[0, 0, 0, 0, 0, 0]
+anthropic/claude-haiku-4.5       n=6/6 ttft=2.83 (2.58-3.112) tps=97.6 (91.2-101.9) reason_med=115 content_med=282 total=5.78 prov=['Amazon Bedrock'] OR $/1M in=1 out=5 reasoning per run=[128, 71, 114, 136, 116, 67]
+google/gemini-3.5-flash-lite     n=5/6 ttft=3.83 (3.575-8.412) tps=389.4 (160.6-402.2) reason_med=476 content_med=220 total=4.64 prov=['Google'] OR $/1M in=0.3 out=2.5 reasoning per run=[484, 500, 447, 460, 582, 476]
+anthropic/claude-fable-5.1       n=6/6 ttft=3.88 (3.557-4.998) tps=65.4 (62.0-66.9) reason_med=0 content_med=430 total=10.49 prov=['Anthropic'] OR $/1M in=10 out=50 reasoning per run=[0, 0, 0, 0, 0, 0]
+deepseek/deepseek-v4-flash       n=6/6 ttft=3.89 (2.321-9.007) tps=77.0 (8.7-155.9) reason_med=74 content_med=244 total=6.5 prov=['Baidu', 'DigitalOcean', 'GMICloud', 'Novita', 'Parasail'] OR $/1M in=0.08246 out=0.1649 reasoning per run=[84, 60, 67, 172, 67, 81]
+openai/gpt-5.6-sol               n=6/6 ttft=4.07 (3.177-6.825) tps=45.3 (43.3-78.3) reason_med=44 content_med=274 total=10.26 prov=['OpenAI'] OR $/1M in=2 out=10 reasoning per run=[58, 57, 22, 63, 30, 24]
+anthropic/claude-opus-5          n=6/6 ttft=4.66 (4.346-4.883) tps=89.0 (87.4-108.6) reason_med=24 content_med=442 total=9.45 prov=['Claude Platform on AWS'] OR $/1M in=5 out=25 reasoning per run=[24, 22, 24, 24, 22, 24]
+deepseek/deepseek-v4-pro         n=6/6 ttft=5.29 (4.44-7.522) tps=50.0 (36.8-62.1) reason_med=125 content_med=271 total=11.08 prov=['SiliconFlow', 'StreamLake'] OR $/1M in=0.7788 out=1.558 reasoning per run=[87, 122, 121, 128, 237, 192]
+google/gemini-3.5-flash          n=4/6 ttft=6.75 (5.993-8.952) tps=267.9 (248.3-292.6) reason_med=805 content_med=218 total=7.59 prov=['Google'] OR $/1M in=1.5 out=9 reasoning per run=[805, 805, 1437, 805, 805, 1437]
+google/gemini-3.1-pro-preview    n=3/6 ttft=7.92 (7.812-7.924) tps=186.3 (183.8-197.2) reason_med=587 content_med=242 total=9.33 prov=['Google'] OR $/1M in=2 out=12 reasoning per run=[587, 587, 1440, 587, 1440, 1439]
+x-ai/grok-4.6                    n=6/6 ttft=12.02 (10.373-14.373) tps=52.7 (46.6-92.5) reason_med=504 content_med=234 total=16.56 prov=['xAI'] OR $/1M in=2 out=6 reasoning per run=[474, 528, 533, 476, 480, 790]
+summary.json matches recomputation for all 16 models within 0.01; half-up rounding differences noted above. Page uses half-up.
+
+Sol pricing: OpenRouter $2/$10; official OpenAI Standard $4/$20 (Batch and Flex tables list $2/$10). Page uses $4/$20.
+
+== excluded runs
+  google/gemini-3.5-flash-lite prov=Google ttft=3.889 gen_s=0.489 completion=682 reasoning=484 content=198 chars=1216 err=None
+  google/gemini-3.5-flash prov=Google ttft=8.546 gen_s=0.009 completion=1496 reasoning=1437 content=59 chars=358 err=None
+  google/gemini-3.1-pro-preview prov=Google ttft=12.33 gen_s=0.253 completion=1496 reasoning=1440 content=56 chars=340 err=None
+  google/gemini-3.1-pro-preview prov=Google ttft=12.157 gen_s=0.256 completion=1496 reasoning=1440 content=56 chars=340 err=None
+  google/gemini-3.5-flash prov=Google ttft=9.131 gen_s=0.306 completion=1496 reasoning=1437 content=59 chars=358 err=None
+  google/gemini-3.1-pro-preview prov=Google ttft=12.036 gen_s=0.234 completion=1496 reasoning=1439 content=57 chars=327 err=None
+excluded count 6 reasoning tokens in excluded runs: [484, 1437, 1440, 1440, 1437, 1439] content: [198, 59, 56, 56, 59, 57]
+
+== DeepSeek V4 Flash per provider
+  DigitalOcean   ttft=9.007 tps=8.7 reasoning=84 total=37.474
+  GMICloud       ttft=3.639 tps=96.1 reasoning=60 total=5.831
+  DigitalOcean   ttft=8.072 tps=11.4 reasoning=67 total=29.6
+  Novita         ttft=4.138 tps=127.9 reasoning=172 total=6.159
+  Parasail       ttft=2.719 tps=57.8 reasoning=67 total=6.839
+  Baidu          ttft=2.321 tps=155.9 reasoning=81 total=4.067
+
+== DeepSeek V4 Pro per provider
+  SiliconFlow    ttft=4.44 tps=62.1 reasoning=87 total=9.113
+  StreamLake     ttft=5.371 tps=50.0 reasoning=122 total=10.534
+  StreamLake     ttft=5.171 tps=49.9 reasoning=121 total=10.949
+  StreamLake     ttft=5.21 tps=36.8 reasoning=128 total=13.478
+  StreamLake     ttft=7.522 tps=54.0 reasoning=237 total=11.855
+  StreamLake     ttft=6.047 tps=47.5 reasoning=192 total=11.208
+
+== vendor view (fastest median TTFT and fastest median tps among models with n_ok>=3)
+  Google: fastest TTFT google/gemini-3.8-flash 2.03s ; fastest output google/gemini-3.5-flash-lite 389.4 tok/s ; models 4
+  OpenAI: fastest TTFT openai/gpt-5.4-nano 2.0s ; fastest output openai/gpt-5.4-nano 199.1 tok/s ; models 4
+  Anthropic: fastest TTFT anthropic/claude-sonnet-5 2.35s ; fastest output anthropic/claude-haiku-4.5 97.6 tok/s ; models 4
+  DeepSeek: fastest TTFT deepseek/deepseek-v4-flash 3.89s ; fastest output deepseek/deepseek-v4-flash 77.0 tok/s ; models 2
+  xAI: fastest TTFT x-ai/grok-4.6 12.02s ; fastest output x-ai/grok-4.6 52.7 tok/s ; models 1
+  Moonshot: fastest TTFT moonshotai/kimi-k3 2.38s ; fastest output moonshotai/kimi-k3 82.4 tok/s ; models 1
+
+== ratios
+gemini-3.5-flash-lite tps / gpt-5.4-nano tps = 1.96
+gemini-3.5-flash-lite tps / gpt-6-astra tps = 7.3
+gemini-3.5-flash-lite tps / claude-fable-5.1 tps = 6.0
+grok ttft / gpt-5.4-nano ttft = 6.0
+deepseek v4 flash ttft max/min = 3.9 tps max/min = 17.9
+gemini-3.8-flash vs gpt-5.4-nano ttft diff s = 0.03
+gpt-5.4-nano tps / gpt-6-astra tps = 3.7
+zero-reasoning-median models: ['openai/gpt-5.4-nano', 'google/gemini-3.8-flash', 'anthropic/claude-sonnet-5', 'openai/gpt-6-astra', 'anthropic/claude-fable-5.1']
+anthropic reasoning per run: {'anthropic/claude-sonnet-5': [0, 0, 0, 0, 0, 0], 'anthropic/claude-haiku-4.5': [128, 71, 114, 136, 116, 67], 'anthropic/claude-fable-5.1': [0, 0, 0, 0, 0, 0], 'anthropic/claude-opus-5': [24, 22, 24, 24, 22, 24]}
+median TTFT of models with reasoning median 0: 2.35
+median TTFT of models with reasoning median >=400: 7.34 ['google/gemini-3.5-flash-lite', 'google/gemini-3.5-flash', 'google/gemini-3.1-pro-preview', 'x-ai/grok-4.6']
+Pearson r (reasoning median vs ttft median, 16 models): 0.73 r squared: 0.53
+
+== cost of the ~200 word answer at official/OpenRouter output price (content median tokens x out price)
+  openai/gpt-5.4-nano              out $1.25/1M x 244 content tokens (summary.json median) = $0.0003
+  google/gemini-3.8-flash          out $3.75/1M x 227 content tokens (summary.json median) = $0.0009
+  openai/gpt-5.4-mini              out $4.5/1M x 246 content tokens (summary.json median) = $0.0011
+  anthropic/claude-sonnet-5        out $10/1M x 403 content tokens (summary.json median) = $0.0040
+  moonshotai/kimi-k3               out $15/1M x 281 content tokens (summary.json median) = $0.0042
+  openai/gpt-6-astra               out $50/1M x 251 content tokens (summary.json median) = $0.0126
+  anthropic/claude-haiku-4.5       out $5/1M x 281 content tokens (summary.json median) = $0.0014
+  google/gemini-3.5-flash-lite     out $2.5/1M x 220 content tokens (summary.json median) = $0.0006
+  anthropic/claude-fable-5.1       out $50/1M x 429 content tokens (summary.json median) = $0.0215
+  deepseek/deepseek-v4-flash       out $0.16492/1M x 244 content tokens (summary.json median) = $0.0000
+  openai/gpt-5.6-sol               out $20/1M x 274 content tokens (summary.json median) = $0.0055
+  anthropic/claude-opus-5          out $25/1M x 441 content tokens (summary.json median) = $0.0110
+  deepseek/deepseek-v4-pro         out $1.55765/1M x 271 content tokens (summary.json median) = $0.0004
+  google/gemini-3.5-flash          out $9/1M x 218 content tokens (summary.json median) = $0.0020
+  google/gemini-3.1-pro-preview    out $12/1M x 242 content tokens (summary.json median) = $0.0029
+  x-ai/grok-4.6                    out $6/1M x 234 content tokens (summary.json median) = $0.0014
+Fable 5.1 answer cost / GPT-5.4 Nano answer cost = 70.3
+
+== seconds to full 200-word answer: total_median sorted
+  openai/gpt-5.4-nano              3.48s
+  openai/gpt-5.4-mini              3.8s
+  google/gemini-3.8-flash          3.82s
+  google/gemini-3.5-flash-lite     4.64s
+  moonshotai/kimi-k3               5.75s
+  anthropic/claude-haiku-4.5       5.78s
+  deepseek/deepseek-v4-flash       6.5s
+  anthropic/claude-sonnet-5        6.92s
+  openai/gpt-6-astra               7.35s
+  google/gemini-3.5-flash          7.59s
+  google/gemini-3.1-pro-preview    9.33s
+  anthropic/claude-opus-5          9.45s
+  openai/gpt-5.6-sol               10.26s
+  anthropic/claude-fable-5.1       10.49s
+  deepseek/deepseek-v4-pro         11.08s
+  x-ai/grok-4.6                    16.56s
+
+prompt: Explain in about 200 words how TCP congestion control works. Plain prose, no lists.
+settings: {'max_tokens': 1500, 'temperature': 0, 'reasoning_effort': 'low', 'stream': True, 'route': 'OpenRouter default provider routing', 'client': 'Python urllib, machine clock UTC+7, egress via Mullvad WireGuard VPN relay in Warsaw, Poland (AS212238 Datacamp Limited), verified with ipinfo.io after the run', 'window_utc': '2026-09-06 01:30 to 01:44 UTC'}
+first ts local (UTC+7): 2026-09-06 08:30:23 last: 2026-09-06 08:43:44
+
+== extra ratios
+fastest median tps / slowest median tps across 16 models = 389.4/45.2 = 8.6
+DeepSeek V4 Flash worst total / best total = 37.474/4.067 = 9.2
+Flash Lite excluded run implied tps = 198/0.489 = 404.9
+Gemini 3.5 Flash total 7.59 vs Gemini 3.8 Flash total 3.82, diff = 3.77
+
+== fixes round 2
+Flash Lite tps / 3.5 Flash tps = 389.4/267.85 = 1.45
+prompt word count: 14 words: ['Explain', 'in', 'about', '200', 'words', 'how', 'TCP', 'congestion', 'control', 'works.', 'Plain', 'prose,', 'no', 'lists.']
+pilot runs (max_tokens 300): 12 ; models: 12
+   openai/gpt-6-astra completion 300 reasoning 81 chars 1253
+   openai/gpt-5.6-sol completion 300 reasoning 44 chars 1360
+   openai/gpt-5.4-mini completion 245 reasoning 0 chars 1286
+   openai/gpt-5.4-nano completion 239 reasoning 0 chars 1244
+   google/gemini-3.8-flash completion 296 reasoning 284 chars 82
+   google/gemini-3.5-flash completion 296 reasoning None chars 73
+   google/gemini-3.5-flash-lite completion 210 reasoning 0 chars 1234
+   google/gemini-3.1-pro-preview completion 296 reasoning 287 chars 57
+   anthropic/claude-fable-5.1 completion 300 reasoning 0 chars 990
+   anthropic/claude-opus-5 completion 300 reasoning 118 chars 627
+   anthropic/claude-sonnet-5 completion 300 reasoning 0 chars 1022
+   anthropic/claude-haiku-4.5 completion 271 reasoning 0 chars 1393
+pilot runs at exactly 300 completion tokens: 5
+Astra tps / Nano tps = 53.2/199.1 = 0.27 ; Sol tps / Nano tps = 45.25/199.1 = 0.23
+content medians (half-up): {'openai/gpt-5.4-nano': 244, 'google/gemini-3.8-flash': 228, 'openai/gpt-5.4-mini': 247, 'anthropic/claude-sonnet-5': 404, 'moonshotai/kimi-k3': 282, 'openai/gpt-6-astra': 252, 'anthropic/claude-haiku-4.5': 282, 'google/gemini-3.5-flash-lite': 220, 'anthropic/claude-fable-5.1': 430, 'deepseek/deepseek-v4-flash': 245, 'openai/gpt-5.6-sol': 275, 'anthropic/claude-opus-5': 442, 'deepseek/deepseek-v4-pro': 271, 'google/gemini-3.5-flash': 218, 'google/gemini-3.1-pro-preview': 242, 'x-ai/grok-4.6': 234}

@@ -1,0 +1,36 @@
+=== Example 1: long-running agent, 300,000 token cached context re-read 500 times a day,
+    plus one 1h cache write of the same 300,000 tokens per hour for 8 hours. Output excluded.
+    cache hit tokens/day = 150,000,000 ; 1h cache write tokens/day = 2,400,000 ; month = 30 days
+  Fable 5.1  hits     $37.50 + 1h writes   $48.00 =     $85.50 per day ;    $2,565.00 per 30 days
+  Fable 5    hits    $150.00 + 1h writes   $48.00 =    $198.00 per day ;    $5,940.00 per 30 days
+  Opus 5     hits     $75.00 + 1h writes   $24.00 =     $99.00 per day ;    $2,970.00 per 30 days
+  Fable 5.1 vs Fable 5 per day: saves $112.50 (56.8% lower)
+  Fable 5.1 vs Opus 5 per day:  saves $13.50 (13.6% lower)
+  Same day with NO caching on Fable 5.1 (500 x 300,000 base input): $1,500.00
+
+=== Example 2: one request, 100,000 uncached input + 10,000 output, standard API
+  Fable 5.1  input    $1.00 + output    $0.50 =    $1.50
+  Opus 5     input    $0.50 + output    $0.25 =    $0.75
+  Sonnet 5   input    $0.20 + output    $0.10 =    $0.30
+  Fable 5.1 / Opus 5 = 2.00x ; Fable 5.1 / Sonnet 5 = 5.00x
+  1,000 such requests: Fable 5.1 $1,500.00 ; Opus 5 $750.00 ; Sonnet 5 $300.00
+
+=== Example 3: the same work on the Batch API (50% off every token class, caching multipliers stack)
+  Ex1 agent month on batch, Fable 5.1  hit rate $0.125/MTok, 1h write $10/MTok:   $42.75/day ;    $1,282.50/30 days
+  Ex1 agent month on batch, Fable 5    hit rate $0.5/MTok, 1h write $10/MTok:   $99.00/day ;    $2,970.00/30 days
+  Ex1 agent month on batch, Opus 5     hit rate $0.25/MTok, 1h write $5/MTok:   $49.50/day ;    $1,485.00/30 days
+  Ex2 request on batch, Fable 5.1  $0.7500 (1,000 requests $750.00)
+  Ex2 request on batch, Opus 5     $0.3750 (1,000 requests $375.00)
+  Ex2 request on batch, Sonnet 5   $0.1500 (1,000 requests $150.00)
+
+=== Break-even: cache hit share h where Fable 5.1 input cost equals Opus 5 input cost
+    Fable 5.1 per input token: 10(1-h) + 0.25h ; Opus 5: 5(1-h) + 0.50h
+    h = 5 / 5.25 = 0.9524 -> 95.24% of input tokens must be cache hits
+    hit share 80.00% : Fable 5.1    $2.20/MTok input vs Opus 5    $1.40/MTok input
+    hit share 90.00% : Fable 5.1    $1.23/MTok input vs Opus 5    $0.95/MTok input
+    hit share 95.00% : Fable 5.1    $0.74/MTok input vs Opus 5    $0.73/MTok input
+    hit share 95.24% : Fable 5.1    $0.71/MTok input vs Opus 5    $0.71/MTok input
+    hit share 98.00% : Fable 5.1    $0.45/MTok input vs Opus 5    $0.59/MTok input
+    hit share 99.00% : Fable 5.1    $0.35/MTok input vs Opus 5    $0.55/MTok input
+    Output is priced at $50 vs $25 regardless, so the break-even only ever applies to the input side.
+    Fable 5.1 vs Fable 5: identical on every column except cache hits ($0.25 vs $1), so Fable 5.1 is never dearer.

@@ -1,0 +1,20 @@
+Workload A: 30 days x 3,000,000 input + 600,000 output per day = 90,000,000 input, 18,000,000 output tokens per month
+  Sonnet 5 standard: input $180.00 + output $180.00 = $360.00
+  Sonnet 5 batch:    input $90.00 + output $90.00 = $180.00
+  Sonnet 4.6 standard: input $270.00 + output $270.00 = $540.00
+  Sonnet 4.6 batch:    input $135.00 + output $135.00 = $270.00
+  Move 4.6 -> 5, standard: saves $180.00 = 33.33%
+  Move 4.6 -> 5, batch:    saves $90.00 = 33.33%
+  Batch discount on 4.6: $270.00 = 50.00%; on 5: $180.00 = 50.00%
+
+Workload B: same job, 1h cache on 2,000,000 of the daily input tokens at 95% hit rate
+  per month: 30,000,000 uncached input, 3,000,000 1h cache writes, 57,000,000 cache hits, 18,000,000 output
+  Sonnet 5: uncached $60.00 + writes $12.00 + hits $11.40 + output $180.00 = $263.40
+    vs uncached standard $360.00: cache saves $96.60 = 26.83%
+  Sonnet 4.6: uncached $90.00 + writes $18.00 + hits $17.10 + output $270.00 = $395.10
+    vs uncached standard $540.00: cache saves $144.90 = 26.83%
+  Move 4.6 -> 5 with cache: saves $131.70 = 33.33%
+
+Workload C: one long context request, 900,000 input + 4,000 output tokens, standard pricing (official page: Claude 4.6 and later bill the full 1M window at standard rates)
+  Sonnet 5: input $1.80 + output $0.04 = $1.84
+  Sonnet 4.6: input $2.70 + output $0.06 = $2.76

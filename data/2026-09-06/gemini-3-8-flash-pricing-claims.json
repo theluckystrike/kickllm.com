@@ -1,0 +1,200 @@
+[
+ {
+  "claim": "3.8 Flash Standard paid input, 2026 and 2027",
+  "value": "$0.75 / $1.50",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Standard Free Tier Paid Tier, per 1M tokens in USD Input price Free of charge $0.75 through December 31, 2026. $1.50 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash Standard paid output incl. thinking, 2026 and 2027",
+  "value": "$3.75 / $7.50",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Output price (including thinking tokens) Free of charge $3.75 through December 31, 2026. $7.50 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash Standard context caching read, 2026 and 2027",
+  "value": "$0.075 / $0.15",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Context caching price Free of charge $0.075 through December 31, 2026. $0.15 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash cache storage per 1M tokens per hour, 2026 and 2027",
+  "value": "$0.50 / $1.00",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "$0.50 / 1,000,000 tokens per hour (storage price) through December 31, 2026. $1.00 / 1,000,000 tokens per hour (storage price) starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash grounding with Google Search, free tier not available; paid allowance and price",
+  "value": "Not available / 5,000 free per month then $14 per 1,000",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Grounding with Google Search * Not available 5,000 free search requests per month (shared across all Gemini 3.x models), then $14 per 1,000 requests."
+ },
+ {
+  "claim": "One Gemini request may bill several search queries",
+  "value": "footnote",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "* A customer-submitted request to Gemini may result in one or more queries to Google Search. You will be charged for each individual search query performed."
+ },
+ {
+  "claim": "Data used to improve products, free yes, paid no",
+  "value": "Yes / No",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Used to improve our products Yes No"
+ },
+ {
+  "claim": "3.8 Flash Batch input, 2026 and 2027",
+  "value": "$0.375 / $0.75",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Batch Free Tier Paid Tier, per 1M tokens in USD Input price Not available $0.375 through December 31, 2026. $0.75 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash Batch output incl. thinking, 2026 and 2027",
+  "value": "$1.875 / $3.75",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Output price (including thinking tokens) Not available $1.875 through December 31, 2026. $3.75 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash Batch context caching read, 2026 and 2027; storage same as Standard",
+  "value": "$0.0375 / $0.075; $0.50 / $1.00 per hour",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Context caching price Not available $0.0375 through December 31, 2026. $0.075 starting January 1, 2027. $0.50 / 1,000,000 tokens per hour (storage price) through December 31, 2026. $1.00 / 1,000,000 tokens per hour (storage price) starting January 1, 2027."
+ },
+ {
+  "claim": "Batch and Flex free tier not available",
+  "value": "Not available",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Batch Free Tier Paid Tier, per 1M tokens in USD Input price Not available ... Flex Free Tier Paid Tier, per 1M tokens in USD Input price Not available"
+ },
+ {
+  "claim": "3.8 Flash Flex tier equals Batch prices",
+  "value": "$0.375 / $1.875 (2026)",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Flex Free Tier Paid Tier, per 1M tokens in USD Input price Not available $0.375 through December 31, 2026. $0.75 starting January 1, 2027. Output price (including thinking tokens) Not available $1.875 through December 31, 2026. $3.75 starting January 1, 2027."
+ },
+ {
+  "claim": "3.8 Flash Priority tier input and output, 2026 and 2027",
+  "value": "$1.35 / $2.70 in; $6.75 / $13.50 out",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Priority Free Tier Paid Tier, per 1M tokens in USD Input price Free of charge $1.35 through December 31, 2026. $2.70 starting January 1, 2027. Output price (including thinking tokens) Free of charge $6.75 through December 31, 2026. $13.50 starting January 1, 2027."
+ },
+ {
+  "claim": "3.7 Flash and 3.6 Flash carry identical prices to 3.8 Flash",
+  "value": "$0.75 / $3.75 with same 2027 step",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Gemini 3.7 Flash gemini-3.7-flash ... Input price Free of charge $0.75 through December 31, 2026. $1.50 starting January 1, 2027. Output price (including thinking tokens) Free of charge $3.75 through December 31, 2026. $7.50 starting January 1, 2027. ... Gemini 3.6 Flash gemini-3.6-flash ... Input price Free of charge $0.75 through December 31, 2026. $1.50 starting January 1, 2027. Output price (including thinking tokens) Free of charge $3.75 through December 31, 2026. $7.50 starting January 1, 2027."
+ },
+ {
+  "claim": "3.5 Flash Standard paid input, output, cache read, storage",
+  "value": "$1.50 / $9.00 / $0.15 / $1.00 per hour",
+  "source_file": "data/official-google-pricing.txt",
+  "quote": "Gemini 3.5 Flash gemini-3.5-flash ... Standard Free Tier Paid Tier, per 1M tokens in USD Input price Free of charge $1.50 Output price (including thinking tokens) Free of charge $9.00 Context caching price Free of charge $0.15 $1.00 / 1,000,000 tokens per hour (storage price)"
+ },
+ {
+  "claim": "3.5 Flash-Lite Standard paid input, output, cache read, storage (block lies beyond the 14,000 byte text dump, read from the saved HTML of the same page)",
+  "value": "$0.30 / $2.50 / $0.03 / $1.00 per hour",
+  "source_file": "data/ai_google_dev_gemini-api_docs_pricing.html",
+  "quote": "Gemini 3.5 Flash-Lite gemini-3.5-flash-lite ... Standard Free Tier Paid Tier, per 1M tokens in USD Input price Free of charge $0.30 (text / image / video / audio) Output price (including thinking tokens) Free of charge $2.50 Context caching price Not available $0.03 $1.00 / 1,000,000 tokens per hour (storage price)"
+ },
+ {
+  "claim": "3.1 Pro Preview Standard paid input, output, cache read, storage, with the over-200k tier",
+  "value": "$2.00 / $12.00 / $0.20 / $4.50 per hour; over 200k $4.00 / $18.00 / $0.40",
+  "source_file": "data/ai_google_dev_gemini-api_docs_pricing.html",
+  "quote": "Gemini 3.1 Pro Preview gemini-3.1-pro-preview ... Standard Free Tier Paid Tier, per 1M tokens in USD Input price Not available $2.00, prompts $4.00, prompts > 200k tokens Output price (including thinking tokens) Not available $12.00, prompts $18.00, prompts > 200k Context caching price Not available $0.20, prompts $0.40, prompts > 200k $4.50 / 1,000,000 tokens per hour (storage price)"
+ },
+ {
+  "claim": "OpenRouter google/gemini-3.8-flash created timestamp and context length",
+  "value": "1788362056 = 2026-09-02 15:14:16 UTC; 1048576",
+  "source_file": "data/openrouter-models.json",
+  "quote": "google/gemini-3.8-flash | created 1788362056 | ctx 1048576 | prompt 0.00000075 | completion 0.00000375 | cache_read 0.000000075 | web_search 0.014"
+ },
+ {
+  "claim": "OpenRouter google/gemini-3.8-flash:batch prices",
+  "value": "$0.375 / $1.875 / cache $0.0375 per 1M",
+  "source_file": "data/openrouter-models.json",
+  "quote": "google/gemini-3.8-flash:batch | created 1788362056 | ctx 1048576 | prompt 0.000000375 | completion 0.000001875 | cache_read 0.0000000375"
+ },
+ {
+  "claim": "OpenRouter sibling prices and context length (3.5 Flash, Flash-Lite, 3.1 Pro Preview)",
+  "value": "1.5/9/0.15; 0.3/2.5/0.03; 2/12/0.2; all ctx 1048576",
+  "source_file": "data/openrouter-models.json",
+  "quote": "google/gemini-3.5-flash-lite | ctx 1048576 | prompt 0.0000003 | completion 0.0000025 | cache_read 0.00000003 ; google/gemini-3.5-flash | ctx 1048576 | prompt 0.0000015 | completion 0.000009 | cache_read 0.00000015 ; google/gemini-3.1-pro-preview | ctx 1048576 | prompt 0.000002 | completion 0.000012 | cache_read 0.0000002"
+ },
+ {
+  "claim": "LiteLLM gemini-3.8-flash prices match official 2026 figures",
+  "value": "0.75 / 3.75 / cache 0.075 / batch 0.375 / 1.875",
+  "source_file": "data/litellm-prices.json",
+  "quote": "gemini-3.8-flash: cache_read_input_token_cost 7.5e-08, input_cost_per_token 7.5e-07, input_cost_per_token_batches 3.75e-07, output_cost_per_token 3.75e-06, output_cost_per_token_batches 1.875e-06, max_input_tokens 1048576, max_output_tokens 65536"
+ },
+ {
+  "claim": "LiteLLM gemini-3.5-flash and gemini-3.5-flash-lite match official",
+  "value": "1.5 / 9 / 0.15 ; 0.3 / 2.5 / 0.03",
+  "source_file": "data/litellm-prices.json",
+  "quote": "gemini-3.5-flash: input_cost_per_token 1.5e-06, output_cost_per_token 9e-06, cache_read_input_token_cost 1.5e-07 ; gemini-3.5-flash-lite: input_cost_per_token 3e-07, output_cost_per_token 2.5e-06, cache_read_input_token_cost 3e-08"
+ },
+ {
+  "claim": "Cross-check verdict",
+  "value": "no disagreement on 2026 figures; neither cross-check carries a 2027 figure",
+  "source_file": "data/openrouter-models.json",
+  "quote": "pricing.prompt 0.00000075 = $0.75/1M; no 2027 field exists in the OpenRouter or LiteLLM records"
+ },
+ {
+  "claim": "2027/2026 ratio on every line",
+  "value": "2.0",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Ratio 2027/2026 input 2.0 output 2.0 cache 2.0 storage 2.0 batch in 2.0 batch out 2.0"
+ },
+ {
+  "claim": "Example 1 Standard 2026 and 2027",
+  "value": "$3,037.50 ($0.0020/req); $6,075.00 ($0.0041/req)",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Standard 2026: input 1,800 x 0.75 = $1,350.00; output 450 x 3.75 = $1,687.50; total $3,037.50; per request $0.0020 / Standard 2027: input 1,800 x 1.5 = $2,700.00; output 450 x 7.5 = $3,375.00; total $6,075.00; per request $0.0041"
+ },
+ {
+  "claim": "Output share of Example 1 bill",
+  "value": "56 percent (1687.5/3037.5)",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "output 450 x 3.75 = $1,687.50; total $3,037.50"
+ },
+ {
+  "claim": "Example 2 Batch 2026 and 2027",
+  "value": "$1,518.75 ($0.0010/req); $3,037.50",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Batch 2026: input 1,800 x 0.375 = $675.00; output 450 x 1.875 = $843.75; total $1,518.75; per request $0.0010 / Batch 2027: ... total $3,037.50; per request $0.0020"
+ },
+ {
+  "claim": "Example 3 RAG cached vs uncached, 2026",
+  "value": "$30.00 + $2.40 = $32.40/day, $972.00/30d vs $300.00/day, $9,000.00/30d; saving $267.60/day = 89.2%",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "2026: cached reads 400 x 0.075 = $30.00/day; storage 0.2 x 0.5 x 24 = $2.40/day; cached total $32.40/day, $972.00/30 days / 2026: uncached 400 x 0.75 = $300.00/day, $9,000.00/30 days; saving $267.60/day = 89.2%"
+ },
+ {
+  "claim": "Example 3 RAG, 2027",
+  "value": "$64.80/day vs $600.00/day, 89.2%",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "2027: cached reads 400 x 0.15 = $60.00/day; storage 0.2 x 1.0 x 24 = $4.80/day; cached total $64.80/day ... uncached 400 x 1.5 = $600.00/day ... saving $535.20/day = 89.2%"
+ },
+ {
+  "claim": "Storage per hour for 200k context and one uncached pass",
+  "value": "$0.10 per hour; $0.15 uncached; $0.01 cached read",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Storage per hour for the 200k context, 2026: $0.10; one uncached pass of it costs $0.15 vs cached read $0.01"
+ },
+ {
+  "claim": "Sibling ratios",
+  "value": "3.5 Flash: 0.5 in, 0.4167 out (42 percent); Flash-Lite 2.5x/1.5x cheaper; 3.1 Pro 2.67x/3.2x dearer",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Sibling per 1M: 3.8 Flash 0.75/3.75 vs 3.5 Flash 1.50/9.00 -> ratios 0.5 0.4166666666666667 ; vs Flash-Lite 0.30/2.50 -> 2.5 1.5 ; 3.1 Pro 2.00/12.00 -> 2.6666666666666665 3.2"
+ },
+ {
+  "claim": "Example 1 on siblings",
+  "value": "3.5 Flash $6,750.00; Flash-Lite $1,665.00; 3.1 Pro $9,000.00",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Example 1 on 3.5 Flash 2026 list: $6,750.00 | Flash-Lite: $1,665.00 | 3.1 Pro: $9,000.00"
+ },
+ {
+  "claim": "Grounding example, 20,000 searches a month",
+  "value": "15,000 billable, $210",
+  "source_file": "evidence/gemini-3-8-flash-pricing-calc.txt",
+  "quote": "Grounding: 20,000 searches/month -> (20000-5000)/1000 x 14 = $210.00"
+ }
+]

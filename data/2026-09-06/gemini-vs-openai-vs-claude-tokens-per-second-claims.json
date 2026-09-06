@@ -1,0 +1,494 @@
+[
+ {
+  "claim": "Number of raw runs and models",
+  "value": "96 runs, 16 models, 0 errors",
+  "source_file": "bench/runs.jsonl",
+  "quote": "wc -l runs.jsonl = 96; 16 distinct model ids; err null in all 96"
+ },
+ {
+  "claim": "Run window",
+  "value": "first ts 1788658223 = 01:30:23 UTC, last ts 1788659024 = 01:43:44 UTC, 6 September 2026 (Sunday)",
+  "source_file": "bench/runs.jsonl",
+  "quote": "\"ts\": 1788658223 (first line) ... \"ts\": 1788659024 (last line); datetime.date(2026,9,6).strftime('%A') = Sunday"
+ },
+ {
+  "claim": "Egress path",
+  "value": "Mullvad WireGuard VPN exit in Warsaw, Poland, AS212238 (Datacamp Limited); not a residential line",
+  "source_file": "coordinator message 2026-09-06 (ipinfo.io egress check by the validator)",
+  "quote": "I verified egress just now with ipinfo.io: the traffic left through a Mullvad WireGuard VPN relay in Warsaw, Poland (AS212238 Datacamp Limited), not a residential line."
+ },
+ {
+  "claim": "Prompt, word count and settings",
+  "value": "Explain in about 200 words how TCP congestion control works. Plain prose, no lists. (14 words)",
+  "source_file": "bench/summary.json",
+  "quote": "{\"prompt\": \"Explain in about 200 words how TCP congestion control works. Plain prose, no lists.\", \"settings\": {\"max_tokens\": 1500, \"temperature\": 0, \"reasoning_effort\": \"low\", \"stream\": true, \"route\": \"OpenRouter default provider routing\", \"client\": \"Python urllib, machine clock UTC+7, egress via Mullvad WireGuard VPN relay in Warsaw, Poland (AS212238 Datacamp Limited), verified with ipinfo.io after the run\", \"window_utc\": \"2026-09-06 01:30 to 01:44 UTC\"}} | calc: prompt word count: 14"
+ },
+ {
+  "claim": "Method: TTFT and tps definitions; usage object source",
+  "value": "TTFT = first content delta minus request start; tps = (completion_tokens minus reasoning_tokens) / (last delta minus first delta); usage taken from the streamed OpenRouter usage object (stream_options include_usage)",
+  "source_file": "bench/bench.py",
+  "quote": "\"ttft\":round(tft-t0,3) ... rec[\"tps\"]=round((ct-rt)/rec[\"gen_s\"],1) ... \"reasoning\":{\"effort\":\"low\"} ... \"max_tokens\":1500,\"temperature\":0 ... \"stream\":True,\"stream_options\":{\"include_usage\":True} ... if j.get('usage'): usage=j['usage']"
+ },
+ {
+  "claim": "Exclusion rule",
+  "value": "content_tokens >= 80 and gen_s > 0.5, applied to every model alike",
+  "source_file": "bench/summary.json + calc",
+  "quote": "n_ok / n_bad per model in summary.json; recomputed with the rule in the calc script, all 16 models match within rounding"
+ },
+ {
+  "claim": "Rounding rule for table cells",
+  "value": "round half up on the exact median (Decimal); differs from summary.json only where summary truncated or rounded half even (Sol reasoning 43.5 -> 44, Sonnet 5 TTFT 2.345 -> 2.35)",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "NOTE half-up median differs from summary.json: anthropic/claude-sonnet-5 ttft_median 2.35 vs 2.34 ... NOTE reasoning median half-up differs from summary.json int(): openai/gpt-5.6-sol 44 vs 43"
+ },
+ {
+  "claim": "openai/gpt-5.4-nano table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.00 (min 1.67, max 3.52); tps median 199 (min 134, max 216); reasoning median 0; content median 244; total median 3.48; providers {'OpenAI': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"OpenAI\", \"ttft\": 2.239, \"tps\": 166.9, \"reasoning_tokens\": 0, \"content_tokens\": 275, \"t_total\": 3.91}, {\"provider\": \"OpenAI\", \"ttft\": 2.307, \"tps\": 133.5, \"reasoning_tokens\": 0, \"content_tokens\": 228, \"t_total\": 4.067}, {\"provider\": \"OpenAI\", \"ttft\": 1.762, \"tps\": 216.1, \"reasoning_tokens\": 0, \"content_tokens\": 223, \"t_total\": 2.944}, {\"provider\": \"OpenAI\", \"ttft\": 3.524, \"tps\": 191.8, \"reasoning_tokens\": 0, \"content_tokens\": 247, \"t_total\": 4.921}, {\"provider\": \"OpenAI\", \"ttft\": 1.668, \"tps\": 207.0, \"reasoning_tokens\": 0, \"content_tokens\": 241, \"t_total\": 2.952}, {\"provider\": \"OpenAI\", \"ttft\": 1.703, \"tps\": 206.4, \"reasoning_tokens\": 0, \"content_tokens\": 251, \"t_total\": 3.042}]"
+ },
+ {
+  "claim": "openai/gpt-5.4-nano OpenRouter price per 1M",
+  "value": "input $0.2, output $1.25",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"openai/gpt-5.4-nano\", \"prompt\": \"0.0000002\", \"completion\": \"0.00000125\"}"
+ },
+ {
+  "claim": "google/gemini-3.8-flash table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.03 (min 1.92, max 2.44); tps median 133 (min 92, max 170); reasoning median 0; content median 228; total median 3.82; providers {'Google': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Google\", \"ttft\": 1.917, \"tps\": 155.4, \"reasoning_tokens\": 0, \"content_tokens\": 227, \"t_total\": 3.4}, {\"provider\": \"Google\", \"ttft\": 2.013, \"tps\": 170.0, \"reasoning_tokens\": 0, \"content_tokens\": 215, \"t_total\": 3.311}, {\"provider\": \"Google\", \"ttft\": 2.041, \"tps\": 133.5, \"reasoning_tokens\": 0, \"content_tokens\": 217, \"t_total\": 3.773}, {\"provider\": \"Google\", \"ttft\": 2.207, \"tps\": 91.5, \"reasoning_tokens\": 0, \"content_tokens\": 228, \"t_total\": 5.14}, {\"provider\": \"Google\", \"ttft\": 2.435, \"tps\": 132.7, \"reasoning_tokens\": 0, \"content_tokens\": 238, \"t_total\": 4.272}, {\"provider\": \"Google\", \"ttft\": 1.971, \"tps\": 129.5, \"reasoning_tokens\": 0, \"content_tokens\": 235, \"t_total\": 3.861}]"
+ },
+ {
+  "claim": "google/gemini-3.8-flash OpenRouter price per 1M",
+  "value": "input $0.75, output $3.75",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"google/gemini-3.8-flash\", \"prompt\": \"0.00000075\", \"completion\": \"0.00000375\"}"
+ },
+ {
+  "claim": "openai/gpt-5.4-mini table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.04 (min 1.92, max 2.13); tps median 148 (min 140, max 184); reasoning median 13; content median 247; total median 3.80; providers {'OpenAI': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"OpenAI\", \"ttft\": 2.06, \"tps\": 147.7, \"reasoning_tokens\": 12, \"content_tokens\": 242, \"t_total\": 3.863}, {\"provider\": \"OpenAI\", \"ttft\": 1.967, \"tps\": 140.3, \"reasoning_tokens\": 14, \"content_tokens\": 244, \"t_total\": 3.829}, {\"provider\": \"OpenAI\", \"ttft\": 2.036, \"tps\": 147.8, \"reasoning_tokens\": 14, \"content_tokens\": 250, \"t_total\": 3.803}, {\"provider\": \"OpenAI\", \"ttft\": 1.923, \"tps\": 143.9, \"reasoning_tokens\": 13, \"content_tokens\": 249, \"t_total\": 3.789}, {\"provider\": \"OpenAI\", \"ttft\": 2.127, \"tps\": 169.6, \"reasoning_tokens\": 11, \"content_tokens\": 249, \"t_total\": 3.659}, {\"provider\": \"OpenAI\", \"ttft\": 2.046, \"tps\": 184.0, \"reasoning_tokens\": 13, \"content_tokens\": 237, \"t_total\": 3.465}]"
+ },
+ {
+  "claim": "openai/gpt-5.4-mini OpenRouter price per 1M",
+  "value": "input $0.75, output $4.5",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"openai/gpt-5.4-mini\", \"prompt\": \"0.00000075\", \"completion\": \"0.0000045\"}"
+ },
+ {
+  "claim": "anthropic/claude-sonnet-5 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.35 (min 2.12, max 2.71); tps median 88 (min 86, max 96); reasoning median 0; content median 404; total median 6.92; providers {'Claude Platform on AWS': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.406, \"tps\": 90.8, \"reasoning_tokens\": 0, \"content_tokens\": 421, \"t_total\": 7.073}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.284, \"tps\": 96.0, \"reasoning_tokens\": 0, \"content_tokens\": 402, \"t_total\": 6.471}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.709, \"tps\": 87.2, \"reasoning_tokens\": 0, \"content_tokens\": 405, \"t_total\": 7.371}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.122, \"tps\": 89.1, \"reasoning_tokens\": 0, \"content_tokens\": 382, \"t_total\": 6.574}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.228, \"tps\": 87.5, \"reasoning_tokens\": 0, \"content_tokens\": 394, \"t_total\": 6.764}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 2.447, \"tps\": 86.3, \"reasoning_tokens\": 0, \"content_tokens\": 411, \"t_total\": 7.241}]"
+ },
+ {
+  "claim": "anthropic/claude-sonnet-5 OpenRouter price per 1M",
+  "value": "input $2, output $10",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"anthropic/claude-sonnet-5\", \"prompt\": \"0.000002\", \"completion\": \"0.00001\"}"
+ },
+ {
+  "claim": "moonshotai/kimi-k3 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.38 (min 1.99, max 2.96); tps median 82 (min 72, max 118); reasoning median 14; content median 282; total median 5.75; providers {'Sail Research': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Sail Research\", \"ttft\": 2.237, \"tps\": 95.4, \"reasoning_tokens\": 14, \"content_tokens\": 280, \"t_total\": 5.175}, {\"provider\": \"Sail Research\", \"ttft\": 2.73, \"tps\": 71.5, \"reasoning_tokens\": 14, \"content_tokens\": 293, \"t_total\": 6.826}, {\"provider\": \"Sail Research\", \"ttft\": 2.218, \"tps\": 87.5, \"reasoning_tokens\": 14, \"content_tokens\": 263, \"t_total\": 5.228}, {\"provider\": \"Sail Research\", \"ttft\": 2.961, \"tps\": 77.2, \"reasoning_tokens\": 14, \"content_tokens\": 283, \"t_total\": 6.628}, {\"provider\": \"Sail Research\", \"ttft\": 1.994, \"tps\": 118.4, \"reasoning_tokens\": 14, \"content_tokens\": 270, \"t_total\": 4.275}, {\"provider\": \"Sail Research\", \"ttft\": 2.532, \"tps\": 76.5, \"reasoning_tokens\": 14, \"content_tokens\": 283, \"t_total\": 6.265}]"
+ },
+ {
+  "claim": "moonshotai/kimi-k3 OpenRouter price per 1M",
+  "value": "input $3, output $15",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"moonshotai/kimi-k3\", \"prompt\": \"0.000003\", \"completion\": \"0.000015\"}"
+ },
+ {
+  "claim": "openai/gpt-6-astra table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.41 (min 2.16, max 2.89); tps median 53 (min 41, max 61); reasoning median 0; content median 252; total median 7.35; providers {'OpenAI': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"OpenAI\", \"ttft\": 2.159, \"tps\": 52.5, \"reasoning_tokens\": 0, \"content_tokens\": 250, \"t_total\": 7.013}, {\"provider\": \"OpenAI\", \"ttft\": 2.894, \"tps\": 53.9, \"reasoning_tokens\": 0, \"content_tokens\": 253, \"t_total\": 7.701}, {\"provider\": \"OpenAI\", \"ttft\": 2.325, \"tps\": 41.0, \"reasoning_tokens\": 0, \"content_tokens\": 252, \"t_total\": 8.72}, {\"provider\": \"OpenAI\", \"ttft\": 2.337, \"tps\": 49.2, \"reasoning_tokens\": 0, \"content_tokens\": 251, \"t_total\": 7.644}, {\"provider\": \"OpenAI\", \"ttft\": 2.596, \"tps\": 61.3, \"reasoning_tokens\": 0, \"content_tokens\": 253, \"t_total\": 6.896}, {\"provider\": \"OpenAI\", \"ttft\": 2.477, \"tps\": 56.7, \"reasoning_tokens\": 0, \"content_tokens\": 248, \"t_total\": 7.046}]"
+ },
+ {
+  "claim": "openai/gpt-6-astra OpenRouter price per 1M",
+  "value": "input $10, output $50",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"openai/gpt-6-astra\", \"prompt\": \"0.00001\", \"completion\": \"0.00005\"}"
+ },
+ {
+  "claim": "anthropic/claude-haiku-4.5 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 2.83 (min 2.58, max 3.11); tps median 98 (min 91, max 102); reasoning median 115; content median 282; total median 5.78; providers {'Amazon Bedrock': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Amazon Bedrock\", \"ttft\": 3.112, \"tps\": 101.8, \"reasoning_tokens\": 128, \"content_tokens\": 280, \"t_total\": 5.884}, {\"provider\": \"Amazon Bedrock\", \"ttft\": 2.895, \"tps\": 97.8, \"reasoning_tokens\": 71, \"content_tokens\": 275, \"t_total\": 5.735}, {\"provider\": \"Amazon Bedrock\", \"ttft\": 2.845, \"tps\": 91.2, \"reasoning_tokens\": 114, \"content_tokens\": 281, \"t_total\": 5.955}, {\"provider\": \"Amazon Bedrock\", \"ttft\": 2.807, \"tps\": 101.9, \"reasoning_tokens\": 136, \"content_tokens\": 282, \"t_total\": 5.597}, {\"provider\": \"Amazon Bedrock\", \"ttft\": 2.8, \"tps\": 97.1, \"reasoning_tokens\": 116, \"content_tokens\": 292, \"t_total\": 5.827}, {\"provider\": \"Amazon Bedrock\", \"ttft\": 2.58, \"tps\": 97.3, \"reasoning_tokens\": 67, \"content_tokens\": 291, \"t_total\": 5.588}]"
+ },
+ {
+  "claim": "anthropic/claude-haiku-4.5 OpenRouter price per 1M",
+  "value": "input $1, output $5",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"anthropic/claude-haiku-4.5\", \"prompt\": \"0.000001\", \"completion\": \"0.000005\"}"
+ },
+ {
+  "claim": "google/gemini-3.5-flash-lite table row (half-up from runs.jsonl)",
+  "value": "n 5/6; TTFT median 3.83 (min 3.58, max 8.41); tps median 389 (min 161, max 402); reasoning median 476; content median 220; total median 4.64; providers {'Google': 5}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Google\", \"ttft\": 3.904, \"tps\": 389.4, \"reasoning_tokens\": 500, \"content_tokens\": 220, \"t_total\": 4.637}, {\"provider\": \"Google\", \"ttft\": 8.412, \"tps\": 321.6, \"reasoning_tokens\": 447, \"content_tokens\": 219, \"t_total\": 9.097}, {\"provider\": \"Google\", \"ttft\": 3.6, \"tps\": 402.2, \"reasoning_tokens\": 460, \"content_tokens\": 220, \"t_total\": 4.236}, {\"provider\": \"Google\", \"ttft\": 3.83, \"tps\": 391.8, \"reasoning_tokens\": 582, \"content_tokens\": 219, \"t_total\": 4.513}, {\"provider\": \"Google\", \"ttft\": 3.575, \"tps\": 160.6, \"reasoning_tokens\": 476, \"content_tokens\": 229, \"t_total\": 5.257}]"
+ },
+ {
+  "claim": "google/gemini-3.5-flash-lite OpenRouter price per 1M",
+  "value": "input $0.3, output $2.5",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"google/gemini-3.5-flash-lite\", \"prompt\": \"0.0000003\", \"completion\": \"0.0000025\"}"
+ },
+ {
+  "claim": "anthropic/claude-fable-5.1 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 3.88 (min 3.56, max 5.00); tps median 65 (min 62, max 67); reasoning median 0; content median 430; total median 10.49; providers {'Anthropic': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Anthropic\", \"ttft\": 4.998, \"tps\": 64.8, \"reasoning_tokens\": 0, \"content_tokens\": 432, \"t_total\": 11.678}, {\"provider\": \"Anthropic\", \"ttft\": 4.024, \"tps\": 66.9, \"reasoning_tokens\": 0, \"content_tokens\": 434, \"t_total\": 10.524}, {\"provider\": \"Anthropic\", \"ttft\": 3.557, \"tps\": 63.7, \"reasoning_tokens\": 0, \"content_tokens\": 427, \"t_total\": 10.276}, {\"provider\": \"Anthropic\", \"ttft\": 3.745, \"tps\": 62.0, \"reasoning_tokens\": 0, \"content_tokens\": 415, \"t_total\": 10.448}, {\"provider\": \"Anthropic\", \"ttft\": 3.618, \"tps\": 66.0, \"reasoning_tokens\": 0, \"content_tokens\": 427, \"t_total\": 10.119}, {\"provider\": \"Anthropic\", \"ttft\": 4.524, \"tps\": 66.3, \"reasoning_tokens\": 0, \"content_tokens\": 448, \"t_total\": 11.282}]"
+ },
+ {
+  "claim": "anthropic/claude-fable-5.1 OpenRouter price per 1M",
+  "value": "input $10, output $50",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"anthropic/claude-fable-5.1\", \"prompt\": \"0.00001\", \"completion\": \"0.00005\"}"
+ },
+ {
+  "claim": "deepseek/deepseek-v4-flash table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 3.89 (min 2.32, max 9.01); tps median 77 (min 9, max 156); reasoning median 74; content median 245; total median 6.50; providers {'DigitalOcean': 2, 'GMICloud': 1, 'Novita': 1, 'Parasail': 1, 'Baidu': 1}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"DigitalOcean\", \"ttft\": 9.007, \"tps\": 8.7, \"reasoning_tokens\": 84, \"content_tokens\": 247, \"t_total\": 37.474}, {\"provider\": \"GMICloud\", \"ttft\": 3.639, \"tps\": 96.1, \"reasoning_tokens\": 60, \"content_tokens\": 208, \"t_total\": 5.831}, {\"provider\": \"DigitalOcean\", \"ttft\": 8.072, \"tps\": 11.4, \"reasoning_tokens\": 67, \"content_tokens\": 242, \"t_total\": 29.6}, {\"provider\": \"Novita\", \"ttft\": 4.138, \"tps\": 127.9, \"reasoning_tokens\": 172, \"content_tokens\": 257, \"t_total\": 6.159}, {\"provider\": \"Parasail\", \"ttft\": 2.719, \"tps\": 57.8, \"reasoning_tokens\": 67, \"content_tokens\": 237, \"t_total\": 6.839}, {\"provider\": \"Baidu\", \"ttft\": 2.321, \"tps\": 155.9, \"reasoning_tokens\": 81, \"content_tokens\": 264, \"t_total\": 4.067}]"
+ },
+ {
+  "claim": "deepseek/deepseek-v4-flash OpenRouter price per 1M",
+  "value": "input $0.08246, output $0.16492",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"deepseek/deepseek-v4-flash\", \"prompt\": \"0.00000008246\", \"completion\": \"0.00000016492\"}"
+ },
+ {
+  "claim": "openai/gpt-5.6-sol table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 4.07 (min 3.18, max 6.83); tps median 45 (min 43, max 78); reasoning median 44; content median 275; total median 10.26; providers {'OpenAI': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"OpenAI\", \"ttft\": 4.52, \"tps\": 49.7, \"reasoning_tokens\": 58, \"content_tokens\": 272, \"t_total\": 10.162}, {\"provider\": \"OpenAI\", \"ttft\": 3.678, \"tps\": 45.3, \"reasoning_tokens\": 57, \"content_tokens\": 274, \"t_total\": 9.913}, {\"provider\": \"OpenAI\", \"ttft\": 3.323, \"tps\": 43.3, \"reasoning_tokens\": 22, \"content_tokens\": 298, \"t_total\": 10.36}, {\"provider\": \"OpenAI\", \"ttft\": 4.456, \"tps\": 45.2, \"reasoning_tokens\": 63, \"content_tokens\": 277, \"t_total\": 10.741}, {\"provider\": \"OpenAI\", \"ttft\": 6.825, \"tps\": 78.3, \"reasoning_tokens\": 30, \"content_tokens\": 275, \"t_total\": 10.551}, {\"provider\": \"OpenAI\", \"ttft\": 3.177, \"tps\": 44.2, \"reasoning_tokens\": 24, \"content_tokens\": 274, \"t_total\": 9.558}]"
+ },
+ {
+  "claim": "openai/gpt-5.6-sol OpenRouter price per 1M",
+  "value": "input $2, output $10",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"openai/gpt-5.6-sol\", \"prompt\": \"0.000002\", \"completion\": \"0.00001\"}"
+ },
+ {
+  "claim": "anthropic/claude-opus-5 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 4.66 (min 4.35, max 4.88); tps median 89 (min 87, max 109); reasoning median 24; content median 442; total median 9.45; providers {'Claude Platform on AWS': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.649, \"tps\": 88.8, \"reasoning_tokens\": 24, \"content_tokens\": 443, \"t_total\": 9.705}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.883, \"tps\": 89.2, \"reasoning_tokens\": 22, \"content_tokens\": 447, \"t_total\": 9.898}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.346, \"tps\": 88.3, \"reasoning_tokens\": 24, \"content_tokens\": 399, \"t_total\": 9.134}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.671, \"tps\": 108.6, \"reasoning_tokens\": 24, \"content_tokens\": 457, \"t_total\": 8.951}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.485, \"tps\": 92.6, \"reasoning_tokens\": 22, \"content_tokens\": 432, \"t_total\": 9.187}, {\"provider\": \"Claude Platform on AWS\", \"ttft\": 4.715, \"tps\": 87.4, \"reasoning_tokens\": 24, \"content_tokens\": 440, \"t_total\": 9.748}]"
+ },
+ {
+  "claim": "anthropic/claude-opus-5 OpenRouter price per 1M",
+  "value": "input $5, output $25",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"anthropic/claude-opus-5\", \"prompt\": \"0.000005\", \"completion\": \"0.000025\"}"
+ },
+ {
+  "claim": "deepseek/deepseek-v4-pro table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 5.29 (min 4.44, max 7.52); tps median 50 (min 37, max 62); reasoning median 125; content median 271; total median 11.08; providers {'SiliconFlow': 1, 'StreamLake': 5}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"SiliconFlow\", \"ttft\": 4.44, \"tps\": 62.1, \"reasoning_tokens\": 87, \"content_tokens\": 290, \"t_total\": 9.113}, {\"provider\": \"StreamLake\", \"ttft\": 5.371, \"tps\": 50.0, \"reasoning_tokens\": 122, \"content_tokens\": 258, \"t_total\": 10.534}, {\"provider\": \"StreamLake\", \"ttft\": 5.171, \"tps\": 49.9, \"reasoning_tokens\": 121, \"content_tokens\": 284, \"t_total\": 10.949}, {\"provider\": \"StreamLake\", \"ttft\": 5.21, \"tps\": 36.8, \"reasoning_tokens\": 128, \"content_tokens\": 304, \"t_total\": 13.478}, {\"provider\": \"StreamLake\", \"ttft\": 7.522, \"tps\": 54.0, \"reasoning_tokens\": 237, \"content_tokens\": 233, \"t_total\": 11.855}, {\"provider\": \"StreamLake\", \"ttft\": 6.047, \"tps\": 47.5, \"reasoning_tokens\": 192, \"content_tokens\": 244, \"t_total\": 11.208}]"
+ },
+ {
+  "claim": "deepseek/deepseek-v4-pro OpenRouter price per 1M",
+  "value": "input $0.778824, output $1.55765",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"deepseek/deepseek-v4-pro\", \"prompt\": \"0.000000778824\", \"completion\": \"0.000001557648\"}"
+ },
+ {
+  "claim": "google/gemini-3.5-flash table row (half-up from runs.jsonl)",
+  "value": "n 4/6; TTFT median 6.75 (min 5.99, max 8.95); tps median 268 (min 248, max 293); reasoning median 805; content median 218; total median 7.59; providers {'Google': 4}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Google\", \"ttft\": 8.952, \"tps\": 248.3, \"reasoning_tokens\": 805, \"content_tokens\": 218, \"t_total\": 9.873}, {\"provider\": \"Google\", \"ttft\": 5.993, \"tps\": 277.4, \"reasoning_tokens\": 805, \"content_tokens\": 218, \"t_total\": 6.84}, {\"provider\": \"Google\", \"ttft\": 7.23, \"tps\": 258.3, \"reasoning_tokens\": 805, \"content_tokens\": 218, \"t_total\": 8.117}, {\"provider\": \"Google\", \"ttft\": 6.272, \"tps\": 292.6, \"reasoning_tokens\": 805, \"content_tokens\": 218, \"t_total\": 7.059}]"
+ },
+ {
+  "claim": "google/gemini-3.5-flash OpenRouter price per 1M",
+  "value": "input $1.5, output $9",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"google/gemini-3.5-flash\", \"prompt\": \"0.0000015\", \"completion\": \"0.000009\"}"
+ },
+ {
+  "claim": "google/gemini-3.1-pro-preview table row (half-up from runs.jsonl)",
+  "value": "n 3/6; TTFT median 7.92 (min 7.81, max 7.92); tps median 186 (min 184, max 197); reasoning median 587; content median 242; total median 9.33; providers {'Google': 3}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"Google\", \"ttft\": 7.917, \"tps\": 186.3, \"reasoning_tokens\": 587, \"content_tokens\": 242, \"t_total\": 9.328}, {\"provider\": \"Google\", \"ttft\": 7.924, \"tps\": 183.8, \"reasoning_tokens\": 587, \"content_tokens\": 242, \"t_total\": 9.338}, {\"provider\": \"Google\", \"ttft\": 7.812, \"tps\": 197.2, \"reasoning_tokens\": 587, \"content_tokens\": 242, \"t_total\": 9.143}]"
+ },
+ {
+  "claim": "google/gemini-3.1-pro-preview OpenRouter price per 1M",
+  "value": "input $2, output $12",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"google/gemini-3.1-pro-preview\", \"prompt\": \"0.000002\", \"completion\": \"0.000012\"}"
+ },
+ {
+  "claim": "x-ai/grok-4.6 table row (half-up from runs.jsonl)",
+  "value": "n 6/6; TTFT median 12.02 (min 10.37, max 14.37); tps median 53 (min 47, max 93); reasoning median 504; content median 234; total median 16.56; providers {'xAI': 6}",
+  "source_file": "bench/runs.jsonl",
+  "quote": "kept runs: [{\"provider\": \"xAI\", \"ttft\": 12.116, \"tps\": 46.6, \"reasoning_tokens\": 474, \"content_tokens\": 237, \"t_total\": 17.256}, {\"provider\": \"xAI\", \"ttft\": 11.921, \"tps\": 52.0, \"reasoning_tokens\": 528, \"content_tokens\": 242, \"t_total\": 16.577}, {\"provider\": \"xAI\", \"ttft\": 12.41, \"tps\": 50.2, \"reasoning_tokens\": 533, \"content_tokens\": 206, \"t_total\": 16.538}, {\"provider\": \"xAI\", \"ttft\": 10.373, \"tps\": 56.0, \"reasoning_tokens\": 476, \"content_tokens\": 234, \"t_total\": 14.569}, {\"provider\": \"xAI\", \"ttft\": 11.354, \"tps\": 53.4, \"reasoning_tokens\": 480, \"content_tokens\": 228, \"t_total\": 15.635}, {\"provider\": \"xAI\", \"ttft\": 14.373, \"tps\": 92.5, \"reasoning_tokens\": 790, \"content_tokens\": 234, \"t_total\": 16.915}]"
+ },
+ {
+  "claim": "x-ai/grok-4.6 OpenRouter price per 1M",
+  "value": "input $2, output $6",
+  "source_file": "data/openrouter-models.json",
+  "quote": "{\"id\": \"x-ai/grok-4.6\", \"prompt\": \"0.000002\", \"completion\": \"0.000006\"}"
+ },
+ {
+  "claim": "GPT-5.6 Sol official Standard price used in table",
+  "value": "$4.00 input / $20.00 output per 1M (short context); Batch and Flex tables list $2.00 / $10.00, equal to the OpenRouter figure",
+  "source_file": "data/official-openai-pricing.txt",
+  "quote": "Standard Short context Long context Model Input Cached input Cache writes Output ... gpt-5.6-sol $4.00 $0.40 $5.00 $20.00 $8.00 $0.80 $10.00 $30.00 ... Batch ... gpt-5.6-sol $2.00 $0.20 $2.50 $10.00 ... Flex ... gpt-5.6-sol $2.00 $0.20 $2.50 $10.00"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "DigitalOcean ttft 9.007 tps 8.7 total 37.474",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"DigitalOcean\", \"t_total\": 37.474, \"ttft\": 9.007, \"gen_s\": 28.434, \"tps\": 8.7, \"reasoning_tokens\": 84, \"content_tokens\": 247}"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "GMICloud ttft 3.639 tps 96.1 total 5.831",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"GMICloud\", \"t_total\": 5.831, \"ttft\": 3.639, \"gen_s\": 2.164, \"tps\": 96.1, \"reasoning_tokens\": 60, \"content_tokens\": 208}"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "DigitalOcean ttft 8.072 tps 11.4 total 29.6",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"DigitalOcean\", \"t_total\": 29.6, \"ttft\": 8.072, \"gen_s\": 21.26, \"tps\": 11.4, \"reasoning_tokens\": 67, \"content_tokens\": 242}"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "Novita ttft 4.138 tps 127.9 total 6.159",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"Novita\", \"t_total\": 6.159, \"ttft\": 4.138, \"gen_s\": 2.01, \"tps\": 127.9, \"reasoning_tokens\": 172, \"content_tokens\": 257}"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "Parasail ttft 2.719 tps 57.8 total 6.839",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"Parasail\", \"t_total\": 6.839, \"ttft\": 2.719, \"gen_s\": 4.1, \"tps\": 57.8, \"reasoning_tokens\": 67, \"content_tokens\": 237}"
+ },
+ {
+  "claim": "DeepSeek V4 Flash per-provider run",
+  "value": "Baidu ttft 2.321 tps 155.9 total 4.067",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"deepseek/deepseek-v4-flash\", \"provider\": \"Baidu\", \"t_total\": 4.067, \"ttft\": 2.321, \"gen_s\": 1.693, \"tps\": 155.9, \"reasoning_tokens\": 81, \"content_tokens\": 264}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.5-flash-lite reasoning 484 content 198 gen_s 0.489 chars 1216 completion 682",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.5-flash-lite\", \"provider\": \"Google\", \"ttft\": 3.889, \"gen_s\": 0.489, \"chars\": 1216, \"reasoning_tokens\": 484, \"content_tokens\": 198, \"completion_tokens\": 682}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.5-flash reasoning 1437 content 59 gen_s 0.009 chars 358 completion 1496",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.5-flash\", \"provider\": \"Google\", \"ttft\": 8.546, \"gen_s\": 0.009, \"chars\": 358, \"reasoning_tokens\": 1437, \"content_tokens\": 59, \"completion_tokens\": 1496}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.1-pro-preview reasoning 1440 content 56 gen_s 0.253 chars 340 completion 1496",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.1-pro-preview\", \"provider\": \"Google\", \"ttft\": 12.33, \"gen_s\": 0.253, \"chars\": 340, \"reasoning_tokens\": 1440, \"content_tokens\": 56, \"completion_tokens\": 1496}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.1-pro-preview reasoning 1440 content 56 gen_s 0.256 chars 340 completion 1496",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.1-pro-preview\", \"provider\": \"Google\", \"ttft\": 12.157, \"gen_s\": 0.256, \"chars\": 340, \"reasoning_tokens\": 1440, \"content_tokens\": 56, \"completion_tokens\": 1496}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.5-flash reasoning 1437 content 59 gen_s 0.306 chars 358 completion 1496",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.5-flash\", \"provider\": \"Google\", \"ttft\": 9.131, \"gen_s\": 0.306, \"chars\": 358, \"reasoning_tokens\": 1437, \"content_tokens\": 59, \"completion_tokens\": 1496}"
+ },
+ {
+  "claim": "Excluded run",
+  "value": "google/gemini-3.1-pro-preview reasoning 1439 content 57 gen_s 0.234 chars 327 completion 1496",
+  "source_file": "bench/runs.jsonl",
+  "quote": "{\"model\": \"google/gemini-3.1-pro-preview\", \"provider\": \"Google\", \"ttft\": 12.036, \"gen_s\": 0.234, \"chars\": 327, \"reasoning_tokens\": 1439, \"content_tokens\": 57, \"completion_tokens\": 1496}"
+ },
+ {
+  "claim": "anthropic/claude-fable-5.1 reasoning tokens per run",
+  "value": "[0, 0, 0, 0, 0, 0]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six anthropic/claude-fable-5.1 lines"
+ },
+ {
+  "claim": "anthropic/claude-sonnet-5 reasoning tokens per run",
+  "value": "[0, 0, 0, 0, 0, 0]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six anthropic/claude-sonnet-5 lines"
+ },
+ {
+  "claim": "anthropic/claude-opus-5 reasoning tokens per run",
+  "value": "[24, 22, 24, 24, 22, 24]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six anthropic/claude-opus-5 lines"
+ },
+ {
+  "claim": "anthropic/claude-haiku-4.5 reasoning tokens per run",
+  "value": "[128, 71, 114, 136, 116, 67]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six anthropic/claude-haiku-4.5 lines"
+ },
+ {
+  "claim": "x-ai/grok-4.6 reasoning tokens per run",
+  "value": "[474, 528, 533, 476, 480, 790]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six x-ai/grok-4.6 lines"
+ },
+ {
+  "claim": "google/gemini-3.5-flash reasoning tokens per run",
+  "value": "[805, 805, 1437, 805, 805, 1437]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six google/gemini-3.5-flash lines"
+ },
+ {
+  "claim": "google/gemini-3.1-pro-preview reasoning tokens per run",
+  "value": "[587, 587, 1440, 587, 1440, 1439]",
+  "source_file": "bench/runs.jsonl",
+  "quote": "reasoning_tokens fields of the six google/gemini-3.1-pro-preview lines"
+ },
+ {
+  "claim": "Prompt tokens range across providers",
+  "value": "20 to 224",
+  "source_file": "bench/runs.jsonl",
+  "quote": "usage.prompt_tokens values {20, 22, 24, 35, 37, 57, 142, 224}; 224 on x-ai/grok-4.6"
+ },
+ {
+  "claim": "Pilot run at max_tokens 300",
+  "value": "12 runs, 12 models, 5 stopped at exactly 300 completion tokens; not in the tables",
+  "source_file": "bench/runs-v1-maxtok300.jsonl",
+  "quote": "[{\"model\": \"openai/gpt-6-astra\", \"completion_tokens\": 300, \"reasoning_tokens\": 81}, {\"model\": \"openai/gpt-5.6-sol\", \"completion_tokens\": 300, \"reasoning_tokens\": 44}, {\"model\": \"openai/gpt-5.4-mini\", \"completion_tokens\": 245, \"reasoning_tokens\": 0}, {\"model\": \"openai/gpt-5.4-nano\", \"completion_tokens\": 239, \"reasoning_tokens\": 0}, {\"model\": \"google/gemini-3.8-flash\", \"completion_tokens\": 296, \"reasoning_tokens\": 284}, {\"model\": \"google/gemini-3.5-flash\", \"completion_tokens\": 296, \"reasoning_tokens\": null}, {\"model\": \"google/gemini-3.5-flash-lite\", \"completion_tokens\": 210, \"reasoning_tokens\": 0}, {\"model\": \"google/gemini-3.1-pro-preview\", \"completion_tokens\": 296, \"reasoning_tokens\": 287}, {\"model\": \"anthropic/claude-fable-5.1\", \"completion_tokens\": 300, \"reasoning_tokens\": 0}, {\"model\": \"anthropic/claude-opus-5\", \"completion_tokens\": 300, \"reasoning_tokens\": 118}, {\"model\": \"anthropic/claude-sonnet-5\", \"completion_tokens\": 300, \"reasoning_tokens\": 0}, {\"model\": \"anthropic/claude-haiku-4.5\", \"completion_tokens\": 271, \"reasoning_tokens\": 0}]"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "gemini-3.5-flash-lite tps / gpt-5.4-nano tps = 1.96",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "gemini-3.5-flash-lite tps / gpt-5.4-nano tps = 1.96"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "gemini-3.5-flash-lite tps / gpt-6-astra tps = 7.3",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "gemini-3.5-flash-lite tps / gpt-6-astra tps = 7.3"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "gemini-3.5-flash-lite tps / claude-fable-5.1 tps = 6.0",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "gemini-3.5-flash-lite tps / claude-fable-5.1 tps = 6.0"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "grok ttft / gpt-5.4-nano ttft = 6.0",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "grok ttft / gpt-5.4-nano ttft = 6.0"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "deepseek v4 flash ttft max/min = 3.9 tps max/min = 17.9",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "deepseek v4 flash ttft max/min = 3.9 tps max/min = 17.9"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "gemini-3.8-flash vs gpt-5.4-nano ttft diff s = 0.03",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "gemini-3.8-flash vs gpt-5.4-nano ttft diff s = 0.03"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "gpt-5.4-nano tps / gpt-6-astra tps = 3.7",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "gpt-5.4-nano tps / gpt-6-astra tps = 3.7"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "zero-reasoning-median models: ['openai/gpt-5.4-nano', 'google/gemini-3.8-flash', 'anthropic/claude-sonnet-5', 'openai/gpt-6-astra', 'anthropic/claude-fable-5.1']",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "zero-reasoning-median models: ['openai/gpt-5.4-nano', 'google/gemini-3.8-flash', 'anthropic/claude-sonnet-5', 'openai/gpt-6-astra', 'anthropic/claude-fable-5.1']"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "median TTFT of models with reasoning median 0: 2.35",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "median TTFT of models with reasoning median 0: 2.35"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "median TTFT of models with reasoning median >=400: 7.34 ['google/gemini-3.5-flash-lite', 'google/gemini-3.5-flash', 'google/gemini-3.1-pro-preview', 'x-ai/grok-4.6']",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "median TTFT of models with reasoning median >=400: 7.34 ['google/gemini-3.5-flash-lite', 'google/gemini-3.5-flash', 'google/gemini-3.1-pro-preview', 'x-ai/grok-4.6']"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Pearson r (reasoning median vs ttft median, 16 models): 0.73 r squared: 0.53",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Pearson r (reasoning median vs ttft median, 16 models): 0.73 r squared: 0.53"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "openai/gpt-5.4-nano              out $1.25/1M x 244 content tokens (summary.json median) = $0.0003",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "openai/gpt-5.4-nano              out $1.25/1M x 244 content tokens (summary.json median) = $0.0003"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "anthropic/claude-fable-5.1       out $50/1M x 429 content tokens (summary.json median) = $0.0215",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "anthropic/claude-fable-5.1       out $50/1M x 429 content tokens (summary.json median) = $0.0215"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Fable 5.1 answer cost / GPT-5.4 Nano answer cost = 70.3",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Fable 5.1 answer cost / GPT-5.4 Nano answer cost = 70.3"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "fastest median tps / slowest median tps across 16 models = 389.4/45.2 = 8.6",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "fastest median tps / slowest median tps across 16 models = 389.4/45.2 = 8.6"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "DeepSeek V4 Flash worst total / best total = 37.474/4.067 = 9.2",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "DeepSeek V4 Flash worst total / best total = 37.474/4.067 = 9.2"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Flash Lite excluded run implied tps = 198/0.489 = 404.9",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Flash Lite excluded run implied tps = 198/0.489 = 404.9"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Gemini 3.5 Flash total 7.59 vs Gemini 3.8 Flash total 3.82, diff = 3.77",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Gemini 3.5 Flash total 7.59 vs Gemini 3.8 Flash total 3.82, diff = 3.77"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Flash Lite tps / 3.5 Flash tps = 389.4/267.85 = 1.45",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Flash Lite tps / 3.5 Flash tps = 389.4/267.85 = 1.45"
+ },
+ {
+  "claim": "Derived statistic",
+  "value": "Astra tps / Nano tps = 53.2/199.1 = 0.27 ; Sol tps / Nano tps = 45.25/199.1 = 0.23",
+  "source_file": "evidence/gemini-vs-openai-vs-claude-tokens-per-second-calc.txt",
+  "quote": "Astra tps / Nano tps = 53.2/199.1 = 0.27 ; Sol tps / Nano tps = 45.25/199.1 = 0.23"
+ },
+ {
+  "claim": "Older page carries April 2026 figures incl. Gemini 2.5 Pro",
+  "value": "April 2026",
+  "source_file": "repo/research/ai-api-latency-comparison.html",
+  "quote": "April 2026. All tests use streaming mode. Latency varies by load, time of day, and region. ... Gemini 2.5 Pro ... Gemini 2.5 Flash"
+ }
+]

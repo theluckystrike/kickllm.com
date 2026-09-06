@@ -1,0 +1,37 @@
+Example 1. One agentic task, 60,000 input + 8,000 output tokens, no cache
+  standard (short): input $0.60 + output $0.40 = $1.00
+  batch    (short): input $0.30 + output $0.20 = $0.50
+  flex     (short): input $0.30 + output $0.20 = $0.50
+  fast     (short): input $1.20 + output $0.80 = $2.00
+
+Example 2. Same task with 400,000 input + 8,000 output tokens (over 272K, long context rates on the full request)
+  standard (long): input $8.00 + output $0.60 = $8.60
+  batch    (long): input $4.00 + output $0.30 = $4.30
+  flex     (long): input $4.00 + output $0.30 = $4.30
+  fast     (long): input $16.00 + output $1.20 = $17.20
+  standard if short-context rates had applied (they do not): $4.40; long-context uplift 1.955x
+  standard: 400,000 input at long rate vs 272,000 input at short rate: $8.00 vs $2.72
+
+Example 3. A month of 5,000 short tasks (60,000 input + 8,000 output each), Standard tier
+  no cache: per task $1.00, month $5,000.00
+  80% of input cached (48,000 cached at $1.00, 12,000 at $10.00, 8,000 out at $50.00): per task $0.568, month $2,840.00
+  monthly saving $2,160.00 (43.2%)
+  writing the 48,000 shared tokens into the cache once costs $0.60 (cache write rate $12.50) versus $0.48 as plain input
+  same month on Batch, no cache: $2,500.00; Batch with 80% cached: $1,420.00
+
+Ladder ratios, Standard short context, gpt-6-astra vs siblings
+  vs gpt-5.6-sol: input 2.50x, output 2.50x; the 60k/8k task costs $0.40 on gpt-5.6-sol
+  vs gpt-5.6-terra: input 5.00x, output 4.17x; the 60k/8k task costs $0.216 on gpt-5.6-terra
+  vs gpt-5.6-luna: input 50.00x, output 41.67x; the 60k/8k task costs $0.0216 on gpt-5.6-luna
+
+Cross-check: OpenRouter created timestamp 1788552838
+   2026-09-04 20:13 UTC
+  OpenRouter openai/gpt-5.6-sol prompt 0.000002 x 1e6 = $2.00, completion 0.00001 x 1e6 = $10.00
+  LiteLLM gpt-5.6-sol input_cost_per_token 4e-06 x 1e6 = $4.00, output 2e-05 x 1e6 = $20.00
+  LiteLLM gpt-6-astra input 1e-05 = $10.00, output 5e-05 = $50.00, cache read 1e-06 = $1.00, cache write 1.25e-05 = $12.50, batches in 5e-06 = $5.00, batches out 2.5e-05 = $25.00, priority in 2e-05 = $20.00, priority out 0.0001 = $100.00, above 272k in 2e-05 = $20.00, out 7.5e-05 = $75.00
+  OpenRouter openai/gpt-6-astra prompt 0.00001 = $10.00, completion 0.00005 = $50.00, cache read 0.000001 = $1.00, cache write 0.0000125 = $12.50; override at min_prompt_tokens 272000: prompt 0.00002 = $20.00, completion 0.000075 = $75.00
+  OpenRouter openai/gpt-6-astra:batch prompt 0.000005 = $5.00, completion 0.000025 = $25.00
+  gpt-5.6-sol on a 60k/8k task: OpenRouter figure $0.20 vs official Standard $0.40
+
+272,000 -> 400,000 input tokens is a 47% increase; input bill $2.72 -> $8.00 is 2.94x
+LiteLLM max_input_tokens 922000 = 1,050,000 - 128,000 = 922000
