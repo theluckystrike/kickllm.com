@@ -31,8 +31,10 @@ def transform(text,name):
         if '</head>' in text:text=text.replace('</head>',STYLE+'\n</head>',1)
         else:text=re.sub(r'(?=<body\b)',lambda _:STYLE+'\n</head>\n',text,count=1)
     if 'class="margin-menu"' not in text:
-        if 'class="nav-links"' in text:
+        if '<ul class="nav-links">' in text:
             text=re.sub(r'(<ul class="nav-links">[\s\S]*?)(</ul>)',lambda m:m[1]+'      '+MENU+'\n    '+m[2],text,count=1)
+        elif '<div class="nav-links">' in text:
+            text=text.replace('<div class="nav-links">','<div class="nav-links">'+MENU[4:-5],1)
         else:
             nav='<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" href="'+BASE+'?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>'
             text=re.sub(r'(<body[^>]*>)',lambda m:m[0]+'\n'+nav,text,count=1)
