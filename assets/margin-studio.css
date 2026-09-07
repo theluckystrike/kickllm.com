@@ -1,0 +1,28 @@
+/* First-party product navigation and contextual offer. No scripts or tracking. */
+.nav .nav-links a.margin-menu { color: #fda4af; font-weight: 700; }
+.margin-studio-cta { box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 2rem; max-width: 1000px; margin: 2.5rem auto; padding: 1.75rem 2rem; background: #171014; border: 1px solid #59303c; border-radius: 12px; color: #f5eef0; font-family: 'IBM Plex Sans', system-ui, sans-serif; text-align: left; }
+.margin-studio-cta .margin-eyebrow { margin: 0 0 .5rem; color: #fda4af; font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.margin-studio-cta h2 { margin: 0 0 .6rem; color: #fff; font: 700 clamp(1.25rem, 2.8vw, 1.65rem)/1.25 'IBM Plex Sans', system-ui, sans-serif; letter-spacing: -.02em; }
+.margin-studio-cta .margin-copy { margin: 0; max-width: 610px; color: #d2c4c9; font-size: .96rem; line-height: 1.65; }
+.margin-studio-cta .margin-actions { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; gap: .65rem; }
+.margin-studio-cta a.margin-buy { display: inline-flex; align-items: center; justify-content: center; padding: .8rem 1.05rem; background: #be123c; border: 1px solid #fb7185; border-radius: 7px; color: #fff; font-size: .95rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.margin-studio-cta a.margin-buy:hover { background: #9f1239; }
+.margin-studio-cta a.margin-preview { color: #fecdd3; font-size: .86rem; text-decoration: underline; text-underline-offset: 3px; }
+.margin-studio-cta .margin-detail { color: #bbaab0; font-size: .76rem; }
+.margin-studio-cta a:focus-visible, .margin-menu:focus-visible, .margin-standalone-nav a:focus-visible, .margin-hero-link:focus-visible { outline: 3px solid #fda4af; outline-offset: 4px; }
+.margin-hero-link { display: inline-block; margin-top: 1rem; color: #fda4af; font-size: .92rem; text-underline-offset: 4px; }
+.margin-standalone-nav { box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; max-width: 1100px; margin: 0 auto 1.5rem; padding: 1rem; border-bottom: 1px solid #45404b; font: 600 .9rem/1.5 system-ui, sans-serif; }
+.margin-standalone-nav a { color: #fecdd3; text-decoration: none; }
+.margin-standalone-nav .margin-home { color: inherit; }
+@media (max-width: 1100px) {
+  .nav { flex-wrap: wrap; gap: .75rem 1rem; }
+  .nav .nav-links { flex-wrap: wrap; gap: .5rem 1rem; }
+  .margin-studio-cta { margin: 2rem 1rem; }
+}
+@media (max-width: 700px) {
+  .margin-studio-cta { flex-direction: column; align-items: stretch; gap: 1.25rem; padding: 1.4rem; }
+  .margin-studio-cta .margin-actions { align-items: stretch; }
+  .margin-studio-cta a.margin-preview, .margin-studio-cta .margin-detail { text-align: center; }
+  .nav .nav-links { order: 3; flex-basis: 100%; }
+  .nav .nav-right { margin-left: auto; }
+}

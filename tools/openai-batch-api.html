@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/assets/style.css">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Article", "headline": "OpenAI Batch API, half price inside a 24h window", "description": "The request lifecycle in five calls, the size and queue limits, a client side cost calculator across seven OpenAI models, a cache break-even calculator, and the operational differences from Anthropic Message Batches.", "datePublished": "2026-07-27", "dateModified": "2026-08-14", "author": {"@id": "https://zovo.one#michael-lip"}, "publisher": {"@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com/"}, "isAccessibleForFree": true, "citation": ["https://developers.openai.com/api/docs/guides/batch", "https://developers.openai.com/api/docs/guides/rate-limits", "https://developers.openai.com/api/docs/guides/prompt-caching", "https://platform.claude.com/docs/en/docs/build-with-claude/batch-processing", "https://platform.claude.com/docs/en/api/rate-limits"]}, {"@type": "Person", "@id": "https://zovo.one#michael-lip", "name": "Michael Lip", "url": "https://zovo.one", "description": "Solo developer with 10+ years experience; 140+ PRs merged into open source projects including Google Chrome and Axios; creator of 20+ Chrome extensions. Builds and operates kickllm.com and the Zovo tools network.", "knowsAbout": ["LLM API pricing (per-token input/output/cache rates)", "Prompt caching economics (cache write vs cache read break-even)", "LLM cost estimation for chatbots and RAG pipelines", "Chrome extension development against paid LLM APIs"]}, {"@type": "WebPage", "name": "OpenAI Batch API, half price inside a 24h window", "url": "https://kickllm.com/tools/openai-batch-api.html", "isPartOf": {"@type": "WebSite", "name": "KickLLM", "url": "https://kickllm.com/"}, "breadcrumb": {"@id": "https://kickllm.com/tools/openai-batch-api.html#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://kickllm.com/tools/openai-batch-api.html#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "KickLLM", "item": "https://kickllm.com/"}, {"@type": "ListItem", "position": 2, "name": "OpenAI Batch API"}]}]}</script>
   <link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/margin-studio.css">
 </head>
 <body>
   <nav class="nav">
@@ -31,6 +32,7 @@
       <li><a href="/research/llm-value-index-2026.html">Research</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
     </ul>
       <div class="nav-right">
       <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
@@ -304,7 +306,15 @@ POST https://api.anthropic.com/v1/messages/batches
 
   </main>
 
-<script src="/kit/cta.js" data-mt-cta data-tool="toolsthatrank" data-href="https://toolsthatrank.com/" data-text="You watch cost per million tokens all day, then hand a content tool a monthly bill anyway. ToolsThatRank builds a working tool site from a niche, checks every figure against a primary source before it ships, and runs on your machine with your own API keys. 99 dollars once, nothing recurring." data-action="See the pipeline" data-placement="inline" data-source="kickllm" data-medium="cta" data-campaign="toolsthatrank"></script>
+<!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio — $39</a>
+    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
 
   <footer class="site-footer">
     <div class="footer-inner">
