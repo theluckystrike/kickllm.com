@@ -1,0 +1,8 @@
+/* Privacy page table. style.css sets table{display:block} globally, so the table gets its own scroll box. */
+.privacy-doc .privacy-table { overflow-x: auto; margin: 1rem 0 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); }
+.privacy-doc .privacy-table table { display: table; width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.privacy-doc th, .privacy-doc td { padding: 0.6rem 0.8rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+.privacy-doc th { color: var(--text); font-weight: 600; background: var(--bg-card); }
+.privacy-doc tr:last-child td { border-bottom: 0; }
+.privacy-doc td code { word-break: break-word; }
+.privacy-doc a { color: var(--accent); }

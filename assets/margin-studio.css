@@ -26,3 +26,8 @@
   .nav .nav-links { order: 3; flex-basis: 100%; }
   .nav .nav-right { margin-left: auto; }
 }
+/* kl-legal: footer privacy + cookie settings links */
+.kl-legal { box-sizing: border-box; max-width: 720px; margin: 0.75rem auto 0; padding: 0 1rem 1.25rem; font-size: 0.75rem; line-height: 1.6; text-align: center; }
+.kl-legal a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.kl-legal a:focus-visible { outline: 2px solid #fda4af; outline-offset: 2px; }
+footer.kl-legal-foot { margin: 2rem 0 0; padding: 1rem 0 0; border-top: 1px solid rgba(127,127,127,0.25); }

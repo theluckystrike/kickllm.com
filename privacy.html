@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Privacy, KickLLM</title>
+  <meta name="description" content="How KickLLM uses Google Analytics, which two cookies it sets and how to switch it off.">
+  <link rel="canonical" href="https://kickllm.com/privacy.html">
+  <meta name="robots" content="index, follow">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/privacy-page.css">
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=about" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <div class="page-content privacy-doc">
+    <h1>Privacy</h1>
+    <p>KickLLM is built by Michael Lip. This page explains how the site uses Google Analytics and how you can switch it off. Last updated 26 September 2026.</p>
+
+    <h2 id="analytics">Analytics and cookies</h2>
+    <p>I use Google Analytics 4 to learn which channels bring people to kickllm.com, such as X, LinkedIn, Reddit, GitHub or a search engine, and what they do once they're here. It shows me which calculators and guides are worth the time. I don't use it for ads, and I never sell what it collects.</p>
+    <p>With analytics on, the page sends Google the pages you view, the link or campaign tag that brought you, your device type, browser, screen size and language, and an approximate location. Google's built-in measurement also notes how far you scroll, links you click to other sites, files you download and when you start filling in a form. The site counts one action of its own too, opening an FAQ answer.</p>
+    <p>Before any page address goes to Google, the page strips every query parameter except the <code>utm_</code> campaign tags and Google's own <code>gclid</code> ad-click tag. Nothing you type into a calculator or tool is sent to Google, and the calculators still run in your browser. Google works out your country and city from your IP address and then drops the address. GA4 doesn't log or store IP addresses, and I never send Google your name or email address.</p>
+    <p>Two first-party cookies let GA4 recognize a repeat visit from the same browser. They hold random IDs and nothing else about you.</p>
+    <div class="privacy-table">
+    <table>
+      <thead><tr><th scope="col">Name</th><th scope="col">What it holds</th><th scope="col">Kept for</th></tr></thead>
+      <tbody>
+        <tr><td><code>_ga</code></td><td>A random ID for your browser</td><td>13 months from your last visit</td></tr>
+        <tr><td><code>_ga_&lt;container-id&gt;</code></td><td>Your current session and visit count on kickllm.com</td><td>13 months from your last visit</td></tr>
+        <tr><td><code>mr_consent_v1</code> (browser storage, not a cookie)</td><td>Your answer in the cookie banner and when you gave it</td><td>Until you change it or clear site data. I ask again after 13 months.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>In the EEA, the UK and Switzerland, nothing loads from Google until you press Accept in the banner. Google's tag doesn't load before then, and it never loads if you decline. In those countries I rely on your consent (Art. 6(1)(a) GDPR). The cookie rules ask for the same consent, under Art. 5(3) of the ePrivacy Directive and the national laws that implement it, and under the UK's PECR. I ask in Switzerland too.</p>
+    <p>Everywhere else, analytics is on when the page loads. I rely on my legitimate interest in knowing which channels work (Art. 6(1)(f) GDPR, where it applies), and you can switch it off at any time. kickllm.com itself is hosted on GitHub Pages, which can't tell the page your country. So to decide whether to show the banner, the page asks Cloudflare, which runs the site's Margin Studio subdomain at margin.kickllm.com. Cloudflare sees your IP address for that one request, like any web server would, and answers with a country code. That answer isn't stored. If the check fails, you get the banner.</p>
+    <p>If your browser sends Global Privacy Control or Do Not Track, Google's tag never loads here, wherever you are.</p>
+    <p>Google LLC, and Google Ireland Limited where Google's terms name it, process this data for me as a processor under the Google Ads Data Processing Terms. Google signals and advertising features are switched off, so analytics data isn't linked to Google accounts or used for ads. GA4 deletes event data after 14 months.</p>
+    <p>Google may process the data in the United States. Google LLC is certified under the EU-US Data Privacy Framework, and Google's terms also include the European Commission's standard contractual clauses.</p>
+    <p>You can change your choice at any time with <a href="#analytics" data-mr-consent-open>Cookie settings</a>, here or at the foot of any page. If you switch analytics off, the page stops sending anything to Google and deletes the <code>_ga</code> cookies from your browser, and Google's tag won't load on later visits. Data sent before that stays in GA4 until its 14 months run out. You can also block Google Analytics on every site with Google's opt-out add-on at <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer">tools.google.com/dlpage/gaoptout</a>, or block cookies in your browser.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>Questions about this page go to Michael Lip at <a href="mailto:support@zovo.one">support@zovo.one</a>.</p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=privacy">Zovo</a> · lifetime access, one payment</div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+            <a href="https://abwex.com">ABWex, A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP, Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality, Security</a>
+            <a href="https://claudflow.com">ClaudFlow, Workflows</a>
+            <a href="https://claudkit.com">ClaudKit, API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket, Support</a>
+            <a href="https://enhio.com">Enhio, Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot, Timestamps</a>
+            <a href="https://gen8x.com">Gen8X, Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X, AI Models</a>
+            <a href="https://heytensor.com">HeyTensor, ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc, Recipes</a>
+            <a href="https://invokebot.com">InvokeBot, Webhooks</a>
+            <a href="https://kappafy.com">Kappafy, JSON</a>
+            <a href="https://kappakit.com">KappaKit, Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen, Image Tools</a>
+            <a href="https://lochbot.com">LochBot, Security</a>
+            <a href="https://lockml.com">LockML, ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=privacy">ML0X, ML Basics</a>
+            <a href="https://ml3x.com">ML3X, Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor, Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool, Cooking</a>
+            <a href="https://viryd.com">Viryd, Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub, theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative, Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder, Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=privacy" rel="nofollow">Zovo, AI Dev Tools</a>
+  </div>
+</div>
+</body>
+</html>

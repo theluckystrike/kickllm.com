@@ -16,9 +16,9 @@ KickLLM is a free LLM API cost calculator that compares pricing across every maj
 - Input/output token ratio slider for accurate realistic estimates
 - LLM value index ranking models by quality per dollar
 - Use-case recommendations (coding, summarization, chat, long context)
-- 100% client-side — no data leaves your browser
+- Calculations run client-side, and nothing you type is sent anywhere
 - MIT licensed
-- No signup, no tracking
+- No signup. Google Analytics with a consent banner, see https://kickllm.com/privacy.html
 
 ## Research
 
@@ -35,7 +35,7 @@ KickLLM is a free LLM API cost calculator that compares pricing across every maj
 
 ## Part of Zovo Tools
 
-KickLLM is part of [Zovo Tools](https://zovo.one/tools) — free developer tools by a solo developer. No tracking, no signup, no nonsense.
+KickLLM is part of [Zovo Tools](https://zovo.one/tools) — free developer tools by a solo developer. No signup.
 
 **Other tools in the network:**
 

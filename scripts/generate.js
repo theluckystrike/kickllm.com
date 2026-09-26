@@ -155,6 +155,7 @@ function head(title, desc, canonical, faqSchema) {
   </script>
   <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
 </head>`;
 }
 
@@ -199,10 +200,11 @@ function footer() {
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">Zovo Tools</div>
-      <div class="footer-tagline">Free developer tools by a solo dev. No tracking.</div>
+      <div class="footer-tagline">Free developer tools by a solo dev.</div>
       <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
       <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; lifetime access, one payment</div>
     </div>
+    <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
   </footer>
 
   <nav class="zovo-network" aria-label="Zovo Tools Network">
