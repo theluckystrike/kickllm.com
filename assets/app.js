@@ -211,6 +211,29 @@ function switchMode(newMode) {
 }
 
 function bindEvents() {
+  // The initial example is pre-rendered automatically. A committed user edit is
+  // the first point where a completed calculator result can be attributed to use.
+  var lastQualifiedState = '';
+  function trackQualifiedResult() {
+    if (new URLSearchParams(location.search).get('roi_qa') === '1' ||
+        navigator.globalPrivacyControl || navigator.doNotTrack === '1' ||
+        typeof window.mrTrack !== 'function') return;
+    var hasResult = mode === 'selfhost' ?
+      !!document.querySelector('#sh-gpu-table table') :
+      getSelectedModels().length > 0 && !!document.querySelector('#results-body tr');
+    if (!hasResult) return;
+    var controls = document.querySelectorAll('input[type="number"], input[type="range"], select, input[type="checkbox"]');
+    var state = mode;
+    for (var k = 0; k < controls.length && k < 50; k++)
+      state += '|' + (controls[k].type === 'checkbox' ? controls[k].checked : controls[k].value);
+    if (state === lastQualifiedState) return;
+    lastQualifiedState = state;
+    window.mrTrack('qualified_result', {
+      site_id: 'kickllm.com', product_id: 'margin_studio',
+      placement: mode === 'selfhost' ? 'selfhost_calculator' : 'cost_calculator',
+      event_schema_version: '1', qa: false
+    });
+  }
   // Mode tabs
   var tabs = document.querySelectorAll('.mode-tab');
   for (var i = 0; i < tabs.length && i < 10; i++) {
@@ -229,6 +252,7 @@ function bindEvents() {
     inputs[i].addEventListener('change', function() {
       if (mode === 'selfhost') calculateSelfHost();
       else calculate();
+      trackQualifiedResult();
     });
   }
 
