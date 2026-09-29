@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OpenRouter Pricing Calculator | KickLLM</title>
+<meta name="description" content="Calculate exact OpenRouter API costs across 434 models. Enter tokens in and out, pick a model or enter custom rates, and see per-request and monthly spend instantly.">
+<link rel="canonical" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
+<meta property="og:title" content="OpenRouter Pricing Calculator">
+<meta property="og:description" content="Calculate OpenRouter API costs across 434 models with live published rates. Per-request and monthly spend in one input.">
+<meta property="og:url" content="https://kickllm.com/tools/openrouter-pricing-calculator.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "OpenRouter Pricing Calculator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "url": "https://kickllm.com/tools/openrouter-pricing-calculator.html",
+  "description": "Calculate OpenRouter API request and monthly costs across 434 models using published per-token rates.",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "author": {"@type": "Person", "name": "Michael Lip", "url": "https://zovo.one"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kickllm.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://kickllm.com/tools/"},
+    {"@type": "ListItem", "position": 3, "name": "OpenRouter Pricing Calculator", "item": "https://kickllm.com/tools/openrouter-pricing-calculator.html"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How does OpenRouter charge for API usage?",
+     "acceptedAnswer": {"@type": "Answer", "text": "OpenRouter passes through the underlying model provider's per-token price: a USD rate per million input tokens and a separate rate per million output tokens. Requests are metered in dollars to six decimals and OpenRouter adds a small fee on credits purchased without a subscription."}},
+    {"@type": "Question", "name": "What is the cheapest model on OpenRouter?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Prices change as providers update rates. The calculator's built-in table is sorted by input price, so the top row is always the cheapest of the 434 priced models included."}},
+    {"@type": "Question", "name": "Does OpenRouter cost more than going direct to the provider?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Per-token model rates on OpenRouter generally match the provider's list price; the main added cost is the fee applied when buying credits. In exchange you get one API for hundreds of models and unified billing."}}
+  ]
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #0a0a0a; color: #e5e7eb; line-height: 1.6; min-height: 100vh;
+}
+a { color: #60a5fa; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 60px; }
+nav {
+  display: flex; gap: 18px; align-items: center; padding: 16px 20px;
+  border-bottom: 1px solid #1f2937; max-width: 880px; margin: 0 auto; flex-wrap: wrap;
+}
+nav .brand { font-weight: 700; color: #f9fafb; font-size: 1.1rem; }
+nav a { color: #9ca3af; font-size: 0.95rem; }
+nav a:hover { color: #e5e7eb; }
+h1 { font-size: 2rem; margin: 28px 0 12px; color: #f9fafb; line-height: 1.25; }
+.intro { color: #9ca3af; margin-bottom: 28px; font-size: 1.02rem; }
+.tool { background: #111111; border: 1px solid #1f2937; border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: 0.9rem; color: #d1d5db; margin-bottom: 6px; font-weight: 600; }
+.field .hint { color: #6b7280; font-weight: 400; font-size: 0.82rem; }
+.field input, .field select {
+  width: 100%; padding: 11px 13px; background: #0a0a0a; border: 1px solid #2a2a2a;
+  border-radius: 8px; color: #f3f4f6; font-size: 1rem; font-family: inherit;
+}
+.field input:focus, .field select:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+.output { margin-top: 22px; padding-top: 22px; border-top: 1px solid #1f2937; }
+.output .label { color: #9ca3af; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.big { font-size: 2.2rem; font-weight: 700; color: #4ade80; margin: 6px 0 4px; line-height: 1.1; }
+.stat { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 8px; padding: 14px; }
+.stat .v { font-size: 1.35rem; font-weight: 700; color: #f9fafb; }
+.stat .l { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
+.note { font-size: 0.85rem; color: #6b7280; margin-top: 14px; }
+.explain { color: #d1d5db; margin-bottom: 32px; }
+.explain h2 { font-size: 1.3rem; color: #f9fafb; margin: 24px 0 10px; }
+.explain p { margin-bottom: 12px; color: #b0b3b8; }
+.explain strong { color: #e5e7eb; }
+.explain code { background: #0a0a0a; border: 1px solid #1f2937; padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
+.explain ul { margin: 0 0 12px 20px; }
+.explain li { margin-bottom: 6px; color: #b0b3b8; }
+table { width: 100%; border-collapse: collapse; margin: 14px 0 6px; font-size: 0.88rem; }
+th { text-align: left; color: #9ca3af; font-weight: 600; padding: 8px 10px; border-bottom: 1px solid #1f2937; cursor: pointer; white-space: nowrap; }
+td { padding: 8px 10px; border-bottom: 1px solid #171717; color: #d1d5db; white-space: nowrap; }
+td.model { white-space: normal; }
+tr:hover td { background: #0d0d0d; }
+.tablewrap { max-height: 480px; overflow-y: auto; border: 1px solid #1f2937; border-radius: 8px; }
+.related { margin-top: 20px; }
+.related h2 { font-size: 1.2rem; color: #f9fafb; margin-bottom: 12px; }
+.related ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.related li a { display: inline-block; padding: 10px 14px; background: #111111; border: 1px solid #1f2937; border-radius: 8px; color: #d1d5db; font-size: 0.95rem; }
+.related li a:hover { border-color: #60a5fa; color: #f9fafb; text-decoration: none; }
+.site-footer { border-top: 1px solid #1f2937; margin-top: 40px; padding: 24px 20px; text-align: center; color: #6b7280; font-size: 0.9rem; }
+.site-footer a { color: #9ca3af; margin: 0 8px; }
+</style>
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>
+<nav>
+  <a class="brand" href="https://kickllm.com/">KickLLM</a>
+  <a href="https://kickllm.com/">Home</a>
+  <a href="https://kickllm.com/tools/">Tools</a>
+</nav>
+
+<div class="wrap">
+  <h1>OpenRouter Pricing Calculator</h1>
+  <p class="intro">OpenRouter routes one API to 434+ priced models, each with its own per-million-token rate. Enter your token volume, pick a model from the live-rate table, and see per-request and monthly cost instantly. Rates below are the published list prices as of 2026-09-29.</p>
+
+  <div class="tool">
+    <div class="field">
+      <label for="model">Model <span class="hint">(434 priced models, sorted by input price — or type a custom ID)</span></label>
+      <input type="text" id="model" list="modelList" placeholder="e.g. openai/gpt-4o-mini">
+      <datalist id="modelList"></datalist>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label for="tokIn">Input tokens per request</label>
+        <input type="number" id="tokIn" value="2000" min="0" step="100">
+      </div>
+      <div class="field">
+        <label for="tokOut">Output tokens per request</label>
+        <input type="number" id="tokOut" value="500" min="0" step="100">
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label for="inRate">Input price <span class="hint">($ per 1M tokens)</span></label>
+        <input type="number" id="inRate" value="0.15" min="0" step="0.01">
+      </div>
+      <div class="field">
+        <label for="outRate">Output price <span class="hint">($ per 1M tokens)</span></label>
+        <input type="number" id="outRate" value="0.60" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="output">
+      <div class="label">Cost per request</div>
+      <div class="big" id="perReq">$—</div>
+      <div class="grid2">
+        <div class="stat"><div class="v" id="per1k">$—</div><div class="l">Per 1,000 requests</div></div>
+        <div class="stat"><div class="v" id="perMonth">$—</div><div class="l">Per month at 10,000 req/day</div></div>
+      </div>
+      <p class="note">Math: cost = tokensIn/1M × inRate + tokensOut/1M × outRate. OpenRouter meters per-token at the provider's list rate; credit purchases carry a processing fee.</p>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>Live-rate model table (2026-09-29)</h2>
+    <p>Click a header to sort. Click a row to load it into the calculator. Input and output prices are USD per million tokens; ctx is the context window in thousands of tokens.</p>
+    <div class="field"><input type="text" id="filter" placeholder="Filter models… (e.g. claude, gemini, free)"></div>
+    <div class="tablewrap">
+    <table id="tbl">
+      <thead><tr><th data-k="0">Model ID</th><th data-k="1">Name</th><th data-k="2">In $/M</th><th data-k="3">Out $/M</th><th data-k="4">Ctx (k)</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    </div>
+
+    <h2>Where the cheap end and the expensive end sit</h2>
+    <p>The 434 priced models span a wide band. Median published rates: <strong>$0.45/M input</strong> and <strong>$2.00/M output</strong>.</p>
+    <p><strong>Cheapest inputs right now:</strong></p>
+    <ul>
+<li><code>~deepseek/deepseek-v4-flash-latest</code> — $0.012 in / $1.250 out per 1M</li>
+<li><code>ibm-granite/granite-4.0-h-micro</code> — $0.017 in / $0.112 out per 1M</li>
+<li><code>deepseek/deepseek-v4-flash-0731</code> — $0.018 in / $0.320 out per 1M</li>
+<li><code>openai/gpt-oss-20b</code> — $0.018 in / $0.090 out per 1M</li>
+<li><code>mistralai/mistral-nemo</code> — $0.019 in / $0.030 out per 1M</li>
+    </ul>
+    <p><strong>Priciest outputs right now:</strong></p>
+    <ul>
+<li><code>openai/o1-pro</code> — $600.00 out per 1M</li>
+<li><code>openai/gpt-5.5-pro</code> — $180.00 out per 1M</li>
+<li><code>openai/gpt-5.4-pro</code> — $180.00 out per 1M</li>
+<li><code>openai/gpt-5.2-pro</code> — $168.00 out per 1M</li>
+<li><code>openai/gpt-5-pro</code> — $120.00 out per 1M</li>
+    </ul>
+
+    <h2>How OpenRouter pricing works</h2>
+    <p>OpenRouter is a router, not a model provider: it forwards your request to the underlying provider and bills the provider's per-token list price against your credit balance. Your request cost is always <code>(input tokens / 1M) × input rate + (output tokens / 1M) × output rate</code> for the specific variant you call. Prompt caching, batch endpoints, and reasoning tokens each change the effective rate, so check a model's detail page for surcharges before committing a pipeline to it.</p>
+    <p>Two practical consequences: first, routing the same prompt to a cheaper variant is the single largest lever on your bill — a 10x input-rate gap is common between frontier and efficient tiers. Second, because billing is unified, a single monthly export from OpenRouter gives you per-model spend without stitching together five provider dashboards.</p>
+    <p>To estimate your own workload: measure average input and output tokens per request from a sample of real traffic (logs, not guesses), multiply by the rates in the table above, then scale by daily request volume. This calculator does that arithmetic in one step, including the monthly projection at 10,000 requests per day.</p>
+
+    <h2>OpenRouter pricing FAQ</h2>
+    <p><strong>Does OpenRouter add fees on top of model prices?</strong> Per-token rates match the provider's list price; OpenRouter earns on credit purchases, where a processing fee applies depending on payment method and amount.</p>
+    <p><strong>Are free models really free?</strong> Variants tagged <code>:free</code> bill $0 but carry lower rate limits and may route to distilled or quantized variants. For production traffic, the paid tier of the same model is the reliable path.</p>
+    <p><strong>How do I cut my OpenRouter bill fastest?</strong> Route non-critical traffic to the cheapest model that clears your quality bar, cache long static prefixes, and cap output tokens — output rates are typically 3-5x input rates.</p>
+  </div>
+
+  <div class="related">
+    <h2>Related KickLLM tools</h2>
+    <ul>
+      <li><a href="https://kickllm.com/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
+      <li><a href="https://kickllm.com/tools/batch-api-savings-calculator.html">Batch API Savings Calculator</a></li>
+      <li><a href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">Prompt Caching Break Even Calculator</a></li>
+      <li><a href="https://kickllm.com/tools/openai-api-cost-calculator.html">OpenAI API Cost Calculator</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio — $39</a>
+    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
+
+<footer class="site-footer">
+  <div>
+    <a href="https://kickllm.com/">Home</a>
+    <a href="https://kickllm.com/tools/">Tools</a>
+  </div>
+  <p style="margin-top:10px">&copy; KickLLM</p>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+<script>
+(function () {
+  var MODELS = [["~deepseek/deepseek-v4-flash-latest","DeepSeek: DeepSeek V4 Flash Latest",0.012,1.25,1310720],["ibm-granite/granite-4.0-h-micro","IBM: Granite 4.0 Micro",0.017,0.112,131000],["deepseek/deepseek-v4-flash-0731","DeepSeek: DeepSeek V4 Flash 0731",0.018,0.32,1310720],["openai/gpt-oss-20b","OpenAI: gpt-oss-20b",0.018,0.09,131072],["mistralai/mistral-nemo","Mistral: Mistral Nemo",0.019000000000000003,0.03,131072],["~deepseek/deepseek-flash-latest","DeepSeek: DeepSeek Flash Latest",0.02,0.6,1048576],["~z-ai/glm-flash-latest","Z.ai: GLM Flash Latest",0.02,0.3,1310720],["inclusionai/ling-3.0-flash-vl","inclusionAI: Ling 3.0 Flash VL",0.020999999999999998,0.061599999999999995,262144],["inclusionai/ling-3.0-flash","inclusionAI: Ling 3.0 Flash",0.020999999999999998,0.063,262144],["openai/gpt-oss-20b:batch","OpenAI: gpt-oss-20b (batch)",0.024,0.112,131072],["nex-agi/nex-n2.5-mini","Nex AGI: Nex-N2.5-Mini",0.024999999999999998,0.09999999999999999,262144],["openai/gpt-5-nano:batch","OpenAI: GPT-5 Nano (batch)",0.024999999999999998,0.19999999999999998,400000],["meta-llama/llama-3.2-1b-instruct","Meta: Llama 3.2 1B Instruct",0.027,0.201,60000],["openai/gpt-oss-120b:batch","OpenAI: gpt-oss-120b (batch)",0.0296,0.136,131072],["inference-net/schematron-v2-turbo","Inference.net: Schematron V2 Turbo",0.03,0.15,128000],["qwen/qwen3.7-flash","Qwen: Qwen3.7 Flash",0.03,0.13,1000000],["qwen/qwen3.8-27b","Qwen: Qwen3.8 27B",0.030699999999999998,4.4,1000000],["amazon/nova-micro-v1","Amazon: Nova Micro 1.0",0.035,0.14,128000],["openai/gpt-oss-120b","OpenAI: gpt-oss-120b",0.037,0.16999999999999998,131072],["cohere/command-r7b-12-2024","Cohere: Command R7B (12-2024)",0.0375,0.15,128000],["inception/mercury-2.5","Inception: Mercury 2.5",0.04,0.15,260000],["sao10k/l3-lunaris-8b","Sao10K: Llama 3 8B Lunaris",0.04,0.049999999999999996,8192],["tencent/hy-mt2-1.8b","Tencent: Hy-MT2-1.8B",0.044,0.17700000000000002,8192],["qwen/qwen3-30b-a3b-instruct-2507","Qwen: Qwen3 30B A3B Instruct 2507",0.04815,0.19305,262144],["upstage/solar-mini4","Upstage: Solar Mini 4",0.049999999999999996,0.19999999999999998,524288],["openai/gpt-6-luna-pro:batch","OpenAI: GPT-6 Luna Pro (batch)",0.049999999999999996,0.25,1050000],["openai/gpt-6-luna:batch","OpenAI: GPT-6 Luna (batch)",0.049999999999999996,0.25,1050000],["inference-net/schematron-v2-small","Inference.net: Schematron V2 Small",0.049999999999999996,0.22999999999999998,128000],["nvidia/nemotron-3-nano-30b-a3b","NVIDIA: Nemotron 3 Nano 30B A3B",0.049999999999999996,0.19999999999999998,262144],["openai/gpt-5-nano","OpenAI: GPT-5 Nano",0.049999999999999996,0.39999999999999997,400000],["google/gemini-2.5-flash-lite:batch","Google: Gemini 2.5 Flash Lite (batch)",0.049999999999999996,0.19999999999999998,1048576],["openai/gpt-4.1-nano:batch","OpenAI: GPT-4.1 Nano (batch)",0.049999999999999996,0.19999999999999998,1047576],["google/gemma-3-4b-it","Google: Gemma 3 4B",0.049999999999999996,0.09999999999999999,131072],["google/gemma-3-12b-it","Google: Gemma 3 12B",0.049999999999999996,0.15,131072],["mistralai/mistral-small-24b-instruct-2501","Mistral: Mistral Small 3",0.049999999999999996,0.08,32768],["meta-llama/llama-3.2-3b-instruct","Meta: Llama 3.2 3B Instruct",0.049999999999999996,0.33,131072],["meta-llama/llama-3.1-8b-instruct","Meta: Llama 3.1 8B Instruct",0.049999999999999996,0.08,131072],["ibm-granite/granite-4.2-8b","IBM: Granite 4.2 8B",0.06,0.25,131072],["inclusionai/ling-3.0-flash-fin","inclusionAI: Ling 3.0 Flash Fin",0.06,0.18,262144],["z-ai/glm-5.3-flash:batch","Z.ai: GLM 5.3 Flash (batch)",0.06,0.19999999999999998,1048576],["nvidia/nemotron-3.5-lightning","NVIDIA: Nemotron 3.5 Lightning",0.06,0.16,262144],["poolside/laguna-xs-2.1","Poolside: Laguna XS 2.1",0.06,0.12,262144],["amazon/nova-lite-v1","Amazon: Nova Lite 1.0",0.06,0.24,300000],["z-ai/glm-4.7-flash","Z.ai: GLM 4.7 Flash",0.060500000000000005,0.39999999999999997,200000],["qwen/qwen3.5-flash-02-23","Qwen: Qwen3.5-Flash",0.065,0.26,1000000],["qwen/qwen3-coder-30b-a3b-instruct","Qwen: Qwen3 Coder 30B A3B Instruct",0.07,0.28,262144],["microsoft/phi-4","Microsoft: Phi 4",0.07,0.14,16384],["tencent/hy-mt2-30b-a3b","Tencent: Hy-MT2-30B-A3B",0.074,0.295,8192],["tencent/hy-mt2-7b","Tencent: Hy-MT2-7B",0.074,0.295,8192],["prism-ml/ternary-bonsai-2-27b","PrismML: Ternary Bonsai 2 27B",0.075,0.5,262144],["nex-agi/nex-n2.5-pro","Nex AGI: Nex-N2.5-Pro",0.075,0.25,262144],["mistralai/mistral-small-2603:batch","Mistral: Mistral Small 4 (batch)",0.075,0.3,262144],["bytedance-seed/seed-1.6-flash","ByteDance Seed: Seed 1.6 Flash",0.075,0.3,262144],["mistralai/ministral-8b-2512:batch","Mistral: Ministral 3 8B 2512 (batch)",0.075,0.075,262144],["openai/gpt-oss-safeguard-20b","OpenAI: gpt-oss-safeguard-20b",0.075,0.3,131072],["openai/gpt-4o-mini:batch","OpenAI: GPT-4o-mini (batch)",0.075,0.3,128000],["deepseek/deepseek-v4-flash","DeepSeek: DeepSeek V4 Flash 0423",0.0763,0.1526,1048576],["nvidia/nemotron-3-super-120b-a12b","NVIDIA: Nemotron 3 Super",0.08,0.44999999999999996,262144],["qwen/qwen3-32b","Qwen: Qwen3 32B",0.08,0.28,131072],["google/gemma-3-27b-it","Google: Gemma 3 27B",0.08,0.44999999999999996,131072],["gryphe/mythomax-l2-13b","MythoMax 13B",0.08,0.11,8192],["qwen/qwen3-235b-a22b-2507","Qwen: Qwen3 235B A22B Instruct 2507",0.0875,0.35,262144],["upstage/solar-pro4","Upstage: Solar Pro 4",0.09,0.36,524288],["poolside/laguna-s-2.1","Poolside: Laguna S 2.1",0.09,0.18,1048576],["google/gemma-4-26b-a4b-it","Google: Gemma 4 26B A4B ",0.09,0.3,262144],["google/gemma-4-31b-it","Google: Gemma 4 31B",0.09,0.33999999999999997,262144],["mistralai/mistral-small-3.2-24b-instruct","Mistral: Mistral Small 3.2 24B",0.09375,0.25,256000],["openai/gpt-6-luna-pro","OpenAI: GPT-6 Luna Pro",0.09999999999999999,0.5,1050000],["openai/gpt-6-luna","OpenAI: GPT-6 Luna",0.09999999999999999,0.5,1050000],["~openai/gpt-luna-latest","OpenAI: GPT Luna Latest",0.09999999999999999,0.5,1050000],["meta/muse-spark-1.3-contributor","Meta: Muse Spark 1.3 Contributor",0.09999999999999999,0.19999999999999998,1048576],["meta/muse-spark-1.2-contributor","Meta: Muse Spark 1.2 Contributor",0.09999999999999999,0.19999999999999998,1048576],["openai/gpt-5.6-luna-pro:batch","OpenAI: GPT-5.6 Luna Pro (batch)",0.09999999999999999,0.6,1050000],["openai/gpt-5.6-luna:batch","OpenAI: GPT-5.6 Luna (batch)",0.09999999999999999,0.6,1050000],["rekaai/reka-edge","Reka Edge",0.09999999999999999,0.09999999999999999,16384],["openai/gpt-5.4-nano:batch","OpenAI: GPT-5.4 Nano (batch)",0.09999999999999999,0.625,400000],["qwen/qwen3.5-9b","Qwen: Qwen3.5-9B",0.09999999999999999,0.15,262144],["bytedance-seed/seed-2.0-mini","ByteDance Seed: Seed-2.0-Mini",0.09999999999999999,0.39999999999999997,262144],["stepfun/step-3.5-flash","StepFun: Step 3.5 Flash",0.09999999999999999,0.3,262144],["mistralai/ministral-3b-2512","Mistral: Ministral 3 3B 2512",0.09999999999999999,0.09999999999999999,131072],["mistralai/voxtral-small-24b-2507","Mistral: Voxtral Small 24B 2507",0.09999999999999999,0.3,32768],["qwen/qwen3-next-80b-a3b-instruct","Qwen: Qwen3 Next 80B A3B Instruct",0.09999999999999999,1.1,262144],["bytedance/ui-tars-1.5-7b","ByteDance: UI-TARS 7B ",0.09999999999999999,0.19999999999999998,128000],["google/gemini-2.5-flash-lite","Google: Gemini 2.5 Flash Lite",0.09999999999999999,0.39999999999999997,1048576],["openai/gpt-4.1-nano","OpenAI: GPT-4.1 Nano",0.09999999999999999,0.39999999999999997,1047576],["meta-llama/llama-4-scout","Meta: Llama 4 Scout",0.09999999999999999,0.3,1310720],["rekaai/reka-flash-3","Reka Flash 3",0.09999999999999999,0.19999999999999998,65536],["meta-llama/llama-3.3-70b-instruct","Meta: Llama 3.3 70B Instruct",0.09999999999999999,0.32,131072],["qwen/qwen-2.5-7b-instruct","Qwen: Qwen2.5 7B Instruct",0.09999999999999999,0.19999999999999998,32768],["qwen/qwen3-vl-32b-instruct","Qwen: Qwen3 VL 32B Instruct",0.10400000000000001,0.41600000000000004,131072],["deepseek/deepseek-v4.1-flash:batch","DeepSeek: DeepSeek V4.1 Flash (batch)",0.112,0.33599999999999997,1048576],["qwen/qwen3-vl-8b-instruct","Qwen: Qwen3 VL 8B Instruct",0.117,0.45499999999999996,262144],["qwen/qwen3-8b","Qwen: Qwen3 8B",0.117,0.45499999999999996,131072],["qwen/qwen3-coder-next","Qwen: Qwen3 Coder Next",0.12,0.7999999999999999,262144],["qwen/qwen3-30b-a3b","Qwen: Qwen3 30B A3B",0.12,0.5,131072],["qwen/qwen3-14b","Qwen: Qwen3 14B",0.12,0.24,131072],["google/gemini-3.1-flash-lite:batch","Google: Gemini 3.1 Flash Lite (batch)",0.125,0.75,1048576],["openai/gpt-5-mini:batch","OpenAI: GPT-5 Mini (batch)",0.125,1.0,400000],["z-ai/glm-4.5-air","Z.ai: GLM 4.5 Air",0.13,0.85,131072],["tencent/hy3","Tencent: Hy3",0.13199999999999998,0.5279999999999999,262144],["xiaomi/mimo-v2.6-flash","Xiaomi: MiMo-V2.6-Flash",0.14,0.28,1048576],["xiaomi/mimo-v2.5","Xiaomi: MiMo-V2.5",0.14,0.28,1050000],["tencent/hunyuan-a13b-instruct","Tencent: Hunyuan A13B Instruct",0.14,0.5700000000000001,131072],["perceptron/perceptron-mk1.5","Perceptron: Perceptron Mk1.5",0.15,1.5,36864],["qwen/qwen3.8-omni-flash","Qwen: Qwen3.8 Omni Flash",0.15,0.47,1000000],["~deepseek/deepseek-pro-latest","DeepSeek: DeepSeek Pro Latest",0.15,3.5,1048576],["qwen/qwen3.8-flash","Qwen: Qwen3.8 Flash",0.15,0.47,1000000],["z-ai/glm-5.3-flash","Z.ai: GLM 5.3 Flash",0.15,0.5,1310720],["google/gemini-3.5-flash-lite:batch","Google: Gemini 3.5 Flash Lite (batch)",0.15,1.25,1048576],["perceptron/perceptron-mk1","Perceptron: Perceptron Mk1",0.15,1.5,32768],["qwen/qwen3.6-35b-a3b","Qwen: Qwen3.6 35B A3B",0.15,1.0,262144],["mistralai/mistral-small-2603","Mistral: Mistral Small 4",0.15,0.6,262144],["upstage/solar-pro-3","Upstage: Solar Pro 3",0.15,0.6,131072],["mistralai/ministral-8b-2512","Mistral: Ministral 3 8B 2512",0.15,0.15,262144],["qwen/qwen3-vl-30b-a3b-instruct","Qwen: Qwen3 VL 30B A3B Instruct",0.15,0.6,262144],["qwen/qwen3-next-80b-a3b-thinking","Qwen: Qwen3 Next 80B A3B Thinking",0.15,1.2,262144],["mistralai/codestral-2508:batch","Mistral: Codestral 2508 (batch)",0.15,0.44999999999999996,256000],["google/gemini-2.5-flash:batch","Google: Gemini 2.5 Flash (batch)",0.15,1.25,1048576],["cohere/command-r-08-2024","Cohere: Command R (08-2024)",0.15,0.6,128000],["openai/gpt-4o-mini","OpenAI: GPT-4o-mini",0.15,0.6,128000],["openai/gpt-4o-mini-2024-07-18","OpenAI: GPT-4o-mini (2024-07-18)",0.15,0.6,128000],["qwen/qwen3.5-35b-a3b","Qwen: Qwen3.5-35B-A3B",0.1625,1.3,262144],["tencent/hy3-preview","Tencent: Hy3 preview",0.18,0.6,262144],["qwen/qwen3-vl-8b-thinking","Qwen: Qwen3 VL 8B Thinking",0.18,2.0999999999999996,131072],["meta-llama/llama-guard-4-12b","Meta: Llama Guard 4 12B",0.18,0.18,163840],["~z-ai/glm-latest","Z.ai: GLM Latest",0.18489999999999998,4.4,1310720],["z-ai/glm-5.3","Z.ai: GLM 5.3",0.18489999999999998,4.4,1310720],["qwen/qwen3.6-flash","Qwen: Qwen3.6 Flash",0.1875,1.125,1000000],["meta-llama/llama-4-maverick","Meta: Llama 4 Maverick",0.1875,0.6525,1048576],["qwen/qwen3.5-27b","Qwen: Qwen3.5-27B",0.195,1.56,262144],["qwen/qwen3-coder-flash","Qwen: Qwen3 Coder Flash",0.195,0.975,1000000],["openai/gpt-5.6-luna-pro","OpenAI: GPT-5.6 Luna Pro",0.19999999999999998,1.2,1050000],["openai/gpt-5.6-luna","OpenAI: GPT-5.6 Luna",0.19999999999999998,1.2,1050000],["nvidia/nemotron-3.5-content-safety","NVIDIA: Nemotron 3.5 Content Safety",0.19999999999999998,0.19999999999999998,131072],["stepfun/step-3.7-flash","StepFun: Step 3.7 Flash",0.19999999999999998,1.15,262144],["openai/gpt-5.4-nano","OpenAI: GPT-5.4 Nano",0.19999999999999998,1.25,400000],["mistralai/ministral-14b-2512","Mistral: Ministral 3 14B 2512",0.19999999999999998,0.19999999999999998,262144],["qwen/qwen3-vl-30b-a3b-thinking","Qwen: Qwen3 VL 30B A3B Thinking",0.19999999999999998,2.4,262144],["qwen/qwen3-30b-a3b-thinking-2507","Qwen: Qwen3 30B A3B Thinking 2507",0.19999999999999998,2.4,81920],["mistralai/mistral-medium-3.1:batch","Mistral: Mistral Medium 3.1 (batch)",0.19999999999999998,1.0,131072],["cognitivecomputations/dolphin-mistral-24b-venice-edition","Venice: Uncensored",0.19999999999999998,0.8999999999999999,128000],["openai/gpt-4.1-mini:batch","OpenAI: GPT-4.1 Mini (batch)",0.19999999999999998,0.7999999999999999,1047576],["mistralai/mistral-saba","Mistral: Saba",0.19999999999999998,0.6,32768],["minimax/minimax-01","MiniMax: MiniMax-01",0.19999999999999998,1.1,1000192],["minimax/minimax-m2.7","MiniMax: MiniMax M2.7",0.21,0.84,204800],["qwen/qwen3-vl-235b-a22b-instruct","Qwen: Qwen3 VL 235B A22B Instruct",0.21,1.9,262144],["deepseek/deepseek-v4-flash-vision-exp","DeepSeek: DeepSeek V4 Flash Vision Exp",0.21559999999999999,0.6468,1048576],["qwen/qwen3-235b-a22b-thinking-2507","Qwen: Qwen3 235B A22B Thinking 2507",0.22999999999999998,2.3,131072],["z-ai/glm-5.2","Z.ai: GLM 5.2",0.2339,4.4,1048576],["google/gemini-3.1-flash-lite-image","Google: Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)",0.25,1.5,65536],["google/gemini-3.1-flash-lite","Google: Gemini 3.1 Flash Lite",0.25,1.5,1048576],["arcee-ai/trinity-large-thinking","Arcee AI: Trinity Large Thinking",0.25,0.7999999999999999,262144],["bytedance-seed/seed-2.0-lite","ByteDance Seed: Seed-2.0-Lite",0.25,2.0,262144],["inception/mercury-2","Inception: Mercury 2",0.25,0.75,128000],["google/gemini-3.1-flash-lite-preview","Google: Gemini 3.1 Flash Lite Preview",0.25,1.5,1048576],["bytedance-seed/seed-1.6","ByteDance Seed: Seed 1.6",0.25,2.0,262144],["google/gemini-3-flash-preview:batch","Google: Gemini 3 Flash Preview (batch)",0.25,1.5,1048576],["mistralai/mistral-large-2512:batch","Mistral: Mistral Large 3 2512 (batch)",0.25,0.75,262144],["openai/gpt-5.1-codex-mini","OpenAI: GPT-5.1-Codex-Mini",0.25,2.0,400000],["deepseek/deepseek-chat-v3.1","DeepSeek: DeepSeek V3.1",0.25,0.95,163840],["openai/gpt-5-mini","OpenAI: GPT-5 Mini",0.25,2.0,400000],["openai/gpt-3.5-turbo:batch","OpenAI: GPT-3.5 Turbo (batch)",0.25,0.75,16385],["deepseek/deepseek-chat","DeepSeek: DeepSeek V3",0.2574,1.0287,163840],["qwen/qwen3.5-122b-a10b","Qwen: Qwen3.5-122B-A10B",0.26,2.08,262144],["qwen/qwen3.5-plus-02-15","Qwen: Qwen3.5 Plus 2026-02-15",0.26,1.56,1000000],["qwen/qwen-plus-2025-07-28","Qwen: Qwen Plus 0728",0.26,0.78,1000000],["qwen/qwen-plus","Qwen: Qwen-Plus",0.26,0.78,1000000],["minimax/minimax-m2.5","MiniMax: MiniMax M2.5",0.27,1.08,204800],["deepseek/deepseek-v3.2-exp","DeepSeek: DeepSeek V3.2 Exp",0.27,0.41,163840],["deepseek/deepseek-v3.2","DeepSeek: DeepSeek V3.2",0.28,0.42,163840],["deepseek/deepseek-chat-v3-0324","DeepSeek: DeepSeek V3 0324",0.29,1.1400000000000001,163840],["cohere/command-a-plus","Cohere: Command A+",0.3,1.5,192000],["deepseek/deepseek-v4.1-flash","DeepSeek: DeepSeek V4.1 Flash",0.3,1.2,1048576],["meta/muse-glimmer-30b","Meta: Muse Glimmer 30B",0.3,1.2,131072],["google/gemini-3.5-flash-lite","Google: Gemini 3.5 Flash Lite",0.3,2.5,1048576],["meituan/longcat-2.0","Meituan: LongCat 2.0",0.3,1.2,1048756],["minimax/minimax-m3","MiniMax: MiniMax M3",0.3,1.2,1048576],["qwen/qwen3.5-plus-20260420","Qwen: Qwen3.5 Plus 2026-04-20",0.3,1.7999999999999998,1000000],["minimax/minimax-m2-her","MiniMax: MiniMax M2-her",0.3,1.2,65536],["minimax/minimax-m2.1","MiniMax: MiniMax M2.1",0.3,1.2,204800],["z-ai/glm-4.6v","Z.ai: GLM 4.6V",0.3,0.8999999999999999,131072],["amazon/nova-2-lite-v1","Amazon: Nova 2 Lite",0.3,2.5,1000000],["minimax/minimax-m2","MiniMax: MiniMax M2",0.3,1.2,204800],["google/gemini-2.5-flash-image","Google: Nano Banana (Gemini 2.5 Flash Image)",0.3,2.5,32768],["thedrummer/cydonia-24b-v4.1","TheDrummer: Cydonia 24B V4.1",0.3,0.5,131072],["deepseek/deepseek-v3.1-terminus","DeepSeek: DeepSeek V3.1 Terminus",0.3,1.0,163840],["mistralai/codestral-2508","Mistral: Codestral 2508",0.3,0.8999999999999999,256000],["qwen/qwen3-coder","Qwen: Qwen3 Coder 480B A35B",0.3,1.0,262144],["google/gemini-2.5-flash","Google: Gemini 2.5 Flash",0.3,2.5,1048576],["qwen/qwen3.7-plus","Qwen: Qwen3.7 Plus",0.32,1.28,1000000],["qwen/qwen3.6-27b","Qwen: Qwen3.6 27B",0.32,3.1999999999999997,262144],["qwen/qwen3.6-plus","Qwen: Qwen3.6 Plus",0.325,1.95,1000000],["undi95/remm-slerp-l2-13b","ReMM SLERP 13B",0.35,0.65,6144],["mistralai/mistral-small-3.1-24b-instruct","Mistral: Mistral Small 3.1 24B",0.351,0.5549999999999999,128000],["qwen/qwen-2.5-72b-instruct","Qwen2.5 72B Instruct",0.36,0.39999999999999997,32768],["z-ai/glm-5.3-flashx","Z.ai: GLM 5.3 FlashX",0.37,1.25,1048576],["google/gemini-3.8-flash:batch","Google: Gemini 3.8 Flash (batch)",0.375,1.875,1048576],["google/gemini-3.7-flash:batch","Google: Gemini 3.7 Flash (batch)",0.375,1.875,1048576],["google/gemini-3.6-flash:batch","Google: Gemini 3.6 Flash (batch)",0.375,1.875,1048576],["openai/gpt-5.4-mini:batch","OpenAI: GPT-5.4 Mini (batch)",0.375,2.25,400000],["~moonshotai/kimi-latest","MoonshotAI: Kimi Latest",0.39999999999999997,10.0,1048576],["mistralai/devstral-2512","Mistral: Devstral 2 2512",0.39999999999999997,2.0,262144],["qwen/qwen3-vl-235b-a22b-thinking","Qwen: Qwen3 VL 235B A22B Thinking",0.39999999999999997,4.0,131072],["mistralai/mistral-medium-3.1","Mistral: Mistral Medium 3.1",0.39999999999999997,2.0,131072],["minimax/minimax-m1","MiniMax: MiniMax M1",0.39999999999999997,2.2,1000000],["mistralai/mistral-medium-3","Mistral: Mistral Medium 3",0.39999999999999997,2.0,131072],["openai/gpt-4.1-mini","OpenAI: GPT-4.1 Mini",0.39999999999999997,1.5999999999999999,1047576],["thedrummer/unslopnemo-12b","TheDrummer: UnslopNemo 12B",0.39999999999999997,0.39999999999999997,1024000],["meta-llama/llama-3.1-70b-instruct","Meta: Llama 3.1 70B Instruct",0.39999999999999997,0.39999999999999997,131072],["mancer/weaver","Mancer: Weaver (alpha)",0.39999999999999997,0.75,8000],["baidu/ernie-4.5-vl-424b-a47b","Baidu: ERNIE 4.5 VL 424B A47B ",0.42,1.25,123000],["z-ai/glm-4.6","Z.ai: GLM 4.6",0.43,1.75,204800],["xiaomi/mimo-v2.6-pro","Xiaomi: MiMo-V2.6-Pro",0.435,0.87,1050000],["xiaomi/mimo-v2.5-pro","Xiaomi: MiMo-V2.5-Pro",0.435,0.87,1050000],["z-ai/glm-5.3:batch","Z.ai: GLM 5.3 (batch)",0.44999999999999996,2.0,1048576],["thinkingmachines/inkling-small","Thinking Machines: Inkling Small",0.44999999999999996,1.2,524288],["moonshotai/kimi-k2.5","MoonshotAI: Kimi K2.5",0.44999999999999996,2.25,262144],["qwen/qwen3-235b-a22b","Qwen: Qwen3 235B A22B",0.45499999999999996,1.8199999999999998,131072],["deepseek/deepseek-v4-pro-0813","DeepSeek: DeepSeek V4 Pro 0813",0.4749,4.199999999999999,1048576],["bytedance-seed/seed-2-1-turbo","ByteDance Seed: Seed 2.1 Turbo",0.5,2.5,262144],["bytedance-seed/seed-2.0-code","ByteDance Seed: Seed-2.0-Code",0.5,3.0,262144],["google/gemini-3.1-flash-image","Google: Nano Banana 2 (Gemini 3.1 Flash Image)",0.5,3.0,131072],["google/gemini-3.1-flash-image-preview","Google: Nano Banana 2 (Gemini 3.1 Flash Image Preview)",0.5,3.0,65536],["google/gemini-3-flash-preview","Google: Gemini 3 Flash Preview",0.5,3.0,1048576],["mistralai/mistral-large-2512","Mistral: Mistral Large 3 2512",0.5,1.5,262144],["anthropic/claude-haiku-4.5:batch","Anthropic: Claude Haiku 4.5 (batch)",0.5,2.5,200000],["deepseek/deepseek-r1-0528","DeepSeek: R1 0528",0.5,2.1500000000000004,163840],["openai/gpt-3.5-turbo","OpenAI: GPT-3.5 Turbo",0.5,1.5,16385],["qwen/qwen3.5-397b-a17b","Qwen: Qwen3.5 397B A17B",0.55,3.5,262144],["openai/o4-mini:batch","OpenAI: o4 Mini (batch)",0.55,2.2,200000],["thedrummer/skyfall-36b-v2","TheDrummer: Skyfall 36B V2",0.55,0.7999999999999999,32768],["openai/o3-mini:batch","OpenAI: o3 Mini (batch)",0.55,2.2,200000],["moonshotai/kimi-k2","MoonshotAI: Kimi K2 0711",0.5700000000000001,2.3,131072],["nvidia/nemotron-3-ultra-550b-a55b","NVIDIA: Nemotron 3 Ultra",0.6,2.4,262144],["z-ai/glm-5","Z.ai: GLM 5",0.6,1.92,204800],["writer/palmyra-x5","Writer: Palmyra X5",0.6,6.0,1040000],["openai/gpt-audio-mini","OpenAI: GPT Audio Mini",0.6,2.4,128000],["z-ai/glm-4.7","Z.ai: GLM 4.7",0.6,2.2,204800],["moonshotai/kimi-k2-thinking","MoonshotAI: Kimi K2 Thinking",0.6,2.5,262144],["moonshotai/kimi-k2-0905","MoonshotAI: Kimi K2 0905",0.6,2.5,262144],["z-ai/glm-4.5v","Z.ai: GLM 4.5V",0.6,1.7999999999999998,65536],["z-ai/glm-4.5","Z.ai: GLM 4.5",0.6,2.2,131072],["microsoft/wizardlm-2-8x22b","WizardLM-2 8x22B",0.62,0.62,65535],["openai/gpt-5.1:batch","OpenAI: GPT-5.1 (batch)",0.625,5.0,400000],["openai/gpt-5:batch","OpenAI: GPT-5 (batch)",0.625,5.0,400000],["google/gemini-2.5-pro:batch","Google: Gemini 2.5 Pro (batch)",0.625,5.0,1048576],["moonshotai/kimi-k2.6","MoonshotAI: Kimi K2.6",0.65,3.41,262144],["qwen/qwen3-coder-plus","Qwen: Qwen3 Coder Plus",0.65,3.25,1000000],["sao10k/l3.3-euryale-70b","Sao10K: Llama 3.3 Euryale 70B",0.65,0.75,131072],["google/gemma-2-27b-it","Google: Gemma 2 27B",0.65,0.65,8192],["moonshotai/kimi-k2.7-code","MoonshotAI: Kimi K2.7 Code",0.6562,3.3000000000000003,262144],["qwen/qwen-2.5-coder-32b-instruct","Qwen2.5 Coder 32B Instruct",0.66,1.0,32768],["aion-labs/aion-3.5-mini","AionLabs: Aion 3.5 Mini",0.7,1.4,262144],["aion-labs/aion-3.0-mini","AionLabs: Aion-3.0-Mini",0.7,1.4,131072],["deepseek/deepseek-r1","DeepSeek: R1",0.7,2.5,64000],["nousresearch/hermes-3-llama-3.1-70b","Nous: Hermes 3 70B Instruct",0.7,0.7,131072],["kwaipilot/kat-coder-pro-v2.5","Kwaipilot: KAT-Coder-Pro V2.5",0.74,2.96,262144],["google/gemini-3.8-flash","Google: Gemini 3.8 Flash",0.75,3.75,1048576],["google/gemini-3.7-flash","Google: Gemini 3.7 Flash",0.75,3.75,1048576],["google/gemini-3.6-flash","Google: Gemini 3.6 Flash",0.75,3.75,1048576],["google/gemini-3.5-flash:batch","Google: Gemini 3.5 Flash (batch)",0.75,4.5,1048576],["mistralai/mistral-medium-3-5:batch","Mistral: Mistral Medium 3.5 (batch)",0.75,3.75,262144],["~openai/gpt-mini-latest","OpenAI: GPT Mini Latest",0.75,4.5,400000],["~google/gemini-flash-latest","Google: Gemini Flash Latest",0.75,3.75,1048576],["openai/gpt-5.4-mini","OpenAI: GPT-5.4 Mini",0.75,4.5,400000],["qwen/qwen3-max-thinking","Qwen: Qwen3 Max Thinking",0.78,3.9,262144],["qwen/qwen3-max","Qwen: Qwen3 Max",0.78,3.9,262144],["aion-labs/aion-2.0","AionLabs: Aion-2.0",0.7999999999999999,1.5999999999999999,131072],["morph/morph-v3-fast","Morph: Morph V3 Fast",0.7999999999999999,1.2,81920],["aion-labs/aion-rp-llama-3.1-8b","AionLabs: Aion-RP 1.0 (8B)",0.7999999999999999,1.5999999999999999,32768],["qwen/qwen2.5-vl-72b-instruct","Qwen: Qwen2.5 VL 72B Instruct",0.7999999999999999,1.0,128000],["amazon/nova-pro-v1","Amazon: Nova Pro 1.0",0.7999999999999999,3.1999999999999997,300000],["tencent/hy4-preview","Tencent: Hy4 preview",0.834,2.501,1048576],["relace/relace-apply-3","Relace: Relace Apply 3",0.85,1.25,256000],["sao10k/l3.1-euryale-70b","Sao10K: Llama 3.1 Euryale 70B v2.2",0.85,0.85,131072],["openai/gpt-5.2:batch","OpenAI: GPT-5.2 (batch)",0.875,7.0,400000],["morph/morph-v3-large","Morph: Morph V3 Large",0.8999999999999999,1.9,262144],["deepseek/deepseek-v4-pro","DeepSeek: DeepSeek V4 Pro 0423",0.936294,1.872588,1048576],["sakana/sakana-namazu","Sakana: Sakana Namazu",0.95,4.0,262144],["z-ai/glm-5.1","Z.ai: GLM 5.1",0.9646,3.0316,204800],["anthropic/claude-sonnet-5.5:batch","Anthropic: Claude Sonnet 5.5 (batch)",1.0,5.0,1000000],["openai/gpt-6-sol-pro:batch","OpenAI: GPT-6 Sol Pro (batch)",1.0,5.0,1050000],["openai/gpt-6-sol:batch","OpenAI: GPT-6 Sol (batch)",1.0,5.0,1050000],["thinkingmachines/inkling","Thinking Machines: Inkling",1.0,4.05,524288],["openai/gpt-5.6-terra-pro:batch","OpenAI: GPT-5.6 Terra Pro (batch)",1.0,6.0,1050000],["openai/gpt-5.6-terra:batch","OpenAI: GPT-5.6 Terra (batch)",1.0,6.0,1050000],["openai/gpt-5.6-sol-pro:batch","OpenAI: GPT-5.6 Sol Pro (batch)",1.0,5.0,1050000],["openai/gpt-5.6-sol:batch","OpenAI: GPT-5.6 Sol (batch)",1.0,5.0,1050000],["anthropic/claude-sonnet-5:batch","Anthropic: Claude Sonnet 5 (batch)",1.0,5.0,1000000],["x-ai/grok-build-0.1","SpaceXAI: Grok Build 0.1",1.0,2.0,256000],["x-ai/grok-4.3:batch","SpaceXAI: Grok 4.3 (batch)",1.0,2.0,1000000],["~anthropic/claude-haiku-latest","Anthropic: Claude Haiku Latest",1.0,5.0,200000],["google/gemini-3.1-pro-preview:batch","Google: Gemini 3.1 Pro Preview (batch)",1.0,6.0,1048576],["relace/relace-search","Relace: Relace Search",1.0,3.0,256000],["anthropic/claude-haiku-4.5","Anthropic: Claude Haiku 4.5",1.0,5.0,200000],["nousresearch/hermes-4-405b","Nous: Hermes 4 405B",1.0,3.0,131072],["openai/o3:batch","OpenAI: o3 (batch)",1.0,4.0,200000],["openai/gpt-4.1:batch","OpenAI: GPT-4.1 (batch)",1.0,4.0,1047576],["perplexity/sonar","Perplexity: Sonar",1.0,1.0,127072],["nousresearch/hermes-3-llama-3.1-405b","Nous: Hermes 3 405B Instruct",1.0,1.0,131072],["openai/gpt-3.5-turbo-0613","OpenAI: GPT-3.5 Turbo (older v0613)",1.0,2.0,4095],["qwen/qwen3.6-max-preview","Qwen: Qwen3.6 Max Preview",1.0270000000000001,6.162,262144],["openai/o4-mini-high","OpenAI: o4 Mini High",1.1,4.4,200000],["openai/o4-mini","OpenAI: o4 Mini",1.1,4.4,200000],["openai/o3-mini-high","OpenAI: o3 Mini High",1.1,4.4,200000],["openai/o3-mini","OpenAI: o3 Mini",1.1,4.4,200000],["z-ai/glm-5v-turbo","Z.ai: GLM 5V Turbo",1.2,4.0,202752],["z-ai/glm-5-turbo","Z.ai: GLM 5 Turbo",1.2,4.0,202752],["meta/muse-spark-1.3","Meta: Muse Spark 1.3",1.25,4.25,1048576],["meta/muse-spark-1.2","Meta: Muse Spark 1.2",1.25,4.25,1048576],["meta/muse-spark-1.1","Meta: Muse Spark 1.1",1.25,4.25,1048576],["x-ai/grok-4.3","SpaceXAI: Grok 4.3",1.25,2.5,1000000],["x-ai/grok-4.20-multi-agent","SpaceXAI: Grok 4.20 Multi-Agent",1.25,2.5,2000000],["x-ai/grok-4.20","SpaceXAI: Grok 4.20",1.25,2.5,2000000],["openai/gpt-5.4:batch","OpenAI: GPT-5.4 (batch)",1.25,7.5,1050000],["openai/gpt-5.1-codex-max","OpenAI: GPT-5.1-Codex-Max",1.25,10.0,400000],["openai/gpt-5.1","OpenAI: GPT-5.1",1.25,10.0,400000],["openai/gpt-5.1-codex","OpenAI: GPT-5.1-Codex",1.25,10.0,400000],["openai/gpt-5","OpenAI: GPT-5",1.25,10.0,400000],["google/gemini-2.5-pro","Google: Gemini 2.5 Pro",1.25,10.0,1048576],["google/gemini-2.5-pro-preview","Google: Gemini 2.5 Pro Preview 06-05",1.25,10.0,1048576],["openai/gpt-4o:batch","OpenAI: GPT-4o (batch)",1.25,5.0,128000],["qwen/qwen3.7-max","Qwen: Qwen3.7 Max",1.475,4.425,1000000],["google/gemini-3.5-flash","Google: Gemini 3.5 Flash",1.5,9.0,1048576],["mistralai/mistral-medium-3-5","Mistral: Mistral Medium 3.5",1.5,7.5,262144],["anthropic/claude-sonnet-4.6:batch","Anthropic: Claude Sonnet 4.6 (batch)",1.5,7.5,1000000],["anthropic/claude-sonnet-4.5:batch","Anthropic: Claude Sonnet 4.5 (batch)",1.5,7.5,1000000],["openai/gpt-3.5-turbo-instruct","OpenAI: GPT-3.5 Turbo Instruct",1.5,2.0,4095],["openai/gpt-5.3-codex","OpenAI: GPT-5.3-Codex",1.75,14.0,400000],["openai/gpt-5.2-codex","OpenAI: GPT-5.2-Codex",1.75,14.0,400000],["openai/gpt-5.2-chat","OpenAI: GPT-5.2 Chat",1.75,14.0,128000],["openai/gpt-5.2","OpenAI: GPT-5.2",1.75,14.0,400000],["anthropic/claude-sonnet-5.5","Anthropic: Claude Sonnet 5.5",2.0,10.0,1000000],["openai/gpt-6-sol-pro","OpenAI: GPT-6 Sol Pro",2.0,10.0,1050000],["openai/gpt-6-sol","OpenAI: GPT-6 Sol",2.0,10.0,1050000],["anthropic/claude-opus-5.5:batch","Anthropic: Claude Opus 5.5 (batch)",2.0,10.0,1000000],["x-ai/grok-4.7","SpaceXAI: Grok 4.7",2.0,6.0,500000],["~openai/gpt-sol-latest","OpenAI: GPT Sol Latest",2.0,10.0,1050000],["~openai/gpt-terra-latest","OpenAI: GPT Terra Latest",2.0,12.0,1050000],["sakana/fugu-max","Sakana: Fugu Max",2.0,6.0,1000000],["qwen/qwen3.8-max-0902","Qwen: Qwen3.8 Max (0902)",2.0,6.0,1000000],["qwen/qwen3.8-2.4t-a95b","Qwen: Qwen3.8 2.4T A95B",2.0,6.0,1048576],["x-ai/grok-4.6","SpaceXAI: Grok 4.6",2.0,6.0,500000],["openai/gpt-5.6-terra-pro","OpenAI: GPT-5.6 Terra Pro",2.0,12.0,1050000],["openai/gpt-5.6-terra","OpenAI: GPT-5.6 Terra",2.0,12.0,1050000],["openai/gpt-5.6-sol","OpenAI: GPT-5.6 Sol",2.0,10.0,1050000],["x-ai/grok-4.5","SpaceXAI: Grok 4.5",2.0,6.0,500000],["~x-ai/grok-latest","xAI: Grok Latest",2.0,6.0,500000],["anthropic/claude-sonnet-5","Anthropic: Claude Sonnet 5",2.0,10.0,1000000],["google/gemini-3-pro-image","Google: Nano Banana Pro (Gemini 3 Pro Image)",2.0,12.0,131072],["~google/gemini-pro-latest","Google: Gemini Pro Latest",2.0,12.0,1048576],["~anthropic/claude-sonnet-latest","Anthropic: Claude Sonnet Latest",2.0,10.0,1000000],["google/gemini-3.1-pro-preview-customtools","Google: Gemini 3.1 Pro Preview Custom Tools",2.0,12.0,1048576],["google/gemini-3.1-pro-preview","Google: Gemini 3.1 Pro Preview",2.0,12.0,1048576],["google/gemini-3-pro-image-preview","Google: Nano Banana Pro (Gemini 3 Pro Image Preview)",2.0,12.0,65536],["openai/o3","OpenAI: o3",2.0,8.0,200000],["openai/gpt-4.1","OpenAI: GPT-4.1",2.0,8.0,1047576],["perplexity/sonar-reasoning-pro","Perplexity: Sonar Reasoning Pro",2.0,8.0,128000],["perplexity/sonar-deep-research","Perplexity: Sonar Deep Research",2.0,8.0,128000],["mistralai/mistral-large-2407","Mistral Large 2407",2.0,6.0,131072],["mistralai/mixtral-8x22b-instruct","Mistral: Mixtral 8x22B Instruct",2.0,6.0,65536],["mistralai/mistral-large","Mistral Large",2.0,6.0,128000],["moonshotai/kimi-k3:batch","MoonshotAI: Kimi K3 (batch)",2.2800000000000002,11.399999999999999,1048576],["unbiased/pareto","Pareto",2.5,7.5,262144],["anthropic/claude-opus-5:batch","Anthropic: Claude Opus 5 (batch)",2.5,12.5,1000000],["anthropic/claude-opus-4.8:batch","Anthropic: Claude Opus 4.8 (batch)",2.5,12.5,1000000],["openai/gpt-5.5:batch","OpenAI: GPT-5.5 (batch)",2.5,15.0,1050000],["anthropic/claude-opus-4.7:batch","Anthropic: Claude Opus 4.7 (batch)",2.5,12.5,1000000],["openai/gpt-5.4","OpenAI: GPT-5.4",2.5,15.0,1050000],["anthropic/claude-opus-4.6:batch","Anthropic: Claude Opus 4.6 (batch)",2.5,12.5,1000000],["openai/gpt-audio","OpenAI: GPT Audio",2.5,10.0,128000],["anthropic/claude-opus-4.5:batch","Anthropic: Claude Opus 4.5 (batch)",2.5,12.5,200000],["amazon/nova-premier-v1","Amazon: Nova Premier 1.0",2.5,12.5,1000000],["openai/gpt-5-image-mini","OpenAI: GPT-5 Image Mini",2.5,2.0,400000],["cohere/command-a","Cohere: Command A",2.5,10.0,256000],["openai/gpt-4o-2024-11-20","OpenAI: GPT-4o (2024-11-20)",2.5,10.0,128000],["anthracite-org/magnum-v4-72b","Magnum v4 72B",2.5,5.0,32768],["cohere/command-r-plus-08-2024","Cohere: Command R+ (08-2024)",2.5,10.0,128000],["openai/gpt-4o-2024-08-06","OpenAI: GPT-4o (2024-08-06)",2.5,10.0,128000],["openai/gpt-4o","OpenAI: GPT-4o",2.5,10.0,128000],["z-ai/glm-5.3-prime","Z.ai: GLM 5.3 Prime",2.8,8.8,1000000],["fireworks/ember-1","Fireworks: Ember-1",3.0,15.0,1048576],["aion-labs/aion-3.5","AionLabs: Aion 3.5",3.0,6.0,262144],["moonshotai/kimi-k3","MoonshotAI: Kimi K3",3.0,15.0,1048576],["aion-labs/aion-3.0","AionLabs: Aion-3.0",3.0,6.0,131072],["anthropic/claude-sonnet-4.6","Anthropic: Claude Sonnet 4.6",3.0,15.0,1000000],["perplexity/sonar-pro-search","Perplexity: Sonar Pro Search",3.0,15.0,200000],["anthropic/claude-sonnet-4.5","Anthropic: Claude Sonnet 4.5",3.0,15.0,1000000],["anthropic/claude-sonnet-4","Anthropic: Claude Sonnet 4",3.0,15.0,200000],["perplexity/sonar-pro","Perplexity: Sonar Pro",3.0,15.0,200000],["openai/gpt-3.5-turbo-16k","OpenAI: GPT-3.5 Turbo 16k",3.0,4.0,16385],["qwen/qwen3.8-max-prime","Qwen: Qwen3.8 Max Prime",4.0,12.0,1000000],["anthropic/claude-opus-5.5","Anthropic: Claude Opus 5.5",4.0,20.0,1000000],["openai/gpt-5.6-sol-pro","OpenAI: GPT-5.6 Sol Pro",4.0,20.0,1050000],["~anthropic/claude-opus-latest","Anthropic: Claude Opus Latest",4.0,20.0,1000000],["xiaomi/mimo-v2.6-pro-ultraspeed","Xiaomi: MiMo-V2.6-Pro-UltraSpeed",4.35,8.7,1048576],["sakana/fugu-ultra-v2","Sakana: Fugu Ultra v2",5.0,30.0,1000000],["openai/gpt-6-astra:batch","OpenAI: GPT-6 Astra (batch)",5.0,25.0,1050000],["openai/gpt-6-astra-pro:batch","OpenAI: GPT-6 Astra Pro (batch)",5.0,25.0,1050000],["anthropic/claude-fable-5.1:batch","Anthropic: Claude Fable 5.1 (batch)",5.0,25.0,1000000],["anthropic/claude-opus-5","Anthropic: Claude Opus 5",5.0,25.0,1000000],["sakana/fugu-ultra","Sakana: Fugu Ultra",5.0,30.0,1000000],["anthropic/claude-fable-5:batch","Anthropic: Claude Fable 5 (batch)",5.0,25.0,1000000],["anthropic/claude-opus-4.8","Anthropic: Claude Opus 4.8",5.0,25.0,1000000],["openai/gpt-chat-latest","OpenAI: GPT Chat Latest",5.0,30.0,400000],["openai/gpt-5.5","OpenAI: GPT-5.5",5.0,30.0,1050000],["anthropic/claude-opus-4.7","Anthropic: Claude Opus 4.7",5.0,25.0,1000000],["anthropic/claude-opus-4.6","Anthropic: Claude Opus 4.6",5.0,25.0,1000000],["anthropic/claude-opus-4.5","Anthropic: Claude Opus 4.5",5.0,25.0,200000],["openai/gpt-4o-2024-05-13","OpenAI: GPT-4o (2024-05-13)",5.0,15.0,128000],["openai/gpt-4-turbo:batch","OpenAI: GPT-4 Turbo (batch)",5.0,15.0,128000],["openai/gpt-5-pro:batch","OpenAI: GPT-5 Pro (batch)",7.5,60.0,400000],["anthropic/claude-opus-4.1:batch","Anthropic: Claude Opus 4.1 (batch)",7.5,37.5,200000],["openai/gpt-5.4-image-2","OpenAI: GPT-5.4 Image 2",8.0,15.0,272000],["~openai/gpt-astra-latest","OpenAI: GPT Astra Latest",10.0,50.0,1050000],["openai/gpt-6-astra","OpenAI: GPT-6 Astra",10.0,50.0,1050000],["openai/gpt-6-astra-pro","OpenAI: GPT-6 Astra Pro",10.0,50.0,1050000],["anthropic/claude-fable-5.1","Anthropic: Claude Fable 5.1",10.0,50.0,1000000],["~anthropic/claude-fable-latest","Anthropic: Claude Fable Latest",10.0,50.0,1000000],["anthropic/claude-fable-5","Anthropic: Claude Fable 5",10.0,50.0,1000000],["openai/gpt-5-image","OpenAI: GPT-5 Image",10.0,10.0,400000],["openai/gpt-4-turbo","OpenAI: GPT-4 Turbo",10.0,30.0,128000],["openai/gpt-5.2-pro:batch","OpenAI: GPT-5.2 Pro (batch)",10.5,84.0,400000],["openai/gpt-5.5-pro:batch","OpenAI: GPT-5.5 Pro (batch)",15.0,90.0,1050000],["openai/gpt-5.4-pro:batch","OpenAI: GPT-5.4 Pro (batch)",15.0,90.0,1050000],["openai/gpt-5-pro","OpenAI: GPT-5 Pro",15.0,120.0,400000],["anthropic/claude-opus-4.1","Anthropic: Claude Opus 4.1",15.0,75.0,200000],["openai/o1","OpenAI: o1",15.0,60.0,200000],["openai/o3-pro","OpenAI: o3 Pro",20.0,80.0,200000],["openai/gpt-5.2-pro","OpenAI: GPT-5.2 Pro",21.0,168.0,400000],["openai/gpt-5.5-pro","OpenAI: GPT-5.5 Pro",30.0,180.0,1050000],["openai/gpt-5.4-pro","OpenAI: GPT-5.4 Pro",30.0,180.0,1050000],["openai/gpt-4","OpenAI: GPT-4",30.0,60.0,8191],["openai/o1-pro","OpenAI: o1-pro",150.0,600.0,200000]];
+  var byId = {};
+  MODELS.forEach(function (m) { byId[m[0].toLowerCase()] = m; });
+
+  var modelEl = document.getElementById('model');
+  var tokIn = document.getElementById('tokIn');
+  var tokOut = document.getElementById('tokOut');
+  var inRate = document.getElementById('inRate');
+  var outRate = document.getElementById('outRate');
+  var tbody = document.getElementById('tbody');
+  var filter = document.getElementById('filter');
+  var dl = document.getElementById('modelList');
+
+  function fmt(v) {
+    if (v >= 100) return '$' + v.toFixed(0);
+    if (v >= 1) return '$' + v.toFixed(2);
+    if (v === 0) return '$0';
+    return '$' + v.toFixed(4);
+  }
+  function num(el) { var v = parseFloat(el.value); return isNaN(v) || v < 0 ? 0 : v; }
+
+  function calc() {
+    var ti = num(tokIn), to = num(tokOut), ri = num(inRate), ro = num(outRate);
+    var c = ti / 1e6 * ri + to / 1e6 * ro;
+    document.getElementById('perReq').textContent = fmt(c);
+    document.getElementById('per1k').textContent = fmt(c * 1000);
+    document.getElementById('perMonth').textContent = fmt(c * 10000 * 30);
+  }
+  ['tokIn','tokOut','inRate','outRate'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', calc);
+  });
+
+  // table
+  var sortK = 2, sortDir = 1;
+  function render() {
+    var q = (filter.value || '').toLowerCase();
+    var rows = MODELS.filter(function (m) {
+      return !q || m[0].toLowerCase().indexOf(q) !== -1 || m[1].toLowerCase().indexOf(q) !== -1;
+    });
+    rows.sort(function (a, b) {
+      var x = a[sortK], y = b[sortK];
+      if (typeof x === 'string') return sortDir * x.localeCompare(y);
+      return sortDir * (x - y);
+    });
+    tbody.innerHTML = rows.slice(0, 200).map(function (m) {
+      return '<tr data-id="' + m[0] + '"><td class="model"><code>' + m[0] + '</code></td><td class="model">' + m[1] + '</td><td>' + (m[2] === 0 ? 'free' : '$' + m[2].toFixed(3)) + '</td><td>' + (m[3] === 0 ? 'free' : '$' + m[3].toFixed(3)) + '</td><td>' + Math.round(m[4] / 1000) + '</td></tr>';
+    }).join('');
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('th'), function (th) {
+    th.addEventListener('click', function () {
+      var k = +th.getAttribute('data-k');
+      if (k === sortK) sortDir = -sortDir; else { sortK = k; sortDir = 1; }
+      render();
+    });
+  });
+  tbody.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr');
+    if (!tr || !tr.getAttribute('data-id')) return;
+    var m = byId[tr.getAttribute('data-id').toLowerCase()];
+    if (!m) return;
+    modelEl.value = m[0];
+    inRate.value = m[2];
+    outRate.value = m[3];
+    calc();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  filter.addEventListener('input', render);
+
+  // datalist: cheapest 60 by input price
+  MODELS.slice().sort(function (a, b) { return a[2] - b[2]; }).slice(0, 60)
+    .forEach(function (m) {
+      var o = document.createElement('option');
+      o.value = m[0]; dl.appendChild(o);
+    });
+
+  modelEl.addEventListener('change', function () {
+    var m = byId[(modelEl.value || '').toLowerCase()];
+    if (m) { inRate.value = m[2]; outRate.value = m[3]; calc(); }
+  });
+
+  render();
+  calc();
+})();
+</script>
+</body>
+</html>
