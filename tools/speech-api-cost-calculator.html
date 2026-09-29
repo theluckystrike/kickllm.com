@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Speech API Cost Calculator (TTS &amp; STT) | KickLLM</title>
+<meta name="description" content="Calculate text-to-speech and speech-to-text API costs per minute and per month. Compare OpenAI TTS, TTS HD, gpt-4o-mini-tts, and Whisper transcription pricing instantly.">
+<link rel="canonical" href="https://kickllm.com/tools/speech-api-cost-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/speech-api-cost-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/speech-api-cost-calculator.html">
+<meta property="og:title" content="Speech API Cost Calculator (TTS &amp; STT) | KickLLM">
+<meta property="og:description" content="Calculate text-to-speech and speech-to-text API costs per minute and per month. Compare OpenAI TTS, TTS HD, gpt-4o-mini-tts, and Whisper transcription pricing instantly.">
+<meta property="og:url" content="https://kickllm.com/tools/speech-api-cost-calculator.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#0a0a0a;--panel:#131313;--panel2:#1a1a1a;--border:#262626;
+  --text:#ededed;--muted:#9a9a9a;--accent:#4ade80;--accent2:#22d3ee;
+  --warn:#fbbf24;--bad:#f87171;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;border-bottom:1px solid var(--border);
+  background:#0d0d0d;position:sticky;top:0;z-index:10;
+}
+nav .brand{font-weight:700;font-size:18px;color:#fff;letter-spacing:.5px}
+nav .brand span{color:var(--accent)}
+nav .links a{margin-left:18px;color:var(--muted);font-size:14px}
+nav .links a:hover{color:#fff}
+main{max-width:880px;margin:0 auto;padding:32px 22px 64px}
+h1{font-size:30px;line-height:1.25;margin:0 0 12px;color:#fff;font-weight:800}
+.intro{color:var(--muted);font-size:16px;margin:0 0 28px}
+.tool{
+  background:var(--panel);border:1px solid var(--border);border-radius:14px;
+  padding:26px;margin-bottom:30px;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.field select,
+.field input{
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  padding:11px 12px;border-radius:9px;font-size:15px;font-family:inherit;outline:none;
+  transition:border-color .15s;
+}
+.field select:focus,.field input:focus{border-color:var(--accent)}
+.hint{font-size:11px;color:#6f6f6f;margin-top:4px}
+.output{
+  margin-top:24px;border-top:1px solid var(--border);padding-top:22px;
+}
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.card{
+  background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:16px;
+}
+.card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.card .v{font-size:22px;font-weight:800;color:#fff}
+.card.green .v{color:var(--accent)}
+.card.cyan .v{color:var(--accent2)}
+.card.warn .v{color:var(--warn)}
+.note{font-size:13px;color:var(--muted)}
+.note b{color:#cfcfcf}
+.verdict{margin-top:8px;font-size:14px;color:#cfcfcf}
+.explain{color:#c4c4c4;font-size:15.5px}
+.explain h2{font-size:21px;color:#fff;margin:30px 0 10px;font-weight:700}
+.explain h2:first-child{margin-top:0}
+.explain p{margin:0 0 14px}
+.explain ul{margin:0 0 14px;padding-left:22px}
+.explain li{margin-bottom:6px}
+.explain table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px}
+.explain th,.explain td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+.explain th{background:var(--panel2);color:#fff;font-weight:600}
+.related{margin-top:34px;border-top:1px solid var(--border);padding-top:22px}
+.related h2{font-size:19px;color:#fff;margin:0 0 12px}
+.related ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
+.related li a{
+  display:inline-block;padding:9px 14px;border:1px solid var(--border);
+  border-radius:9px;background:var(--panel);color:var(--text);font-size:14px;
+}
+.related li a:hover{border-color:var(--accent);text-decoration:none}
+footer.site-footer{
+  border-top:1px solid var(--border);background:#0d0d0d;color:var(--muted);
+  padding:24px;text-align:center;font-size:14px;
+}
+footer.site-footer a{margin:0 8px}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .out-grid{grid-template-columns:1fr}
+  h1{font-size:24px}
+  main{padding:24px 16px 48px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Speech API Cost Calculator",
+  "url":"https://kickllm.com/tools/speech-api-cost-calculator.html",
+  "description":"Calculate text-to-speech and speech-to-text API costs per minute and monthly, comparing OpenAI TTS, TTS HD, gpt-4o-mini-tts, and Whisper transcription pricing.",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"Web",
+  "browserRequirements":"Requires JavaScript",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "author":{"@type":"Person","name":"Michael Lip","url":"https://zovo.one"},
+  "isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},
+    {"@type":"ListItem","position":3,"name":"Speech API Cost Calculator","item":"https://kickllm.com/tools/speech-api-cost-calculator.html"}
+  ]
+}
+</script>
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>
+<nav>
+  <a class="brand" href="/">kick<span>llm</span></a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/tools/">Tools</a>
+  </div>
+</nav>
+
+<main>
+<h1>Speech API Cost Calculator (TTS &amp; STT)</h1>
+<p class="intro">Speech APIs bill in two different currencies — characters for text-to-speech, minutes for transcription — and mixing them up wrecks budgets. Enter your monthly audio volume to price TTS, TTS HD, gpt-4o-mini-tts, and Whisper side by side.</p>
+
+<div class="tool">
+  <h2 style="font-size:17px;color:#fff;margin:0 0 14px">Text-to-speech</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="ttsModel">TTS model</label>
+      <select id="ttsModel">
+        <option value="tts">TTS (tts-1) — $15 / 1M chars</option>
+        <option value="tts-hd">TTS HD (tts-1-hd) — $30 / 1M chars</option>
+        <option value="mini-tts">gpt-4o-mini-tts — ~$0.015 / min</option>
+        <option value="custom-tts">Custom $/minute…</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="ttsMinutes">Minutes of audio per month</label>
+      <input id="ttsMinutes" type="number" min="0" step="1" value="600">
+      <div class="hint">1 minute ≈ 1,000 characters at ~150 wpm.</div>
+    </div>
+    <div class="field">
+      <label for="ttsCharsPerMin">Characters per minute of audio</label>
+      <input id="ttsCharsPerMin" type="number" min="100" step="50" value="1000">
+    </div>
+    <div class="field" id="customTtsWrap" style="display:none">
+      <label for="customTtsRate">Custom TTS rate ($/minute)</label>
+      <input id="customTtsRate" type="number" min="0" step="0.001" value="0.02">
+    </div>
+  </div>
+  <div class="output">
+    <div class="out-grid">
+      <div class="card"><div class="k">TTS cost / minute</div><div class="v" id="ttsPerMin">$0.000</div></div>
+      <div class="card cyan"><div class="k">TTS monthly</div><div class="v" id="ttsMonthly">$0.00</div></div>
+      <div class="card green"><div class="k">TTS yearly</div><div class="v" id="ttsYearly">$0.00</div></div>
+    </div>
+    <div class="verdict" id="ttsVerdict"></div>
+  </div>
+
+  <h2 style="font-size:17px;color:#fff;margin:30px 0 14px">Speech-to-text (Whisper)</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="sttMinutes">Minutes to transcribe per month</label>
+      <input id="sttMinutes" type="number" min="0" step="1" value="1200">
+      <div class="hint">Whisper: $0.006 per minute, rounded to the nearest second.</div>
+    </div>
+    <div class="field">
+      <label for="sttPerFile">Average minutes per audio file</label>
+      <input id="sttPerFile" type="number" min="0.1" step="0.1" value="10">
+      <div class="hint">File length doesn't change Whisper's rate — it bills to the nearest second.</div>
+    </div>
+    <div class="field">
+      <label for="sttRate">Whisper rate ($/minute)</label>
+      <input id="sttRate" type="number" min="0" step="0.0001" value="0.006">
+    </div>
+  </div>
+  <div class="output">
+    <div class="out-grid">
+      <div class="card"><div class="k">STT cost / minute</div><div class="v" id="sttPerMin">$0.006</div></div>
+      <div class="card cyan"><div class="k">STT monthly</div><div class="v" id="sttMonthly">$0.00</div></div>
+      <div class="card green"><div class="k">STT yearly</div><div class="v" id="sttYearly">$0.00</div></div>
+    </div>
+    <div class="note" id="sttNote"></div>
+    <div class="verdict" id="sttVerdict"></div>
+  </div>
+
+  <div class="output">
+    <div class="out-grid">
+      <div class="card warn"><div class="k">Combined monthly (TTS + STT)</div><div class="v" id="combined">$0.00</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="explain">
+  <h2>How speech API pricing works</h2>
+  <p>Text-to-speech is billed per character on the classic models: TTS at $15 per million characters and TTS HD at $30 per million. A minute of normal-paced speech is roughly 1,000 characters, so TTS works out near $0.015 per minute of audio and HD doubles that. The newer gpt-4o-mini-tts bills tokens instead — $0.60 per million input text tokens plus $12 per million audio output tokens — which lands close to $0.015 per generated minute with more control over voice and style.</p>
+  <p>Speech-to-text with Whisper is billed per audio minute at $0.006, rounded to the nearest second, so short files don't carry a per-request penalty the way minute-rounded providers do. At scale, the cost lever is volume: 1,000 hours of audio is $360 with Whisper before you compare against self-hosted or alternative providers.</p>
+
+  <h2>Reference rates</h2>
+  <table>
+    <tr><th>Model</th><th>Billing unit</th><th>List price</th><th>≈ per audio minute</th></tr>
+    <tr><td>TTS (tts-1)</td><td>character</td><td>$15 / 1M</td><td>~$0.015</td></tr>
+    <tr><td>TTS HD (tts-1-hd)</td><td>character</td><td>$30 / 1M</td><td>~$0.030</td></tr>
+    <tr><td>gpt-4o-mini-tts</td><td>tokens (in + audio out)</td><td>$0.60 / $12 per 1M</td><td>~$0.015</td></tr>
+    <tr><td>Whisper (STT)</td><td>audio minute</td><td>$0.006</td><td>$0.006</td></tr>
+  </table>
+  <p>List rates as of late 2026, checked against <a href="https://platform.openai.com/docs/pricing" rel="nofollow noopener" target="_blank">OpenAI's pricing page</a> — confirm current rates before committing a budget.</p>
+  <p class="methodology" style="color:var(--muted);font-size:13px;">Methodology: TTS minutes estimated at 1,000 characters/minute (~150 wpm); Whisper billed per audio minute to the nearest second. Byline: KickLLM research. Last reviewed 2026-09-29.</p>
+
+  <h2>Cost levers</h2>
+  <ul>
+    <li><b>Match model to purpose.</b> TTS HD only pays off for customer-facing audio; internal narration at standard TTS halves the bill.</li>
+    <li><b>Batch STT for throughput, not price.</b> OpenAI bills Whisper to the nearest second, so short clips no longer carry a per-request penalty — batching is about API efficiency, not cost.</li>
+    <li><b>Cache repeated phrases.</b> IVR prompts and repeated UI lines can be synthesized once and reused forever.</li>
+  </ul>
+</div>
+
+<div class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="/tools/token-cost-calculator.html">Token Cost Calculator</a></li>
+    <li><a href="/tools/batch-api-savings-calculator.html">Batch API Savings Calculator</a></li>
+    <li><a href="/tools/llm-api-cost-comparison/index.html">LLM API Cost Comparison</a></li>
+    <li><a href="/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
+  </ul>
+</div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=tools-speech-api-cost-calculator">Zovo</a></div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function fmt(n){
+    if(!isFinite(n)) return "$0.00";
+    if(n > 0 && n < 0.01) return "$" + n.toFixed(4);
+    return "$" + n.toFixed(2);
+  }
+  function rate3(n){ return "$" + (isFinite(n) ? n.toFixed(3) : "0.000"); }
+  function bigfmt(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
+
+  function computeTts(){
+    var model = $("ttsModel").value;
+    var minutes = Math.max(0, parseFloat($("ttsMinutes").value) || 0);
+    var charsPerMin = Math.max(1, parseFloat($("ttsCharsPerMin").value) || 1000);
+    $("customTtsWrap").style.display = model === "custom-tts" ? "" : "none";
+
+    var perMin;
+    if(model === "custom-tts"){
+      perMin = Math.max(0, parseFloat($("customTtsRate").value) || 0);
+    } else if(model === "tts"){
+      perMin = charsPerMin * 15 / 1e6;
+    } else if(model === "tts-hd"){
+      perMin = charsPerMin * 30 / 1e6;
+    } else {
+      perMin = 0.015;
+    }
+
+    var monthly = perMin * minutes;
+    $("ttsPerMin").textContent = rate3(perMin);
+    $("ttsMonthly").textContent = minutes > 0 ? bigfmt(monthly) : "$0.00";
+    $("ttsYearly").textContent = minutes > 0 ? bigfmt(monthly * 12) : "$0.00";
+
+    var v = $("ttsVerdict");
+    if(minutes <= 0){
+      v.textContent = "Enter monthly audio minutes to price TTS.";
+    } else if(model === "tts-hd" && minutes > 300){
+      v.textContent = "HD at " + rate3(perMin) + "/min on " + minutes.toLocaleString("en-US") + " min/month — reserve HD for customer-facing audio and standard TTS for drafts to cut this roughly in half.";
+    } else {
+      v.textContent = "TTS at " + rate3(perMin) + " per audio minute; caching repeated phrases (IVR, UI lines) can reduce it further.";
+    }
+    return monthly;
+  }
+
+  function computeStt(){
+    var minutes = Math.max(0, parseFloat($("sttMinutes").value) || 0);
+    var perFile = Math.max(0.1, parseFloat($("sttPerFile").value) || 10);
+    var rate = Math.max(0, parseFloat($("sttRate").value) || 0);
+
+    var files = minutes / perFile;
+    // Whisper (OpenAI) rounds each request to the nearest second, not the next minute
+    var billedMinutes = minutes;
+    var effRate = minutes > 0 ? (billedMinutes * rate) / minutes : rate;
+
+    $("sttPerMin").textContent = rate3(effRate);
+    $("sttMonthly").textContent = minutes > 0 ? bigfmt(billedMinutes * rate) : "$0.00";
+    $("sttYearly").textContent = minutes > 0 ? bigfmt(billedMinutes * rate * 12) : "$0.00";
+
+    var note = $("sttNote");
+    note.textContent = "OpenAI bills Whisper to the nearest second, so file length does not change the rate — batch only for convenience, not cost.";
+
+    var v = $("sttVerdict");
+    if(minutes <= 0){
+      v.textContent = "Enter monthly transcription minutes to price STT.";
+    } else {
+      v.textContent = "Whisper at " + rate3(rate) + " per minute (billed to the second) is near the floor for hosted STT.";
+    }
+    return billedMinutes * rate;
+  }
+
+  function computeAll(){
+    var tts = computeTts();
+    var stt = computeStt();
+    var total = tts + stt;
+    $("combined").textContent = total > 0 ? bigfmt(total) : "$0.00";
+  }
+
+  var ids = ["ttsModel","ttsMinutes","ttsCharsPerMin","customTtsRate","sttMinutes","sttPerFile","sttRate"];
+  for(var i=0;i<ids.length;i++){
+    var el = $(ids[i]);
+    el.addEventListener("input", computeAll);
+    el.addEventListener("change", computeAll);
+  }
+  computeAll();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Image Generation API Cost Calculator | KickLLM</title>
+<meta name="description" content="Calculate image generation API costs per image and per month. Compare GPT Image, FLUX, and custom per-image pricing across quality tiers, aspect ratios, and retries instantly.">
+<link rel="canonical" href="https://kickllm.com/tools/image-generation-api-cost-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/image-generation-api-cost-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/image-generation-api-cost-calculator.html">
+<meta property="og:title" content="Image Generation API Cost Calculator | KickLLM">
+<meta property="og:description" content="Calculate image generation API costs per image and per month. Compare GPT Image, FLUX, and custom per-image pricing across quality tiers, aspect ratios, and retries instantly.">
+<meta property="og:url" content="https://kickllm.com/tools/image-generation-api-cost-calculator.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --bg:#0a0a0a;--panel:#131313;--panel2:#1a1a1a;--border:#262626;
+  --text:#ededed;--muted:#9a9a9a;--accent:#4ade80;--accent2:#22d3ee;
+  --warn:#fbbf24;--bad:#f87171;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;border-bottom:1px solid var(--border);
+  background:#0d0d0d;position:sticky;top:0;z-index:10;
+}
+nav .brand{font-weight:700;font-size:18px;color:#fff;letter-spacing:.5px}
+nav .brand span{color:var(--accent)}
+nav .links a{margin-left:18px;color:var(--muted);font-size:14px}
+nav .links a:hover{color:#fff}
+main{max-width:880px;margin:0 auto;padding:32px 22px 64px}
+h1{font-size:30px;line-height:1.25;margin:0 0 12px;color:#fff;font-weight:800}
+.intro{color:var(--muted);font-size:16px;margin:0 0 28px}
+.tool{
+  background:var(--panel);border:1px solid var(--border);border-radius:14px;
+  padding:26px;margin-bottom:30px;
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.field select,
+.field input{
+  background:var(--panel2);border:1px solid var(--border);color:var(--text);
+  padding:11px 12px;border-radius:9px;font-size:15px;font-family:inherit;outline:none;
+  transition:border-color .15s;
+}
+.field select:focus,.field input:focus{border-color:var(--accent)}
+.hint{font-size:11px;color:#6f6f6f;margin-top:4px}
+.output{
+  margin-top:24px;border-top:1px solid var(--border);padding-top:22px;
+}
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.card{
+  background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:16px;
+}
+.card .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.card .v{font-size:22px;font-weight:800;color:#fff}
+.card.green .v{color:var(--accent)}
+.card.cyan .v{color:var(--accent2)}
+.card.warn .v{color:var(--warn)}
+.note{font-size:13px;color:var(--muted)}
+.note b{color:#cfcfcf}
+.verdict{margin-top:8px;font-size:14px;color:#cfcfcf}
+.explain{color:#c4c4c4;font-size:15.5px}
+.explain h2{font-size:21px;color:#fff;margin:30px 0 10px;font-weight:700}
+.explain h2:first-child{margin-top:0}
+.explain p{margin:0 0 14px}
+.explain ul{margin:0 0 14px;padding-left:22px}
+.explain li{margin-bottom:6px}
+.explain table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px}
+.explain th,.explain td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+.explain th{background:var(--panel2);color:#fff;font-weight:600}
+.related{margin-top:34px;border-top:1px solid var(--border);padding-top:22px}
+.related h2{font-size:19px;color:#fff;margin:0 0 12px}
+.related ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
+.related li a{
+  display:inline-block;padding:9px 14px;border:1px solid var(--border);
+  border-radius:9px;background:var(--panel);color:var(--text);font-size:14px;
+}
+.related li a:hover{border-color:var(--accent);text-decoration:none}
+footer.site-footer{
+  border-top:1px solid var(--border);background:#0d0d0d;color:var(--muted);
+  padding:24px;text-align:center;font-size:14px;
+}
+footer.site-footer a{margin:0 8px}
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .out-grid{grid-template-columns:1fr}
+  h1{font-size:24px}
+  main{padding:24px 16px 48px}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Image Generation API Cost Calculator",
+  "url":"https://kickllm.com/tools/image-generation-api-cost-calculator.html",
+  "description":"Calculate image generation API costs per image and monthly, comparing GPT Image models, FLUX, and custom per-image pricing across quality tiers, aspect ratios, and retries.",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"Web",
+  "browserRequirements":"Requires JavaScript",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "author":{"@type":"Person","name":"Michael Lip","url":"https://zovo.one"},
+  "isPartOf":{"@type":"WebSite","name":"KickLLM","url":"https://kickllm.com"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://kickllm.com/tools/"},
+    {"@type":"ListItem","position":3,"name":"Image Generation API Cost Calculator","item":"https://kickllm.com/tools/image-generation-api-cost-calculator.html"}
+  ]
+}
+</script>
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>
+<nav>
+  <a class="brand" href="/">kick<span>llm</span></a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/tools/">Tools</a>
+  </div>
+</nav>
+
+<main>
+<h1>Image Generation API Cost Calculator</h1>
+<p class="intro">Image APIs price per generated image, and the quality tier you pick changes the bill by up to 35×. Enter your monthly volume and retries to see the real per-image and monthly cost across GPT Image models, FLUX, and any custom per-image price.</p>
+
+<div class="tool">
+  <div class="grid">
+    <div class="field">
+      <label for="model">Model</label>
+      <select id="model">
+        <option value="gpt-image-2">GPT Image 2 (OpenAI flagship)</option>
+        <option value="gpt-image-1.5">GPT Image 1.5 (OpenAI)</option>
+        <option value="gpt-image-1-mini">GPT Image 1 Mini (OpenAI, cheapest)</option>
+        <option value="gpt-image-1">GPT Image 1 (OpenAI, legacy)</option>
+        <option value="flux-schnell">FLUX.1 schnell (per-image)</option>
+        <option value="flux-dev">FLUX.1 dev (per-image)</option>
+        <option value="custom">Custom per-image price…</option>
+      </select>
+      <div class="hint">GPT Image uses OpenAI's published per-size prices — portrait/landscape can cost less than square on GPT Image 2.</div>
+    </div>
+    <div class="field">
+      <label for="quality">Quality tier</label>
+      <select id="quality">
+        <option value="low">Low — drafts &amp; iteration</option>
+        <option value="medium" selected>Medium — production default</option>
+        <option value="high">High — final deliverables</option>
+      </select>
+      <div class="hint">Ignored for FLUX and custom pricing (flat per image).</div>
+    </div>
+    <div class="field">
+      <label for="aspect">Aspect ratio</label>
+      <select id="aspect">
+        <option value="1" selected>Square 1024×1024</option>
+        <option value="wide">Portrait / landscape (1024×1536, 1536×1024)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="images">Images per month</label>
+      <input id="images" type="number" min="0" step="1" value="500">
+    </div>
+    <div class="field">
+      <label for="retries">Average attempts per final image</label>
+      <input id="retries" type="number" min="1" step="0.1" value="1.4">
+      <div class="hint">Re-rolls and discarded drafts count as paid generations.</div>
+    </div>
+    <div class="field" id="customWrap" style="display:none">
+      <label for="customPrice">Custom price per image ($)</label>
+      <input id="customPrice" type="number" min="0" step="0.001" value="0.03">
+    </div>
+  </div>
+
+  <div class="output">
+    <div class="out-grid">
+      <div class="card"><div class="k">Cost per final image</div><div class="v" id="perImage">$0.00</div></div>
+      <div class="card cyan"><div class="k">Monthly cost</div><div class="v" id="monthly">$0.00</div></div>
+      <div class="card green"><div class="k">Yearly cost</div><div class="v" id="yearly">$0.00</div></div>
+    </div>
+    <div class="note" id="cheapestNote"></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+</div>
+
+<div class="explain">
+  <h2>How image API pricing works</h2>
+  <p>OpenAI's GPT Image models bill per output image with three quality tiers. The tier sets how many tokens the image costs to produce — low quality 1024×1024 is about 272 output tokens, medium about 1,056, and high about 4,160 — so moving from low to high quality multiplies the per-image price by roughly 15× on the legacy models, and by 35× on GPT Image 2 square (its $0.006 low tier is unusually cheap).</p>
+  <p>FLUX models on hosting providers like fal.ai or Replicate bill a flat price per image with no quality tiers, which makes them dramatically cheaper for volume drafts. Aspect ratio changes the token count, and the effect is not a simple multiplier: OpenAI publishes a separate price table per size, and on GPT Image 2 the portrait and landscape outputs are actually cheaper than square at medium and high quality ($0.041/$0.165 vs $0.053/$0.211), while older models charge more for the larger canvas.</p>
+
+  <h2>Reference per-image prices (1024×1024)</h2>
+  <table>
+    <tr><th>Model</th><th>Low</th><th>Medium</th><th>High</th></tr>
+    <tr><td>GPT Image 2</td><td>$0.006</td><td>$0.053</td><td>$0.211</td></tr>
+    <tr><td>GPT Image 1.5</td><td>$0.009</td><td>$0.034</td><td>$0.133</td></tr>
+    <tr><td>GPT Image 1 Mini</td><td>$0.005</td><td>$0.011</td><td>$0.036</td></tr>
+    <tr><td>GPT Image 1 (legacy)</td><td>$0.011</td><td>$0.042</td><td>$0.167</td></tr>
+    <tr><td>FLUX.1 schnell</td><td colspan="3">$0.003 flat</td></tr>
+    <tr><td>FLUX.1 dev</td><td colspan="3">$0.025 flat</td></tr>
+  </table>
+  <p>Prices are list rates for one square image, checked against OpenAI's <a href="https://developers.openai.com/api/docs/guides/image-generation" rel="nofollow noopener" target="_blank">image generation guide</a> and fal.ai's published GPT Image 2 pricing in September 2026, and they change over time — always confirm against the provider's current pricing page before budgeting.</p>
+  <p class="methodology" style="color:var(--muted);font-size:13px;">Methodology: list prices per output image; retries modeled as additional paid generations per final. Byline: KickLLM research. Last reviewed 2026-09-29.</p>
+
+  <h2>Where the money actually goes</h2>
+  <ul>
+    <li><b>Retries dominate.</b> A 1.4 attempts-per-final rate adds 40% to every line item; prompt-only iteration on a cheap tier is usually cheaper than re-rolling a high tier.</li>
+    <li><b>Tier discipline saves the most.</b> Draft on Low or Mini, promote to Medium/High only for finals — teams commonly cut image spend by half or more this way.</li>
+    <li><b>Aspect ratios compound.</b> Generating everything in portrait at High quality can cost over 27× a square Low image.</li>
+  </ul>
+</div>
+
+<div class="related">
+  <h2>Related tools</h2>
+  <ul>
+    <li><a href="/tools/batch-api-savings-calculator.html">Batch API Savings Calculator</a></li>
+    <li><a href="/tools/token-cost-calculator.html">Token Cost Calculator</a></li>
+    <li><a href="/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
+    <li><a href="/tools/self-host-vs-api-break-even-calculator.html">Self-Host vs API Break-Even</a></li>
+  </ul>
+</div>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=tools-image-generation-api-cost-calculator">Zovo</a></div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var PRICES = {
+    "gpt-image-2":      {low:0.006,  medium:0.053, high:0.211, label:"GPT Image 2"},
+    "gpt-image-1.5":    {low:0.009,  medium:0.034, high:0.133, label:"GPT Image 1.5"},
+    "gpt-image-1-mini": {low:0.005,  medium:0.011, high:0.036, label:"GPT Image 1 Mini"},
+    "gpt-image-1":      {low:0.011,  medium:0.042, high:0.167, label:"GPT Image 1"},
+    "flux-schnell":     {flat:0.003, label:"FLUX.1 schnell"},
+    "flux-dev":         {flat:0.025, label:"FLUX.1 dev"}
+  };
+  // Portrait (1024×1536) / landscape (1536×1024) square-1024 prices, per OpenAI's published table.
+  // On GPT Image 2 these are actually CHEAPER than square at medium/high; on older models they cost more.
+  var PORTRAIT = {
+    "gpt-image-2":      {low:0.005, medium:0.041, high:0.165},
+    "gpt-image-1.5":    {low:0.013, medium:0.050, high:0.200},
+    "gpt-image-1-mini": {low:0.006, medium:0.015, high:0.052},
+    "gpt-image-1":      {low:0.016, medium:0.063, high:0.250}
+  };
+  function fmt(n){
+    if(!isFinite(n)) return "$0.00";
+    if(n > 0 && n < 0.01) return "$" + n.toFixed(4);
+    return "$" + n.toFixed(2);
+  }
+  function bigfmt(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
+
+  function compute(){
+    var mk = $("model").value;
+    var images = Math.max(0, parseFloat($("images").value) || 0);
+    var retries = Math.max(1, parseFloat($("retries").value) || 1);
+    var aspect = $("aspect").value; // "1" = square, "wide" = portrait/landscape
+    $("customWrap").style.display = mk === "custom" ? "" : "none";
+
+    var base;
+    if(mk === "custom"){
+      base = Math.max(0, parseFloat($("customPrice").value) || 0) * (aspect === "wide" ? 1.5 : 1);
+    } else {
+      var p = PRICES[mk];
+      var q = $("quality").value;
+      if(p.flat !== undefined){
+        base = p.flat;
+      } else if(aspect === "wide" && PORTRAIT[mk]){
+        base = PORTRAIT[mk][q];
+      } else {
+        base = p[q];
+      }
+    }
+
+    var perFinal = base * retries;
+    var monthly = perFinal * images;
+
+    $("perImage").textContent = fmt(perFinal);
+    $("monthly").textContent  = images > 0 ? bigfmt(monthly) : "$0.00";
+    $("yearly").textContent   = images > 0 ? bigfmt(monthly * 12) : "$0.00";
+
+    // cheapest alternative for the same tier context
+    var cheapest = Infinity, cheapestLabel = "";
+    for(var key in PRICES){
+      var pr = PRICES[key];
+      var cost = pr.flat !== undefined ? pr.flat : pr[$("quality").value];
+      if(cost < cheapest){ cheapest = cost; cheapestLabel = pr.label; }
+    }
+    var note = $("cheapestNote");
+    var label = mk === "custom" ? "Custom price" : PRICES[mk].label;
+    if(base > 0){
+      note.innerHTML = "<b>" + label + "</b> · " +
+        images.toLocaleString("en-US") + " finals × " + retries + " attempts = " +
+        Math.round(images * retries).toLocaleString("en-US") + " paid generations/month." +
+        (mk !== "flux-schnell" ? " Cheapest listed option for this tier: " + cheapestLabel + " at " + fmt(cheapest) + "/image." : "");
+    } else {
+      note.textContent = "Enter a monthly volume to see costs.";
+    }
+
+    var v = $("verdict");
+    if(images <= 0 || base <= 0){
+      v.textContent = "Pick a model and enter your monthly image volume.";
+    } else if(perFinal > 0.15){
+      v.textContent = "At " + fmt(perFinal) + " per final image, high-tier spend adds up fast — draft on Low or Mini and reserve this tier for finals.";
+    } else if(perFinal < 0.02){
+      v.textContent = "At " + fmt(perFinal) + " per final image this is volume-friendly; even 10× the budget stays manageable.";
+    } else {
+      v.textContent = fmt(perFinal) + " per final image is typical for production work — retries are your biggest lever, not the base price.";
+    }
+  }
+
+  var inputs = ["model","quality","aspect","images","retries","customPrice"];
+  for(var i=0;i<inputs.length;i++){
+    var el = $(inputs[i]);
+    el.addEventListener("input", compute);
+    el.addEventListener("change", compute);
+  }
+  compute();
+})();
+</script>
+</body>
+</html>

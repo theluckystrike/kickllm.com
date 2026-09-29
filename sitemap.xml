@@ -164,7 +164,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url><loc>https://kickllm.com/tools/openrouter-pricing-calculator.html</loc><lastmod>2026-09-29</lastmod></url>
+<url><loc>https://kickllm.com/tools/image-generation-api-cost-calculator.html</loc><lastmod>2026-09-29</lastmod></url>
+<url><loc>https://kickllm.com/tools/speech-api-cost-calculator.html</loc><lastmod>2026-09-29</lastmod></url>
 <url><loc>https://kickllm.com/tools/prompt-caching-break-even-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
 <url><loc>https://kickllm.com/tools/batch-api-savings-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
 <url><loc>https://kickllm.com/tools/multimodal-vision-token-cost-calculator.html</loc><lastmod>2026-06-23</lastmod></url>
@@ -211,10 +212,4 @@
     <loc>https://kickllm.com/research/gemini-vs-openai-vs-claude-tokens-per-second.html</loc>
     <lastmod>2026-09-06</lastmod>
   </url>
-  <url><loc>https://kickllm.com/answers/llm-batch-api-discount-comparison.html</loc><lastmod>2026-09-30</lastmod></url>
-  <url><loc>https://kickllm.com/answers/gpt-5.5-pro-pricing.html</loc><lastmod>2026-09-30</lastmod></url>
-  <url><loc>https://kickllm.com/research/llm-context-per-dollar-2026.html</loc><lastmod>2026-09-30</lastmod></url>
-<url><loc>https://kickllm.com/answers/cheapest-llm-1m-token-context.html</loc><lastmod>2026-09-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://kickllm.com/answers/qwen-pricing-2026.html</loc><lastmod>2026-09-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-<url><loc>https://kickllm.com/answers/deepseek-flash-pricing.html</loc><lastmod>2026-09-30</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
