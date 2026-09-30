@@ -7,6 +7,9 @@
 <title>OpenRouter Pricing Calculator | KickLLM</title>
 <meta name="description" content="Calculate exact OpenRouter API costs across 434 models. Enter tokens in and out, pick a model or enter custom rates, and see per-request and monthly spend instantly.">
 <link rel="canonical" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
+<meta property="og:site_name" content="KickLLM">
+<meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" hreflang="en" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
 <link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/openrouter-pricing-calculator.html">
 <meta property="og:title" content="OpenRouter Pricing Calculator">
@@ -52,185 +55,180 @@
 }
 </script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  background: #0a0a0a; color: #e5e7eb; line-height: 1.6; min-height: 100vh;
-}
-a { color: #60a5fa; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 60px; }
-nav {
-  display: flex; gap: 18px; align-items: center; padding: 16px 20px;
-  border-bottom: 1px solid #1f2937; max-width: 880px; margin: 0 auto; flex-wrap: wrap;
-}
-nav .brand { font-weight: 700; color: #f9fafb; font-size: 1.1rem; }
-nav a { color: #9ca3af; font-size: 0.95rem; }
-nav a:hover { color: #e5e7eb; }
-h1 { font-size: 2rem; margin: 28px 0 12px; color: #f9fafb; line-height: 1.25; }
-.intro { color: #9ca3af; margin-bottom: 28px; font-size: 1.02rem; }
-.tool { background: #111111; border: 1px solid #1f2937; border-radius: 12px; padding: 24px; margin-bottom: 28px; }
-.field { margin-bottom: 18px; }
-.field label { display: block; font-size: 0.9rem; color: #d1d5db; margin-bottom: 6px; font-weight: 600; }
-.field .hint { color: #6b7280; font-weight: 400; font-size: 0.82rem; }
-.field input, .field select {
-  width: 100%; padding: 11px 13px; background: #0a0a0a; border: 1px solid #2a2a2a;
-  border-radius: 8px; color: #f3f4f6; font-size: 1rem; font-family: inherit;
-}
-.field input:focus, .field select:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,0.15); }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
-.output { margin-top: 22px; padding-top: 22px; border-top: 1px solid #1f2937; }
-.output .label { color: #9ca3af; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.big { font-size: 2.2rem; font-weight: 700; color: #4ade80; margin: 6px 0 4px; line-height: 1.1; }
-.stat { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 8px; padding: 14px; }
-.stat .v { font-size: 1.35rem; font-weight: 700; color: #f9fafb; }
-.stat .l { font-size: 0.8rem; color: #6b7280; margin-top: 2px; }
-.note { font-size: 0.85rem; color: #6b7280; margin-top: 14px; }
-.explain { color: #d1d5db; margin-bottom: 32px; }
-.explain h2 { font-size: 1.3rem; color: #f9fafb; margin: 24px 0 10px; }
-.explain p { margin-bottom: 12px; color: #b0b3b8; }
-.explain strong { color: #e5e7eb; }
-.explain code { background: #0a0a0a; border: 1px solid #1f2937; padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
-.explain ul { margin: 0 0 12px 20px; }
-.explain li { margin-bottom: 6px; color: #b0b3b8; }
-table { width: 100%; border-collapse: collapse; margin: 14px 0 6px; font-size: 0.88rem; }
-th { text-align: left; color: #9ca3af; font-weight: 600; padding: 8px 10px; border-bottom: 1px solid #1f2937; cursor: pointer; white-space: nowrap; }
-td { padding: 8px 10px; border-bottom: 1px solid #171717; color: #d1d5db; white-space: nowrap; }
-td.model { white-space: normal; }
-tr:hover td { background: #0d0d0d; }
-.tablewrap { max-height: 480px; overflow-y: auto; border: 1px solid #1f2937; border-radius: 8px; }
-.related { margin-top: 20px; }
-.related h2 { font-size: 1.2rem; color: #f9fafb; margin-bottom: 12px; }
-.related ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.related li a { display: inline-block; padding: 10px 14px; background: #111111; border: 1px solid #1f2937; border-radius: 8px; color: #d1d5db; font-size: 0.95rem; }
-.related li a:hover { border-color: #60a5fa; color: #f9fafb; text-decoration: none; }
-.site-footer { border-top: 1px solid #1f2937; margin-top: 40px; padding: 24px 20px; text-align: center; color: #6b7280; font-size: 0.9rem; }
-.site-footer a { color: #9ca3af; margin: 0 8px; }
+  .calc-app { max-width: 960px; margin: 0 auto 2rem; padding: 0 2rem; }
+  .calc-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+  @media (max-width: 900px) { .calc-controls { grid-template-columns: 1fr; } }
+  .calc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+  .calc-card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600; }
+  .calc-field { margin-bottom: 1rem; }
+  .calc-field:last-child { margin-bottom: 0; }
+  .calc-field label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+  .calc-field input[type="text"], .calc-field input[type="number"] {
+    width: 100%; padding: 0.55rem 0.75rem; background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--text); font-family: var(--font-display); font-size: 0.9rem;
+  }
+  .calc-field input:focus { outline: none; border-color: var(--accent); }
+  .calc-field .field-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+  .single-cost-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cost-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; text-align: center; }
+  .cost-box .cost-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .cost-box .cost-value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+  .cost-box .cost-value.large { font-size: 1.6rem; }
+  .savings-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0; padding: 0.75rem 1rem; background: var(--accent-dim); border-radius: var(--radius); }
+  .calc-app + h2, .savings-note + h2 { margin-top: 1.25rem; }
+  .savings-note { color: #fda4af; }
+  .pricing-ref { margin-top: 2rem; width: 100%; }
+  .pricing-ref th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border-bottom: 2px solid var(--border); font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .pricing-ref th { user-select: none; }
+  .pricing-ref td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .pricing-ref td.mono { font-family: var(--font-display); font-size: 0.82rem; font-weight: 700; }
+  .pricing-ref td.num { font-family: var(--font-display); }
+  .pricing-ref tr:hover td { background: var(--bg-hover); cursor: pointer; }
+  .tablewrap { max-height: 480px; overflow-y: auto; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); -webkit-overflow-scrolling: touch; }
+  .pricing-ref input[type="text"] { width: 100%; max-width: 340px; padding: 0.55rem 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: var(--font-display); font-size: 0.9rem; margin-bottom: 0.75rem; }
+  .pricing-ref input[type="text"]:focus { outline: none; border-color: var(--accent); }
+  .article-content { max-width: 720px; margin: 0 auto; padding: 0 2rem; }
+  .article-content h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 2.5rem 0 0.75rem; color: var(--accent); }
+  .article-content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; }
+  .article-content p { margin-bottom: 1rem; line-height: 1.7; }
+  .article-content ul, .article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
+  .article-content li { margin-bottom: 0.4rem; line-height: 1.6; }
+  .article-content strong { color: var(--text); }
+  .article-content code { background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 3px; font-family: var(--font-display); font-size: 0.85em; }
+  .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+  .related-grid a { display: block; padding: 0.9rem 1.1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-size: 0.9rem; transition: border-color 0.15s; }
+  .related-grid a:hover { border-color: var(--accent); text-decoration: none; }
+  @media (max-width: 768px) {
+    .calc-controls { grid-template-columns: 1fr; }
+    .single-cost-grid { grid-template-columns: 1fr; }
+    .calc-app { padding: 0 1rem; }
+    .article-content { padding: 0 1rem; }
+    .related-grid { grid-template-columns: 1fr; }
+    .pricing-ref { font-size: 0.78rem; }
+    .pricing-ref th, .pricing-ref td { padding: 0.4rem 0.5rem; }
+  }
+  .formula-callout { margin: 0.6rem 0 1rem; }
+  .formula-callout code { display: inline-block; background: var(--bg-hover); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.55rem 0.9rem; font-size: 0.85rem; color: var(--text); }
+  .calc-section ul { margin: 0.6rem 0 0; padding-left: 1.2rem; }
+  .calc-section ul li { margin: 0.45rem 0; color: var(--text); }
+  .calc-section ul li strong { color: var(--text); }
+  table.wide { width: 100%; }
+  #tbl { width: 100%; }
 </style>
 <link rel="stylesheet" href="/assets/margin-studio.css">
   <script src="/site-analytics.js" defer></script>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/site-analytics.js" defer></script>
 </head>
-<body>
-<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>
-<nav>
-  <a class="brand" href="https://kickllm.com/">KickLLM</a>
-  <a href="https://kickllm.com/">Home</a>
-  <a href="https://kickllm.com/tools/">Tools</a>
-</nav>
-
-<div class="wrap">
-  <h1>OpenRouter Pricing Calculator</h1>
-  <p class="intro">OpenRouter routes one API to 434+ priced models, each with its own per-million-token rate. Enter your token volume, pick a model from the live-rate table, and see per-request and monthly cost instantly. Rates below are the published list prices as of 2026-09-29.</p>
-
-  <div class="tool">
-    <div class="field">
-      <label for="model">Model <span class="hint">(434 priced models, sorted by input price — or type a custom ID)</span></label>
-      <input type="text" id="model" list="modelList" placeholder="e.g. openai/gpt-4o-mini">
-      <datalist id="modelList"></datalist>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label for="tokIn">Input tokens per request</label>
-        <input type="number" id="tokIn" value="2000" min="0" step="100">
-      </div>
-      <div class="field">
-        <label for="tokOut">Output tokens per request</label>
-        <input type="number" id="tokOut" value="500" min="0" step="100">
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="field">
-        <label for="inRate">Input price <span class="hint">($ per 1M tokens)</span></label>
-        <input type="number" id="inRate" value="0.15" min="0" step="0.01">
-      </div>
-      <div class="field">
-        <label for="outRate">Output price <span class="hint">($ per 1M tokens)</span></label>
-        <input type="number" id="outRate" value="0.60" min="0" step="0.01">
-      </div>
-    </div>
-
-    <div class="output">
-      <div class="label">Cost per request</div>
-      <div class="big" id="perReq">$—</div>
-      <div class="grid2">
-        <div class="stat"><div class="v" id="per1k">$—</div><div class="l">Per 1,000 requests</div></div>
-        <div class="stat"><div class="v" id="perMonth">$—</div><div class="l">Per month at 10,000 req/day</div></div>
-      </div>
-      <p class="note">Math: cost = tokensIn/1M × inRate + tokensOut/1M × outRate. OpenRouter meters per-token at the provider's list rate; credit purchases carry a processing fee.</p>
-    </div>
-  </div>
-
-  <div class="explain">
-    <h2>Live-rate model table (2026-09-29)</h2>
-    <p>Click a header to sort. Click a row to load it into the calculator. Input and output prices are USD per million tokens; ctx is the context window in thousands of tokens.</p>
-    <div class="field"><input type="text" id="filter" placeholder="Filter models… (e.g. claude, gemini, free)"></div>
-    <div class="tablewrap">
-    <table id="tbl">
-      <thead><tr><th data-k="0">Model ID</th><th data-k="1">Name</th><th data-k="2">In $/M</th><th data-k="3">Out $/M</th><th data-k="4">Ctx (k)</th></tr></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    </div>
-
-    <h2>Where the cheap end and the expensive end sit</h2>
-    <p>The 434 priced models span a wide band. Median published rates: <strong>$0.45/M input</strong> and <strong>$2.00/M output</strong>.</p>
-    <p><strong>Cheapest inputs right now:</strong></p>
-    <ul>
-<li><code>~deepseek/deepseek-v4-flash-latest</code> — $0.012 in / $1.250 out per 1M</li>
-<li><code>ibm-granite/granite-4.0-h-micro</code> — $0.017 in / $0.112 out per 1M</li>
-<li><code>deepseek/deepseek-v4-flash-0731</code> — $0.018 in / $0.320 out per 1M</li>
-<li><code>openai/gpt-oss-20b</code> — $0.018 in / $0.090 out per 1M</li>
-<li><code>mistralai/mistral-nemo</code> — $0.019 in / $0.030 out per 1M</li>
+<nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Compare</a></li>
+      <li><a href="/tools/">Tools</a></li>
+      <li><a href="/answers/">Answers</a></li>
+      <li><a href="/research/">Research</a></li>
+      <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
     </ul>
-    <p><strong>Priciest outputs right now:</strong></p>
-    <ul>
-<li><code>openai/o1-pro</code> — $600.00 out per 1M</li>
-<li><code>openai/gpt-5.5-pro</code> — $180.00 out per 1M</li>
-<li><code>openai/gpt-5.4-pro</code> — $180.00 out per 1M</li>
-<li><code>openai/gpt-5.2-pro</code> — $168.00 out per 1M</li>
-<li><code>openai/gpt-5-pro</code> — $120.00 out per 1M</li>
-    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=openrouter-pricing-calculator" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <main>
+    <div class="hero">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/tools/">Tools</a> <span>/</span> <span>OpenRouter Pricing Calculator</span></nav>
+      <h1>OpenRouter <span>Pricing</span> Calculator</h1>
+      <p>Pick a model, enter your token volume, and see what each request really costs. All 434 priced models use published list rates as of 2026-09-29.</p>
+    </div>
 
-    <h2>How OpenRouter pricing works</h2>
-    <p>OpenRouter is a router, not a model provider: it forwards your request to the underlying provider and bills the provider's per-token list price against your credit balance. Your request cost is always <code>(input tokens / 1M) × input rate + (output tokens / 1M) × output rate</code> for the specific variant you call. Prompt caching, batch endpoints, and reasoning tokens each change the effective rate, so check a model's detail page for surcharges before committing a pipeline to it.</p>
-    <p>Two practical consequences: first, routing the same prompt to a cheaper variant is the single largest lever on your bill — a 10x input-rate gap is common between frontier and efficient tiers. Second, because billing is unified, a single monthly export from OpenRouter gives you per-model spend without stitching together five provider dashboards.</p>
-    <p>To estimate your own workload: measure average input and output tokens per request from a sample of real traffic (logs, not guesses), multiply by the rates in the table above, then scale by daily request volume. This calculator does that arithmetic in one step, including the monthly projection at 10,000 requests per day.</p>
+    <div class="calc-app" id="calcApp">
+      <div class="calc-controls">
+        <div class="calc-card">
+          <h3>Model</h3>
+          <div class="calc-field">
+            <label for="model">Model ID</label>
+            <input type="text" id="model" list="modelList" placeholder="e.g. openai/gpt-4o-mini">
+            <datalist id="modelList"></datalist>
+            <div class="field-hint">Pick from the live-rate table below, or type any ID.</div>
+          </div>
+        </div>
+        <div class="calc-card">
+          <h3>Usage</h3>
+          <div class="calc-field">
+            <label for="tokIn">Input tokens per request</label>
+            <input type="number" id="tokIn" value="2000" min="0" step="100">
+          </div>
+          <div class="calc-field">
+            <label for="tokOut">Output tokens per request</label>
+            <input type="number" id="tokOut" value="500" min="0" step="100">
+          </div>
+        </div>
+        <div class="calc-card">
+          <h3>Rates (auto-filled)</h3>
+          <div class="calc-field">
+            <label for="inRate">Input, $ per 1M tokens</label>
+            <input type="number" id="inRate" value="0.15" min="0" step="0.01">
+          </div>
+          <div class="calc-field">
+            <label for="outRate">Output, $ per 1M tokens</label>
+            <input type="number" id="outRate" value="0.60" min="0" step="0.01">
+          </div>
+        </div>
+      </div>
 
-    <h2>OpenRouter pricing FAQ</h2>
-    <p><strong>Does OpenRouter add fees on top of model prices?</strong> Per-token rates match the provider's list price; OpenRouter earns on credit purchases, where a processing fee applies depending on payment method and amount.</p>
-    <p><strong>Are free models really free?</strong> Variants tagged <code>:free</code> bill $0 but carry lower rate limits and may route to distilled or quantized variants. For production traffic, the paid tier of the same model is the reliable path.</p>
-    <p><strong>How do I cut my OpenRouter bill fastest?</strong> Route non-critical traffic to the cheapest model that clears your quality bar, cache long static prefixes, and cap output tokens — output rates are typically 3-5x input rates.</p>
-  </div>
+      <div class="single-cost-grid visible">
+        <div class="cost-box"><div class="cost-label">Per request</div><div class="cost-value large" id="perReq">$—</div></div>
+        <div class="cost-box"><div class="cost-label">Per 1,000 requests</div><div class="cost-value" id="per1k">$—</div></div>
+        <div class="cost-box"><div class="cost-label">Per month, 10k req/day</div><div class="cost-value" id="perMonth">$—</div></div>
+      </div>
+      <p class="savings-note">cost = (tokens in / 1M × input rate) + (tokens out / 1M × output rate). OpenRouter bills the provider's list price; credit purchases carry a processing fee.</p>
+    </div>
 
-  <div class="related">
-    <h2>Related KickLLM tools</h2>
-    <ul>
-      <li><a href="https://kickllm.com/tools/llm-cost-calculator.html">LLM Cost Calculator</a></li>
-      <li><a href="https://kickllm.com/tools/batch-api-savings-calculator.html">Batch API Savings Calculator</a></li>
-      <li><a href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">Prompt Caching Break Even Calculator</a></li>
-      <li><a href="https://kickllm.com/tools/openai-api-cost-calculator.html">OpenAI API Cost Calculator</a></li>
-    </ul>
-  </div>
-</div>
+    <div class="article-content">
+      <h2>Live-rate model table</h2>
+      <p>Published list rates, 2026-09-29. Click a column to sort, click a row to load that model into the calculator. Prices are USD per million tokens; ctx is the context window.</p>
+      <div class="pricing-ref">
+        <input type="text" id="filter" placeholder="Filter: claude, gemini, free…" aria-label="Filter models">
+        <div class="tablewrap">
+        <table class="pricing-ref" id="tbl" style="margin:0">
+          <thead><tr><th data-k="0">Model ID</th><th data-k="1">Name</th><th data-k="2">In $/M</th><th data-k="3">Out $/M</th><th data-k="4">Ctx (k)</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        </div>
+      </div>
 
-<!-- margin-studio-offer:start -->
-<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
-  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
-    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
-  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio — $39</a>
-    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
-    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+      <h2>Cheap end, expensive end</h2>
+      <p>The 434 priced models span a wide band. Median rates: <strong>$0.45 per million input</strong>, <strong>$2.00 per million output</strong>.</p>
+      <p><strong>Cheapest inputs:</strong></p>
+      <ul>
+<li><code>~deepseek/deepseek-v4-flash-latest</code> — $0.012 in, $1.25 out</li>
+<li><code>ibm-granite/granite-4.0-h-micro</code> — $0.017 in, $0.112 out</li>
+<li><code>deepseek/deepseek-v4-flash-0731</code> — $0.018 in, $0.32 out</li>
+<li><code>openai/gpt-oss-20b</code> — $0.018 in, $0.09 out</li>
+<li><code>mistralai/mistral-nemo</code> — $0.019 in, $0.03 out</li>
+      </ul>
+      <p><strong>Priciest outputs:</strong></p>
+      <ul>
+<li><code>openai/o1-pro</code> — $600 out</li>
+<li><code>openai/gpt-5.5-pro</code> — $180 out</li>
+<li><code>openai/gpt-5.4-pro</code> — $180 out</li>
+<li><code>openai/gpt-5.2-pro</code> — $168 out</li>
+<li><code>openai/gpt-5-pro</code> — $120 out</li>
+      </ul>
+
+      <h2>How OpenRouter pricing works</h2>
+      <p>OpenRouter forwards your request to the underlying provider and bills the provider's list price against your credit balance. One formula covers every model:</p>
+      <p class="formula-callout"><code>(input tokens / 1M) × input rate + (output tokens / 1M) × output rate</code></p>
+      <ul>
+        <li><strong>Model choice is the biggest lever.</strong> A 10x input-rate gap between frontier and efficient tiers is normal — routing non-critical traffic to a cheaper variant saves more than any other tweak.</li>
+        <li><strong>Check the detail page before committing.</strong> Caching, batch endpoints, and reasoning tokens can shift the effective rate.</li>
+        <li><strong>Billing is unified.</strong> One monthly export from OpenRouter shows per-model spend — no stitching together five provider dashboards.</li>
+        <li><strong>Estimate from real traffic.</strong> Pull average input and output tokens from your logs, multiply by the rates in the table above, and scale by daily volume. The calculator does this in one step.</li>
+      </ul>
 </section>
 <!-- margin-studio-offer:end -->
 
-<footer class="site-footer">
-  <div>
-    <a href="https://kickllm.com/">Home</a>
-    <a href="https://kickllm.com/tools/">Tools</a>
-  </div>
-  <p style="margin-top:10px">&copy; KickLLM</p>
-  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
-</footer>
+
+
 
 <script>
 (function () {
@@ -247,8 +245,9 @@ tr:hover td { background: #0d0d0d; }
   var filter = document.getElementById('filter');
   var dl = document.getElementById('modelList');
 
+  function clean(v) { var n = +v; return ('' + +n.toPrecision(6)).replace(/0+$/,'').replace(/\.$/,''); }
   function fmt(v) {
-    if (v >= 100) return '$' + v.toFixed(0);
+    if (v >= 100) return '$' + Math.round(v).toLocaleString('en-US');
     if (v >= 1) return '$' + v.toFixed(2);
     if (v === 0) return '$0';
     return '$' + v.toFixed(4);
@@ -295,8 +294,8 @@ tr:hover td { background: #0d0d0d; }
     var m = byId[tr.getAttribute('data-id').toLowerCase()];
     if (!m) return;
     modelEl.value = m[0];
-    inRate.value = m[2];
-    outRate.value = m[3];
+    inRate.value = clean(m[2]);
+    outRate.value = clean(m[3]);
     calc();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -311,7 +310,7 @@ tr:hover td { background: #0d0d0d; }
 
   modelEl.addEventListener('change', function () {
     var m = byId[(modelEl.value || '').toLowerCase()];
-    if (m) { inRate.value = m[2]; outRate.value = m[3]; calc(); }
+    if (m) { inRate.value = clean(m[2]); outRate.value = clean(m[3]); calc(); }
   });
 
   render();
