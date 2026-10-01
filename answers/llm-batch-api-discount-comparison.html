@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>LLM Batch API Discount Comparison (2026): Who Gives the Biggest Bulk Discount? | kickllm</title>
+  <meta name="description" content="Batch APIs cut LLM costs by up to 75%. Real discount data across 73 model pairs — median 50% off. See which providers discount most and when batch is worth it.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/llm-batch-api-discount-comparison.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="LLM Batch API Discount Comparison (2026)">
+  <meta property="og:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta property="og:url" content="https://kickllm.com/answers/llm-batch-api-discount-comparison.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-4o Mini Pricing — API Cost Breakdown (April 2026) — KickLLM">
+  <meta name="twitter:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does GPT-4o Mini cost per API call?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A typical GPT-4o Mini API call with 1K input and 500 output tokens costs approximately <$0.001. Pricing is $0.15 per 1M input tokens and $0.60 per 1M output tokens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is GPT-4o Mini worth the price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-4o Mini scores approximately 75/100 on aggregate benchmarks. It is best suited for high-volume, budget tasks, fine-tuning base. At $0.15/$0.60 per 1M tokens, it offers competitive value for its quality tier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are cheaper alternatives to GPT-4o Mini?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Top alternatives: Gemini 2.0 Flash at $0.07/$0.30, Claude Haiku 4 at $0.80/$4.00, DeepSeek V3 at $0.27/$1.10. Use KickLLM's calculator to compare costs for your specific workload."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+<style>
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+.stat { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 0.35rem; }
+.stat-num { font-family: 'Space Mono', monospace; font-size: 1.9rem; color: var(--accent, #e05a7a); font-weight: 700; line-height: 1.1; }
+.stat-label { font-size: 0.85rem; color: var(--text-muted, #999); }
+table th:nth-child(n+2), table td:nth-child(n+2) { text-align: right; }
+table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+table td code { font-size: 0.8rem; }
+@media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
+</style>
+
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>GPT-4o Mini Pricing</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    
+<h1>LLM Batch API <em>discount</em> comparison</h1>
+<p class="lede">Most major model providers quietly run a second price list: send your prompts through their batch API instead of the synchronous one, and the same model costs half — sometimes 75% less. We compared all 73 batch-priced model pairs on OpenRouter to see who actually discounts the most.</p>
+
+<div class="stat-row">
+  <div class="stat"><span class="stat-num">50%</span><span class="stat-label">median discount across 73 batch pairs</span></div>
+  <div class="stat"><span class="stat-num">75%</span><span class="stat-label">biggest discount found (gpt-5.6-sol-pro)</span></div>
+  <div class="stat"><span class="stat-num">8</span><span class="stat-label">providers offering batch pricing</span></div>
+</div>
+
+<h2>The biggest batch discounts</h2>
+<p>Top 20 of 73 batch pairs, ranked by input-price discount. Prices are dollars per million tokens, standard vs batch.</p>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Model</th><th>Standard (in / out $/M)</th><th>Batch (in / out $/M)</th><th>Discount</th></tr></thead>
+  <tbody>
+      <tr><td><code>openai/gpt-5.6-sol-pro</code></td><td>$4 / $20</td><td>$1 / $5</td><td><strong>75%</strong></td></tr>
+      <tr><td><code>deepseek/deepseek-v4.1-flash</code></td><td>$0.3 / $1.2</td><td>$0.112 / $0.336</td><td><strong>63%</strong></td></tr>
+      <tr><td><code>z-ai/glm-5.3-flash</code></td><td>$0.15 / $0.5</td><td>$0.06 / $0.2</td><td><strong>60%</strong></td></tr>
+      <tr><td><code>openai/gpt-5-nano</code></td><td>$0.05 / $0.4</td><td>$0.025 / $0.2</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-6-luna-pro</code></td><td>$0.1 / $0.5</td><td>$0.05 / $0.25</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-6-luna</code></td><td>$0.1 / $0.5</td><td>$0.05 / $0.25</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>google/gemini-2.5-flash-lite</code></td><td>$0.1 / $0.4</td><td>$0.05 / $0.2</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-4.1-nano</code></td><td>$0.1 / $0.4</td><td>$0.05 / $0.2</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>mistralai/mistral-small-2603</code></td><td>$0.15 / $0.6</td><td>$0.075 / $0.3</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>mistralai/ministral-8b-2512</code></td><td>$0.15 / $0.15</td><td>$0.075 / $0.075</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-4o-mini</code></td><td>$0.15 / $0.6</td><td>$0.075 / $0.3</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-5.6-luna-pro</code></td><td>$0.2 / $1.2</td><td>$0.1 / $0.6</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-5.6-luna</code></td><td>$0.2 / $1.2</td><td>$0.1 / $0.6</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-5.4-nano</code></td><td>$0.2 / $1.25</td><td>$0.1 / $0.625</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>google/gemini-3.1-flash-lite</code></td><td>$0.25 / $1.5</td><td>$0.125 / $0.75</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>openai/gpt-5-mini</code></td><td>$0.25 / $2</td><td>$0.125 / $1</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>google/gemini-3.5-flash-lite</code></td><td>$0.3 / $2.5</td><td>$0.15 / $1.25</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>mistralai/codestral-2508</code></td><td>$0.3 / $0.9</td><td>$0.15 / $0.45</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>google/gemini-2.5-flash</code></td><td>$0.3 / $2.5</td><td>$0.15 / $1.25</td><td><strong>50%</strong></td></tr>
+      <tr><td><code>mistralai/mistral-medium-3.1</code></td><td>$0.4 / $2</td><td>$0.2 / $1</td><td><strong>50%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>What is a batch API, exactly?</h2>
+<p>You upload a file of requests (JSONL), the provider processes it within roughly 24 hours, and you download the results. No streaming, no interactive latency. In exchange for that patience, the same tokens cost a fraction of the synchronous price — typically 50%, and up to 75% on some OpenAI pro-tier models.</p>
+<p>The discount applies to both input and output tokens on every pair we checked.</p>
+
+<h2>Is batch worth it for your workload?</h2>
+<p>Batch is a clear win when the task is not interactive:</p>
+<ul>
+  <li><strong>Evaluation runs and benchmarks</strong> — thousands of prompts, nobody waiting.</li>
+  <li><strong>Backfill and data enrichment</strong> — labeling, summarizing, classifying archives.</li>
+  <li><strong>Scheduled report generation</strong> — if the report is due tomorrow morning, a 24-hour window is free money.</li>
+  <li><strong>Synthetic data generation</strong> for fine-tuning pipelines.</li>
+</ul>
+<p>Batch is the wrong tool for chat, agents, or anything with a user in the loop. If you can only batch half your traffic, batching that half still cuts your blended cost by roughly 25%.</p>
+
+<h2>Worked example</h2>
+<p>Processing 10M input + 2M output tokens per day on <code>gpt-4o-mini</code>:</p>
+<ul>
+  <li>Synchronous: (10 × $0.15) + (2 × $0.60) = <strong>$2.70/day</strong> → $81/month</li>
+  <li>Batch: (10 × $0.075) + (2 × $0.30) = <strong>$1.35/day</strong> → $40.50/month</li>
+</ul>
+<p>Same model, same outputs, half the bill. Run your numbers in the <a href="/tools/batch-api-savings-calculator.html">batch API savings calculator</a>.</p>
+
+<h2>Which providers offer batch pricing?</h2>
+<p>In the live OpenRouter catalog: anthropic, deepseek, google, mistralai, moonshotai, openai, x-ai, z-ai. The dominant pattern is exactly 50% off; OpenAI's pro reasoning tier discounts up to 75%, and DeepSeek's V4.1 Flash reaches ~63% off input.</p>
+
+<h2>FAQ</h2>
+<h3>How much does batch API save?</h3>
+<p>The median across 73 model pairs is 50% off both input and output tokens. The range runs from about 40% to 75%.</p>
+<h3>How long does batch processing take?</h3>
+<p>Providers target completion within 24 hours; many batches finish in a few hours. It is not a guaranteed instant queue.</p>
+<h3>Can I batch chat traffic?</h3>
+<p>No — batch is for offline workloads. Anything with a user waiting on the response belongs on the synchronous API.</p>
+<h3>Is output quality the same in batch mode?</h3>
+<p>Yes. It is the same model with the same weights; batch only changes when the request is processed and what it costs.</p>
+
+<p class="cta-note">Check any model's standard vs batch rate in the <a href="/tools/openrouter-pricing-calculator.html">OpenRouter pricing calculator</a> — 434 models, live rates. More cost questions answered in the <a href="/answers/index.html">answers index</a>.</p>
+<footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+    <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — AI Code Tools & Fixes</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBot — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

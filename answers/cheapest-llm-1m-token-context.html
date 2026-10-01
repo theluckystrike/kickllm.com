@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Cheapest LLMs with 1M Token Context (2026) | kickllm</title>
+  <meta name="description" content="164 models now offer 1M+ token context. The cheapest costs $0.012 per 1M input tokens — full ranked table, cost math, and when premium long-context is worth it.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/cheapest-llm-1m-token-context.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="Cheapest LLMs with 1M Token Context (2026)">
+  <meta property="og:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta property="og:url" content="https://kickllm.com/answers/llm-batch-api-discount-comparison.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-4o Mini Pricing — API Cost Breakdown (April 2026) — KickLLM">
+  <meta name="twitter:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does GPT-4o Mini cost per API call?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A typical GPT-4o Mini API call with 1K input and 500 output tokens costs approximately <$0.001. Pricing is $0.15 per 1M input tokens and $0.60 per 1M output tokens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is GPT-4o Mini worth the price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-4o Mini scores approximately 75/100 on aggregate benchmarks. It is best suited for high-volume, budget tasks, fine-tuning base. At $0.15/$0.60 per 1M tokens, it offers competitive value for its quality tier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are cheaper alternatives to GPT-4o Mini?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Top alternatives: Gemini 2.0 Flash at $0.07/$0.30, Claude Haiku 4 at $0.80/$4.00, DeepSeek V3 at $0.27/$1.10. Use KickLLM's calculator to compare costs for your specific workload."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+<style>
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+.stat { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 0.35rem; }
+.stat-num { font-family: 'Space Mono', monospace; font-size: 1.9rem; color: var(--accent, #e05a7a); font-weight: 700; line-height: 1.1; }
+.stat-label { font-size: 0.85rem; color: var(--text-muted, #999); }
+table th:nth-child(n+2), table td:nth-child(n+2) { text-align: right; }
+table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+table td code { font-size: 0.8rem; }
+@media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
+</style>
+
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>Cheapest 1M Token Context LLMs</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    
+
+<h1>The cheapest LLMs with a <em>1M token</em> context window</h1>
+<p class="lede">A million tokens of context used to mean a premium price tag. Not anymore. 164 models on OpenRouter now offer 1M+ tokens of context, and the cheapest costs 1.2 cents per 100K input tokens.</p>
+
+<div class="stat-row">
+  <div class="stat"><span class="stat-num">164</span><span class="stat-label">models with 1M+ ctx</span></div>
+  <div class="stat"><span class="stat-num">$0.012</span><span class="stat-label">cheapest input /1M</span></div>
+  <div class="stat"><span class="stat-num">~750k</span><span class="stat-label">words that fit in 1M tokens</span></div>
+</div>
+
+<h2>The cheapest 1M-context models, ranked by input price</h2>
+<p>Prices are per 1M tokens, pulled live from the OpenRouter catalog.</p>
+<table>
+<tr><th>Model</th><th>Context window</th><th>Input /1M</th><th>Output /1M</th></tr>
+<tr><td>DeepSeek V4 Flash Latest</td><td>1,310,720</td><td>$0.012</td><td>$1.25</td></tr>
+<tr><td>DeepSeek V4 Flash 0731</td><td>1,310,720</td><td>$0.018</td><td>$0.32</td></tr>
+<tr><td>DeepSeek Flash Latest</td><td>1,048,576</td><td>$0.02</td><td>$0.6</td></tr>
+<tr><td>GLM Flash Latest</td><td>1,310,720</td><td>$0.02</td><td>$0.3</td></tr>
+<tr><td>Qwen3.7 Flash</td><td>1,000,000</td><td>$0.03</td><td>$0.13</td></tr>
+<tr><td>Qwen3.8 27B</td><td>1,000,000</td><td>$0.0307</td><td>$4.4</td></tr>
+<tr><td>GPT-6 Luna Pro (batch)</td><td>1,050,000</td><td>$0.05</td><td>$0.25</td></tr>
+<tr><td>GPT-6 Luna (batch)</td><td>1,050,000</td><td>$0.05</td><td>$0.25</td></tr>
+<tr><td>Gemini 2.5 Flash Lite (batch)</td><td>1,048,576</td><td>$0.05</td><td>$0.2</td></tr>
+<tr><td>GPT-4.1 Nano (batch)</td><td>1,047,576</td><td>$0.05</td><td>$0.2</td></tr>
+</table>
+
+<h2>What you can actually fit in 1M tokens</h2>
+<p>A million tokens is roughly 750,000 words &mdash; about seven average novels, a mid-sized codebase, or six months of a busy team&rsquo;s chat logs. If your workflow involves whole-document analysis, long transcripts, or big code contexts, that window removes the chunking-and-stitching problem entirely.</p>
+
+<h2>What it costs to run heavy daily use</h2>
+<p>Here&rsquo;s a concrete scenario: 500K input tokens and 50K output tokens every day, billed over 30 days.</p>
+<table>
+<tr><th>Model</th><th>Cost per day</th><th>Cost per month</th></tr>
+<tr><td>DeepSeek V4 Flash Latest</td><td>$0.07</td><td>$2.06</td></tr>
+<tr><td>DeepSeek V4 Flash 0731</td><td>$0.03</td><td>$0.75</td></tr>
+<tr><td>DeepSeek Flash Latest</td><td>$0.04</td><td>$1.20</td></tr>
+<tr><td>GLM Flash Latest</td><td>$0.03</td><td>$0.75</td></tr>
+<tr><td>Qwen3.7 Flash</td><td>$0.02</td><td>$0.64</td></tr>
+<tr><td>Qwen3.8 27B</td><td>$0.24</td><td>$7.06</td></tr>
+</table>
+
+<h2>When a premium long-context model is worth it</h2>
+<p>The cheap end of the table is fast, light models tuned for retrieval-style work. If your task is dense multi-document reasoning &mdash; comparing 40 contracts, debugging across an entire repo &mdash; quality still scales with model size. The premium end of the 1M-context market:</p>
+<table>
+<tr><th>Model</th><th>Input /1M</th><th>Output /1M</th><th>Context window</th></tr>
+<tr><td>Claude Fable 5</td><td>$10</td><td>$50</td><td>1,000,000</td></tr>
+<tr><td>GPT-5.5 Pro (batch)</td><td>$15</td><td>$90</td><td>1,050,000</td></tr>
+<tr><td>GPT-5.4 Pro (batch)</td><td>$15</td><td>$90</td><td>1,050,000</td></tr>
+<tr><td>GPT-5.5 Pro</td><td>$30</td><td>$180</td><td>1,050,000</td></tr>
+<tr><td>GPT-5.4 Pro</td><td>$30</td><td>$180</td><td>1,050,000</td></tr>
+</table>
+<p>That&rsquo;s a 2,500x spread between the cheapest and priciest 1M-context model. Start cheap, and only pay flagship rates when output quality actually blocks you.</p>
+
+<h2>Run the numbers yourself</h2>
+<p>Use the <a href="/tools/openrouter-pricing-calculator.html">OpenRouter pricing calculator</a> to price your own token volumes across all 434 models, or browse related answers like <a href="/answers/gpt-5.5-pro-pricing.html">GPT-5.5 Pro pricing</a> and <a href="/answers/llm-batch-api-discount-comparison.html">batch API discounts</a>. The full list lives on the <a href="/answers/index.html">answers index</a>.</p>
+
+
+<footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+    <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+</body>
+</html>

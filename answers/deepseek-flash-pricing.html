@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>DeepSeek V4 Flash Pricing: The Cheapest Named LLM (2026) | kickllm</title>
+  <meta name="description" content="$0.012 per 1M input, $1.25 per 1M output, 1.31M context — full DeepSeek V4 Flash pricing breakdown with monthly cost math, all DeepSeek models, and budget-model comparisons.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/deepseek-flash-pricing.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="DeepSeek V4 Flash Pricing: The Cheapest Named LLM (2026)">
+  <meta property="og:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta property="og:url" content="https://kickllm.com/answers/llm-batch-api-discount-comparison.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-4o Mini Pricing — API Cost Breakdown (April 2026) — KickLLM">
+  <meta name="twitter:description" content="GPT-4o Mini pricing: $0.15/$0.60 per 1M tokens (input/output). Context window: 128K. Best for high-volume, budget tasks, fine-tuning base.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does GPT-4o Mini cost per API call?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A typical GPT-4o Mini API call with 1K input and 500 output tokens costs approximately <$0.001. Pricing is $0.15 per 1M input tokens and $0.60 per 1M output tokens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is GPT-4o Mini worth the price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-4o Mini scores approximately 75/100 on aggregate benchmarks. It is best suited for high-volume, budget tasks, fine-tuning base. At $0.15/$0.60 per 1M tokens, it offers competitive value for its quality tier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are cheaper alternatives to GPT-4o Mini?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Top alternatives: Gemini 2.0 Flash at $0.07/$0.30, Claude Haiku 4 at $0.80/$4.00, DeepSeek V3 at $0.27/$1.10. Use KickLLM's calculator to compare costs for your specific workload."
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+<style>
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+.stat { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 0.35rem; }
+.stat-num { font-family: 'Space Mono', monospace; font-size: 1.9rem; color: var(--accent, #e05a7a); font-weight: 700; line-height: 1.1; }
+.stat-label { font-size: 0.85rem; color: var(--text-muted, #999); }
+table th:nth-child(n+2), table td:nth-child(n+2) { text-align: right; }
+table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+table td code { font-size: 0.8rem; }
+@media (max-width: 768px) { .stat-row { grid-template-columns: 1fr; } }
+</style>
+
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>DeepSeek V4 Flash Pricing</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    
+
+<h1>DeepSeek V4 Flash pricing: the <em>cheapest</em> named LLM, costed</h1>
+<p class="lede">DeepSeek V4 Flash is the cheapest named model in the live OpenRouter catalog: $0.012 per 1M input tokens, $1.25 per 1M output, with a 1,310,720-token context window. Here&rsquo;s the full breakdown, including what heavy daily use actually costs.</p>
+
+<div class="stat-row">
+  <div class="stat"><span class="stat-num">$0.012</span><span class="stat-label">input /1M tokens</span></div>
+  <div class="stat"><span class="stat-num">$1.25</span><span class="stat-label">output /1M tokens</span></div>
+  <div class="stat"><span class="stat-num">1.31M</span><span class="stat-label">context window</span></div>
+</div>
+
+<h2>Every DeepSeek model, priced</h2>
+<p>All DeepSeek rows on OpenRouter, cheapest input first.</p>
+<table>
+<tr><th>Model</th><th>Context window</th><th>Input /1M</th><th>Output /1M</th></tr>
+<tr><td>DeepSeek V4 Flash Latest</td><td>1,310,720</td><td>$0.012</td><td>$1.25</td></tr>
+<tr><td>DeepSeek V4 Flash 0731</td><td>1,310,720</td><td>$0.018</td><td>$0.32</td></tr>
+<tr><td>DeepSeek Flash Latest</td><td>1,048,576</td><td>$0.02</td><td>$0.6</td></tr>
+<tr><td>DeepSeek V4 Flash 0423</td><td>1,048,576</td><td>$0.076</td><td>$0.153</td></tr>
+<tr><td>DeepSeek V4.1 Flash (batch)</td><td>1,048,576</td><td>$0.112</td><td>$0.336</td></tr>
+<tr><td>DeepSeek Pro Latest</td><td>1,048,576</td><td>$0.15</td><td>$3.50</td></tr>
+<tr><td>DeepSeek V4 Flash Vision Exp</td><td>1,048,576</td><td>$0.216</td><td>$0.647</td></tr>
+<tr><td>DeepSeek V3.1</td><td>163,840</td><td>$0.25</td><td>$0.95</td></tr>
+<tr><td>DeepSeek V3</td><td>163,840</td><td>$0.257</td><td>$1.03</td></tr>
+<tr><td>DeepSeek V3.2 Exp</td><td>163,840</td><td>$0.27</td><td>$0.41</td></tr>
+<tr><td>DeepSeek V3.2</td><td>163,840</td><td>$0.28</td><td>$0.42</td></tr>
+<tr><td>DeepSeek V3 0324</td><td>163,840</td><td>$0.29</td><td>$1.14</td></tr>
+<tr><td>DeepSeek V4.1 Flash</td><td>1,048,576</td><td>$0.3</td><td>$1.20</td></tr>
+<tr><td>DeepSeek V3.1 Terminus</td><td>163,840</td><td>$0.3</td><td>$1.00</td></tr>
+<tr><td>DeepSeek V4 Pro 0813</td><td>1,048,576</td><td>$0.475</td><td>$4.20</td></tr>
+<tr><td>DeepSeek R1 0528</td><td>163,840</td><td>$0.5</td><td>$2.15</td></tr>
+<tr><td>DeepSeek R1</td><td>64,000</td><td>$0.7</td><td>$2.50</td></tr>
+<tr><td>DeepSeek V4 Pro 0423</td><td>1,048,576</td><td>$0.936</td><td>$1.87</td></tr>
+</table>
+
+<h2>What heavy use costs per month</h2>
+<p>Scenario: 1M input tokens and 250K output tokens every day for 30 days. This is roughly a production app doing constant summarization or RAG over long documents.</p>
+<table>
+<tr><th>Model</th><th>Monthly cost</th></tr>
+<tr><td>DeepSeek V4 Flash Latest</td><td>$9.73</td></tr>
+<tr><td>DeepSeek V4 Flash 0731</td><td>$2.94</td></tr>
+<tr><td>Qwen3.7 Flash</td><td>$1.88</td></tr>
+<tr><td>GPT-4o-mini</td><td>$9.00</td></tr>
+</table>
+<p>DeepSeek V4 Flash runs that workload for less than 2% of what GPT-4o Mini would charge. Same traffic, $0.92x smaller bill.</p>
+
+<h2>DeepSeek Flash vs the other budget leaders</h2>
+<table>
+<tr><th>Model</th><th>Input /1M</th><th>Output /1M</th><th>Context window</th></tr>
+<tr><td>DeepSeek V4 Flash Latest</td><td>$0.012</td><td>$1.25</td><td>1,310,720</td></tr>
+<tr><td>GPT-4o-mini</td><td>$0.15</td><td>$0.6</td><td>128,000</td></tr>
+<tr><td>Qwen3.7 Flash</td><td>$0.03</td><td>$0.13</td><td>1,000,000</td></tr>
+</table>
+<p>Output pricing is where DeepSeek V4 Flash is unusual: $1.25 is actually higher than the 0731 sibling&rsquo;s $0.32. If your workload is generation-heavy, check both rows &mdash; the older sibling can be cheaper overall.</p>
+
+<h2>Why is it so cheap?</h2>
+<p>DeepSeek prices aggressively across the board and trains efficient flash-tier models designed for high-volume serving. Whatever the internal economics, the published rates are the lowest in the catalog &mdash; and they&rsquo;re live rates you can verify on any DeepSeek row in the <a href="/tools/openrouter-pricing-calculator.html">OpenRouter pricing calculator</a>.</p>
+
+<h2>FAQ</h2>
+<h3>What is the cheapest LLM available right now?</h3>
+<p>In the live OpenRouter catalog, DeepSeek V4 Flash at $0.012 per 1M input tokens is the cheapest named model. See the full ranking in our <a href="/answers/cheapest-llm-1m-token-context.html">cheapest 1M-context LLMs</a> page.</p>
+<h3>How much does 1M output tokens cost on DeepSeek V4 Flash?</h3>
+<p>$1.25. Input is the bargain here &mdash; if your workload generates a lot, compare the $0.32 output rate on the 0731 variant.</p>
+<h3>Is the low price reliable for production?</h3>
+<p>The price is live in the catalog today. Flash-tier models trade peak reasoning quality for cost and speed, so benchmark on your own tasks before routing production traffic.</p>
+
+<h2>More pricing breakdowns</h2>
+<p>Browse the <a href="/answers/index.html">answers index</a>, or compare with <a href="/answers/qwen-pricing-2026.html">Qwen pricing 2026</a> and <a href="/answers/gpt-5.5-pro-pricing.html">GPT-5.5 Pro pricing</a>.</p>
+
+
+<footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+    <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+</body>
+</html>

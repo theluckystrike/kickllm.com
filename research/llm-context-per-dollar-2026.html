@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Context Window Per Dollar Index 2026: 434 LLMs Ranked — KickLLM</title>
+  <meta name="description" content="434 LLMs ranked by context tokens per dollar of input price. Top-20 best value and bottom-5 worst, computed from OpenRouter pricing data, September 2026.">
+  <link rel="canonical" href="https://kickllm.com/research/llm-context-per-dollar-2026.html">
+  <meta property="og:title" content="Context Window Per Dollar Index 2026: 434 LLMs Ranked">
+  <meta property="og:description" content="Which LLM gives you the most context tokens per dollar? 434 models ranked by ctx-per-$ input ratio.">
+  <meta property="og:url" content="https://kickllm.com/research/llm-context-per-dollar-2026.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .research-badge {
+      display: inline-block;
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .methodology-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .methodology-box h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .methodology-box p, .methodology-box li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .value-table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .value-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 1400px;
+    }
+    .value-table th {
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      text-align: left;
+      padding: 0.65rem 0.6rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .value-table th:hover { color: var(--accent); }
+    .value-table th.sorted-asc::after { content: ' \u2191'; color: var(--accent); }
+    .value-table th.sorted-desc::after { content: ' \u2193'; color: var(--accent); }
+    .value-table td {
+      padding: 0.55rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .value-table tr:hover { background: var(--bg-hover); }
+    .value-table .mono {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+    }
+    .value-table .score-cell {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .value-table .provider-tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .value-table .cap-tag {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      margin-right: 2px;
+    }
+    .value-table .license-open { color: #3fb950; }
+    .value-table .license-proprietary { color: var(--text-muted); }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .filter-bar label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .filter-bar select, .filter-bar input[type="text"] {
+      padding: 0.4rem 0.65rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+    }
+    .filter-bar select:focus, .filter-bar input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .cross-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .cross-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .cross-link:hover { border-color: var(--accent); text-decoration: none; }
+    .cross-link span { color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 2px; }
+    .last-updated {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .cross-links { flex-direction: column; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Context Window Per Dollar Index 2026",
+    "description": "434 LLM model variants ranked by context window tokens per dollar of input price, computed from OpenRouter listing data, September 2026.",
+    "url": "https://kickllm.com/research/llm-context-per-dollar-2026.html",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
+    "publisher": { "@type": "Organization", "name": "KickLLM", "url": "https://kickllm.com" },
+    "datePublished": "2026-09-30",
+    "dateModified": "2026-09-30",
+    "variableMeasured": [
+      { "@type": "PropertyValue", "name": "Input Price", "unitText": "USD per 1M tokens" },
+      { "@type": "PropertyValue", "name": "Context Window", "unitText": "tokens" },
+      { "@type": "PropertyValue", "name": "Ctx-tokens per dollar", "unitText": "tokens per USD" }
+    ],
+    "keywords": ["LLM pricing", "context window", "cost per token", "OpenRouter pricing", "LLM comparison"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://kickllm.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://kickllm.com/research/"},{"@type":"ListItem","position":3,"name":"Context Window Per Dollar Index 2026"}]}
+  </script>
+  <link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/index.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=research-llm-value-index-2026" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/index.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <article class="page-content" style="max-width:1000px;">
+    <span class="research-badge">Original Research</span>
+    <h1>Context Window Per Dollar Index 2026</h1>
+    <div class="blog-meta">Published September 30, 2026 &middot; 434 models &middot; Updated quarterly</div>
+
+    <p>DeepSeek V4 Flash Latest gives you about 109 million context tokens per dollar of input spend. GPT-4 gives you 273. We pulled all 434 models on OpenRouter, divided each model's context window by its input price, and ranked the results.</p>
+
+    <p>The ratio answers a narrow question: how much prompt can you feed a model per dollar? If your workload is input-heavy (RAG, long-document analysis, big system prompts), it is the single most useful price metric. Output pricing is a separate problem. See the <a href="/tools/openrouter-pricing-calculator.html">OpenRouter pricing calculator</a> for blended estimates.</p>
+
+    <div class="methodology-box">
+      <h3>Methodology</h3>
+      <ul style="margin:0.5rem 0 0.5rem 1.5rem;">
+        <li>Dataset: 434 model variants listed on OpenRouter, September 2026. Fields used: context window (tokens), input price (USD per 1M tokens).</li>
+        <li>Ratio = ctx tokens &divide; input price per $1. The main table shows ctx-tokens per $1,000 input budget = ctx &times; 1000 &divide; in.</li>
+        <li>Median ratio across all 434 models: <strong>638,260 ctx-tokens per $1</strong> (about 638M per $1,000).</li>
+      </ul>
+      <p style="margin-top:0.75rem;">Caveats: input price only. Output tokens usually cost 3&ndash;10x more and are excluded here. Context windows are as advertised by the provider; effective usable context can be smaller due to degradation past ~128K tokens on many models. Batch-tier variants (:batch, 50% discount) and &ldquo;latest&rdquo; aliases appear as separate rows, which is why some models show up twice. Prices change frequently; verify current rates before committing.</p>
+    </div>
+
+    <h2>Top 20 by ctx-tokens per $1,000 input budget</h2>
+    <div class="value-table-wrap">
+      <table class="value-table" style="min-width:640px;">
+        <thead><tr><th>#</th><th>Model</th><th>Context</th><th>Input $/1M</th><th>Ctx-tokens per $1,000</th></tr></thead>
+        <tbody>
+<tr><td>1</td><td class="mono">~deepseek/deepseek-v4-flash-latest</td><td>1.31M</td><td>$0.012</td><td class="score-cell">109,226,666,667</td></tr>
+<tr><td>2</td><td class="mono">deepseek/deepseek-v4-flash-0731</td><td>1.31M</td><td>$0.018</td><td class="score-cell">72,817,777,778</td></tr>
+<tr><td>3</td><td class="mono">~z-ai/glm-flash-latest</td><td>1.31M</td><td>$0.02</td><td class="score-cell">65,536,000,000</td></tr>
+<tr><td>4</td><td class="mono">~deepseek/deepseek-flash-latest</td><td>1.05M</td><td>$0.02</td><td class="score-cell">52,428,800,000</td></tr>
+<tr><td>5</td><td class="mono">qwen/qwen3.7-flash</td><td>1.00M</td><td>$0.03</td><td class="score-cell">33,333,333,333</td></tr>
+<tr><td>6</td><td class="mono">qwen/qwen3.8-27b</td><td>1.00M</td><td>$0.0307</td><td class="score-cell">32,573,289,902</td></tr>
+<tr><td>7</td><td class="mono">openai/gpt-6-luna-pro:batch</td><td>1.05M</td><td>$0.05</td><td class="score-cell">21,000,000,000</td></tr>
+<tr><td>8</td><td class="mono">openai/gpt-6-luna:batch</td><td>1.05M</td><td>$0.05</td><td class="score-cell">21,000,000,000</td></tr>
+<tr><td>9</td><td class="mono">google/gemini-2.5-flash-lite:batch</td><td>1.05M</td><td>$0.05</td><td class="score-cell">20,971,520,000</td></tr>
+<tr><td>10</td><td class="mono">openai/gpt-4.1-nano:batch</td><td>1.05M</td><td>$0.05</td><td class="score-cell">20,951,520,000</td></tr>
+<tr><td>11</td><td class="mono">z-ai/glm-5.3-flash:batch</td><td>1.05M</td><td>$0.06</td><td class="score-cell">17,476,266,667</td></tr>
+<tr><td>12</td><td class="mono">openai/gpt-5-nano:batch</td><td>400K</td><td>$0.025</td><td class="score-cell">16,000,000,000</td></tr>
+<tr><td>13</td><td class="mono">qwen/qwen3.5-flash-02-23</td><td>1.00M</td><td>$0.065</td><td class="score-cell">15,384,615,385</td></tr>
+<tr><td>14</td><td class="mono">deepseek/deepseek-v4-flash</td><td>1.05M</td><td>$0.0763</td><td class="score-cell">13,742,804,718</td></tr>
+<tr><td>15</td><td class="mono">meta-llama/llama-4-scout</td><td>1.31M</td><td>$0.1</td><td class="score-cell">13,107,200,000</td></tr>
+<tr><td>16</td><td class="mono">inclusionai/ling-3.0-flash-vl</td><td>262K</td><td>$0.021</td><td class="score-cell">12,483,047,619</td></tr>
+<tr><td>17</td><td class="mono">inclusionai/ling-3.0-flash</td><td>262K</td><td>$0.021</td><td class="score-cell">12,483,047,619</td></tr>
+<tr><td>18</td><td class="mono">poolside/laguna-s-2.1</td><td>1.05M</td><td>$0.09</td><td class="score-cell">11,650,844,444</td></tr>
+<tr><td>19</td><td class="mono">openai/gpt-6-luna-pro</td><td>1.05M</td><td>$0.1</td><td class="score-cell">10,500,000,000</td></tr>
+<tr><td>20</td><td class="mono">openai/gpt-6-luna</td><td>1.05M</td><td>$0.1</td><td class="score-cell">10,500,000,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Bottom 5 (worst value)</h2>
+    <div class="value-table-wrap">
+      <table class="value-table" style="min-width:640px;">
+        <thead><tr><th>#</th><th>Model</th><th>Context</th><th>Input $/1M</th><th>Ctx-tokens per $1,000</th></tr></thead>
+        <tbody>
+<tr><td>430</td><td class="mono">openai/gpt-3.5-turbo-16k</td><td>16K</td><td>$3</td><td class="score-cell">5,462</td></tr>
+<tr><td>431</td><td class="mono">openai/gpt-3.5-turbo-0613</td><td>4K</td><td>$1</td><td class="score-cell">4,095</td></tr>
+<tr><td>432</td><td class="mono">openai/gpt-3.5-turbo-instruct</td><td>4K</td><td>$1.5</td><td class="score-cell">2,730</td></tr>
+<tr><td>433</td><td class="mono">openai/o1-pro</td><td>200K</td><td>$150</td><td class="score-cell">1,333</td></tr>
+<tr><td>434</td><td class="mono">openai/gpt-4</td><td>8K</td><td>$30</td><td class="score-cell">273</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>What stands out</h2>
+    <p>The leaders are all budget-tier Chinese open-weight models with 1M+ contexts priced under $0.03/M. DeepSeek V4 Flash Latest at $0.012/M with a 1.31M window is roughly 800x better value than GPT-4, which still sells at legacy pricing. GLM Flash Latest and the Qwen flash models cluster in the 33&ndash;65M range.</p>
+    <p>The losers are legacy. GPT-4, GPT-3.5 variants, and o1-pro earn their spots through small windows, $30&ndash;$150/M pricing, or both. Nobody should be buying these in 2026 except for compatibility.</p>
+    <p>Batch tiers punch above their weight. GPT-6 Luna at $0.05/M via batch delivers 21B ctx-tokens per $1,000, double the standard tier at $0.10/M. If your workload tolerates 24-hour turnaround, batch pricing halves the effective cost.</p>
+
+    <div class="cross-links">
+      <a href="/tools/openrouter-pricing-calculator.html" class="cross-link">OpenRouter Pricing Calculator<span>Blend input and output costs</span></a>
+      <a href="/research/index.html" class="cross-link">All Research<span>More data-driven indices</span></a>
+    </div>
+
+    <div class="last-updated"><time datetime="2026-09-30">Last updated: September 30, 2026</time></div>
+  </article>
+
+
+<!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio — $39</a>
+    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever →</a>
+        <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=research-llm-value-index-2026">Zovo</a> · lifetime access, one payment</div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+</body>
+</html>

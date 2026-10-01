@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>GPT-5.5 Pro Pricing — API Cost Breakdown (September 2026) — KickLLM</title>
+  <meta name="description" content="GPT-5.5 Pro pricing: $30/$180 per 1M tokens (input/output). Context window: 1,050,000 tokens. Batch API: $15/$90. OpenAI flagship reasoning costs explained.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kickllm.com/answers/gpt-5.5-pro-pricing.html">
+  <link rel="alternate" type="application/atom+xml" title="KickLLM Blog Feed" href="/blog/feed.xml">
+  <meta property="og:title" content="GPT-5.5 Pro Pricing — API Cost Breakdown (September 2026) — KickLLM">
+  <meta property="og:description" content="GPT-5.5 Pro pricing: $30/$180 per 1M tokens (input/output). Context window: 1,050,000 tokens. Batch API: $15/$90.">
+  <meta property="og:url" content="https://kickllm.com/answers/gpt-5.5-pro-pricing.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://kickllm.com/assets/og-image.png">
+  <meta property="og:site_name" content="Zovo Tools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GPT-5.5 Pro Pricing — API Cost Breakdown (September 2026) — KickLLM">
+  <meta name="twitter:description" content="GPT-5.5 Pro pricing: $30/$180 per 1M tokens (input/output). Context window: 1,050,000 tokens. Batch API: $15/$90.">
+  <meta name="twitter:image" content="https://kickllm.com/assets/og-image.png">
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does GPT-5.5 Pro cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-5.5 Pro costs $30 per 1M input tokens and $180 per 1M output tokens on the standard API. The batch variant costs $15/$90, a flat 50% discount on both directions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How big is the GPT-5.5 Pro context window?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-5.5 Pro has a 1,050,000-token context window, more than 2.5x the 400K window of GPT-5 Pro and 5x the 200K window of o1-pro."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is GPT-5.5 Pro cheaper than o1-pro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. o1-pro costs $150/$600 per 1M tokens, five times GPT-5.5 Pro's $30/$180, with only a 200K context window. For most reasoning workloads GPT-5.5 Pro is the better deal on both price and context."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does 1M input and 250K output tokens per month cost on GPT-5.5 Pro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "$75 per month at standard rates: $30 for the input tokens plus $45 for the 250K output tokens. The same volume on the batch API costs $37.50."
+      }
+    }
+  ]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="/">Home</a> &rsaquo; <a href="/answers/">Answers</a> &rsaquo; <span>GPT-5.5 Pro Pricing</span>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <h1>GPT-5.5 Pro Pricing — API Cost Breakdown</h1>
+
+    <p>GPT-5.5 Pro costs $30 per 1M input tokens and $180 per 1M output tokens. The context window holds 1,050,000 tokens, and OpenAI sells a batch variant at $15/$90 for workloads that can wait a few hours. All figures below come from live OpenRouter listing data (434 models, checked September 2026).</p>
+
+    <h2>Pricing overview</h2>
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Input price (per 1M tokens)</td><td>$30</td></tr>
+        <tr><td>Output price (per 1M tokens)</td><td>$180</td></tr>
+        <tr><td>Batch input / output</td><td>$15 / $90</td></tr>
+        <tr><td>Context window</td><td>1,050,000 tokens</td></tr>
+        <tr><td>Provider</td><td>OpenAI</td></tr>
+      </tbody>
+    </table>
+
+    <p>Output tokens drive the bill here. At a typical 4:1 input-to-output ratio, output costs are about six times the input spend, so prompts that generate long answers will hurt more than long prompts. The $180 output rate is the highest OpenAI currently lists outside the retired o1-pro.</p>
+
+    <h2>GPT-5.5 Pro vs other flagship reasoning models</h2>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Input (per 1M)</th><th>Output (per 1M)</th><th>Context</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GPT-5.5 Pro</td><td>$30</td><td>$180</td><td>1.05M</td></tr>
+        <tr><td>GPT-5.4 Pro</td><td>$30</td><td>$180</td><td>1.05M</td></tr>
+        <tr><td>GPT-5 Pro</td><td>$15</td><td>$120</td><td>400K</td></tr>
+        <tr><td>o1-pro</td><td>$150</td><td>$600</td><td>200K</td></tr>
+        <tr><td>Claude Opus 4.1</td><td>$15</td><td>$75</td><td>200K</td></tr>
+      </tbody>
+    </table>
+
+    <p>GPT-5.4 Pro lists at the exact same rates and context size, so the two are interchangeable on price alone. GPT-5 Pro is half the price but caps out at 400K tokens. o1-pro costs five times as much for a fifth of the context, which is why it shows up mostly in legacy pipelines now. Claude Opus 4.1 undercuts GPT-5.5 Pro on both rates, though its 200K window can't hold the million-token documents GPT-5.5 Pro swallows in one pass.</p>
+
+    <h2>Costs at scale</h2>
+    <p>Same workload every time: 1M input tokens plus 250K output tokens per month.</p>
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Input cost</th><th>Output cost</th><th>Monthly total</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GPT-5.5 Pro</td><td>$30</td><td>$45</td><td>$75</td></tr>
+        <tr><td>GPT-5.4 Pro</td><td>$30</td><td>$45</td><td>$75</td></tr>
+        <tr><td>GPT-5 Pro</td><td>$15</td><td>$30</td><td>$45</td></tr>
+        <tr><td>o1-pro</td><td>$150</td><td>$150</td><td>$300</td></tr>
+        <tr><td>Claude Opus 4.1</td><td>$15</td><td>$18.75</td><td>$33.75</td></tr>
+        <tr><td>GPT-5.5 Pro (batch)</td><td>$15</td><td>$22.50</td><td>$37.50</td></tr>
+      </tbody>
+    </table>
+
+    <p>Scale the workload up tenfold and the gaps get uncomfortable: 10M in and 2.5M out per month runs $750 on GPT-5.5 Pro standard, $375 on batch, and $3,000 on o1-pro.</p>
+
+    <h2>Batch discount math</h2>
+    <p>The batch API pays half price on both directions. Input drops from $30 to $15, output from $180 to $90. No minimum volume, no tiered schedule, just 50% across the board.</p>
+    <table>
+      <thead>
+        <tr><th>Token volume (per month)</th><th>Standard cost</th><th>Batch cost</th><th>Saved</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1M in / 250K out</td><td>$75.00</td><td>$37.50</td><td>$37.50</td></tr>
+        <tr><td>5M in / 1M out</td><td>$330.00</td><td>$165.00</td><td>$165.00</td></tr>
+        <tr><td>10M in / 2.5M out</td><td>$750.00</td><td>$375.00</td><td>$375.00</td></tr>
+      </tbody>
+    </table>
+
+    <p>The catch is latency. Batch requests complete within 24 hours, so this only works for overnight backfills, report generation, evaluation runs, and anything else that isn't user-facing. For interactive traffic you pay full price.</p>
+
+    <h2>When GPT-5.5 Pro is worth it</h2>
+    <ul>
+      <li>You need to reason over documents longer than 400K tokens. Nothing else in OpenAI's current lineup holds a million tokens, and re-chunking a huge doc into a cheaper model usually costs more than the premium.</li>
+      <li>The task genuinely needs deep reasoning and the answer is expensive to get wrong. A single wrong legal analysis or code migration costs more than a year of the price gap versus GPT-5 Pro.</li>
+      <li>Your volume is low enough that the $75/month benchmark number above reads as rounding error in your budget.</li>
+    </ul>
+    <p>And when it isn't. If your workload fits in 400K tokens and doesn't need the extra reasoning depth, GPT-5 Pro does the same job for 40% less. If it fits in 200K and quality requirements are moderate, Claude Opus 4.1 is the cheapest flagship on the board. If you're doing bulk non-urgent processing, run GPT-5.5 Pro through the batch API and cut the bill in half without switching models.</p>
+
+    <h2>Estimate your own bill</h2>
+    <p>Plug your token counts into the <a href="/tools/openrouter-pricing-calculator.html">OpenRouter pricing calculator</a> to see GPT-5.5 Pro against every other listed model for your actual workload, not a generic benchmark.</p>
+
+    <h2>Common questions</h2>
+    <h3>How much does GPT-5.5 Pro cost?</h3>
+    <p>$30 per 1M input tokens, $180 per 1M output tokens on the standard API. The batch variant is $15/$90.</p>
+    <h3>How big is the context window?</h3>
+    <p>1,050,000 tokens. That's more than double GPT-5 Pro's 400K and five times o1-pro's 200K.</p>
+    <h3>Is GPT-5.5 Pro cheaper than o1-pro?</h3>
+    <p>Yes, by a wide margin. o1-pro lists at $150/$600, five times the standard rates, with a fifth of the context. Unless you're locked into o1-pro for a legacy reason, GPT-5.5 Pro wins on price and window size.</p>
+    <h3>What does 1M input and 250K output per month cost?</h3>
+    <p>$75 on the standard API. Run the same volume through batch and it's $37.50.</p>
+
+    <h2>Related questions</h2>
+    <ul>
+      <li><a href="/answers/gpt-4o-pricing.html">GPT-4o Pricing Breakdown</a></li>
+      <li><a href="/answers/gpt-4o-mini-pricing.html">GPT-4o Mini Pricing</a></li>
+      <li><a href="/answers/claude-opus-4-pricing.html">Claude Opus 4 Pricing</a></li>
+      <li><a href="/answers/llm-batch-api-discount-comparison.html">LLM Batch API Discount Comparison</a></li>
+      <li><a href="/answers/context-window-comparison-2026.html">Context Window Comparison 2026</a></li>
+      <li><a href="/answers/cost-of-llm-chatbot-per-month.html">LLM Chatbot Cost Per Month</a></li>
+    </ul>
+    <p>See every pricing page in the <a href="/answers/index.html">answers index</a>.</p>
+    <p style="margin-top:2rem; font-size:0.9em; color:#666;"><em>Prices last verified: September 2026, from live OpenRouter listing data. Pricing may change, so check provider websites for current rates.</em></p>
+    <p style="margin-top:2rem;"><a href="/">Calculate your LLM API costs with KickLLM</a> — free, no sign-up required.</p>
+  </div>
+  <!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio — $39</a>
+    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview &rarr;</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">Zovo Tools</div>
+      <div class="footer-tagline">Free developer tools by a solo dev.</div>
+      <a href="https://zovo.one/pricing?utm_source=kickllm.com&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime — $99 once, free forever &rarr;</a>
+      <div class="footer-copy">&copy; 2026 <a href="https://zovo.one">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+    <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a></p>
+</footer>
+
+  <nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+      <h3 class="zovo-network-title">Explore More Tools</h3>
+      <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+        <a href="https://abwex.com">ABWex — A/B Testing</a>
+        <a href="https://claudflow.com">ClaudFlow — Workflows</a>
+        <a href="https://claudhq.com">ClaudHQ — AI Code Tools & Fixes</a>
+        <a href="https://claudkit.com">ClaudKit — API</a>
+        <a href="https://enhio.com">Enhio — Text Tools</a>
+        <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
+        <a href="https://gen8x.com">Gen8X — Color Tools</a>
+        <a href="https://gpt0x.com">GPT0X — AI Models</a>
+        <a href="https://heytensor.com">HeyTensor — ML Tools</a>
+        <a href="https://invokebot.com">InvokeBot — Webhooks</a>
+        <a href="https://kappafy.com">Kappafy — JSON</a>
+        <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
+        <a href="https://krzen.com">Krzen — Image Tools</a>
+        <a href="https://lochbot.com">LochBOT — Security</a>
+        <a href="https://lockml.com">LockML — ML Compare</a>
+        <a href="https://ml3x.com">ML3X — Matrix Math</a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
