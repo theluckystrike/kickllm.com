@@ -284,11 +284,12 @@ var GPU_OPTIONS = [
   { name: "A100 80GB (RunPod)", monthlyCost: 1400, tokensPerSec: 40, vram: 80 }
 ];
 
+// Numbers are fp16 weights only.
 var SH_MODELS = {
   "llama3-70b": { name: "Llama 3 70B", vramNeeded: 140, apiEquiv: 0.59 },
   "llama3-8b": { name: "Llama 3 8B", vramNeeded: 16, apiEquiv: 0.20 },
   "mistral-7b": { name: "Mistral 7B", vramNeeded: 14, apiEquiv: 0.20 },
-  "mixtral-8x22b": { name: "Mixtral 8x22B", vramNeeded: 88, apiEquiv: 1.20 }
+  "mixtral-8x22b": { name: "Mixtral 8x22B", vramNeeded: 282, apiEquiv: 1.20 }
 };
 
 function calculateSelfHost() {
