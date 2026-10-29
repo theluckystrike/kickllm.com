@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Opus 5.5 pricing, $4 in and $20 out per 1M tokens</title>
+<meta name="description" content="Claude Opus 5.5 API pricing, 29 October 2026: $4 in, $20 out per 1M tokens, Batch $2/$10, cache hits $0.20, fast mode $8/$40. Price grid and calculator.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Claude Opus 5.5 pricing, $4 in and $20 out per 1M tokens">
+<meta property="og:description" content="Claude Opus 5.5 API pricing, 29 October 2026: $4 in, $20 out per 1M tokens, $2/$10 Batch API, cache hits $0.20, fast mode $8/$40. Full price grid and calculator.">
+<meta property="og:url" content="https://kickllm.com/answers/claude-opus-5-5-pricing.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Zovo Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Claude Opus 5.5 pricing, $4 in and $20 out per 1M tokens">
+<meta name="twitter:description" content="Claude Opus 5.5 API pricing, 29 October 2026: $4 in, $20 out per 1M tokens, $2/$10 Batch API, cache hits $0.20, fast mode $8/$40. Full price grid and calculator.">
+<link rel="canonical" href="https://kickllm.com/answers/claude-opus-5-5-pricing.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/answers/claude-opus-5-5-pricing.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/answers/claude-opus-5-5-pricing.html">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/batch-page.css">
+<link rel="stylesheet" href="/assets/sprint-page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://kickllm.com/answers/claude-opus-5-5-pricing.html#article",
+      "headline": "Claude Opus 5.5 pricing, $4 in and $20 out per 1M tokens",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "author": {
+        "@id": "https://kickllm.com/answers/claude-opus-5-5-pricing.html#author"
+      },
+      "mainEntityOfPage": "https://kickllm.com/answers/claude-opus-5-5-pricing.html"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kickllm.com/answers/claude-opus-5-5-pricing.html#author",
+      "name": "Michael Lip",
+      "url": "https://zovo.one"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://kickllm.com/answers/claude-opus-5-5-pricing.html",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "KickLLM",
+        "url": "https://kickllm.com"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://kickllm.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Answers",
+          "item": "https://kickllm.com/answers/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Claude Opus 5.5 pricing"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+<link rel="stylesheet" href="/assets/margin-studio.css">
+  <script src="/site-analytics.js" defer></script>
+  <link rel="stylesheet" href="/assets/support-cta.css?v=4-github">
+<script defer src="/assets/support-v3.js?v=3"></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=claude-opus-5-5-pricing" class="nav-pro" target="_blank">Go Pro &#10022;</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=claude-opus-5-5-pricing" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <main class="batch-doc sprint-doc">
+<div class="hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/answers/">Answers</a> <span>/</span> <span>Claude Opus 5.5 pricing</span></nav>
+  <h1>Claude Opus 5.5 pricing, $4 in and $20 out per 1M tokens</h1>
+  <p>Anthropic says Claude Opus 5.5 is built for long-running agentic coding and knowledge work. It costs $4 per 1M input tokens and $20 per 1M output tokens, with a 1,000,000-token context window and 128,000-token max output. This page gives the official price grid, the Batch API rates at half price, the cache prices (cache hits are only 5% of the base input price on Opus 5.5), the fast-mode premium prices, and a calculator for estimating your workload cost.</p>
+  <p class="byline">By <a href="/about.html">Michael Lip</a> &middot; Updated 2026-10-29</p>
+</div>
+
+<section id="answer" class="sec">
+<p class="snap">Snapshot date: 29 October 2026. Each Anthropic list price on this page (USD per 1M tokens) is from the <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">Claude pricing page</a>, fetched that day. The worked examples, the calculator results and the Batch API cache rates are KickLLM calculations from those list prices. Limits, the release date and the model ID are from the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a> and the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5">What's new in Claude Opus 5.5</a> page. Prices can change without notice.</p>
+<p>Claude Opus 5.5 was released on September 22, 2026. The Claude Opus 5.5 overview lists it as the latest model. Its price is flat across the entire context window: unlike Claude Haiku 5.5, there is no prompt-length step, so a 900,000-token request is billed at the same per-token rate as a 9,000-token request. Prompt caching and the Batch API discount apply at their standard rates across the full 1M context. Anthropic describes the model as built for long-running agentic coding and knowledge work. Source: <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a> and <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#long-context-pricing">Claude pricing, long context</a>.</p>
+<div class="kpis"><div class="kpi"><b>$4</b><span>input per 1M tokens</span></div><div class="kpi"><b>$20</b><span>output per 1M tokens</span></div><div class="kpi"><b>1,000,000</b><span>token context window</span></div><div class="kpi"><b>128,000</b><span>token max output</span></div></div>
+</section>
+
+<section id="prices" class="sec">
+<h2>The full official price grid</h2>
+<p class="lede">USD per 1M tokens. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Claude pricing, model pricing</a>, snapshot 29 October 2026</p>
+<div class="scroll">
+<table class="results-table wide" data-cols="4"><thead><tr><th>Price line</th><th>Claude Opus 5.5</th><th>How it relates to base input</th><th>Source</th></tr></thead><tbody>
+<tr><td>Base input</td><td>$4</td><td>1x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Model pricing</a></td></tr>
+<tr><td>Cache write, 5-minute</td><td>$5</td><td>1.25x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Model pricing</a></td></tr>
+<tr><td>Cache write, 1-hour</td><td>$8</td><td>2x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Model pricing</a></td></tr>
+<tr><td>Cache hit (read)</td><td>$0.20</td><td>0.05x, half the usual 0.1x rate</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#prompt-caching">Prompt caching</a></td></tr>
+<tr><td>Output</td><td>$20</td><td>5x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Model pricing</a></td></tr>
+<tr><td>Batch API input</td><td>$2</td><td>0.5x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#batch-processing">Batch processing</a></td></tr>
+<tr><td>Batch API output</td><td>$10</td><td>2.5x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#batch-processing">Batch processing</a></td></tr>
+<tr><td>Fast mode input</td><td>$8</td><td>2x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#fast-mode-pricing">Fast mode pricing</a></td></tr>
+<tr><td>Fast mode output</td><td>$40</td><td>10x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#fast-mode-pricing">Fast mode pricing</a></td></tr>
+<tr><td>US-only inference, <code>inference_geo: "us"</code></td><td>Input, output, cache and fast mode lines &times; 1.1</td><td>1.1x of each of those lines</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#data-residency-pricing">Data residency pricing</a></td></tr>
+<tr><td>Prompts up to the 1M token context window</td><td>Same rates, no long-prompt step</td><td>1x</td><td><a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#long-context-pricing">Long context pricing</a></td></tr>
+</tbody></table></div>
+<p>On most Claude models a cache hit costs 0.1x the base input price. On Claude Opus 5.5 (and Claude Sonnet 5.5) it costs only 0.05x, $0.20 per 1M tokens against the $4 base. After the cache write, repeated reads of a large system prompt or codebase context cost one twentieth of the uncached input price. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#prompt-caching">Claude pricing, prompt caching</a>, snapshot 29 October 2026. The minimum cacheable prompt is 512 tokens. Source: <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a>, snapshot 29 October 2026.</p>
+<h3>Batch API prices</h3>
+<p class="lede">Batch API rates, USD per 1M tokens. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#batch-processing">Claude pricing, batch processing</a>, snapshot 29 October 2026</p>
+<div class="scroll">
+<table class="results-table" data-cols="3"><thead><tr><th>Batch price line</th><th>Claude Opus 5.5</th><th>Claude Opus 5</th></tr></thead><tbody>
+<tr><td>Batch input</td><td>$2</td><td>$2.50</td></tr>
+<tr><td>Batch output</td><td>$10</td><td>$12.50</td></tr>
+</tbody></table></div>
+<p>The Batch API gives a flat 50% discount on both input and output tokens, in exchange for asynchronous processing: $2 per 1M input and $10 per 1M output on Opus 5.5, against $2.50 / $12.50 on the older Opus 5. Prompt caching multipliers stack with the batch discount, and the batch rates apply across the full 1M context window with no long-prompt step. Fast mode is not available with the Batch API. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#batch-processing">Claude pricing, batch processing</a>, snapshot 29 October 2026.</p>
+<h3>Fast mode prices</h3>
+<p class="lede">USD per 1M tokens. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#fast-mode-pricing">Claude pricing, fast mode</a>, snapshot 29 October 2026</p>
+<div class="scroll">
+<table class="results-table" data-cols="3"><thead><tr><th>Fast mode line</th><th>Claude Opus 5.5</th><th>Claude Opus 5 / 4.8</th></tr></thead><tbody>
+<tr><td>Fast input</td><td>$8</td><td>$10</td></tr>
+<tr><td>Fast output</td><td>$40</td><td>$50</td></tr>
+</tbody></table></div>
+<p>Fast mode gives significantly faster output at a 2x premium on both input and output. On Opus 5.5 that is $8 / $40 per 1M tokens. Fast mode pricing applies across the full context window and stacks with prompt caching and data-residency multipliers. It is available on the Claude API and, for Opus 5.5, on Google Cloud (Anthropic managed) and on Microsoft Foundry for deployments hosted on Azure. Fast mode on Opus 5 and Opus 4.8 is in research preview, and fast mode is not available with the Batch API. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#fast-mode-pricing">Claude pricing, fast mode</a>, snapshot 29 October 2026.</p>
+<p>US-only inference: the Claude pricing page says that for Claude 4.6 and later models, setting <code>inference_geo: "us"</code> multiplies every token price (input, output, cache writes and cache reads) by 1.1. This applies on the Claude API, Claude Platform on AWS and Claude Models on Google Cloud (Anthropic managed), and to US Data Zone Standard deployments in Microsoft Foundry. Amazon Bedrock and Claude Models on Google Cloud (Google managed) have their own regional pricing. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#data-residency-pricing">Claude pricing, data residency</a>, snapshot 29 October 2026.</p>
+</section>
+
+<section id="example" class="sec">
+<h2>Worked cost examples</h2>
+<p class="lede">KickLLM calculations at official snapshot rates</p>
+<p><b>Cached agent loop.</b> A coding agent sends the same 50,000-token codebase context on each of 20 turns and generates 4,000 output tokens per turn. Turn 1 writes the context to a 1-hour cache (50,000 &times; $8/1M = $0.40) and generates the output (4,000 &times; $20/1M = $0.08), so turn 1 costs $0.48. Turns 2 to 20 read it from cache: 19 &times; (50,000 &times; $0.20/1M + 4,000 &times; $20/1M) = 19 &times; ($0.01 + $0.08) = $1.71. The 20 turns cost <b>$2.19</b> with caching. The same 20 turns uncached cost 20 &times; (50,000 &times; $4/1M + 4,000 &times; $20/1M) = 20 &times; $0.28 = $5.60. The cached loop costs about 39% of the uncached loop.</p>
+<p><b>Large-document analysis.</b> One request with a 900,000-token prompt and 8,000 output tokens, standard API, no caching: 900,000 &times; $4/1M + 8,000 &times; $20/1M = $3.60 + $0.16 = <b>$3.76</b>. There is no long-context premium on Opus 5.5. The per-token rate is identical for a 9,000-token prompt. On the Batch API the same request costs half: $1.88.</p>
+<p><b>Batch backlog.</b> Summarizing 10,000 documents, 3,000 input and 1,000 output tokens each, Batch API: 10,000 &times; (3,000 &times; $2/1M + 1,000 &times; $10/1M) = 10,000 &times; $0.016 = <b>$160</b>. The same workload at standard rates costs $320.</p>
+<p><b>Managed Agents worked example (built-in check).</b> The Claude pricing page documents a Managed Agents example: 50,000 input tokens and 15,000 output tokens. At Opus 5.5 standard rates the token part is 50,000 &times; $4/1M + 15,000 &times; $20/1M = $0.20 + $0.30 = <b>$0.50</b>, the sum of the source's two token lines (the source total of $0.58 USD adds $0.08 of session runtime). With 40,000 of the input as cache reads: 10,000 &times; $4/1M + 40,000 &times; $0.20/1M + 15,000 &times; $20/1M = $0.04 + $0.008 + $0.30 = <b>$0.348</b>, the sum of the source's three token lines (the source total of $0.428 USD adds $0.08 of session runtime). The same 50,000-in/15,000-out request on Opus 5 ($5/$25) costs $0.625. Other checks: the same request at fast mode is $1.00 (2x); Batch API token totals of 1,000,000 input and 200,000 output, summed over several requests, cost $4.00 ($8.00 at standard rates); with US-only 1.1x the 50,000/15,000 request is $0.55.</p>
+<p><b>Cache break-even.</b> A cache read costs 0.05x the base input price, so a cached token that is read again costs one twentieth of an uncached token. A 5-minute cache write costs 1.25x and pays for itself after 1 cache read (1.25 + 0.05 = 1.30 against 2.00 uncached). A 1-hour cache write costs 2x and pays for itself after 2 cache reads (2 + 0.10 = 2.10 against 3.00 uncached; after 1 read it is 2.05 against 2.00). Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#prompt-caching">Claude pricing, prompt caching</a>, fetched 29 October 2026.</p>
+</section>
+
+<section id="calculator" class="sec">
+<h2>Opus 5.5 cost calculator</h2>
+<p class="lede">KickLLM estimate in USD per request and per workload, at the standard, Batch API or fast mode rates that you select. Prices: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Claude pricing</a>; limits: <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Opus 5.5 overview</a>. Snapshot 29 October 2026</p>
+<style>
+body .pow-strip .pow-label, body .pow-strip-inner a { font-size: 0.875rem; }
+body .margin-studio-cta .margin-eyebrow, body .margin-studio-cta .margin-detail { font-size: 0.875rem; }
+.sprint-doc .kpi span { font-size: 0.875rem; }
+.sprint-doc table.results-table th, .sprint-doc table.results-table.dense th, .sprint-doc table.results-table.dense td, .batch-doc .byline { font-size: 0.875rem; }
+.site-footer .footer-tagline, .site-footer .footer-copy, .site-footer .footer-copy a { color: #a3a3a3; }
+.site-footer .footer-copy a { text-decoration: underline; }
+#o55calc input[type="text"], #o55calc select { min-height: 24px; font-size: 1rem; }
+#o55calc input[type="text"] { width: 13ch; }
+#o55calc input[type="checkbox"] { width: 24px; height: 24px; }
+@media print {
+  html, body { background: #fff !important; color: #111 !important; }
+  body * { color: #111 !important; text-shadow: none !important; box-shadow: none !important; }
+  .sprint-doc { max-width: none !important; width: 100% !important; }
+  .sprint-doc .scroll { overflow: visible !important; }
+  .sprint-doc table.results-table { min-width: 0 !important; width: 100% !important; table-layout: fixed !important; }
+  .sprint-doc table.results-table th, .sprint-doc table.results-table td { white-space: normal !important; overflow-wrap: anywhere; font-size: 9pt !important; }
+  header, nav, footer, .margin-studio-cta, .pow-strip, .support-cta { display: none !important; }
+  .sprint-doc, .sprint-doc * { background: transparent !important; }
+  .sprint-doc .kpi { background: #fff !important; }
+}
+</style>
+<div class="calc-box" id="o55calc">
+  <div class="calc-grid">
+    <div><label for="c-in">Uncached input tokens</label><input type="text" inputmode="numeric" id="c-in" value="80000"></div>
+    <div><label for="c-read">Cache read (hit) tokens</label><input type="text" inputmode="numeric" id="c-read" value="0"></div>
+    <div><label for="c-w5">5-minute cache write tokens</label><input type="text" inputmode="numeric" id="c-w5" value="0"></div>
+    <div><label for="c-w1">1-hour cache write tokens</label><input type="text" inputmode="numeric" id="c-w1" value="0"></div>
+    <div><label for="c-out">Output tokens</label><input type="text" inputmode="numeric" id="c-out" value="4000"></div>
+    <div><label for="c-req">Requests (for a workload total)</label><input type="text" inputmode="numeric" id="c-req" value="1000"></div>
+    <div><label for="c-batch">Pricing</label><select id="c-batch"><option value="std">Standard API</option><option value="bat">Batch API</option></select></div>
+    <div><label for="c-fast"><input type="checkbox" id="c-fast"> Fast mode (2x input and output, no Batch)</label></div>
+    <div><label for="c-us"><input type="checkbox" id="c-us"> US-only inference (<code>inference_geo: "us"</code>, 1.1x)</label></div>
+  </div>
+  <div class="calc-out" id="c-result" aria-live="polite"></div>
+  <div class="calc-out" id="c-agg"></div>
+  <div class="calc-note" id="c-alt"></div>
+  <div class="calc-err" id="c-error" role="alert"></div>
+  <p class="calc-note" id="c-check">Built-in check with the Anthropic Managed Agents worked example (Claude pricing, fetched 29 October 2026). 50,000 input and 15,000 output tokens give a token part of $0.50. With 40,000 of the input as cache reads, the token part is $0.348. To see the same totals, enter 50,000 uncached input and 15,000 output, then 10,000 uncached input, 40,000 cache read and 15,000 output.</p>
+  <p class="calc-note">KickLLM estimate, not an Anthropic figure. Documented limits used: 1,000,000-token context window (prompt + output) and 128,000 max output tokens for Opus 5.5. The Batch option uses the synchronous 128,000 output limit; the 300,000-token Batch output with the output-300k-2026-03-24 beta header is not modeled. Batch cache prices are derived (cache multiplier &times; 50% batch discount); the official batch table lists only input and output. With fast mode, caching multipliers apply on top of the fast mode prices. This calculator does not model cache tokens with fast mode. US-only with fast mode uses the source rule that data residency multipliers apply on top of fast mode pricing. US-only with Batch is a KickLLM derivation (1.1x applied to the batch rates). Sources: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">Claude pricing</a>, <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a>, <a class="cite" href="https://platform.claude.com/docs/en/build-with-claude/context-windows">Context windows</a> (the window counts the prompt and the output), fetched 29 October 2026.</p>
+</div>
+<script>
+(function(){
+  'use strict';
+  /* Rates in units of $0.0001 per 1M tokens (integer), from the Claude pricing page, fetched 2026-10-29.
+     Batch cache rates are derived: cache multiplier x 50% batch discount. */
+  var R={
+    std:{i:40000n,r:2000n,w5:50000n,w1:80000n,o:200000n},
+    bat:{i:20000n,r:1000n,w5:25000n,w1:40000n,o:100000n},
+    fast:{i:80000n,o:400000n},
+    o5:{i:50000n,r:5000n,w5:62500n,w1:100000n,o:250000n}
+  };
+  var WIN=1000000,MAXOUT=128000,MAXN=1000000000;
+  var IDS=['c-in','c-read','c-w5','c-w1','c-out','c-req'];
+  var NAMES={'c-in':'Uncached input','c-read':'Cache read','c-w5':'5-minute cache write','c-w1':'1-hour cache write','c-out':'Output','c-req':'Requests'};
+  function $(id){return document.getElementById(id);}
+  function parse(id){
+    var s=String($(id).value).trim(); if(/,/.test(s)&&!/^-?\d{1,3}(,\d{3})+$/.test(s))return {e:NAMES[id]+': enter a whole number (digits only).'}; s=s.replace(/,/g,'');
+    if(s==='')return {e:NAMES[id]+' is empty. Enter a whole number'+(id==='c-req'?'.':' of tokens.')};
+    if(/^-0+(\.0*)?$/.test(s))return {e:NAMES[id]+': -0 is not a valid count.'};
+    if(!/^-?\d+$/.test(s))return {e:NAMES[id]+': enter a whole number (digits only).'};
+    if(s.charAt(0)==='-')return {e:NAMES[id]+' cannot be negative.'};
+    var n=Number(s);
+    if(n>MAXN)return {e:NAMES[id]+' is above 1,000,000,000. No estimate.'};
+    return {v:n};
+  }
+  function money(units,div){
+    var neg=units<0n; if(neg)units=-units;
+    var ip=units/div, fp=units%div, d=String(div).length-1;
+    var f=String(fp).padStart(d,'0').replace(/0+$/,'');
+    if(f.length<2)f=(f+'00').slice(0,2);
+    return '$'+ip.toLocaleString('en-US')+'.'+f;
+  }
+  function calc(){
+    var res=$('c-result'),agg=$('c-agg'),alt=$('c-alt'),err=$('c-error');
+    res.textContent='';agg.textContent='';alt.textContent='';err.textContent='';$('c-batch').querySelector('option[value="bat"]').disabled=$('c-fast').checked;$('c-fast').disabled=$('c-batch').value==='bat';
+    var v={};
+    for(var k=0;k<IDS.length;k++){var p=parse(IDS[k]);if(p.e){err.textContent=p.e+' No cost is shown.';return;}v[IDS[k]]=p.v;}
+    var t={i:v['c-in'],r:v['c-read'],w5:v['c-w5'],w1:v['c-w1'],o:v['c-out']};
+    var prompt=t.i+t.r+t.w5+t.w1;
+    if(prompt>WIN){err.textContent='Prompt is too long: '+prompt.toLocaleString('en-US')+' tokens is above the documented 1,000,000-token context window. No cost is shown.';return;}
+    if(t.o>MAXOUT){err.textContent='Output of '+t.o.toLocaleString('en-US')+' tokens is above the documented 128,000 max output tokens. No cost is shown.';return;}
+    if(prompt+t.o>WIN){err.textContent='Prompt plus output is '+(prompt+t.o).toLocaleString('en-US')+' tokens, above the documented 1,000,000-token context window. No cost is shown.';return;}
+    if(v['c-req']<1){err.textContent='Requests must be 1 or more. No cost is shown.';return;}
+    var batch=$('c-batch').value==='bat', fast=$('c-fast').checked, us=$('c-us').checked;
+    var mode=batch?'bat':'std', units, div=10000000000n;
+    if(fast){
+      if(batch){err.textContent='Fast mode is not available with the Batch API, per the Claude pricing page. Uncheck one of the two. No cost is shown.';return;}
+      if(t.r+t.w5+t.w1>0){err.textContent='This calculator does not model cache tokens with fast mode. Set the three cache fields to 0, or clear fast mode. No cost is shown.';return;}
+      units=BigInt(t.i)*R.fast.i+BigInt(t.o)*R.fast.o;
+    }else{
+      units=BigInt(t.i)*R[mode].i+BigInt(t.r)*R[mode].r+BigInt(t.w5)*R[mode].w5+BigInt(t.w1)*R[mode].w1+BigInt(t.o)*R[mode].o;
+    }
+    if(us){units=units*11n;div=div*10n;}
+    var label=fast?'Fast mode':(batch?'Batch':'Standard');
+    res.innerHTML='Prompt length '+prompt.toLocaleString('en-US')+' tokens: estimated cost per request: <b>'+money(units,div)+'</b> ('+label+' API'+(fast?'':', flat rate across the full 1M context')+(us?', US-only 1.1x':'')+').';
+    agg.textContent='Workload total (aggregate, '+v['c-req'].toLocaleString('en-US')+(v['c-req']===1?' valid request':' valid requests')+' of this shape): '+money(units*BigInt(v['c-req']),div)+'. KickLLM estimate.';
+    var m=us?11n:10n, f=100000000000n;
+    if(!fast&&(prompt+t.o)>0){
+      var u2=BigInt(t.i)*R.bat.i+BigInt(t.r)*R.bat.r+BigInt(t.w5)*R.bat.w5+BigInt(t.w1)*R.bat.w1+BigInt(t.o)*R.bat.o;
+      var u5=BigInt(t.i)*R.o5.i+BigInt(t.r)*R.o5.r+BigInt(t.w5)*R.o5.w5+BigInt(t.w1)*R.o5.w1+BigInt(t.o)*R.o5.o;
+      alt.textContent=(batch?'':'Batch API at the same token counts: '+money(u2*m,f)+' per request'+(us?', US-only 1.1x':'')+'. ')+'Claude Opus 5 at the same token counts, standard API: '+money(u5*m,f)+' per request'+(us?', US-only 1.1x':'')+'.';
+    }else if(fast){
+      alt.textContent='Standard API at the same token counts: '+money((BigInt(t.i)*R.std.i+BigInt(t.o)*R.std.o)*m,f)+' per request'+(us?', US-only 1.1x':'')+'.';
+    }
+  }
+  IDS.concat(['c-batch','c-fast','c-us']).forEach(function(id){$(id).addEventListener('input',calc);$(id).addEventListener('change',calc);});
+  window.addEventListener('pageshow',calc);
+  calc();
+})();
+</script>
+</section>
+
+<section id="comparison" class="sec">
+<h2>Claude Opus 5.5 vs Claude Opus 5 and Opus 4.8</h2>
+<p class="lede">Prices from <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#model-pricing">Claude pricing</a>. Context window and max output from the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Opus 5.5</a>, <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5/overview">Opus 5</a> and <a class="cite" href="https://platform.claude.com/docs/en/models/opus-4-8/overview">Opus 4.8</a> overview pages. Snapshot 29 October 2026</p>
+<div class="scroll">
+<table class="results-table wide dense" data-cols="9"><thead><tr><th>Model</th><th>Base input</th><th>5m cache write</th><th>1h cache write</th><th>Cache hit</th><th>Output</th><th>Batch in / out</th><th>Context window</th><th>Max output</th></tr></thead><tbody>
+<tr><td>Claude Opus 5.5 (latest)</td><td>$4</td><td>$5</td><td>$8</td><td>$0.20</td><td>$20</td><td>$2 / $10</td><td>1M</td><td>128K</td></tr>
+<tr><td>Claude Opus 5</td><td>$5</td><td>$6.25</td><td>$10</td><td>$0.50</td><td>$25</td><td>$2.50 / $12.50</td><td>1M</td><td>128K</td></tr>
+<tr><td>Claude Opus 4.8</td><td>$5</td><td>$6.25</td><td>$10</td><td>$0.50</td><td>$25</td><td>$2.50 / $12.50</td><td>1M</td><td>128K</td></tr>
+</tbody></table></div>
+<p>Opus 5.5 is 20% cheaper than Opus 5 and Opus 4.8 on base input and output, and its cache hits cost $0.20 per 1M tokens against $0.50 on the older models, a 60% cut. Anthropic describes Opus 5.5 as built for long-running agentic coding and knowledge work. In percent, the cut on cache reads (60%) is larger than the cut on uncached input (20%). In dollars, the cut is $0.30 per 1M cache read tokens against $1 per 1M uncached input tokens. All three models share the 1M context window and 128K max output. Fast mode on the older models is in research preview at $10 / $50. On Opus 5.5, fast mode is available (not a preview) at $8 / $40. Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">Claude pricing</a> and <a class="cite" href="https://platform.claude.com/docs/en/build-with-claude/fast-mode">Fast mode</a>, snapshot 29 October 2026.</p>
+<p>Cache break-even, a KickLLM calculation from the list prices. A 5-minute cache write costs 1.25x the base input price and pays off after 1 cache read on both models (Opus 5.5 1.25 + 0.05 = 1.30 against 2.00 uncached, Opus 5 1.25 + 0.10 = 1.35 against 2.00). A 1-hour cache write costs 2x and pays off after 2 cache reads on both models (Opus 5.5 2 + 0.10 = 2.10 against 3.00, Opus 5 2 + 0.20 = 2.20 against 3.00). Source: <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing#prompt-caching">Claude pricing, prompt caching</a>, fetched 29 October 2026.</p>
+<p>Adaptive thinking is always on in Opus 5.5 and cannot be turned off; you steer depth with the effort parameter, which defaults to <code>medium</code>. The synchronous max output is 128k tokens; on the Message Batches API, Opus 5.5 supports up to 300k output tokens with the <code>output-300k-2026-03-24</code> beta header. The model ID is <code>claude-opus-5-5</code> on the Claude API, Microsoft Foundry, Claude Platform on AWS and both Google Cloud variants, and <code>anthropic.claude-opus-5-5</code> on Amazon Bedrock. Retirement is listed as not sooner than September 22, 2027. Source: <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a> and <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5">What's new in Claude Opus 5.5</a>, snapshot 29 October 2026.</p>
+</section>
+
+<section id="method" class="sec method">
+<h2>Where these numbers come from</h2>
+<p>Calculator formula, per request. Cost = (uncached input &times; input rate + cache reads &times; cache read rate + 5-minute writes &times; 5-minute write rate + 1-hour writes &times; 1-hour write rate + output &times; output rate) / 1,000,000. Standard rates are $4, $0.20, $5, $8 and $20. Batch rates are $2 and $10 for input and output, and half of each cache rate. Fast mode rates are $8 and $40. US-only multiplies the total by 1.1. Workload total = cost per request &times; requests. The Opus 5 line uses the same formula with the Opus 5 standard rates $5, $0.50, $6.25, $10 and $25. The Batch line and the standard line use the same token counts at the other rate set.</p>
+<p>The main sources, all fetched as text on 29 October 2026, are the <a class="cite" href="https://platform.claude.com/docs/en/about-claude/pricing">Claude pricing page</a>, which gives the base price grid, the cache write and hit lines (including the 0.05x Opus 5.5 cache-hit rate), the Batch prices, the fast-mode prices, the data residency multiplier and the long-context rule; and the model pages, the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Claude Opus 5.5 overview</a>, which gives the context window, max output, release and retirement dates and the platform model IDs, and <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5">What's new in Claude Opus 5.5</a>, which confirms the $4 / $20 price and the breaking changes. The comparison table also uses the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-5/overview">Claude Opus 5 overview</a> and the <a class="cite" href="https://platform.claude.com/docs/en/models/opus-4-8/overview">Claude Opus 4.8 overview</a> (context window and max output), and the fast mode status is from the <a class="cite" href="https://platform.claude.com/docs/en/build-with-claude/fast-mode">Fast mode</a> page. All were fetched as text on 29 October 2026.</p>
+<p>The calculator and worked examples are KickLLM estimates. They are not Anthropic figures, and your invoice can be different. KickLLM is not affiliated with Anthropic or any other model provider.</p>
+</section>
+
+<section id="related" class="sec">
+<h2>Related pages</h2>
+<div class="related-grid"><a class="rel-card" href="/tools/claude-api-pricing.html">Claude API pricing</a><a class="rel-card" href="/answers/claude-opus-4-pricing.html">Claude Opus 4 pricing</a><a class="rel-card" href="/answers/claude-opus-pricing-by-version.html">Claude Opus pricing by version</a><a class="rel-card" href="/answers/claude-haiku-5-5-pricing.html">Claude Haiku 5.5 pricing</a><a class="rel-card" href="/tools/prompt-caching-break-even-calculator.html">Prompt caching break even calculator</a></div>
+</section>
+
+</main>
+
+  <!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio, $39</a>
+    <a class="margin-preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta">Zovo Lifetime, $99 once, free forever &rarr;</a>
+        <div class="footer-copy">&copy; 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=claude-opus-5-5-pricing">Zovo</a> &middot; lifetime access, one payment</div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a> <span aria-hidden="true">&middot;</span> <a href="/support/">Support</a></p>
+</footer>
+<!-- support-cta:footer -->
+<section class="support-cta support-cta--footer" data-support-cta="footer" aria-label="Support KickLLM"><div class="sct-maker"><img class="sct-portrait" src="/assets/michael-128.webp" width="40" height="40" loading="lazy" alt="Michael Lip"><h2 class="support-cta__title">Made by Michael, one person and a lot of coffee.</h2></div><p>If KickLLM has helped you, you can buy me a coffee. It honestly makes my day, and I read every note that comes with one.</p><div class="support-cta__actions"><span class="sct-card-option"><a class="support-cta__btn sct-primary support-cta__btn--primary" href="https://paypal.me/najzzz/5USD" target="_blank" rel="noopener" data-rail="paypal">Buy me a coffee · $5</a><small>via PayPal</small></span><a class="support-cta__btn support-cta__btn--secondary" href="https://buymeacoffee.com/michaellip" target="_blank" rel="noopener" data-rail="bmc">Card, any amount or monthly</a><a class="sct-github" href="https://github.com/sponsors/theluckystrike" target="_blank" rel="noopener" data-rail="github"><span>Sponsor on GitHub<small>monthly or one-time</small></span></a><a class="support-cta__link" href="/support/">Why I ask</a></div></section>
+
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+            <a href="https://abwex.com">ABWex · A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP · Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality · Security</a>
+            <a href="https://claudflow.com">ClaudFlow · Workflows</a>
+            <a href="https://claudkit.com">ClaudKit · API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket · Support</a>
+            <a href="https://enhio.com">Enhio · Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot · Timestamps</a>
+            <a href="https://gen8x.com">Gen8X · Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X · AI Models</a>
+            <a href="https://heytensor.com">HeyTensor · ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc · Recipes</a>
+            <a href="https://invokebot.com">InvokeBot · Webhooks</a>
+            <a href="https://kappafy.com">Kappafy · JSON</a>
+            <a href="https://kappakit.com">KappaKit · Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen · Image Tools</a>
+            <a href="https://lochbot.com">LochBot · Security</a>
+            <a href="https://lockml.com">LockML · ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=claude-opus-5-5-pricing">ML0X · ML Basics</a>
+            <a href="https://ml3x.com">ML3X · Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor · Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool · Cooking</a>
+            <a href="https://viryd.com">Viryd · Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder:</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub · theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative · Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder · Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=claude-opus-5-5-pricing" rel="nofollow">Zovo · AI Dev Tools</a>
+  </div>
+</div>
+
+<script src="/assets/js/kkm-ui.js" defer></script>
+</body>
+</html>
