@@ -64,19 +64,30 @@ function getSelectedModels() {
   return selected;
 }
 
+function readInt(id, fallback, allowDecimal) {
+  var el = document.getElementById(id);
+  var value = allowDecimal ? parseFloat(el.value) : parseInt(el.value, 10);
+  if (!isFinite(value)) value = fallback;
+  var min = parseFloat(el.min);
+  var max = parseFloat(el.max);
+  if (isFinite(min)) value = Math.max(min, value);
+  if (isFinite(max)) value = Math.min(max, value);
+  return value;
+}
+
 function getInputs() {
   if (mode === 'monthly') {
     return {
-      tokensPerReq: parseInt(document.getElementById('tokens-per-req').value, 10) || 1000,
-      reqsPerDay: parseInt(document.getElementById('reqs-per-day').value, 10) || 100,
-      daysPerMonth: parseInt(document.getElementById('days-per-month').value, 10) || 30,
-      ioRatio: parseInt(document.getElementById('io-ratio').value, 10) || 50
+      tokensPerReq: readInt('tokens-per-req', 1000),
+      reqsPerDay: readInt('reqs-per-day', 100),
+      daysPerMonth: readInt('days-per-month', 30),
+      ioRatio: readInt('io-ratio', 50)
     };
   } else {
     return {
-      inputTokens: parseInt(document.getElementById('conv-input-tokens').value, 10) || 2000,
-      outputTokens: parseInt(document.getElementById('conv-output-tokens').value, 10) || 500,
-      turns: parseInt(document.getElementById('conv-turns').value, 10) || 5
+      inputTokens: readInt('conv-input-tokens', 2000),
+      outputTokens: readInt('conv-output-tokens', 500),
+      turns: readInt('conv-turns', 5)
     };
   }
 }
@@ -293,8 +304,8 @@ var SH_MODELS = {
 
 function calculateSelfHost() {
   var modelKey = document.getElementById('sh-model').value;
-  var apiSpend = parseFloat(document.getElementById('sh-api-spend').value) || 500;
-  var tokensPerReq = parseInt(document.getElementById('sh-tokens-per-req').value, 10) || 1500;
+  var apiSpend = readInt('sh-api-spend', 500, true);
+  var tokensPerReq = readInt('sh-tokens-per-req', 1500);
   var model = SH_MODELS[modelKey];
   if (!model) return;
 
