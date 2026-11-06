@@ -302,6 +302,12 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
       track('telegram_click', { target: tg[3] === 'addlist/' ? 'addlist' : tg[3].toLowerCase(), placement: placement(a), link_url: clip(href) });
       return;
     }
+    if (a.tagName === 'A' && (a.hostname === 'margin.kickllm.com' || (a.hostname === 'zovo.one' && /^\/pricing/.test(a.pathname)))) {
+      // Offer links leave the site. cta_click is a GA4 key event on this property, so gtag sends it at once.
+      track('cta_click', { cta_id: clip(a.getAttribute('data-cta') || ''), product_id: a.hostname === 'zovo.one' ? 'zovo_pro' : 'margin_studio',
+        cta_target: clip(a.hash.slice(1) || 'home'), placement: placement(a), page_path: location.pathname, link_text: clip(a.textContent) });
+      return;
+    }
     if (STRIPE.test(href) || a.hasAttribute('data-mr-checkout')) {
       var plan = planOf(a, href), cp = { plan: plan, currency: 'USD', placement: placement(a) };
       if (VALUE[plan]) cp.value = VALUE[plan];
