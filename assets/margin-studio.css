@@ -32,3 +32,6 @@
 .kl-legal a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .kl-legal a:focus-visible { outline: 2px solid #fda4af; outline-offset: 2px; }
 footer.kl-legal-foot { margin: 2rem 0 0; padding: 1rem 0 0; border-top: 1px solid rgba(127,127,127,0.25); }
+
+/* CRO 1106: 48 px touch target for the preview link */
+.margin-studio-cta .margin-preview{display:inline-flex;align-items:center;min-height:48px}
