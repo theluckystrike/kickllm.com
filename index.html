@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <title>LLM API Pricing Calculator — Compare 25+ Models (May 2026)</title>
-  <meta name="description" content="Compare LLM API costs across Claude, GPT-4o, Gemini, and 25+ models. Calculate monthly spend and per-conversation costs with live May 2026 pricing.">
+  <title>LLM API Pricing Calculator, Compare 24 Models</title>
+  <meta name="description" content="Compare LLM API costs across Claude, GPT-4o, Gemini and 24 models from 9 providers. Calculate monthly spend and per-conversation costs.">
   <link rel="canonical" href="https://kickllm.com/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
     <link rel="alternate" type="application/atom+xml" title="KickLLM — LLM API Cost Calculator Blog Feed" href="/blog/feed.xml">
@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="/assets/style.css">
   <link rel="alternate" hreflang="en" href="https://kickllm.com/">
   <link rel="alternate" hreflang="x-default" href="https://kickllm.com/">
-<link rel="stylesheet" href="/assets/margin-studio.css">
+<link rel="stylesheet" href="/assets/margin-studio.css?v=1106r2">
   <script src="/site-analytics.js" defer></script>
   <link rel="stylesheet" href="/assets/support-cta.css?v=4-github">
 <script defer src="/assets/support-v3.js?v=3"></script>
@@ -82,8 +82,9 @@
   <section class="hero">
     <h1>LLM <span>Cost</span> Calculator</h1>
     <div class="quick-answer" style="max-width:800px;margin:1.5rem auto;padding:14px 18px;border-left:4px solid #22c55e;background:#0f172a;border-radius:8px;"><p style="margin:0 0 6px;color:#e5e7eb;">LLM API costs run from $0.10 per 1M tokens on Gemini 2.5 Flash-Lite to $25 per 1M output tokens on Claude Opus 4.7. Self-hosting on GPU instances costs about $1,000 to $10,000 or more per month, depending on model size and hardware.</p><p style="margin:0;font-size:13px;color:#94a3b8;">Updated 2026-10-28</p></div>
-    <p>Compare API costs across providers with real May 2026 pricing. Calculate monthly spend or per-conversation cost instantly.</p>
-  <a class="margin-hero-link" data-cta="hero_margin" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=homepage&amp;utm_campaign=margin_studio#preview">Working with real usage? Try Margin Studio · $39 once →</a>
+    <p>Compare API costs across 24 models from 9 providers. Calculate monthly spend or per-conversation cost.</p>
+  <p class="margin-hero-offer">The calculator is free. Margin Studio is a local app that audits your LLM usage CSV and shows the margin of each model, $39 once.</p>
+  <a class="margin-hero-link" data-cta="hero_margin" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=homepage&amp;utm_campaign=margin_studio#preview">See Margin Studio, $39 once →</a>
   </section>
 
   <section class="tool-section">
@@ -157,7 +158,7 @@
       </div>
 
       <div class="input-card">
-        <h3>Models (price per 1M tokens: input/output)</h3>
+        <h3>Models (price per 1M tokens, input/output)</h3>
         <div class="model-list" id="model-list"></div>
       </div>
     </div>
@@ -204,7 +205,7 @@
     <p>The calculator supports three modes. Monthly Cost mode takes your expected request volume, tokens per request, and input/output ratio, then shows what each model would cost per month. Per Conversation mode calculates the cost of a single multi-turn conversation — useful for estimating support bot costs or per-user expenses. Self-Host Break-Even mode compares your current API spend against the cost of running open-source models on your own GPU infrastructure, including hardware costs, to find the crossover point where self-hosting saves money.</p>
 
     <h3>Features</h3>
-    <p>KickLLM includes real-time pricing for over 15 models across 5 providers, with input and output token costs shown separately. The interactive comparison table sorts by total cost so you can immediately identify the most cost-effective option for your workload. The self-hosting calculator factors in GPU rental costs for A100 and H100 instances, model memory requirements, and throughput estimates using vLLM benchmarks. All calculations update instantly as you adjust parameters — no page reloads, no server calls. If you work with <a href="https://lockml.com">machine learning model comparisons</a>, KickLLM complements that workflow with the financial dimension.</p>
+    <p>KickLLM includes list prices for 24 models across 9 providers, with input and output token costs shown separately. The interactive comparison table sorts by total cost so you can immediately identify the most cost-effective option for your workload. The self-hosting calculator factors in GPU rental costs for A100 and H100 instances, model memory requirements, and throughput estimates using vLLM benchmarks. All calculations update instantly as you adjust parameters — no page reloads, no server calls. If you work with <a href="https://lockml.com">machine learning model comparisons</a>, KickLLM complements that workflow with the financial dimension.</p>
 
     <h3>Who Uses This</h3>
     <p>KickLLM is used by developers evaluating which LLM provider to integrate, startup founders budgeting their AI infrastructure costs, and platform engineers deciding between API access and self-hosted inference. Common use cases include comparing Claude vs GPT-4 pricing for a customer support chatbot, estimating whether Groq's Llama offering undercuts Anthropic for high-volume batch processing, and modeling the break-even point for self-hosting Mixtral 8x22B versus using API access. Teams building <a href="https://claudhq.com">Claude-powered applications</a> frequently use KickLLM to forecast costs before committing to a provider, and those working with <a href="https://heytensor.com">tensor operations</a> use the self-hosting calculator to estimate GPU requirements.</p>
@@ -212,7 +213,6 @@
     <h3>Privacy</h3>
     <p>The calculators run in your browser, and nothing you type into them is sent anywhere. The site does use Google Analytics to see which pages and links bring people here, and you can switch it off in <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a>. There&#39;s no account to create. The source code is on <a href="https://github.com/theluckystrike/kickllm.com">GitHub</a>.</p>
 
-    <div class="last-updated"><time datetime="2026-05-25">Last updated: May 25, 2026</time></div>
   </section>
 
   <!-- Internal Content Discovery -->
@@ -325,6 +325,7 @@
     <div class="footer-inner">
         <div class="footer-brand">Zovo Tools</div>
         <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=margin_studio" class="footer-cta footer-margin" data-cta="footer_margin">Get Margin Studio, $39 once &rarr;</a>
         <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta" data-cta="footer_zovo">Zovo Lifetime, $99 once &rarr;</a>
         <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=home">Zovo</a> · lifetime access, one payment</div>
     </div>
@@ -339,41 +340,41 @@
         <h3 class="zovo-network-title">Explore More Tools</h3>
         <div class="zovo-network-links">
 <a href="https://mcp.zovo.one">MCP servers for Claude</a>
-            <a href="https://abwex.com">ABWex — A/B Testing</a>
-            <a href="https://b2berp.com">B2BERP — Business Tools</a>
-            <a href="https://bugbountyreality.com">BugBountyReality — Security</a>
-            <a href="https://claudflow.com">ClaudFlow — Workflows</a>
-            <a href="https://claudkit.com">ClaudKit — API Tools</a>
-            <a href="https://dismissticket.com">DismissTicket — Support</a>
-            <a href="https://enhio.com">Enhio — Text Tools</a>
-            <a href="https://epochpilot.com">EpochPilot — Timestamps</a>
-            <a href="https://gen8x.com">Gen8X — Color Tools</a>
-            <a href="https://gpt0x.com">GPT0X — AI Models</a>
-            <a href="https://heytensor.com">HeyTensor — ML Tools</a>
-            <a href="https://ingredientcalculator.com">IngredientCalc — Recipes</a>
-            <a href="https://invokebot.com">InvokeBot — Webhooks</a>
-            <a href="https://kappafy.com">Kappafy — JSON</a>
-            <a href="https://kappakit.com">KappaKit — Dev Toolkit</a>
-            <a href="https://krzen.com">Krzen — Image Tools</a>
-            <a href="https://lochbot.com">LochBot — Security</a>
-            <a href="https://lockml.com">LockML — ML Security</a>
-            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=home">ML0X — ML Basics</a>
-            <a href="https://ml3x.com">ML3X — Matrix Math</a>
-            <a href="https://pictureeditor.net">PictureEditor — Image Editing</a>
-            <a href="https://recipetool.net">RecipeTool — Cooking</a>
-            <a href="https://viryd.com">Viryd — Dev Tools</a>
+            <a href="https://abwex.com">ABWex, A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP, Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality, Security</a>
+            <a href="https://claudflow.com">ClaudFlow, Workflows</a>
+            <a href="https://claudkit.com">ClaudKit, API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket, Support</a>
+            <a href="https://enhio.com">Enhio, Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot, Timestamps</a>
+            <a href="https://gen8x.com">Gen8X, Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X, AI Models</a>
+            <a href="https://heytensor.com">HeyTensor, ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc, Recipes</a>
+            <a href="https://invokebot.com">InvokeBot, Webhooks</a>
+            <a href="https://kappafy.com">Kappafy, JSON</a>
+            <a href="https://kappakit.com">KappaKit, Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen, Image Tools</a>
+            <a href="https://lochbot.com">LochBot, Security</a>
+            <a href="https://lockml.com">LockML, ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=home">ML0X, ML Basics</a>
+            <a href="https://ml3x.com">ML3X, Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor, Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool, Cooking</a>
+            <a href="https://viryd.com">Viryd, Dev Tools</a>
         </div>
     </div>
 </nav>
 
 <div class="pow-strip">
   <div class="pow-strip-inner">
-    <span class="pow-label">By the same builder:</span>
-    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub — theluckystrike</a>
-    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative — Grammar AI</a>
-    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder — Dev Blog</a>
+    <span class="pow-label">By the same builder</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub, theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative, Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder, Dev Blog</a>
     <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
-    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=home" rel="nofollow">Zovo — AI Dev Tools</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=home" rel="nofollow">Zovo, AI Dev Tools</a>
   </div>
 </div>
 

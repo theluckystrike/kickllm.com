@@ -35,3 +35,15 @@ footer.kl-legal-foot { margin: 2rem 0 0; padding: 1rem 0 0; border-top: 1px soli
 
 /* CRO 1106: 48 px touch target for the preview link */
 .margin-studio-cta .margin-preview{display:inline-flex;align-items:center;min-height:48px}
+
+/* CRO 1106 R2: one primary offer, 48 px targets */
+.nav .nav-links a.margin-menu{display:inline-flex;align-items:center;min-height:48px}
+.nav .nav-right a.nav-pro{background:none;border:0;color:#b4b4bb!important;padding:0 6px;font-weight:500;min-height:48px;display:inline-flex;align-items:center}
+.nav .nav-right a.nav-zovo{min-height:48px;display:inline-flex;align-items:center;color:#b4b4bb!important}
+.hero p.margin-hero-offer{margin:1rem auto 0;color:#e5e7eb;max-width:640px}
+a.margin-hero-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;box-sizing:border-box;margin-top:.9rem;padding:0 18px;background:#be123c;border:1px solid #fb7185;border-radius:8px;color:#fff;font-size:.95rem;font-weight:700;text-decoration:none}
+a.margin-hero-link:hover{background:#9f1239;text-decoration:none}
+footer a.footer-cta{min-height:48px;display:inline-flex;align-items:center;box-sizing:border-box}
+footer a.footer-margin{background:#be123c;border-color:#fb7185;color:#fff;margin-bottom:10px}
+footer a.footer-margin:hover{background:#9f1239;color:#fff}
+footer a.footer-cta[data-cta="footer_zovo"]{border:0;background:none;color:#c6c6ce;font-weight:500;text-decoration:underline;text-underline-offset:4px;padding:0 8px}
