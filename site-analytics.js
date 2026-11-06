@@ -304,8 +304,18 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     }
     if (a.tagName === 'A' && (a.hostname === 'margin.kickllm.com' || (a.hostname === 'zovo.one' && /^\/pricing/.test(a.pathname)))) {
       // Offer links leave the site. cta_click is a GA4 key event on this property, so gtag sends it at once.
-      track('cta_click', { cta_id: clip(a.getAttribute('data-cta') || ''), product_id: a.hostname === 'zovo.one' ? 'zovo_pro' : 'margin_studio',
-        cta_target: clip(a.hash.slice(1) || 'home'), placement: placement(a), page_path: location.pathname, link_text: clip(a.textContent) });
+      var cp0 = { cta_id: clip(a.getAttribute('data-cta') || ''), product_id: a.hostname === 'zovo.one' ? 'zovo_pro' : 'margin_studio',
+        cta_target: clip(a.hash.slice(1) || 'home'), placement: placement(a), page_path: location.pathname, link_text: clip(a.textContent) };
+      // Same-tab click: hold the navigation until gtag confirms the hit (max 1.2 s), so a click right after Accept is not lost.
+      if (booted && plain && !e.defaultPrevented && (!a.target || a.target === '_self')) {
+        e.preventDefault();
+        var gone = false, to = a.href, go = function () { if (!gone) { gone = true; location.href = to; } };
+        cp0.event_callback = go; cp0.event_timeout = 1000;
+        track('cta_click', cp0);
+        setTimeout(go, 1200);
+        return;
+      }
+      track('cta_click', cp0);
       return;
     }
     if (STRIPE.test(href) || a.hasAttribute('data-mr-checkout')) {

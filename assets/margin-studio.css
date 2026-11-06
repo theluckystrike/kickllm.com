@@ -53,3 +53,11 @@ footer a.footer-cta[data-cta="footer_zovo"]{border:0;background:none;color:#c6c6
 .mode-tab{min-height:48px}
 /* CRO 1106 R2 review C: tabs wrap at 200 % zoom */
 .mode-tabs{flex-wrap:wrap}
+
+/* CRO 1106 R3: no sideways scroll at 200 % text zoom on phones */
+.input-card,.zovo-network-inner{min-width:0;max-width:100%;overflow-wrap:anywhere}
+main code{overflow-wrap:anywhere;word-break:break-word}
+.mrc{left:8px!important;right:8px!important;max-width:none!important;width:auto!important;overflow-wrap:anywhere}
+.mrc .mrc-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mrc .mrc-btn{min-width:0;white-space:normal}
+@media (min-width:760px){.mrc{left:auto!important;right:24px!important;width:min(720px,calc(100% - 48px))!important}}
