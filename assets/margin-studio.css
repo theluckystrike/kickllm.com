@@ -48,3 +48,6 @@ footer a.footer-margin{background:#be123c;border-color:#fb7185;color:#fff;margin
 footer a.footer-margin:hover{background:#9f1239;color:#fff}
 footer a.footer-cta[data-cta="footer_zovo"]{border:0;background:none;color:#c6c6ce;font-weight:500;text-decoration:underline;text-underline-offset:4px;padding:0 8px}
 .nav .nav-links a.margin-menu{gap:.35em}
+/* CRO 1106 R2 review B: 48 px phone targets */
+@media (max-width: 700px){.nav .nav-links a{display:inline-flex;align-items:center;min-height:48px}.nav .nav-links{gap:0 1rem}}
+.mode-tab{min-height:48px}

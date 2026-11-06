@@ -119,7 +119,7 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     '.mrc .mrc-text{margin:0 0 12px;padding:0;color:#d6d3cb}' +
     '.mrc .mrc-text a{color:#fffdf7;text-decoration:underline;text-underline-offset:3px}' +
     '.mrc .mrc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
-    '.mrc .mrc-btn{-webkit-appearance:none;appearance:none;min-height:44px;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.24);' +
+    '.mrc .mrc-btn{-webkit-appearance:none;appearance:none;min-height:48px;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.24);' +
     'border-radius:999px;background:#212120;color:#fffdf7;font:inherit;font-weight:800;cursor:pointer}' +
     '.mrc .mrc-btn:hover{border-color:#F43F5E}' +
     '.mrc .mrc-btn:focus-visible,.mrc .mrc-text a:focus-visible{outline:3px solid #F43F5E;outline-offset:2px}' +
