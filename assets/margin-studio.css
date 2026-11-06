@@ -47,3 +47,4 @@ footer a.footer-cta{min-height:48px;display:inline-flex;align-items:center;box-s
 footer a.footer-margin{background:#be123c;border-color:#fb7185;color:#fff;margin-bottom:10px}
 footer a.footer-margin:hover{background:#9f1239;color:#fff}
 footer a.footer-cta[data-cta="footer_zovo"]{border:0;background:none;color:#c6c6ce;font-weight:500;text-decoration:underline;text-underline-offset:4px;padding:0 8px}
+.nav .nav-links a.margin-menu{gap:.35em}
