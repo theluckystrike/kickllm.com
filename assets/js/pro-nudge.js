@@ -42,12 +42,12 @@
 
   function buildNudge(count) {
     var host = location.hostname;
-    var url = 'https://zovo.one/pricing?utm_source=' + encodeURIComponent(host) + '&utm_medium=nudge&utm_campaign=usage';
+    var url = 'https://margin.kickllm.com/?utm_source=kickllm&utm_medium=nudge&utm_campaign=usage';
 
     var div = document.createElement('div');
     div.className = 'pro-nudge';
     div.innerHTML =
-      '<span>You\u2019ve used this tool ' + count + ' time' + (count === 1 ? '' : 's') + '. <a href="' + url + '" target="_blank" rel="noopener">Unlock pro features \u2192</a></span>' +
+      '<span>You\u2019ve used this tool ' + count + ' time' + (count === 1 ? '' : 's') + '. <a href="' + url + '" data-cta="nudge_margin">Margin Studio turns your usage CSV into a cost breakdown, $39 once \u2192</a></span>' +
       '<button class="pro-nudge-close" aria-label="Dismiss" title="Dismiss">\u00d7</button>';
 
     div.querySelector('.pro-nudge-close').addEventListener('click', function () {
@@ -69,8 +69,8 @@
       var span = nudgeEl.querySelector('span');
       if (span) {
         var host = location.hostname;
-        var url = 'https://zovo.one/pricing?utm_source=' + encodeURIComponent(host) + '&utm_medium=nudge&utm_campaign=usage';
-        span.innerHTML = 'You\u2019ve used this tool ' + count + ' time' + (count === 1 ? '' : 's') + '. <a href="' + url + '" target="_blank" rel="noopener">Unlock pro features \u2192</a>';
+        var url = 'https://margin.kickllm.com/?utm_source=kickllm&utm_medium=nudge&utm_campaign=usage';
+        span.innerHTML = 'You\u2019ve used this tool ' + count + ' time' + (count === 1 ? '' : 's') + '. <a href="' + url + '" data-cta="nudge_margin">Margin Studio turns your usage CSV into a cost breakdown, $39 once \u2192</a>';
       }
       return;
     }
