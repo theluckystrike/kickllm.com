@@ -15,7 +15,9 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
   var w = window, d = document, n = navigator, ID = MR_GA_ID, BASIC = MR_CONSENT_MODE !== 'advanced';
   w.mrTrack = function () {};
   if (!/^G-[A-Z0-9]{4,}$/.test(ID) || /^G-X+$/.test(ID) || w.__mrAnalytics) return;
-  if (location.hostname !== 'kickllm.com') return; // local dev and QA copies must not report to the production property
+  // cro-host-allowlist: GA loads only on the production host. localhost, 127.0.0.1, *.pages.dev, *.workers.dev and
+  // any other copy never report to the production property.
+  if (['kickllm.com', 'www.kickllm.com'].indexOf(location.hostname) < 0) return;
   w.__mrAnalytics = 1;
 
   var KEY = 'mr_consent_v1', TTL = 34164000; // seconds, 13 months: cookie_expires and the re-ask window
@@ -306,16 +308,25 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
       // Offer links leave the site. cta_click is a GA4 key event on this property, so gtag sends it at once.
       var cp0 = { cta_id: clip(a.getAttribute('data-cta') || ''), product_id: a.hostname === 'zovo.one' ? 'zovo_pro' : 'margin_studio',
         cta_target: clip(a.hash.slice(1) || 'home'), placement: placement(a), page_path: location.pathname, link_text: clip(a.textContent) };
+      // cro-begin-checkout: a Margin Studio buy link (#buy) opens the $39 checkout page, so it also counts as begin_checkout.
+      var bc = null;
+      if (cp0.product_id === 'margin_studio' && a.hash === '#buy') {
+        bc = { currency: 'USD', value: 39, cta_id: cp0.cta_id, placement: cp0.placement, page_path: location.pathname,
+          items: [{ item_id: 'margin_studio', item_name: 'KickLLM Margin Studio', price: 39, quantity: 1 }] };
+      }
       // Same-tab click: hold the navigation until gtag confirms the hit (max 1.2 s), so a click right after Accept is not lost.
       if (booted && plain && !e.defaultPrevented && (!a.target || a.target === '_self')) {
         e.preventDefault();
         var gone = false, to = a.href, go = function () { if (!gone) { gone = true; location.href = to; } };
-        cp0.event_callback = go; cp0.event_timeout = 1000;
-        track('cta_click', cp0);
+        var last = bc || cp0;
+        if (bc) track('cta_click', cp0);
+        last.event_callback = go; last.event_timeout = 1000;
+        track(bc ? 'begin_checkout' : 'cta_click', last);
         setTimeout(go, 1200);
         return;
       }
       track('cta_click', cp0);
+      if (bc) track('begin_checkout', bc);
       return;
     }
     if (STRIPE.test(href) || a.hasAttribute('data-mr-checkout')) {
@@ -369,6 +380,16 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
       typeof window.mrTrack !== 'function' || !('IntersectionObserver' in window)) return;
   var products = {'margin.kickllm.com':'margin_studio'};
   var seen = Object.create(null);
+  // offer_view only after a real interaction (scroll, pointer, key or touch), so headless full-page renders do not count.
+  var human = false, waiting = [];
+  function arm() {
+    if (human) return;
+    human = true;
+    ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (t) { window.removeEventListener(t, arm, true); });
+    waiting.forEach(function (f) { f(); });
+    waiting = [];
+  }
+  ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (t) { window.addEventListener(t, arm, { capture: true, passive: true }); });
   document.querySelectorAll('.margin-actions a.margin-buy[href^="https://margin.kickllm.com/"]').forEach(function (a) {
     if (a.closest('nav, header')) return; // a nav link is on screen at every page load, so it is not an offer view
     var href = a.href || '', product = '';
@@ -384,12 +405,16 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     var observer = new IntersectionObserver(function (entries) {
       if (seen[key] || !entries.some(function (entry) { return entry.intersectionRatio >= 0.25; })) return;
       if (getComputedStyle(a).visibility === 'hidden' || getComputedStyle(a).display === 'none') return;
-      seen[key] = true;
-      window.mrTrack('offer_view', {
-        site_id: 'kickllm.com', product_id: product, placement: placement,
-        event_schema_version: '1', qa: false
-      });
+      var fire = function () {
+        if (seen[key]) return;
+        seen[key] = true;
+        window.mrTrack('offer_view', {
+          site_id: 'kickllm.com', product_id: product, placement: placement,
+          event_schema_version: '1', qa: false
+        });
+      };
       observer.disconnect();
+      if (human) fire(); else waiting.push(fire);
     }, { threshold: 0.25 });
     observer.observe(a);
   });

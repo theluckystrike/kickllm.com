@@ -147,6 +147,9 @@ function renderResults(results) {
     html += '</tr>';
   }
   tbody.innerHTML = html;
+  var ctaText = document.getElementById('kl-result-cta-text');
+  if (ctaText) ctaText.textContent = 'Modeled: $' + formatCost(cheapestCost) + (mode === 'monthly' ? '/mo' : '/conversation') +
+    ' on ' + results[0].name + ' at list prices.';
   if (window.sctShown) window.sctShown();
 }
 
