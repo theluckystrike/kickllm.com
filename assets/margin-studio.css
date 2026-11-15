@@ -61,3 +61,12 @@ main code{overflow-wrap:anywhere;word-break:break-word}
 .mrc .mrc-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .mrc .mrc-btn{min-width:0;white-space:normal}
 @media (min-width:760px){.mrc{left:auto!important;right:24px!important;width:min(720px,calc(100% - 48px))!important}}
+/* sprint-20261115-kl-top-offer: compact priced offer under the H1, sized for the first phone screen. */
+.margin-top-offer { box-sizing: border-box; max-width: 1000px; margin: 1rem auto; padding: .85rem 1rem; background: #171014; border: 1px solid #59303c; border-radius: 10px; color: #f5eef0; text-align: left; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+.margin-top-offer p { margin: 0 0 .6rem; color: #d2c4c9; font-size: .92rem; line-height: 1.5; }
+.margin-top-offer p strong { color: #fff; }
+.margin-top-offer .margin-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; }
+.margin-top-offer a.margin-buy { display: inline-flex; align-items: center; padding: .6rem .95rem; background: #be123c; border: 1px solid #fb7185; border-radius: 7px; color: #fff; font-size: .92rem; font-weight: 700; text-decoration: none; }
+.margin-top-offer a.margin-buy:hover { background: #9f1239; }
+.margin-top-offer a.margin-preview { color: #fda4af; font-size: .88rem; }
+.margin-top-offer .margin-detail { color: #a8969c; font-size: .78rem; }
