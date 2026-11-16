@@ -32,7 +32,7 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Michael Lip", "url": "https://zovo.one" },
     "datePublished": "2026-05-16",
-    "dateModified": "2026-05-16",
+    "dateModified": "2026-11-17",
     "featureList": ["Per-request cost calculation", "Daily/monthly/yearly projections", "Side-by-side model comparison", "7 major LLM providers", "Real-time 2026 pricing data"]
   }
   </script>
@@ -280,18 +280,21 @@
               <tbody>
                 <tr><td>GPT-4o</td><td>OpenAI</td><td class="mono">$2.50</td><td class="mono">$10.00</td><td class="mono">4.0x</td></tr>
                 <tr><td>GPT-4o-mini</td><td>OpenAI</td><td class="mono">$0.15</td><td class="mono">$0.60</td><td class="mono">4.0x</td></tr>
-                <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td class="mono">$15.00</td><td class="mono">$75.00</td><td class="mono">5.0x</td></tr>
+                <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td class="mono">$5.00</td><td class="mono">$25.00</td><td class="mono">5.0x</td></tr>
                 <tr><td>Claude Sonnet 4.6</td><td>Anthropic</td><td class="mono">$3.00</td><td class="mono">$15.00</td><td class="mono">5.0x</td></tr>
-                <tr><td>Claude Haiku 4.5</td><td>Anthropic</td><td class="mono">$0.80</td><td class="mono">$4.00</td><td class="mono">5.0x</td></tr>
+                <tr data-cro="sprint-20261116-haiku-price"><td>Claude Haiku 4.5</td><td>Anthropic</td><td class="mono">$1.00</td><td class="mono">$5.00</td><td class="mono">5.0x</td></tr>
                 <tr><td>Gemini 2.0 Flash</td><td>Google</td><td class="mono">$0.075</td><td class="mono">$0.30</td><td class="mono">4.0x</td></tr>
                 <tr><td>DeepSeek V3</td><td>DeepSeek</td><td class="mono">$0.27</td><td class="mono">$1.10</td><td class="mono">4.1x</td></tr>
               </tbody>
             </table>
+            <p class="pricing-src" data-cro="sprint-20261116-anthropic-prices-dated" style="font-size:0.8rem;color:var(--text-muted);margin-top:8px;">Anthropic rows checked on <a href="https://platform.claude.com/docs/en/about-claude/pricing" rel="nofollow">Anthropic's official pricing page</a> on 2026-11-17: Claude Haiku 4.5 $1 input / $5 output per 1M tokens (this page showed $0.80 / $4 before), Claude Opus 4.6 $5 / $25 (was $15 / $75), Claude Sonnet 4.6 $3 / $15. Other rows: provider pages, May 2026.</p>
           </div>
         </div>
       </div>
     </div>
 
+
+<aside class="kl-pack" id="cost-pack" data-cro="sprint-20261116-kl-cost-pack" data-mr-placement="cost_pack_cost_calculator" aria-label="KickLLM LLM Speed &amp; Cost Pack, $19"><style>.kl-pack{margin:2rem 0;padding:1.1rem 1.25rem;border:1px solid rgba(148,163,184,.35);border-radius:10px}.kl-pack h2{margin:0 0 .5rem;font-size:1.2rem}.kl-pack p{margin:.35rem 0}.kl-pack a.margin-buy{display:inline-flex;align-items:center;padding:.6rem .95rem;background:#be123c;border:1px solid #fb7185;border-radius:7px;color:#fff;font-weight:700;text-decoration:none}.kl-pack .s3-paybox{margin:.6rem 0 .2rem;padding:.5rem .75rem;border:1px solid rgba(148,163,184,.35);border-radius:8px;font-size:13px;line-height:1.4}.kl-pack .s3-paybox p{margin:.15rem 0;font-size:13px}</style><h2>Get the data as a spreadsheet: LLM Speed &amp; Cost Pack, $19</h2><p>Every price in the pack shows its source and the date it was read, so you can check it before you commit spend. Use the estimator to price your own traffic across all 485 rows.</p><p class="margin-actions"><a class="margin-buy" data-cta="cost_pack_buy" href="https://buy.stripe.com/aFafZi3se5NC1xz6IJ43S42?client_reference_id=kl_cost_calculator&amp;utm_source=kickllm&amp;utm_medium=cost_pack&amp;utm_content=cost-calculator" data-mr-product="kickllm_cost_pack" data-mr-price="19" data-mr-name="KickLLM LLM Speed &amp; Cost Pack" rel="nofollow">Buy the pack, $19 once</a> <a href="/llm-speed-cost-pack/" data-cta="cost_pack_details" style="margin-left:.6rem">What is inside</a></p><div class="s3-paybox" data-cro="sprint-20261116-paybox"><p><strong>$19</strong> once - one spreadsheet (XLSX + CSV) with 485 dated, sourced LLM API prices (official Anthropic, Google and OpenAI pages plus 434 OpenRouter rates), kickllm's measured 16-model speed benchmark (96 runs, 2026-09-06) and a monthly cost estimator with live formulas and 4 worked scenarios.</p><p>Instant download after payment · Refund requests within 14 days of purchase</p><p>Secure checkout by Stripe - the page shows BeLikeNative, our company account</p></div></aside>
     <!-- ==================== ARTICLE CONTENT ==================== -->
     <div class="article-content">
 
@@ -343,16 +346,16 @@
 
       <h2>How GPT-4o Pricing Compares to Claude and Gemini</h2>
       <p>GPT-4o sits in the mid-range of the pricing spectrum at $2.50 per million input tokens and $10.00 per million output tokens. It is substantially cheaper than Claude Opus 4.6 ($15/$75) but more expensive than Claude Sonnet 4.6 ($3/$15) on output and cheaper on input. For input-heavy workloads like RAG, GPT-4o has a slight price advantage over Sonnet. For output-heavy workloads like content generation, Sonnet and GPT-4o are comparable.</p>
-      <p>The budget tier tells a different story. GPT-4o-mini ($0.15/$0.60) is cheaper than Claude Haiku 4.5 ($0.80/$4.00) by a significant margin, but Gemini 2.0 Flash ($0.075/$0.30) undercuts both. DeepSeek V3 ($0.27/$1.10) slots between Flash and GPT-4o-mini. For high-volume, cost-sensitive applications, the choice often comes down to which budget model performs adequately for your specific use case.</p>
+      <p>The budget tier tells a different story. GPT-4o-mini ($0.15/$0.60) is cheaper than Claude Haiku 4.5 ($1.00/$5.00 as of 2026-11-17) by a significant margin, but Gemini 2.0 Flash ($0.075/$0.30) undercuts both. DeepSeek V3 ($0.27/$1.10) slots between Flash and GPT-4o-mini. For high-volume, cost-sensitive applications, the choice often comes down to which budget model performs adequately for your specific use case.</p>
       <p>Use the comparison mode in the calculator above to see exact dollar amounts for your specific workload. The model that is cheapest per token is not always cheapest in practice, because different models require different prompt lengths and produce different response lengths to achieve the same quality of output.</p>
 
       <h2>Real-World Cost Examples</h2>
       <p>Here are concrete cost projections for common application types, based on the 2026 pricing data in this calculator:</p>
       <ul>
-        <li><strong>Customer support chatbot</strong> (1,000 conversations/day, 5 turns each, 1,500 input + 400 output tokens per turn): Claude Sonnet costs ~$1,125/month. GPT-4o costs ~$1,225/month. Haiku costs ~$132/month.</li>
-        <li><strong>Code review assistant</strong> (200 pull requests/day, 3,000 input + 800 output tokens per review): Claude Sonnet costs ~$270/month. GPT-4o costs ~$195/month.</li>
+        <li><strong>Customer support chatbot</strong> (1,000 conversations/day, 5 turns each, 1,500 input + 400 output tokens per turn, 30-day month): Claude Sonnet 4.6 costs ~$1,575/month. GPT-4o costs ~$1,163/month. Claude Haiku 4.5 costs ~$525/month.</li>
+        <li><strong>Code review assistant</strong> (200 pull requests/day, 3,000 input + 800 output tokens per review, 30-day month): Claude Sonnet 4.6 costs ~$126/month. GPT-4o costs ~$93/month.</li>
         <li><strong>Document summarization pipeline</strong> (500 documents/day, 8,000 input + 600 output tokens per document): Claude Sonnet costs ~$495/month. Gemini Flash costs ~$12/month.</li>
-        <li><strong>AI writing assistant</strong> (5,000 requests/day, 500 input + 1,500 output tokens per request): Claude Sonnet costs ~$3,600/month. DeepSeek V3 costs ~$290/month.</li>
+        <li><strong>AI writing assistant</strong> (5,000 requests/day, 500 input + 1,500 output tokens per request): Claude Sonnet costs ~$3,600/month. DeepSeek V3 costs ~$268/month.</li>
       </ul>
 
       <h2>When to Consider Self-Hosting</h2>
@@ -404,7 +407,7 @@
     </section>
 
     <section style="max-width:720px;margin:2rem auto;padding:0 2rem;">
-      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=tools-llm-cost-calculator">Michael Lip</a>. Pricing data sourced from official provider pages and updated as of May 2026. Actual costs may vary based on volume discounts, committed use agreements, and regional pricing.</p>
+      <p style="font-size:0.85rem;color:var(--text-muted);">Built by <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=tools-llm-cost-calculator">Michael Lip</a>. Pricing data sourced from official provider pages: Anthropic prices re-checked on 2026-11-17, other prices as of May 2026. Actual costs may vary based on volume discounts, committed use agreements, and regional pricing.</p>
     </section>
   </main>
 
@@ -480,9 +483,9 @@
   const MODELS = {
     'gpt-4o':          { name: 'GPT-4o',            provider: 'OpenAI',    inputPer1M: 2.50,   outputPer1M: 10.00 },
     'gpt-4o-mini':     { name: 'GPT-4o-mini',       provider: 'OpenAI',    inputPer1M: 0.15,   outputPer1M: 0.60  },
-    'claude-opus-4':   { name: 'Claude Opus 4.6',   provider: 'Anthropic', inputPer1M: 15.00,  outputPer1M: 75.00 },
+    'claude-opus-4':   { name: 'Claude Opus 4.6',   provider: 'Anthropic', inputPer1M: 5.00,   outputPer1M: 25.00 }, // official page 2026-11-17
     'claude-sonnet-4': { name: 'Claude Sonnet 4.6', provider: 'Anthropic', inputPer1M: 3.00,   outputPer1M: 15.00 },
-    'claude-haiku-4':  { name: 'Claude Haiku 4.5',  provider: 'Anthropic', inputPer1M: 0.80,   outputPer1M: 4.00  },
+    'claude-haiku-4':  { name: 'Claude Haiku 4.5',  provider: 'Anthropic', inputPer1M: 1.00,   outputPer1M: 5.00  }, // official page 2026-11-17 (was 0.80/4.00)
     'gemini-flash':    { name: 'Gemini 2.0 Flash',  provider: 'Google',    inputPer1M: 0.075,  outputPer1M: 0.30  },
     'deepseek-v3':     { name: 'DeepSeek V3',       provider: 'DeepSeek',  inputPer1M: 0.27,   outputPer1M: 1.10  }
   };

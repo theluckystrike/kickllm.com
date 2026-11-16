@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Your LLM Speed &amp; Cost Pack download | KickLLM</title>
+  <meta name="description" content="Download the LLM Speed &amp; Cost Pack you bought. The link is checked against your Stripe payment.">
+  <link rel="canonical" href="https://kickllm.com/llm-speed-cost-pack/download/">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/margin-studio.css?v=1106r3">
+  <script src="/site-analytics.js?v=1116d1b" defer></script>
+  <link rel="stylesheet" href="/assets/support-cta.css?v=4-github">
+<script defer src="/assets/support-v3.js?v=3"></script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">kickllm</a>
+    <ul class="nav-links">
+      <li><a href="/">Calculator</a></li>
+      <li><a href="/research/llm-value-index-2026.html">Research</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/about.html">About</a></li>
+          <li><a class="margin-menu" data-cta="nav_margin" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio <span aria-label="39 US dollars">$39</span></a></li>
+    </ul>
+      <div class="nav-right">
+      <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=nav-link" class="nav-pro" target="_blank" data-cta="nav_zovo_pro">Zovo Pro</a>
+      <a href="https://zovo.one/tools?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=about" class="nav-zovo">Zovo Tools</a>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div data-cro="sprint-20261116-purchase">
+    <h1 id="hd">Checking your purchase&hellip;</h1>
+    <p id="sub">One moment. We are confirming the payment with Stripe before we hand over the file.</p>
+    <div id="ok" hidden><p>Your LLM Speed &amp; Cost Pack is ready: <span id="fn"></span></p><p><a id="dl" class="margin-buy" href="#" rel="nofollow" style="display:inline-flex;padding:.6rem .95rem;background:#be123c;border-radius:7px;color:#fff;font-weight:700;text-decoration:none">Download the ZIP</a></p><p>Bookmark this page: it gives you a fresh download link each time you open it (up to 30 downloads).</p></div>
+    <p id="prob" hidden></p>
+    <p style="font-size:.9rem">Problems or a refund (within 14 days of purchase)? Email <a href="mailto:support@zovo.one">support@zovo.one</a> or reply to your Stripe receipt with this reference: <code id="ref">not set</code></p>
+    </div>
+  <script>
+  (function () {
+    var W = 'https://sprint-delivery.lipmichal.workers.dev', SKU = 'kickllm-cost-pack';
+    var sid = new URLSearchParams(location.search).get('session_id') || '';
+    var $ = function (i) { return document.getElementById(i); }; $('ref').textContent = sid || 'not set';
+    function problem(m) { $('hd').textContent = 'We could not confirm that purchase'; $('sub').hidden = true; $('prob').textContent = m; $('prob').hidden = false; }
+    if (!/^cs_live_[A-Za-z0-9]{10,200}$/.test(sid)) { problem('This page needs the link Stripe opened after payment. If you paid, email support@zovo.one with your Stripe receipt and we will send the file.'); return; }
+    function purchase(r) {
+      var key = 'kl_purchase_' + sid; try { if (localStorage.getItem(key)) return; } catch (e) {}
+      if (!r || r.transaction_id !== sid || r.payment_status !== 'paid' || String(r.currency).toLowerCase() !== 'usd') return;
+      var v = (r.amount_total - (r.amount_tax || 0)) / 100, n = 0;
+      (function t() {
+        if (typeof window.gtag === 'function' && window.__mrAnalytics) {
+          try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (e) {}
+          window.gtag('event', 'purchase', { transaction_id: sid, value: v, currency: 'USD', site: 'kickllm.com', product: 'KickLLM LLM Speed & Cost Pack', product_id: 'kickllm_cost_pack', price: v, payment_verified: true, transport_type: 'beacon',
+            items: [{ item_id: 'kickllm_cost_pack', item_name: 'KickLLM LLM Speed & Cost Pack', price: v, quantity: 1 }] });
+          return; }
+        if (++n < 40) setTimeout(t, 250);
+      })();
+    }
+    var tries = 0;
+    function claim() {
+      fetch(W + '/claim?sku=' + SKU + '&session_id=' + encodeURIComponent(sid), { cache: 'no-store' })
+        .then(function (r) { return r.json().then(function (j) { return [r.status, j]; }); })
+        .then(function (x) { var j = x[1] || {};
+          if (j.ok) { purchase(j.payment_receipt); $('hd').textContent = 'Your download is ready'; $('sub').hidden = true; $('fn').textContent = j.filename || ''; $('dl').href = j.download; $('ok').hidden = false; return; }
+          if (j.retry && ++tries < 8) { $('sub').textContent = j.reason || 'Checking again...'; setTimeout(claim, 4000); return; }
+          problem(j.reason || ('Error ' + x[0] + '. Email support@zovo.one with your Stripe receipt.')); })
+        .catch(function () { if (++tries < 8) setTimeout(claim, 4000); else problem('The download service could not be reached. Reload this page in a minute.'); });
+    }
+    claim();
+  })();
+  </script>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">Zovo Tools</div>
+        <div class="footer-tagline">Free developer tools by a solo dev.</div>
+        <a href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=margin_studio" class="footer-cta footer-margin" data-cta="footer_margin">Get Margin Studio, $39 once &rarr;</a>
+        <a href="https://zovo.one/pricing?utm_source=kickllm&amp;utm_medium=satellite&amp;utm_campaign=footer-link" class="footer-cta" data-cta="footer_zovo">Zovo Lifetime, $99 once &rarr;</a>
+        <div class="footer-copy">© 2026 <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=footer&amp;utm_campaign=privacy">Zovo</a> · lifetime access, one payment</div>
+    </div>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a> <span aria-hidden="true">&middot;</span> <a href="/support/">Support</a></p>
+</footer>
+<!-- support-cta:footer -->
+<section class="support-cta support-cta--footer" data-support-cta="footer" aria-label="Support KickLLM"><div class="sct-maker"><img class="sct-portrait" src="/assets/michael-128.webp" width="40" height="40" loading="lazy" alt="Michael Lip"><h2 class="support-cta__title">Made by Michael, one person and a lot of coffee.</h2></div><p>If KickLLM has helped you, you can buy me a coffee. It honestly makes my day, and I read every note that comes with one.</p><div class="support-cta__actions"><span class="sct-card-option"><a class="support-cta__btn sct-primary support-cta__btn--primary" href="https://paypal.me/najzzz/5USD" target="_blank" rel="noopener" data-rail="paypal">Buy me a coffee · $5</a><small>via PayPal</small></span><a class="support-cta__btn support-cta__btn--secondary" href="https://buymeacoffee.com/michaellip" target="_blank" rel="noopener" data-rail="bmc">Card, any amount or monthly</a><a class="sct-github" href="https://github.com/sponsors/theluckystrike" target="_blank" rel="noopener" data-rail="github"><span>Sponsor on GitHub<small>monthly or one-time</small></span></a><a class="support-cta__link" href="/support/">Why I ask</a></div></section>
+
+
+<nav class="zovo-network" aria-label="Zovo Tools Network">
+    <div class="zovo-network-inner">
+        <h3 class="zovo-network-title">Explore More Tools</h3>
+        <div class="zovo-network-links">
+<a href="https://mcp.zovo.one">MCP servers for Claude</a>
+            <a href="https://abwex.com">ABWex, A/B Testing</a>
+            <a href="https://b2berp.com">B2BERP, Business Tools</a>
+            <a href="https://bugbountyreality.com">BugBountyReality, Security</a>
+            <a href="https://claudflow.com">ClaudFlow, Workflows</a>
+            <a href="https://claudkit.com">ClaudKit, API Tools</a>
+            <a href="https://dismissticket.com">DismissTicket, Support</a>
+            <a href="https://enhio.com">Enhio, Text Tools</a>
+            <a href="https://epochpilot.com">EpochPilot, Timestamps</a>
+            <a href="https://gen8x.com">Gen8X, Color Tools</a>
+            <a href="https://gpt0x.com">GPT0X, AI Models</a>
+            <a href="https://heytensor.com">HeyTensor, ML Tools</a>
+            <a href="https://ingredientcalculator.com">IngredientCalc, Recipes</a>
+            <a href="https://invokebot.com">InvokeBot, Webhooks</a>
+            <a href="https://kappafy.com">Kappafy, JSON</a>
+            <a href="https://kappakit.com">KappaKit, Dev Toolkit</a>
+            <a href="https://krzen.com">Krzen, Image Tools</a>
+            <a href="https://lochbot.com">LochBot, Security</a>
+            <a href="https://lockml.com">LockML, ML Security</a>
+            <a href="https://ml0x.com?utm_source=kickllm&amp;utm_medium=nav&amp;utm_campaign=privacy">ML0X, ML Basics</a>
+            <a href="https://ml3x.com">ML3X, Matrix Math</a>
+            <a href="https://pictureeditor.net">PictureEditor, Image Editing</a>
+            <a href="https://recipetool.net">RecipeTool, Cooking</a>
+            <a href="https://viryd.com">Viryd, Dev Tools</a>
+        </div>
+    </div>
+</nav>
+
+<div class="pow-strip">
+  <div class="pow-strip-inner">
+    <span class="pow-label">By the same builder</span>
+    <a href="https://github.com/theluckystrike" rel="nofollow">GitHub, theluckystrike</a>
+    <a href="https://www.belikenative.com" rel="nofollow">BeLikeNative, Grammar AI</a>
+    <a href="https://earlythunder.com" rel="nofollow">EarlyThunder, Dev Blog</a>
+    <a href="https://bugbountyreality.com" rel="nofollow">Bug Bounty Reality</a>
+    <a href="https://zovo.one/lifetime?utm_source=kickllm&amp;utm_medium=inline&amp;utm_campaign=privacy" rel="nofollow">Zovo, AI Dev Tools</a>
+  </div>
+</div>
+<script src="/assets/js/kkm-ui.js" defer></script>
+</body>
+</html>
