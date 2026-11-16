@@ -311,7 +311,8 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
       // cro-begin-checkout: a Margin Studio buy link (#buy) opens the $39 checkout page, so it also counts as begin_checkout.
       var bc = null;
       if (cp0.product_id === 'margin_studio' && a.hash === '#buy') {
-        bc = { currency: 'USD', value: 39, cta_id: cp0.cta_id, placement: cp0.placement, page_path: location.pathname,
+        bc = { site: 'kickllm.com', product: 'KickLLM Margin Studio', product_id: 'margin_studio', price: 39,
+          currency: 'USD', value: 39, cta_id: cp0.cta_id, placement: cp0.placement, page_path: location.pathname,
           items: [{ item_id: 'margin_studio', item_name: 'KickLLM Margin Studio', price: 39, quantity: 1 }] };
       }
       // Same-tab click: hold the navigation until gtag confirms the hit (max 1.2 s), so a click right after Accept is not lost.
@@ -327,6 +328,27 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
       }
       track('cta_click', cp0);
       if (bc) track('begin_checkout', bc);
+      return;
+    }
+    // cro-d1b-20261116: a direct Stripe Payment Link for a priced product (data-mr-product/-price/-name) is one click to
+    // Stripe, so it sends cta_click + begin_checkout with product, price and value, and holds the same-tab navigation for the hit.
+    var mp = a.getAttribute('data-mr-product');
+    if (STRIPE.test(href) && mp) {
+      var pr = Number(a.getAttribute('data-mr-price')) || 0, nm = clip(a.getAttribute('data-mr-name') || mp);
+      var c1 = { cta_id: clip(a.getAttribute('data-cta') || ''), product_id: mp, cta_target: 'stripe', placement: placement(a),
+        page_path: location.pathname, link_text: clip(a.textContent) };
+      var b1 = { site: 'kickllm.com', product: nm, product_id: mp, price: pr, currency: 'USD', value: pr, cta_id: c1.cta_id,
+        placement: c1.placement, page_path: location.pathname, items: [{ item_id: mp, item_name: nm, price: pr, quantity: 1 }] };
+      track('cta_click', c1);
+      if (booted && plain && !e.defaultPrevented && (!a.target || a.target === '_self')) {
+        e.preventDefault();
+        var gone1 = false, to1 = a.href, go1 = function () { if (!gone1) { gone1 = true; location.href = to1; } };
+        b1.event_callback = go1; b1.event_timeout = 1000;
+        track('begin_checkout', b1);
+        setTimeout(go1, 1200);
+        return;
+      }
+      track('begin_checkout', b1);
       return;
     }
     if (STRIPE.test(href) || a.hasAttribute('data-mr-checkout')) {
@@ -390,10 +412,10 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     waiting = [];
   }
   ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (t) { window.addEventListener(t, arm, { capture: true, passive: true }); });
-  document.querySelectorAll('.margin-actions a.margin-buy[href^="https://margin.kickllm.com/"]').forEach(function (a) {
+  document.querySelectorAll('.margin-actions a.margin-buy[href^="https://margin.kickllm.com/"], .margin-actions a.margin-buy[data-mr-product]').forEach(function (a) {
     if (a.closest('nav, header')) return; // a nav link is on screen at every page load, so it is not an offer view
-    var href = a.href || '', product = '';
-    Object.keys(products).some(function (key) {
+    var href = a.href || '', product = a.getAttribute('data-mr-product') || '';
+    if (!product) Object.keys(products).some(function (key) {
       if (href.indexOf(key) >= 0) { product = products[key]; return true; }
       return false;
     });
