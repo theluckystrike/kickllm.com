@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>KV Cache Size Calculator | KickLLM</title>
+<meta name="description" content="Calculate the exact KV cache memory of a transformer from its config. Reverse budget mode and MHA vs GQA comparison included.">
+<link rel="canonical" href="https://kickllm.com/tools/kv-cache-size-calculator.html">
+<link rel="alternate" hreflang="en" href="https://kickllm.com/tools/kv-cache-size-calculator.html">
+<link rel="alternate" hreflang="x-default" href="https://kickllm.com/tools/kv-cache-size-calculator.html">
+<meta property="og:title" content="KV Cache Size Calculator">
+<meta property="og:description" content="Compute the exact KV cache memory per token, per sequence and per batch from a model config, plus a reverse budget mode and an MHA vs GQA comparison.">
+<meta property="og:url" content="https://kickllm.com/tools/kv-cache-size-calculator.html">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "KV Cache Size Calculator",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "url": "https://kickllm.com/tools/kv-cache-size-calculator.html",
+  "description": "Compute the exact KV cache memory of a transformer model from layers, KV heads, head dimension and dtype, with a reverse budget mode and an MHA vs GQA comparison.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Michael Lip",
+    "url": "https://zovo.one"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://kickllm.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://kickllm.com/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "KV Cache Size Calculator",
+      "item": "https://kickllm.com/tools/kv-cache-size-calculator.html"
+    }
+  ]
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background: #0a0a0a;
+  color: #e5e7eb;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+a { color: #60a5fa; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 60px; }
+nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1f2937;
+  max-width: 880px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+nav .brand { font-weight: 700; color: #f9fafb; font-size: 1.1rem; }
+nav a { color: #9ca3af; font-size: 0.95rem; }
+nav a:hover { color: #e5e7eb; }
+h1 { font-size: 2rem; margin: 28px 0 12px; color: #f9fafb; line-height: 1.25; }
+.intro { color: #9ca3af; margin-bottom: 28px; font-size: 1.02rem; }
+.tool {
+  background: #111111;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.field .hint { color: #9ca3af; font-weight: 400; font-size: 0.82rem; }
+.field input, .field select {
+  width: 100%;
+  padding: 11px 13px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.field input:focus, .field select:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+.err { color: #f87171; font-size: 0.85rem; margin-top: 4px; min-height: 1.2em; }
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.tabs button {
+  background: #0a0a0a;
+  color: #9ca3af;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+.tabs button[aria-selected="true"] { color: #f9fafb; border-color: #60a5fa; }
+.output {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid #1f2937;
+}
+.output .label { color: #9ca3af; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.big {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #4ade80;
+  margin: 6px 0 4px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.big.warn { color: #fbbf24; }
+.big.bad { color: #f87171; }
+.sub { color: #9ca3af; font-size: 0.95rem; margin-bottom: 18px; overflow-wrap: anywhere; }
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+.stat {
+  background: #0a0a0a;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 14px;
+}
+.stat .v { font-size: 1.35rem; font-weight: 700; color: #f9fafb; overflow-wrap: anywhere; }
+.stat .l { font-size: 0.8rem; color: #9ca3af; margin-top: 2px; }
+.verdict {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #0a0a0a;
+  border: 1px solid #1f2937;
+  color: #d1d5db;
+}
+.note { font-size: 0.85rem; color: #9ca3af; margin-top: 14px; }
+.presettable { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.presettable th, .presettable td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #1f2937; font-size: 0.9rem; overflow-wrap: anywhere; }
+.presettable th { color: #9ca3af; font-weight: 600; }
+.presettable td { color: #d1d5db; }
+.explain { color: #d1d5db; margin-bottom: 32px; }
+.explain h2 { font-size: 1.3rem; color: #f9fafb; margin: 24px 0 10px; }
+.explain p { margin-bottom: 12px; color: #b0b3b8; }
+.explain strong { color: #e5e7eb; }
+.explain code { background: #0a0a0a; border: 1px solid #1f2937; border-radius: 4px; padding: 1px 6px; font-size: 0.9em; color: #93c5fd; }
+.related { margin-top: 20px; }
+.related h2 { font-size: 1.2rem; color: #f9fafb; margin-bottom: 12px; }
+.related ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.related li a {
+  display: inline-block;
+  padding: 10px 14px;
+  background: #111111;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+.related li a:hover { border-color: #60a5fa; color: #f9fafb; text-decoration: none; }
+.site-footer {
+  border-top: 1px solid #1f2937;
+  margin-top: 40px;
+  padding: 24px 20px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+.site-footer a { color: #9ca3af; margin: 0 8px; }
+/* Keep small text at 12px or more on mobile. */
+.margin-eyebrow { font-size: 12px !important; }
+code { font-size: 12px !important; }
+</style>
+<link rel="stylesheet" href="/assets/margin-studio.css?v=1106r3">
+  <script src="/site-analytics.js?v=1106r3" defer></script>
+  <link rel="stylesheet" href="/assets/support-cta.css?v=4-github">
+<script defer src="/assets/support-v3.js?v=3"></script>
+</head>
+<body>
+<nav class="margin-standalone-nav" aria-label="Main navigation"><a class="margin-home" href="/">kickllm / Free tools</a><a class="margin-menu" data-cta="nav_margin" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=navigation&amp;utm_campaign=margin_studio">Margin Studio · $39 →</a></nav>
+<nav>
+  <a class="brand" href="https://kickllm.com/">KickLLM</a>
+  <a href="https://kickllm.com/">Home</a>
+  <a href="https://kickllm.com/tools/">Tools</a>
+</nav>
+
+<div class="wrap">
+  <h1>KV Cache Size Calculator</h1>
+  <p class="intro">Compute the exact KV cache memory a transformer model holds from the numbers in its official config.json. The calculator uses bytes per token = 2 × layers × KV heads × head_dim × bytes per element. It also has a reverse mode (how much context fits a memory budget) and an MHA vs GQA comparison. Numbers update live as you type.</p>
+
+  <div class="tool">
+    <div class="tabs" role="tablist" aria-label="Calculator modes">
+      <button type="button" id="tabSize" role="tab" aria-selected="true" aria-controls="modeSize">Cache size</button>
+      <button type="button" id="tabBudget" role="tab" aria-selected="false" aria-controls="modeBudget">Reverse budget</button>
+      <button type="button" id="tabMha" role="tab" aria-selected="false" aria-controls="modeMha">MHA vs GQA</button>
+    </div>
+
+    <div class="field">
+      <label for="model">Model preset <span class="hint">(values copied from the official config.json)</span></label>
+      <select id="model">
+        <option value="custom">Custom architecture</option>
+        <option value="qwen3-8b" selected>Qwen3-8B</option>
+        <option value="qwen3-32b">Qwen3-32B</option>
+        <option value="qwen25-7b">Qwen2.5-7B-Instruct</option>
+        <option value="qwen25-72b">Qwen2.5-72B-Instruct</option>
+        <option value="mistral-7b">Mistral-7B-v0.1 (GQA-8)</option>
+        <option value="phi3-mini">Phi-3-mini-4k-instruct (MHA)</option>
+      </select>
+    </div>
+
+    <div id="customFields" style="display:none;">
+      <div class="field">
+        <label for="layers">Hidden layers <span class="hint">(num_hidden_layers)</span></label>
+        <input type="text" inputmode="numeric" id="layers" value="32">
+        <div class="err" id="layersErr" role="alert"></div>
+      </div>
+      <div class="field">
+        <label for="kvHeads">KV heads <span class="hint">(num_key_value_heads; use num_attention_heads for MHA models)</span></label>
+        <input type="text" inputmode="numeric" id="kvHeads" value="32">
+        <div class="err" id="kvHeadsErr" role="alert"></div>
+      </div>
+      <div class="field">
+        <label for="headDim">Head dimension <span class="hint">(head_dim, or hidden_size / num_attention_heads if the config omits it)</span></label>
+        <input type="text" inputmode="numeric" id="headDim" value="128">
+        <div class="err" id="headDimErr" role="alert"></div>
+      </div>
+      <div class="field">
+        <label for="attnHeads">Attention heads <span class="hint">(num_attention_heads; used by the MHA vs GQA mode)</span></label>
+        <input type="text" inputmode="numeric" id="attnHeads" value="32">
+        <div class="err" id="attnHeadsErr" role="alert"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="dtype">KV cache dtype</label>
+      <select id="dtype">
+        <option value="4">FP32 (4 bytes per element)</option>
+        <option value="2" selected>FP16 / BF16 (2 bytes per element)</option>
+        <option value="1">FP8 (1 byte per element)</option>
+      </select>
+    </div>
+
+    <div id="modeSize" role="tabpanel" aria-labelledby="tabSize">
+      <div class="field">
+        <label for="seqLen">Context length <span class="hint">(tokens stored in the cache)</span></label>
+        <input type="text" inputmode="numeric" id="seqLen" value="32768">
+        <div class="err" id="seqLenErr" role="alert"></div>
+      </div>
+      <div class="field">
+        <label for="batchSize">Batch size <span class="hint">(sequences served in parallel)</span></label>
+        <input type="text" inputmode="numeric" id="batchSize" value="1">
+        <div class="err" id="batchSizeErr" role="alert"></div>
+      </div>
+      <div class="output">
+        <div class="label">KV cache size</div>
+        <div class="big" id="totalOut" role="status" aria-live="polite">&#8212;</div>
+        <div class="sub" id="totalSub">Enter your inputs above.</div>
+        <div class="grid2">
+          <div class="stat">
+            <div class="v" id="perTokenOut">&#8212;</div>
+            <div class="l">Bytes per token</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="perSeqOut">&#8212;</div>
+            <div class="l">Per sequence</div>
+          </div>
+        </div>
+        <div class="verdict" id="sizeVerdict">&#8212;</div>
+        <p class="note">Formula: bytes per token = 2 × layers × KV heads × head_dim × bytes per element. The leading 2 counts the K and V tensors. GiB uses 1,073,741,824 bytes; GB uses 1,000,000,000 bytes.</p>
+      </div>
+    </div>
+
+    <div id="modeBudget" role="tabpanel" aria-labelledby="tabBudget" style="display:none;">
+      <div class="field">
+        <label for="budgetGiB">Memory budget <span class="hint">(GiB reserved for the KV cache alone)</span></label>
+        <input type="text" inputmode="decimal" id="budgetGiB" value="8">
+        <div class="err" id="budgetErr" role="alert"></div>
+      </div>
+      <div class="field">
+        <label for="budgetBatch">Batch size <span class="hint">(sequences sharing the budget)</span></label>
+        <input type="text" inputmode="numeric" id="budgetBatch" value="1">
+        <div class="err" id="budgetBatchErr" role="alert"></div>
+      </div>
+      <div class="output">
+        <div class="label">Context that fits the budget</div>
+        <div class="big" id="budgetOut" role="status" aria-live="polite">&#8212;</div>
+        <div class="sub" id="budgetSub">Enter your inputs above.</div>
+        <div class="verdict" id="budgetVerdict">&#8212;</div>
+        <p class="note">Reverse mode: tokens per sequence = budget bytes ÷ (bytes per token × batch). The result is the KV cache only; weights, activations and framework overhead are extra.</p>
+      </div>
+    </div>
+
+    <div id="modeMha" role="tabpanel" aria-labelledby="tabMha" style="display:none;">
+      <div class="output">
+        <div class="label">GQA savings vs MHA at the context length and batch size of the Cache size tab</div>
+        <div class="big" id="mhaOut" role="status" aria-live="polite">&#8212;</div>
+        <div class="sub" id="mhaSub">Enter your inputs above.</div>
+        <div class="grid2">
+          <div class="stat">
+            <div class="v" id="mhaPerTokenOut">&#8212;</div>
+            <div class="l">MHA bytes per token</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="gqaPerTokenOut">&#8212;</div>
+            <div class="l">GQA bytes per token (this model)</div>
+          </div>
+        </div>
+        <div class="verdict" id="mhaVerdict">&#8212;</div>
+        <p class="note">Comparison mode: the same model with MHA would store num_attention_heads KV heads instead of num_key_value_heads. Preset MHA head counts are copied from each config's num_attention_heads.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>Where the formula comes from</h2>
+    <p>During self-attention, every layer stores a key tensor and a value tensor for each token in the context. With <a href="https://arxiv.org/abs/2305.13245">grouped-query attention</a>, several query heads share one KV head, so the cache holds <code>num_key_value_heads × head_dim</code> numbers per tensor per layer per token. In FP16 each number is 2 bytes, and there are two tensors, so <code>bytes per token = 2 × num_hidden_layers × num_key_value_heads × head_dim × bytes per element</code>. Worked check from the official Qwen3-8B config (36 layers, 8 KV heads, head_dim 128, BF16): 2 × 36 × 8 × 128 × 2 = 147,456 bytes per token, which is 4.5 GiB at 32,768 tokens.</p>
+
+    <h2>Sliding-window models can cap the cache</h2>
+    <p>Two of the presets, Mistral-7B-v0.1 and Phi-3-mini-4k-instruct, declare an active sliding window in their config, which can cap the cache. The Qwen2.5 configs list sliding_window 131072, but they set use_sliding_window to false. The <a href="https://huggingface.co/docs/transformers/en/kv_cache">Hugging Face transformers documentation</a> says: "Note that for models using sliding window attention (Mistral, Gemma2,…) or chunked attention (Llama4), the cache will stop growing when the layers using these types of attention have reached their maximum size (the sliding window or chunk size)." Mistral-7B-v0.1 declares <code>"sliding_window": 4096</code> and Phi-3-mini-4k-instruct declares <code>"sliding_window": 2047</code>. At context lengths above the window, the cache of the sliding-window layers can stop growing at the window size, so the result above can be an upper bound for these two models.</p>
+
+    <h2>What the result does not include</h2>
+    <p>The result is the KV cache only. Model weights, activations, CUDA context and framework overhead are extra. How much extra depends on the runtime and settings, so this page does not apply a fixed overhead percentage.</p>
+
+    <h2>Why GQA matters so much</h2>
+    <p>Qwen2.5-72B-Instruct declares 64 attention heads but only 8 KV heads. If the same model used classic multi-head attention, it would store 64 KV heads per layer instead of 8, eight times the cache. Phi-3-mini-4k-instruct uses full multi-head attention (32 KV heads at head_dim 96), so its 393,216 bytes per token exceed the 327,680 bytes per token of Qwen2.5-72B-Instruct.</p>
+
+    <h2>Config values used in the presets</h2>
+    <p>Copied from the official Hugging Face config.json of each model (fetched 2026-11-17). Where a config omits head_dim, it is hidden_size ÷ num_attention_heads. Sources: <a href="https://huggingface.co/Qwen/Qwen3-8B/raw/main/config.json">Qwen3-8B</a>, <a href="https://huggingface.co/Qwen/Qwen3-32B/raw/main/config.json">Qwen3-32B</a>, <a href="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/raw/main/config.json">Qwen2.5-7B-Instruct</a>, <a href="https://huggingface.co/Qwen/Qwen2.5-72B-Instruct/raw/main/config.json">Qwen2.5-72B-Instruct</a>, <a href="https://huggingface.co/mistralai/Mistral-7B-v0.1/raw/main/config.json">Mistral-7B-v0.1</a>, <a href="https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/raw/main/config.json">Phi-3-mini-4k-instruct</a>.</p>
+    <table class="presettable">
+      <thead><tr><th>Model</th><th>Layers</th><th>KV heads</th><th>Attention heads</th><th>head_dim</th></tr></thead>
+      <tbody>
+        <tr><td>Qwen3-8B</td><td>36</td><td>8</td><td>32</td><td>128</td></tr>
+        <tr><td>Qwen3-32B</td><td>64</td><td>8</td><td>64</td><td>128</td></tr>
+        <tr><td>Qwen2.5-7B-Instruct</td><td>28</td><td>4</td><td>28</td><td>128</td></tr>
+        <tr><td>Qwen2.5-72B-Instruct</td><td>80</td><td>8</td><td>64</td><td>128</td></tr>
+        <tr><td>Mistral-7B-v0.1</td><td>32</td><td>8</td><td>32</td><td>128</td></tr>
+        <tr><td>Phi-3-mini-4k-instruct</td><td>32</td><td>32</td><td>32</td><td>96</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="related">
+    <h2>Related KickLLM tools</h2>
+    <ul>
+      <li><a href="https://kickllm.com/tools/prompt-caching-break-even-calculator.html">Prompt Caching Break Even Calculator</a></li>
+      <li><a href="https://kickllm.com/tools/context-window-utilization/">Context Window Utilization</a></li>
+      <li><a href="https://kickllm.com/tools/batch-api-savings-calculator.html">Batch API Savings Calculator</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- margin-studio-offer:start -->
+<section class="margin-studio-cta" aria-label="KickLLM Margin Studio">
+  <div><p class="margin-eyebrow">KickLLM Margin Studio · Offline analysis app</p>
+    <h2>Know your AI costs. Now plan your margin.</h2><p class="margin-copy">Turn your usage CSV into a cost breakdown, test revenue and growth assumptions, and export a report for your next pricing decision. Margin Studio runs locally with rates you supply.</p></div>
+  <div class="margin-actions"><a class="margin-buy" data-cta="article_margin_buy" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#buy">Get Margin Studio, $39 once</a>
+    <a class="margin-preview" data-cta="article_margin_preview" href="https://margin.kickllm.com/?utm_source=kickllm&amp;utm_medium=contextual&amp;utm_campaign=margin_studio&amp;utm_content=cost#preview">Try the interactive preview →</a>
+    <span class="margin-detail">One-time purchase · Downloadable ZIP</span></div>
+</section>
+<!-- margin-studio-offer:end -->
+
+<footer class="site-footer">
+  <div>
+    <a href="https://kickllm.com/">Home</a>
+    <a href="https://kickllm.com/tools/">Tools</a>
+  </div>
+  <p style="margin-top:10px">&copy; KickLLM</p>
+  <p class="kl-legal"><a href="/privacy.html">Privacy</a> <span aria-hidden="true">&middot;</span> <a href="/privacy.html#analytics" data-mr-consent-open>Cookie settings</a> <span aria-hidden="true">&middot;</span> <a href="/support/">Support</a></p>
+</footer>
+<!-- support-cta:footer -->
+<section class="support-cta support-cta--footer" data-support-cta="footer" aria-label="Support KickLLM"><div class="sct-maker"><img class="sct-portrait" src="/assets/michael-128.webp" width="40" height="40" loading="lazy" alt="Michael Lip"><h2 class="support-cta__title">Made by Michael, one person and a lot of coffee.</h2></div><p>If KickLLM has helped you, you can buy me a coffee. It honestly makes my day, and I read every note that comes with one.</p><div class="support-cta__actions"><span class="sct-card-option"><a class="support-cta__btn sct-primary support-cta__btn--primary" href="https://paypal.me/najzzz/5USD" target="_blank" rel="noopener" data-rail="paypal">Buy me a coffee · $5</a><small>via PayPal</small></span><a class="support-cta__btn support-cta__btn--secondary" href="https://buymeacoffee.com/michaellip" target="_blank" rel="noopener" data-rail="bmc">Card, any amount or monthly</a><a class="sct-github" href="https://github.com/sponsors/theluckystrike" target="_blank" rel="noopener" data-rail="github"><span>Sponsor on GitHub<small>monthly or one-time</small></span></a><a class="support-cta__link" href="/support/">Why I ask</a></div></section>
+
+<script>
+(function () {
+  'use strict';
+  var MAX_SAFE_BYTES = Number.MAX_SAFE_INTEGER;
+  var INT_RE = /^(0|[1-9][0-9]{0,14})$/;
+  var DEC_RE = /^(0|[1-9][0-9]{0,11})(\.[0-9]{1,6})?$/;
+  var PRESETS = {
+    'qwen3-8b':   { layers: 36, kvHeads: 8,  headDim: 128, attnHeads: 32, name: 'Qwen3-8B', maxPos: 40960 },
+    'qwen3-32b':  { layers: 64, kvHeads: 8,  headDim: 128, attnHeads: 64, name: 'Qwen3-32B', maxPos: 40960 },
+    'qwen25-7b':  { layers: 28, kvHeads: 4,  headDim: 128, attnHeads: 28, name: 'Qwen2.5-7B-Instruct', maxPos: 32768 },
+    'qwen25-72b': { layers: 80, kvHeads: 8,  headDim: 128, attnHeads: 64, name: 'Qwen2.5-72B-Instruct', maxPos: 32768 },
+    'mistral-7b': { layers: 32, kvHeads: 8,  headDim: 128, attnHeads: 32, name: 'Mistral-7B-v0.1', maxPos: 32768, window: 4096 },
+    'phi3-mini':  { layers: 32, kvHeads: 32, headDim: 96,  attnHeads: 32, name: 'Phi-3-mini-4k-instruct', maxPos: 4096, window: 2047 }
+  };
+
+  function el(id) { return document.getElementById(id); }
+  function setErr(id, msg) { el(id).textContent = msg || ''; }
+
+  // Strict parse: returns {ok:true, n} or {ok:false, msg}. No NaN, no Infinity, no -0.
+  function parseNum(id, kind, errId) {
+    var raw = el(id).value;
+    var re = kind === 'dec' ? DEC_RE : INT_RE;
+    var msg = '';
+    if (raw === '' || raw === null) msg = 'Enter a value.';
+    else if (!re.test(raw)) {
+      if (/[eE]/.test(raw)) msg = 'Exponents are not accepted. Write the number out.';
+      else if (/[,]/.test(raw)) msg = 'Commas are not accepted. Write 32768 without separators.';
+      else if (/^-[0-9]*$/.test(raw)) msg = 'Negative values are not accepted.';
+      else msg = kind === 'dec' ? 'Numbers only, for example 8 or 0.5.' : 'Whole numbers only, for example 32768.';
+    }
+    if (!msg) {
+      var n = Number(raw);
+      if (!isFinite(n)) msg = 'Value is out of range.';
+      else if (n <= 0) msg = 'Enter a value above 0.';
+      else {
+        setErr(errId, '');
+        return { ok: true, n: n };
+      }
+    }
+    setErr(errId, msg);
+    return { ok: false, msg: msg };
+  }
+
+  function fmtBytes(b) {
+    if (!isFinite(b) || b < 0) return 'out of range';
+    if (b >= 1073741824 * 1024) {
+      var t = b / 1099511627776;
+      return t.toFixed(2) + ' TiB (' + (b / 1e12).toFixed(2) + ' TB)';
+    }
+    if (b >= 1073741824) {
+      var g = b / 1073741824;
+      return g.toFixed(2) + ' GiB (' + (b / 1e9).toFixed(2) + ' GB)';
+    }
+    if (b >= 1048576) {
+      var m = b / 1048576;
+      return m.toFixed(2) + ' MiB (' + (b / 1e6).toFixed(2) + ' MB)';
+    }
+    if (b >= 1024) return (b / 1024).toFixed(2) + ' KiB (' + b + ' bytes)';
+    return b + ' bytes';
+  }
+
+  function fmtInt(n) {
+    if (!isFinite(n) || n < 0) return 'out of range';
+    return Math.floor(n).toLocaleString('en-US');
+  }
+
+  function dims() {
+    var m = el('model').value;
+    var layers, kvHeads, headDim, attnHeads, preset = null;
+    if (m === 'custom') {
+      var r1 = parseNum('layers', 'int', 'layersErr');
+      var r2 = parseNum('kvHeads', 'int', 'kvHeadsErr');
+      var r3 = parseNum('headDim', 'int', 'headDimErr');
+      var r4 = parseNum('attnHeads', 'int', 'attnHeadsErr');
+      if (!r1.ok || !r2.ok || !r3.ok || !r4.ok) return null;
+      if (r4.n < r2.n) { setErr('attnHeadsErr', 'Attention heads must be equal to or more than KV heads.'); return null; }
+      layers = r1.n; kvHeads = r2.n; headDim = r3.n; attnHeads = r4.n;
+    } else {
+      var p = PRESETS[m];
+      layers = p.layers; kvHeads = p.kvHeads; headDim = p.headDim; attnHeads = p.attnHeads; preset = p;
+    }
+    var bpe = parseFloat(el('dtype').value);
+    return { layers: layers, kvHeads: kvHeads, headDim: headDim, attnHeads: attnHeads, bpe: bpe, preset: preset };
+  }
+
+  var DEP = { totalOut: ['perTokenOut', 'perSeqOut', 'sizeVerdict'], budgetOut: ['budgetVerdict'], mhaOut: ['mhaPerTokenOut', 'gqaPerTokenOut', 'mhaVerdict', 'mhaSub'] };
+  function badResult(node) {
+    node.textContent = 'Check the highlighted inputs.';
+    node.className = 'big warn';
+    (DEP[node.id] || []).forEach(function (id) { el(id).textContent = '\u2014'; });
+  }
+
+  // Mode A: size for context and batch
+  function calcSize() {
+    var d = dims();
+    var seqR = parseNum('seqLen', 'int', 'seqLenErr');
+    var batR = parseNum('batchSize', 'int', 'batchSizeErr');
+    var out = el('totalOut');
+    if (!d || !seqR.ok || !batR.ok || seqR.n < 1 || batR.n < 1) { badResult(out); el('totalSub').textContent = 'Fix the inputs to see a result.'; return; }
+    var perToken = 2 * d.layers * d.kvHeads * d.headDim * d.bpe;
+    var perSeq = perToken * seqR.n;
+    var total = perSeq * batR.n;
+    if (total > MAX_SAFE_BYTES) {
+      badResult(out);
+      el('totalSub').textContent = 'The result exceeds 9,007,199,254,740,991 bytes, the largest exact JavaScript number. Reduce the inputs.';
+      return;
+    }
+    out.textContent = fmtBytes(total);
+    out.className = 'big';
+    el('perTokenOut').textContent = fmtInt(perToken) + ' bytes';
+    el('perSeqOut').textContent = fmtBytes(perSeq);
+    el('totalSub').textContent = fmtInt(batR.n) + (batR.n === 1 ? ' sequence' : ' sequences') + ' × ' + fmtInt(seqR.n) + (seqR.n === 1 ? ' token × ' : ' tokens × ') + fmtInt(perToken) + ' bytes per token.';
+    var v = 'This is the KV cache only. Model weights, activations and framework overhead are extra.';
+    if (d.preset && seqR.n > d.preset.maxPos) v += ' The config of ' + d.preset.name + ' declares max_position_embeddings ' + fmtInt(d.preset.maxPos) + ', which is below this context length. Check the model card before you use a longer context.';
+    if (d.preset && d.preset.window && seqR.n > d.preset.window) v += ' The config declares sliding_window ' + fmtInt(d.preset.window) + '. Above that length the cache of the sliding-window layers can stop growing, so this result can be an upper bound.';
+    el('sizeVerdict').textContent = v;
+  }
+
+  // Mode B: reverse budget
+  function calcBudget() {
+    var d = dims();
+    var bR = parseNum('budgetGiB', 'dec', 'budgetErr');
+    var batR = parseNum('budgetBatch', 'int', 'budgetBatchErr');
+    var out = el('budgetOut');
+    if (!d || !bR.ok || !batR.ok || bR.n <= 0 || batR.n < 1) { badResult(out); el('budgetSub').textContent = 'Fix the inputs to see a result.'; return; }
+    var budgetBytes = bR.n * 1073741824;
+    if (budgetBytes > MAX_SAFE_BYTES) { badResult(out); el('budgetSub').textContent = 'The budget exceeds 9,007,199,254,740,991 bytes, the largest exact JavaScript number. Reduce the budget.'; return; }
+    var perToken = 2 * d.layers * d.kvHeads * d.headDim * d.bpe;
+    var tokensPerSeq = Math.floor(budgetBytes / (perToken * batR.n));
+    if (!isFinite(tokensPerSeq) || tokensPerSeq < 0) { badResult(out); return; }
+    out.textContent = fmtInt(tokensPerSeq) + (tokensPerSeq === 1 ? ' token' : ' tokens');
+    out.className = 'big';
+    el('budgetSub').textContent = 'Per sequence, at batch ' + fmtInt(batR.n) + '. ' + (tokensPerSeq === 1 ? '1 token fits' : fmtInt(tokensPerSeq) + ' tokens fit') + ' in ' + el('budgetGiB').value + ' GiB of cache.';
+    var bv = 'KV cache only. Weights, activations and framework overhead are extra.';
+    if (d.preset && tokensPerSeq > d.preset.maxPos) bv += ' The config of ' + d.preset.name + ' declares max_position_embeddings ' + fmtInt(d.preset.maxPos) + ', which is below this token count. Check the model card before you use a longer context.';
+    if (d.preset && d.preset.window && tokensPerSeq > d.preset.window) bv += ' The config declares sliding_window ' + fmtInt(d.preset.window) + '. The cache of the sliding-window layers can stop growing at that length, so more tokens can fit than this result shows.';
+    el('budgetVerdict').textContent = bv;
+  }
+
+  // Mode C: MHA vs GQA
+  function calcMha() {
+    var d = dims();
+    var seqR = parseNum('seqLen', 'int', 'seqLenErr');
+    var batR = parseNum('batchSize', 'int', 'batchSizeErr');
+    var out = el('mhaOut');
+    if (!d || !seqR.ok || !batR.ok || seqR.n < 1 || batR.n < 1) { badResult(out); el('mhaSub').textContent = 'Fix the inputs to see a result. Context length and batch size are in the Cache size tab.'; return; }
+    var gqaPerToken = 2 * d.layers * d.kvHeads * d.headDim * d.bpe;
+    var mhaPerToken = 2 * d.layers * d.attnHeads * d.headDim * d.bpe;
+    var mhaTotal = mhaPerToken * seqR.n * batR.n;
+    var gqaTotal = gqaPerToken * seqR.n * batR.n;
+    if (mhaTotal > MAX_SAFE_BYTES || gqaTotal > MAX_SAFE_BYTES) { badResult(out); el('mhaSub').textContent = 'The MHA result exceeds 9,007,199,254,740,991 bytes, the largest exact JavaScript number. Reduce the inputs.'; return; }
+    var saved = mhaTotal - gqaTotal;
+    var pct = mhaTotal > 0 ? (100 * saved / mhaTotal) : 0;
+    out.textContent = pct.toFixed(1) + '% smaller';
+    out.className = 'big';
+    el('mhaPerTokenOut').textContent = fmtInt(mhaPerToken) + ' bytes';
+    el('gqaPerTokenOut').textContent = fmtInt(gqaPerToken) + ' bytes';
+    el('mhaSub').textContent = 'At ' + fmtInt(seqR.n) + (seqR.n === 1 ? ' token' : ' tokens') + ' and batch ' + fmtInt(batR.n) + ': MHA would need ' + fmtBytes(mhaTotal) + ', this model needs ' + fmtBytes(gqaTotal) + '. Saved: ' + fmtBytes(saved) + '.';
+    el('mhaVerdict').textContent = d.kvHeads === d.attnHeads
+      ? 'This model already uses full multi-head attention, so there is no GQA saving.'
+      : 'This model stores ' + fmtInt(d.kvHeads) + ' KV heads instead of ' + fmtInt(d.attnHeads) + ' attention heads (grouped-query attention).';
+  }
+
+  function calcAll() { calcSize(); calcBudget(); calcMha(); }
+
+  // Mode tabs
+  var modes = [['tabSize', 'modeSize'], ['tabBudget', 'modeBudget'], ['tabMha', 'modeMha']];
+  function showMode(tabId) {
+    modes.forEach(function (pair) {
+      var on = pair[0] === tabId;
+      el(pair[0]).setAttribute('aria-selected', on ? 'true' : 'false');
+      el(pair[1]).style.display = on ? 'block' : 'none';
+    });
+  }
+  modes.forEach(function (pair) { el(pair[0]).addEventListener('click', function () { showMode(pair[0]); }); });
+
+  // Preset select: show or hide the custom fields, copy the preset values into them
+  function syncModel() {
+    var m = el('model').value;
+    var isCustom = m === 'custom';
+    el('customFields').style.display = isCustom ? 'block' : 'none';
+    if (!isCustom && PRESETS[m]) {
+      var p = PRESETS[m];
+      el('layers').value = String(p.layers);
+      el('kvHeads').value = String(p.kvHeads);
+      el('headDim').value = String(p.headDim);
+      el('attnHeads').value = String(p.attnHeads);
+    }
+  }
+  el('model').addEventListener('change', function () { syncModel(); calcAll(); });
+
+  // Recompute on every input.
+  ['seqLen', 'batchSize', 'budgetGiB', 'budgetBatch', 'dtype', 'layers', 'kvHeads', 'headDim', 'attnHeads'].forEach(function (id) {
+    el(id).addEventListener('input', calcAll);
+  });
+  // A restored form (Back button, reload) can keep Custom selected; sync the fields before the result.
+  window.addEventListener('pageshow', function () { syncModel(); calcAll(); });
+  syncModel();
+  calcAll();
+})();
+</script>
+<script src="/assets/js/kkm-ui.js" defer></script>
+</body>
+</html>
