@@ -118,13 +118,18 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     'text-align:left;box-shadow:0 18px 48px rgba(0,0,0,.45);color-scheme:dark;animation:mrc-in .2s ease-out}' +
     '.mrc *{box-sizing:border-box}' +
     '.mrc .mrc-title{margin:0 0 4px;padding:0;font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#F43F5E}' +
-    '.mrc .mrc-text{margin:0 0 12px;padding:0;color:#d6d3cb}' +
+    '.mrc .mrc-text{margin:0 0 12px;padding:0;color:#d6d3cb}.mrc .mrc-short{display:none}' +
     '.mrc .mrc-text a{color:#fffdf7;text-decoration:underline;text-underline-offset:3px}' +
     '.mrc .mrc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}' +
     '.mrc .mrc-btn{-webkit-appearance:none;appearance:none;min-height:48px;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.24);' +
     'border-radius:999px;background:#212120;color:#fffdf7;font:inherit;font-weight:800;cursor:pointer}' +
     '.mrc .mrc-btn:hover{border-color:#F43F5E}' +
     '.mrc .mrc-btn:focus-visible,.mrc .mrc-text a:focus-visible{outline:3px solid #F43F5E;outline-offset:2px}' +
+    '@media (max-width:640px){.mrc{left:0;right:0;bottom:0;max-width:none;border-radius:0;border-left:0;border-right:0;border-bottom:0;' +
+    'padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;line-height:1.25}' +
+    '.mrc .mrc-title{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}' +
+    '.mrc .mrc-text{margin:0;flex:1;min-width:0;font-size:12px;line-height:1.25}.mrc .mrc-short{display:inline}.mrc .mrc-detail{display:none}' +
+    '.mrc .mrc-actions{display:flex;gap:6px;flex-shrink:0}.mrc .mrc-btn{min-height:36px;padding:6px 11px;font-size:12px;white-space:nowrap}}' +
     '@media (min-width:760px){.mrc{left:auto;right:24px;bottom:calc(24px + env(safe-area-inset-bottom));max-width:none;' +
     'width:min(720px,calc(100% - 48px));display:grid;grid-template-columns:1fr auto;column-gap:20px;align-items:center;padding:14px 18px}' +
     '.mrc .mrc-title,.mrc .mrc-text{grid-column:1}.mrc .mrc-text{margin:0}' +
@@ -169,10 +174,10 @@ var MR_CONSENT_MODE = 'basic'; // 'basic' | 'advanced'
     b.setAttribute('aria-labelledby', 'mrc-title');
     b.setAttribute('aria-describedby', 'mrc-text');
     b.innerHTML = '<p class="mrc-title" id="mrc-title">Analytics cookies</p>' +
-      '<p class="mrc-text" id="mrc-text">We use Google Analytics to see which posts bring people to KickLLM and what they click on. ' +
+      '<p class="mrc-text" id="mrc-text"><span class="mrc-short">Analytics cookies. </span><span class="mrc-detail">We use Google Analytics to see which posts bring people to KickLLM and what they click on. ' +
       (now === 'gpc' ? 'Your browser sends a privacy signal, so it stays off here. ' : now === 'granted' ? 'It&#39;s on right now. ' :
         now === 'denied' ? 'It&#39;s off until you accept. ' : '') +
-      'We don&#39;t use it for ads. <a href="/privacy.html#analytics">How we use it</a></p>' +
+      'We don&#39;t use it for ads. </span><a href="/privacy.html#analytics">How we use it</a></p>' +
       '<div class="mrc-actions">' + (now === 'gpc' ? '<button type="button" class="mrc-btn" data-mrc="close">Close</button>' :
         '<button type="button" class="mrc-btn" data-mrc="granted">Accept</button><button type="button" class="mrc-btn" data-mrc="denied">Decline</button>') +
       '</div>';
